@@ -1,0 +1,47 @@
+{
+  "name": "switch_space-frontend",
+  "version": "0.0.1",
+  "description": "Switch Space Frontend Application React",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AbdelrahmanKhaledAmer/SwitchSpace-Frontend.git"
+  },
+  "author": "Switch Space",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AbdelrahmanKhaledAmer/SwitchSpace-Frontend/issues"
+  },
+  "homepage": "https://github.com/AbdelrahmanKhaledAmer/SwitchSpace-Frontend.git#readme",
+  "engines": {
+    "node": ">=4.3"
+  },
+  "devDependencies": {
+    "babel-core": "6.25.0",
+    "babel-loader": "7.1.1",
+    "babel-preset-env": "1.6.0",
+    "babel-preset-react": "6.24.1",
+    "clean-webpack-plugin": "0.1.17",
+    "css-loader": "0.28.7",
+    "extract-text-webpack-plugin": "3.0.1",
+    "html-loader": "0.4.5",
+    "html-webpack-plugin": "2.29.0",
+    "style-loader": "0.19.0",
+    "webpack": "3.3.0",
+    "webpack-dev-server": "2.9.1",
+    "webpack-merge": "4.1.0"
+  },
+  "dependencies": {
+    "react": "16.8.4",
+    "react-dom": "16.8.4",
+    "react-router-dom": "4.2.2",
+    "react-md": "1.2.11",
+    "webfontloader": "1.6.28",
+    "styled-components": "3.1.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack-dev-server --open 'Google Chrome' --config webpack.dev.js"
+  }
+}
