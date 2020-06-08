@@ -1,23 +1,21 @@
 "use strict";
 
-import React from 'react';
-import Styled from 'styled-components';
-
+import React from "react";
+import Styled from "styled-components";
 
 class PlainFooter extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div className={this.props.className}>
-                <hr/>
-                <p>© {new Date().getFullYear()} SwitchSpace. All rights reserved.</p>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className={this.props.className}>
+        <hr />
+        <p>© {new Date().getFullYear()} SwitchSpace. All rights reserved.</p>
+      </div>
+    );
+  }
 }
 
 export const Footer = Styled(PlainFooter)`
