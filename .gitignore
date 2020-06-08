@@ -60,8 +60,6 @@ typings/
 # IDE
 .idea
 
-# Bundler
-package-lock.json
 
 *~
 .DS_Store
