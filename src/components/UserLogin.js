@@ -3,6 +3,7 @@
 import React from "react";
 import { Card, Button, TextField } from "react-md";
 import { withRouter, Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import { AlertMessage } from "./AlertMessage";
 import Page from "./Page";
@@ -22,6 +23,14 @@ class UserLogin extends React.Component {
     this.handleChangePassword = this.handleChangePassword.bind(this);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  // need to defince prop type for every function
+  static get propTypes() {
+    return {
+      history: PropTypes.array,
+      error: PropTypes.Object,
+      onSubmit: PropTypes.func,
+    };
   }
 
   handleChangeUsername(value) {

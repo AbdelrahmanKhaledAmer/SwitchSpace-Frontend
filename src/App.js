@@ -5,13 +5,11 @@ import {
   HashRouter as Router,
   Route,
   Switch,
-  Redirect,
+  // Redirect,
 } from "react-router-dom";
 
 import { UserLoginView } from "./views/UserLoginView";
 import { UserSignupView } from "./views/UserSignupView";
-
-import UserService from "./services/UserService";
 
 export default class App extends React.Component {
   constructor(props) {

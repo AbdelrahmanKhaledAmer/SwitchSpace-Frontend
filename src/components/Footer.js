@@ -2,10 +2,17 @@
 
 import React from "react";
 import Styled from "styled-components";
+import PropTypes from "prop-types";
 
 class PlainFooter extends React.Component {
   constructor(props) {
     super(props);
+  }
+  // need to defince prop type for every function
+  static get propTypes() {
+    return {
+      className: PropTypes.string,
+    };
   }
 
   render() {

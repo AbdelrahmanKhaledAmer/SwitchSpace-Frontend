@@ -16,10 +16,16 @@ class KebabMenu extends React.Component {
         : undefined,
     };
   }
-
+  // need to defince prop type for every function
+  static get propTypes() {
+    return {
+      history: PropTypes.array,
+      location: PropTypes.string,
+    };
+  }
   logout() {
     UserService.logout();
-    this.state = {
+    this.setstate = {
       user: UserService.isAuthenticated()
         ? UserService.getCurrentUser()
         : undefined,

@@ -5,16 +5,21 @@ import React from "react";
 import UserSignup from "../components/UserSignup";
 
 import UserService from "../services/UserService";
-
+import PropTypes from "prop-types";
 export class UserSignupView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-
+  // need to defince prop type for every function
+  static get propTypes() {
+    return {
+      history: PropTypes.array,
+    };
+  }
   async signup(user) {
     try {
-      let ret = await UserService.register(user.username, user.password);
+      await UserService.register(user.username, user.password);
       this.props.history.push("/");
     } catch (err) {
       console.error(err);
