@@ -29,7 +29,7 @@ export default class HttpService {
       if (resp.error) {
         onError(resp.error);
       } else {
-        if (resp.hasOwnProperty("token")) {
+        if (Object.prototype.hasOwnProperty.call(resp, "token")) {
           window.localStorage["jwtToken"] = resp.token;
         }
         onSuccess(resp);
@@ -88,7 +88,7 @@ export default class HttpService {
       if (resp.error) {
         onError(resp.error);
       } else {
-        if (resp.hasOwnProperty("token")) {
+        if (Object.prototype.hasOwnProperty.call(resp, "token")) {
           window.localStorage["jwtToken"] = resp.token;
         }
         onSuccess(resp);
@@ -123,13 +123,13 @@ export default class HttpService {
       if (resp.error) {
         onError(resp.error);
       } else {
-        if (resp.hasOwnProperty("token")) {
+        if (Object.prototype.hasOwnProperty.call(resp, "token")) {
           window.localStorage["jwtToken"] = resp.token;
         }
         onSuccess(resp);
       }
     } catch (err) {
-      onError(e.message);
+      onError(err.message);
     }
   }
 
