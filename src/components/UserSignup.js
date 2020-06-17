@@ -28,7 +28,7 @@ class UserSignup extends React.Component {
   static get propTypes() {
     return {
       history: PropTypes.object,
-      error: PropTypes.func,
+      error: PropTypes.string,
       onSubmit: PropTypes.func,
     };
   }

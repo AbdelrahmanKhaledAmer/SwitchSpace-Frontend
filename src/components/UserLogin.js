@@ -27,8 +27,8 @@ class UserLogin extends React.Component {
   // need to defince prop type for every function
   static get propTypes() {
     return {
-      history: PropTypes.array,
-      error: PropTypes.Object,
+      history: PropTypes.object,
+      error: PropTypes.string,
       onSubmit: PropTypes.func,
     };
   }
