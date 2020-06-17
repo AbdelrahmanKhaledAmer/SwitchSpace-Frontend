@@ -16,7 +16,7 @@ export default class Page extends React.Component {
   // need to defince prop type for every function
   static get propTypes() {
     return {
-      children: PropTypes.array,
+      children: PropTypes.object,
     };
   }
 

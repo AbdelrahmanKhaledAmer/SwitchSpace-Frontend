@@ -19,8 +19,11 @@ class KebabMenu extends React.Component {
   // need to defince prop type for every function
   static get propTypes() {
     return {
-      history: PropTypes.array,
-      location: PropTypes.string,
+      history: PropTypes.object,
+      location: PropTypes.object,
+      id: PropTypes.string.isRequired,
+      className: PropTypes.string,
+      menuItems: PropTypes.array,
     };
   }
   logout() {
@@ -80,10 +83,8 @@ class KebabMenu extends React.Component {
   }
 }
 
-KebabMenu.propTypes = {
-  id: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  menuItems: PropTypes.array,
-};
+// KebabMenu.propTypes = {
+
+// };
 
 export default withRouter(KebabMenu);
