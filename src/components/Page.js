@@ -1,11 +1,9 @@
 "use strict";
 
 import React from "react";
-
-// import Header from "./Header";
 import QuickNavMenu from "./QuickNavMenu";
-import { Footer } from "./Footer";
 import Sidebar from "./Sidebar";
+import { Footer } from "./Footer";
 import PropTypes from "prop-types";
 export default class Page extends React.Component {
   constructor(props) {
