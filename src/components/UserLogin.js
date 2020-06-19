@@ -53,11 +53,12 @@ class UserLogin extends React.Component {
       email: "",
       emailError: false,
       password: "",
-      passwordError: false,
+      passwordError: false, //TODO: Remove password syntax Validator
     };
 
     this.onEmailChange = this.onEmailChange.bind(this);
     this.onPasswordChange = this.onPasswordChange.bind(this);
+    this.submitHandler = this.submitHandler.bind(this);
   }
 
   onEmailChange(e) {
@@ -82,9 +83,15 @@ class UserLogin extends React.Component {
     }
   }
 
+  submitHandler() {
+    let user = { email: this.state.email, password: this.state.password };
+    this.props.onSubmit(user);
+  }
+
   static get propTypes() {
     return {
       classes: PropTypes.object.isRequired,
+      onSubmit: PropTypes.func.isRequired,
     };
   }
 
@@ -141,11 +148,10 @@ class UserLogin extends React.Component {
                 label="Remember me"
               />
               <Button
-                // type="submit"
                 fullWidth
                 variant="contained"
-                // color="primary"
                 className={classes.submit}
+                onClick={this.submitHandler}
               >
                 Sign In
               </Button>
