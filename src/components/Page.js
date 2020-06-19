@@ -13,7 +13,7 @@ export default class Page extends React.Component {
       title: "",
       isAuthorized: false, // TODO: Get token
       drawerIsOpen: false,
-      expanded: true,
+      expanded: false,
     };
 
     this.sidebarToggle = this.sidebarToggle.bind(this);

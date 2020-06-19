@@ -59,18 +59,29 @@ export default function Sidebar({
       { id: 3, title: "Category C" },
     ];
     return (
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <List className={classes.nested}>
-          {categories.map((category) => (
-            <ListItem button key={category.id}>
-              <ListItemIcon className={classes.listIcon}>
-                <CategoryIcon /> {/* TODO: CHANGE ICON */}
-              </ListItemIcon>
-              <ListItemText primary={category.title} />
-            </ListItem>
-          ))}
-        </List>
-      </Collapse>
+      <List>
+        <ListItem button onClick={expandToggle}>
+          <ListItemIcon className={classes.listIcon}>
+            <CategoryIcon />
+          </ListItemIcon>
+          <ListItemText primary="Categories" />
+          <ListItemIcon className={classes.listIcon}>
+            {expanded ? <ExpandLess /> : <ExpandMore />}
+          </ListItemIcon>
+        </ListItem>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <List className={classes.nested}>
+            {categories.map((category) => (
+              <ListItem button key={category.id}>
+                <ListItemIcon className={classes.listIcon}>
+                  <CategoryIcon /> {/* TODO: CHANGE ICON */}
+                </ListItemIcon>
+                <ListItemText primary={category.title} />
+              </ListItem>
+            ))}
+          </List>
+        </Collapse>
+      </List>
     );
   };
 
@@ -102,18 +113,7 @@ export default function Sidebar({
         </ListItem>
       </List>
       <Divider />
-      <List>
-        <ListItem button onClick={expandToggle}>
-          <ListItemIcon className={classes.listIcon}>
-            <CategoryIcon />
-          </ListItemIcon>
-          <ListItemText primary="Categories" />
-          <ListItemIcon className={classes.listIcon}>
-            {expanded ? <ExpandLess /> : <ExpandMore />}
-          </ListItemIcon>
-        </ListItem>
-        {getCategories()}
-      </List>
+      {getCategories()}
       <Divider />
     </div>
   );
@@ -159,6 +159,7 @@ export default function Sidebar({
       </List>
       <Divider />
       {getCategories()}
+      <Divider />
     </div>
   );
 
