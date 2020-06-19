@@ -13,22 +13,20 @@ export default class HttpService {
     if (token) {
       header.append("Authorization", `JWT ${token}`);
     }
-
+    // append full URL
+    url = this.apiURL() + url;
     try {
       let resp = await fetch(url, {
         method: "GET",
         headers: header,
       });
 
-      if (this.checkIfUnauthorized(resp)) {
-        window.location = "/#login";
-      } else {
-        resp = await resp.json();
-      }
+      resp = await resp.json();
 
       if (resp.error) {
         onError(resp.error);
       } else {
+        // save token in local storage if exists
         if (Object.prototype.hasOwnProperty.call(resp, "token")) {
           window.localStorage["jwtToken"] = resp.token;
         }
@@ -37,30 +35,6 @@ export default class HttpService {
     } catch (err) {
       onError(err.message);
     }
-
-    // fetch(url, {
-    //     method: 'GET',
-    //     headers: header
-    // }).then((resp) => {
-    //     if(this.checkIfUnauthorized(resp)) {
-    //         window.location = "/#login";
-    //     }
-    //     else {
-    //         return resp.json();
-    //     }
-    // }).then((resp) => {
-    //     if(resp.error) {
-    //         onError(resp.error);
-    //     }
-    //     else {
-    //         if(resp.hasOwnProperty('token')) {
-    //             window.localStorage['jwtToken'] = resp.token;
-    //         }
-    //         onSuccess(resp);
-    //     }
-    // }).catch((e) => {
-    //     onError(e.message);
-    // });
   }
 
   static async put(url, data, onSuccess, onError) {
@@ -70,6 +44,8 @@ export default class HttpService {
       header.append("Authorization", `JWT ${token}`);
     }
     header.append("Content-Type", "application/json");
+    // append full URL
+    url = this.apiURL() + url;
 
     try {
       let resp = await fetch(url, {
@@ -78,12 +54,7 @@ export default class HttpService {
         body: JSON.stringify(data),
       });
 
-      if (this.checkIfUnauthorized(resp)) {
-        window.location = "/#login";
-        return;
-      } else {
-        resp = await resp.json();
-      }
+      resp = await resp.json();
 
       if (resp.error) {
         onError(resp.error);
@@ -105,7 +76,8 @@ export default class HttpService {
       header.append("Authorization", `JWT ${token}`);
     }
     header.append("Content-Type", "application/json");
-
+    // append full URL
+    url = this.apiURL() + url;
     try {
       let resp = await fetch(url, {
         method: "POST",
@@ -113,12 +85,7 @@ export default class HttpService {
         body: JSON.stringify(data),
       });
 
-      if (this.checkIfUnauthorized(resp)) {
-        window.location = "/#login";
-        return;
-      } else {
-        resp = await resp.json();
-      }
+      resp = await resp.json();
 
       if (resp.error) {
         onError(resp.error);
@@ -139,19 +106,15 @@ export default class HttpService {
     if (token) {
       header.append("Authorization", `JWT ${token}`);
     }
-
+    // append full URL
+    url = this.apiURL() + url;
     try {
       let resp = await fetch(url, {
         method: "DELETE",
         headers: header,
       });
 
-      if (this.checkIfUnauthorized(resp)) {
-        window.location = "/#login";
-        return;
-      } else {
-        resp = await resp.json();
-      }
+      resp = await resp.json();
 
       if (resp.error) {
         onError(resp.error);
@@ -161,12 +124,5 @@ export default class HttpService {
     } catch (err) {
       onError(err.message);
     }
-  }
-
-  static checkIfUnauthorized(res) {
-    if (res.status === 401) {
-      return true;
-    }
-    return false;
   }
 }
