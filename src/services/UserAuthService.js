@@ -2,7 +2,7 @@
 
 import HttpService from "./HttpService";
 
-export default class UserService {
+export default class UserAuthService {
   constructor() {}
 
   static baseURL() {
@@ -13,7 +13,7 @@ export default class UserService {
   static register(user) {
     return new Promise((resolve, reject) => {
       HttpService.post(
-        `${UserService.baseURL()}/register`,
+        `${UserAuthService.baseURL()}/register`,
         user,
         function (data) {
           resolve(data);
@@ -29,7 +29,7 @@ export default class UserService {
   static login(email, password) {
     return new Promise((resolve, reject) => {
       HttpService.post(
-        `${UserService.baseURL()}/login`,
+        `${UserAuthService.baseURL()}/login`,
         { email: email, password: password },
         function (data) {
           resolve(data);
