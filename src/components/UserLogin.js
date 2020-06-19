@@ -1,124 +1,171 @@
 "use strict";
 
 import React from "react";
-import { Card, Button, TextField } from "react-md";
-import { withRouter, Link } from "react-router-dom";
-import PropTypes from "prop-types";
-
-import { AlertMessage } from "./AlertMessage";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { withStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
 import Page from "./Page";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
+import EmailValidator from "email-validator";
 
-const style = { maxWidth: 500 };
+const styles = (theme) => ({
+  paper: {
+    marginTop: "8",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: "1",
+    backgroundColor: "#659dbd",
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: "1",
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#659dbd",
+    color: "#fbeec1",
+    "&:hover": {
+      background: "#558dad",
+    },
+  },
+  centerFold: {
+    textAlign: "center",
+  },
+});
 
 class UserLogin extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: "",
+      email: "",
+      emailError: false,
       password: "",
+      passwordError: false, //TODO: Remove password syntax Validator
     };
 
-    this.handleChangeUsername = this.handleChangeUsername.bind(this);
-    this.handleChangePassword = this.handleChangePassword.bind(this);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  // need to defince prop type for every function
-  static get propTypes() {
-    return {
-      history: PropTypes.object,
-      error: PropTypes.string,
-      onSubmit: PropTypes.func,
-    };
+    this.onEmailChange = this.onEmailChange.bind(this);
+    this.onPasswordChange = this.onPasswordChange.bind(this);
+    this.submitHandler = this.submitHandler.bind(this);
   }
 
-  handleChangeUsername(value) {
-    this.setState(Object.assign({}, this.state, { username: value }));
+  onEmailChange(e) {
+    const value = e.currentTarget.value;
+    this.setState({ email: value });
+
+    if (EmailValidator.validate(value)) {
+      this.setState({ emailError: false });
+    } else {
+      this.setState({ emailError: true });
+    }
   }
 
-  handleChangePassword(value) {
-    this.setState(Object.assign({}, this.state, { password: value }));
+  onPasswordChange(e) {
+    const value = e.currentTarget.value;
+    this.setState({ password: value });
+    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (passwordRegex.test(value)) {
+      this.setState({ passwordError: false });
+    } else {
+      this.setState({ passwordError: true });
+    }
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-
-    let user = {
-      username: this.state.username,
-      password: this.state.password,
-    };
-
+  submitHandler() {
+    let user = { email: this.state.email, password: this.state.password };
     this.props.onSubmit(user);
   }
 
+  static get propTypes() {
+    return {
+      classes: PropTypes.object.isRequired,
+      onSubmit: PropTypes.func.isRequired,
+    };
+  }
+
   render() {
+    const { classes } = this.props;
     return (
       <Page>
-        <Card style={style} className="md-block-centered">
-          <form
-            className="md-grid"
-            onSubmit={this.handleSubmit}
-            onReset={() => this.props.history.goBack()}
-          >
-            <TextField
-              label="Login"
-              id="LoginField"
-              type="text"
-              className="md-row"
-              required={true}
-              value={this.state.username}
-              onChange={this.handleChangeUsername}
-              errorText="Login is required"
-            />
-            <TextField
-              label="Password"
-              id="PasswordField"
-              type="password"
-              className="md-row"
-              required={true}
-              value={this.state.password}
-              onChange={this.handleChangePassword}
-              errorText="Password is required"
-            />
-
-            <Button
-              id="submit"
-              type="submit"
-              disabled={
-                this.state.username == undefined ||
-                this.state.username == "" ||
-                this.state.password == undefined ||
-                this.state.password == ""
-                  ? true
-                  : false
-              }
-              raised
-              primary
-              className="md-cell md-cell--2"
-            >
-              Login
-            </Button>
-            <Button
-              id="reset"
-              type="reset"
-              raised
-              secondary
-              className="md-cell md-cell--2"
-            >
-              Dismiss
-            </Button>
-            <Link to={"/register"} className="md-cell">
-              Not registered yet?
-            </Link>
-            <AlertMessage className="md-row md-full-width">
-              {this.props.error ? `${this.props.error}` : ""}
-            </AlertMessage>
-          </form>
-        </Card>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <form className={classes.form} noValidate>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                onChange={this.onEmailChange}
+                autoFocus
+                error={this.state.emailError}
+                helperText={
+                  this.state.emailError ? "Incorrect Email Address" : ""
+                }
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={this.onPasswordChange}
+                error={this.state.passwordError}
+                helperText={
+                  this.state.passwordError
+                    ? "Password must be at least 8 charachters in length and must contain at least one number"
+                    : ""
+                }
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                fullWidth
+                variant="contained"
+                className={classes.submit}
+                onClick={this.submitHandler}
+              >
+                Sign In
+              </Button>
+              <div className={classes.centerFold}>
+                <Link href="" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </div>
+            </form>
+          </div>
+        </Container>
       </Page>
     );
   }
 }
 
-export default withRouter(UserLogin);
+export default withRouter(withStyles(styles)(UserLogin));
