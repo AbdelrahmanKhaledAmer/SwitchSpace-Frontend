@@ -1,10 +1,6 @@
 import React from "react";
-// import clsx from "clsx";
-// import { makeStyles } from "@material-ui/core/styles";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-// import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
-// import Divider from "@mat    erial-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -21,7 +17,6 @@ import StarBorder from "@material-ui/icons/StarBorder";
 
 const classes = {
   drawer: {
-    // opacity: 0.5,
     borderBottomRightRadius: "25px",
     borderTopRightRadius: "25px",
   },
@@ -35,7 +30,6 @@ const classes = {
     width: "auto",
   },
   title: {
-    // flexGrow: 1,
     textAlign: "center",
     color: "black",
   },
