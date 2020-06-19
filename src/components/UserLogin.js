@@ -53,9 +53,11 @@ class UserLogin extends React.Component {
       email: "",
       emailError: false,
       password: "",
+      passwordError: false,
     };
 
     this.onEmailChange = this.onEmailChange.bind(this);
+    this.onPasswordChange = this.onPasswordChange.bind(this);
   }
 
   onEmailChange(e) {
@@ -66,6 +68,17 @@ class UserLogin extends React.Component {
       this.setState({ emailError: false });
     } else {
       this.setState({ emailError: true });
+    }
+  }
+
+  onPasswordChange(e) {
+    const value = e.currentTarget.value;
+    this.setState({ password: value });
+    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (passwordRegex.test(value)) {
+      this.setState({ passwordError: false });
+    } else {
+      this.setState({ passwordError: true });
     }
   }
 
@@ -115,6 +128,13 @@ class UserLogin extends React.Component {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={this.onPasswordChange}
+                error={this.state.passwordError}
+                helperText={
+                  this.state.passwordError
+                    ? "Password must be at least 8 charachters in length and must contain at least one number"
+                    : ""
+                }
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
