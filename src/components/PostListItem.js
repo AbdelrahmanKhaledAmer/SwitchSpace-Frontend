@@ -7,7 +7,6 @@ import ListItem from "@material-ui/core/ListItem";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import { withStyles } from "@material-ui/core/styles";
-import Page from "./Page";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import Geocode from "react-geocode";
@@ -122,7 +121,7 @@ class PostListItem extends React.Component {
     const { classes } = this.props;
     this.getLocation();
     return (
-      <Page>
+      <div>
         <Grid container spacing={1}>
           <Grid item xs={3}>
             <img
@@ -175,7 +174,7 @@ class PostListItem extends React.Component {
           </Grid>
         </Grid>
         <Divider />
-      </Page>
+      </div>
     );
   }
 }

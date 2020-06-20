@@ -37,7 +37,9 @@
   "dependencies": {
     "@material-ui/core": "^4.10.1",
     "@material-ui/icons": "^4.9.1",
+    "@nivo/bar": "^0.62.0",
     "babel-polyfill": "^6.26.0",
+    "canvasjs": "^1.8.3",
     "email-validator": "^2.0.4",
     "eslint": "^7.2.0",
     "prettier": "^2.0.5",
