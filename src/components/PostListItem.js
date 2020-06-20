@@ -126,7 +126,7 @@ class PostListItem extends React.Component {
         <Grid container spacing={1}>
           <Grid item xs={3}>
             <img
-              src="https://static.toiimg.com/photo/61654288.cms" // TODO: GET IMAGE FROM POST
+              src="https://switchspace-datastore.s3.amazonaws.com/agriculture.jpg" // TODO: GET IMAGE FROM POST AND FIX CIRCLE
               className={classes.image}
             ></img>
           </Grid>

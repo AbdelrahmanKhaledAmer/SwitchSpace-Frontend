@@ -16,7 +16,7 @@ import Page from "./Page";
 
 const styles = (theme) => ({
   paper: {
-    marginTop: "2em",
+    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

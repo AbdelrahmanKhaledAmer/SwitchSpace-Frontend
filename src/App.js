@@ -11,6 +11,7 @@ import {
 import { UserLoginView } from "./views/UserLoginView";
 import { UserSignupView } from "./views/UserSignupView";
 import { TrendingView } from "./views/TrendingView";
+import { ReportView } from "./views/ReportView";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ export default class App extends React.Component {
         { component: UserLoginView, path: "/login" },
         { component: UserSignupView, path: "/register" },
         { component: TrendingView, path: "/trending" },
+        { component: ReportView, path: "/report" },
       ],
     };
   }

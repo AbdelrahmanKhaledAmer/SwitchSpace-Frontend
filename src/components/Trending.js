@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 import { ResponsiveBar } from "@nivo/bar";
 import PropTypes from "prop-types";
 import Page from "./Page";
+import PostList from "./PostList";
 const styles = {
   trendingContainer: {
     textAlign: "center",
@@ -68,6 +69,7 @@ class Trending extends React.Component {
             motionDamping={15}
             onClick={this.handleChartClick}
           />
+          <PostList></PostList>
         </div>
       </Page>
     );

@@ -19,7 +19,7 @@ import EmailValidator from "email-validator";
 
 const styles = (theme) => ({
   paper: {
-    marginTop: "8",
+    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
