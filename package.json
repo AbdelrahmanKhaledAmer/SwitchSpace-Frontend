@@ -37,6 +37,7 @@
   "dependencies": {
     "@material-ui/core": "^4.10.1",
     "@material-ui/icons": "^4.9.1",
+    "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",
     "email-validator": "^2.0.4",
     "eslint": "^7.2.0",
