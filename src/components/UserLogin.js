@@ -7,7 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
@@ -143,9 +143,7 @@ class UserLogin extends React.Component {
                 Sign In
               </Button>
               <div className={classes.centerFold}>
-                <Link href="" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <Link to={"/register"}>{"Not a member? Register"}</Link>
               </div>
             </form>
           </div>
