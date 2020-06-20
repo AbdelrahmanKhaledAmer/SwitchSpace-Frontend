@@ -6,6 +6,13 @@ export default class HttpService {
   static apiURL() {
     return "http://localhost:3000";
   }
+  static handleError(err) {
+    let errorMsg = err.message;
+    if (err.response && err.response.data.message) {
+      errorMsg = err.response.data.message;
+    }
+    return errorMsg;
+  }
 
   // Get request
   static async get(url, onSuccess, onError) {
@@ -31,12 +38,7 @@ export default class HttpService {
       onSuccess(resp);
     } catch (err) {
       // parse error msg from server if present else use the err message
-      let errorMsg;
-      if (err.response.data.message) {
-        errorMsg = err.response.data.message;
-      } else {
-        errorMsg = err.message;
-      }
+      const errorMsg = HttpService.handleError(err);
       onError(errorMsg);
     }
   }
@@ -64,12 +66,7 @@ export default class HttpService {
       onSuccess(resp);
     } catch (err) {
       // parse error msg from server if present else use the err message
-      let errorMsg;
-      if (err.response.data.message) {
-        errorMsg = err.response.data.message;
-      } else {
-        errorMsg = err.message;
-      }
+      const errorMsg = HttpService.handleError(err);
       onError(errorMsg);
     }
   }
@@ -97,12 +94,7 @@ export default class HttpService {
       onSuccess(resp);
     } catch (err) {
       // parse error msg from server if present else use the err message
-      let errorMsg;
-      if (err.response.data.message) {
-        errorMsg = err.response.data.message;
-      } else {
-        errorMsg = err.message;
-      }
+      const errorMsg = HttpService.handleError(err);
       onError(errorMsg);
     }
   }
@@ -123,12 +115,7 @@ export default class HttpService {
       onSuccess(resp);
     } catch (err) {
       // parse error msg from server if present else use the err message
-      let errorMsg;
-      if (err.response.data.message) {
-        errorMsg = err.response.data.message;
-      } else {
-        errorMsg = err.message;
-      }
+      const errorMsg = HttpService.handleError(err);
       onError(errorMsg);
     }
   }
