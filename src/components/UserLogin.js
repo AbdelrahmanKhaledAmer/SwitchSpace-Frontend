@@ -7,7 +7,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
@@ -53,7 +53,6 @@ class UserLogin extends React.Component {
       email: "",
       emailError: false,
       password: "",
-      passwordError: false, //TODO: Remove password syntax Validator
     };
 
     this.onEmailChange = this.onEmailChange.bind(this);
@@ -75,12 +74,6 @@ class UserLogin extends React.Component {
   onPasswordChange(e) {
     const value = e.currentTarget.value;
     this.setState({ password: value });
-    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (passwordRegex.test(value)) {
-      this.setState({ passwordError: false });
-    } else {
-      this.setState({ passwordError: true });
-    }
   }
 
   submitHandler() {
@@ -136,12 +129,6 @@ class UserLogin extends React.Component {
                 id="password"
                 autoComplete="current-password"
                 onChange={this.onPasswordChange}
-                error={this.state.passwordError}
-                helperText={
-                  this.state.passwordError
-                    ? "Password must be at least 8 charachters in length and must contain at least one number"
-                    : ""
-                }
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -156,9 +143,7 @@ class UserLogin extends React.Component {
                 Sign In
               </Button>
               <div className={classes.centerFold}>
-                <Link href="" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <Link to={"/register"}>{"Not a member? Register"}</Link>
               </div>
             </form>
           </div>
