@@ -48,7 +48,6 @@ class Report extends React.Component {
       repotEmpty: false,
     };
     this.onReportChange = this.onReportChange.bind(this);
-    //this.submitHandler = this.submitHandler.bind(this);
   }
   static get propTypes() {
     return {
