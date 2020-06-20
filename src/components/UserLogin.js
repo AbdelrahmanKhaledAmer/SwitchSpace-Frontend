@@ -53,7 +53,6 @@ class UserLogin extends React.Component {
       email: "",
       emailError: false,
       password: "",
-      passwordError: false, //TODO: Remove password syntax Validator
     };
 
     this.onEmailChange = this.onEmailChange.bind(this);
@@ -75,12 +74,6 @@ class UserLogin extends React.Component {
   onPasswordChange(e) {
     const value = e.currentTarget.value;
     this.setState({ password: value });
-    let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (passwordRegex.test(value)) {
-      this.setState({ passwordError: false });
-    } else {
-      this.setState({ passwordError: true });
-    }
   }
 
   submitHandler() {
@@ -136,12 +129,6 @@ class UserLogin extends React.Component {
                 id="password"
                 autoComplete="current-password"
                 onChange={this.onPasswordChange}
-                error={this.state.passwordError}
-                helperText={
-                  this.state.passwordError
-                    ? "Password must be at least 8 charachters in length and must contain at least one number"
-                    : ""
-                }
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
