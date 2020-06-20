@@ -55,7 +55,7 @@ export default class HttpService {
       let resp = await axios(url, {
         method: "PUT",
         headers: header,
-        body: JSON.stringify(data),
+        data: data,
       });
       // set token if present
       if (Object.prototype.hasOwnProperty.call(resp, "token")) {
@@ -87,7 +87,7 @@ export default class HttpService {
       let resp = await axios(url, {
         method: "POST",
         headers: header,
-        body: JSON.stringify(data),
+        data: data,
       });
 
       // set token if present
