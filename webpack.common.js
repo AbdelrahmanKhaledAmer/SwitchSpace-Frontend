@@ -23,7 +23,7 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["env", "react"],
+            presets: ["env", "react", "stage-0"],
           },
         },
       },
@@ -46,6 +46,10 @@ module.exports = {
           fallback: "style-loader",
           use: "css-loader",
         }),
+      },
+      {
+        test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+        loader: "url-loader?limit=100000",
       },
     ],
   },
