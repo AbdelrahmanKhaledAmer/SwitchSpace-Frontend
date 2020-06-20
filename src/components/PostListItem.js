@@ -12,7 +12,7 @@ import { withRouter } from "react-router-dom";
 import Geocode from "react-geocode";
 import { Divider } from "@material-ui/core";
 
-Geocode.setApiKey("AIzaSyBTy3D8N06EGqF3KkS-F_QV2BmZwqbH-5c");
+Geocode.setApiKey("AIzaSyAgZUCzN3sxZzQdpbb_mm9X-5-Zj_RdKbk");
 
 const styles = {
   image: {
@@ -98,6 +98,8 @@ class PostListItem extends React.Component {
       deleted: false,
       deletedAt: null,
     };
+
+    this.getLocation();
   }
 
   static get propTypes() {
@@ -119,7 +121,6 @@ class PostListItem extends React.Component {
 
   render() {
     const { classes } = this.props;
-    this.getLocation();
     return (
       <div>
         <Grid container spacing={1}>
