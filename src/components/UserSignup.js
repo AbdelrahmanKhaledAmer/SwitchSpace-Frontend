@@ -70,7 +70,6 @@ class UserSignup extends React.Component {
     this.validateForm = this.validateForm.bind(this);
   }
   validateForm() {
-    console.log(this.state.errorValidate);
     this.setState({
       formValid:
         !this.state.errorValidate.email &&
@@ -162,9 +161,9 @@ class UserSignup extends React.Component {
       password: this.state.password,
       repeatPassword: this.state.repeatPassword,
     };
-    // if (this.state.formValid) {
-    this.props.onSubmit(user);
-    // }
+    if (this.state.formValid) {
+      this.props.onSubmit(user);
+    }
   }
 
   static get propTypes() {
@@ -243,8 +242,6 @@ class UserSignup extends React.Component {
                 error={this.state.errorMsg.repeatPassword ? true : false}
                 helperText={this.state.errorMsg.repeatPassword}
               />
-              <input type="file" />
-
               <Button
                 fullWidth
                 variant="contained"

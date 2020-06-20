@@ -71,7 +71,6 @@ export class UserSignupView extends React.Component {
   }
 
   render() {
-    console.log(this.state.loading);
     return (
       <div>
         {this.state.loading ? this.renderLoading() : this.renderComponent()}
