@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
@@ -166,22 +165,19 @@ export default function Sidebar({
   return (
     <div>
       {
-        <React.Fragment key={isOpen}>
-          <Button onClick={sidebarToggle}></Button>
-          <Drawer anchor="left" open={isOpen} onClose={sidebarToggle}>
-            <div className={classes.DrawerHeader}>
-              <List>
-                <ListItem>
-                  <ListItemIcon className={classes.DrawerHeader}>
-                    <SwapHorizIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="SwitchSpace" secondary="Quick Menu" />
-                </ListItem>
-              </List>
-            </div>
-            {isAuthorized ? loggedInList : loggedOutList}
-          </Drawer>
-        </React.Fragment>
+        <Drawer anchor="left" open={isOpen} onClose={sidebarToggle}>
+          <div className={classes.DrawerHeader}>
+            <List>
+              <ListItem>
+                <ListItemIcon className={classes.DrawerHeader}>
+                  <SwapHorizIcon />
+                </ListItemIcon>
+                <ListItemText primary="SwitchSpace" secondary="Quick Menu" />
+              </ListItem>
+            </List>
+          </div>
+          {isAuthorized ? loggedInList : loggedOutList}
+        </Drawer>
       }
     </div>
   );
