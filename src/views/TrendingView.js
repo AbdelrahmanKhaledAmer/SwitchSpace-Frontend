@@ -1,7 +1,8 @@
 "use strict";
 
 import React from "react";
-import PostListItem from "../components/PostListItem";
+import Trending from "../components/Trending";
+
 import PropTypes from "prop-types";
 
 export class TrendingView extends React.Component {
@@ -18,10 +19,10 @@ export class TrendingView extends React.Component {
 
   render() {
     return (
-      <PostListItem
+      <Trending
         onSubmit={(user) => this.login(user)}
         error={this.state.error}
-      ></PostListItem>
+      ></Trending>
     );
   }
 }
