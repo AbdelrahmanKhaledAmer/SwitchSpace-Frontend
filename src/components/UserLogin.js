@@ -19,18 +19,18 @@ import EmailValidator from "email-validator";
 
 const styles = (theme) => ({
   paper: {
-    marginTop: "8",
+    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
   avatar: {
-    margin: "1",
+    margin: theme.spacing(1),
     backgroundColor: "#659dbd",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: "1",
+    marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -130,6 +130,7 @@ class UserLogin extends React.Component {
                 autoComplete="current-password"
                 onChange={this.onPasswordChange}
               />
+              {/*TODO: CHECK IF REMEMBER ME IS A VIABLE OPTION*/}
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"

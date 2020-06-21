@@ -3,17 +3,33 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
-import { ResponsiveBar } from "@nivo/bar";
+import {
+  BarChart,
+  XAxis,
+  Tooltip,
+  YAxis,
+  Bar,
+  Cell,
+  ResponsiveContainer,
+} from "recharts";
 import PropTypes from "prop-types";
 import Page from "./Page";
-const styles = {
+const styles = (theme) => ({
   trendingContainer: {
     textAlign: "center",
     width: "65%",
     height: "50vh",
     margin: "0 auto",
+    marginTop: theme.spacing(7),
   },
-};
+  chart: {
+    width: "100px",
+    height: "100px",
+  },
+  line: {
+    backgroudColor: "purple",
+  },
+});
 
 class Trending extends React.Component {
   constructor(props) {
@@ -29,11 +45,11 @@ class Trending extends React.Component {
       { title: "utensils", posts: 3 },
     ];
 
-    this.handleChartClick = this.handleChartClick.bind(this);
+    this.handlePvBarClick = this.handlePvBarClick.bind(this);
   }
 
-  handleChartClick(data) {
-    console.log(data.indexValue); // TODO: GET POSTS BY SUBCATEGORY
+  handlePvBarClick(data, index) {
+    console.log(`Pv Bar (${index}) Click: `, data); // TODO: GET POSTS BY SUBCATEGORY
   }
 
   static get propTypes() {
@@ -49,25 +65,23 @@ class Trending extends React.Component {
     return (
       <Page>
         <div className={classes.trendingContainer}>
-          <ResponsiveBar
-            data={this.data}
-            keys={["posts"]}
-            indexBy="title"
-            margin={{ top: 40, right: 35, bottom: 50, left: 50 }}
-            padding={0.3}
-            colors={{ scheme: "paired" }}
-            axisBottom={{
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-            }}
-            enableGridY={false}
-            enableLabel={false}
-            animate={true}
-            motionStiffness={90}
-            motionDamping={15}
-            onClick={this.handleChartClick}
-          />
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+            className={classes.chart}
+          >
+            <BarChart data={this.data} onClick={this.handlePvBarClick}>
+              <XAxis dataKey="title" />{" "}
+              {/*change axis color axisLine={{ stroke: "purple" }}*/}
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="posts">
+                {this.data.map((entry) => (
+                  <Cell key={`cell-${entry.title}`} fill={"#659dbd"} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </Page>
     );

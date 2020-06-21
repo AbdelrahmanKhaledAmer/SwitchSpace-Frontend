@@ -16,18 +16,18 @@ import Page from "./Page";
 
 const styles = (theme) => ({
   paper: {
-    marginTop: "2em",
+    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
   },
   avatar: {
-    margin: "1",
+    margin: theme.spacing(1),
     backgroundColor: "#659dbd",
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: "1",
+    marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
