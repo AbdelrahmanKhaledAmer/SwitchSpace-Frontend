@@ -24,7 +24,7 @@ const styles = (theme) => ({
     backgroundColor: "#659dbd",
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%", //TODO: Fix IE 11 issue.
     marginTop: "1",
   },
   submit: {
@@ -86,7 +86,7 @@ class Report extends React.Component {
                 required
                 fullWidth
                 multiline
-                rows={4}
+                rows={8}
                 id="report"
                 label="Report"
                 name="report"
