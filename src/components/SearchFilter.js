@@ -80,6 +80,8 @@ class SearchFilter extends React.Component {
                                 <form className={classes.textBox} noValidate autoComplete="off">
                                     <TextField id="filled-basic" label="Location" />
                                     <TextField id="filled-basic" label="Radius" />
+                                    <TextField id="filled-basic" label="Item Desired" />
+                                    <TextField id="filled-basic" label="Item Owned" />
                                     <FormControl className={classes.formControl}>
                                         <InputLabel id="demo-controlled-open-select-label">Condition</InputLabel>
                                         <Select
