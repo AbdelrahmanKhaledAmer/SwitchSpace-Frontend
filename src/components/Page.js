@@ -3,10 +3,9 @@
 import React from "react";
 import QuickNavMenu from "./QuickNavMenu";
 import Sidebar from "./Sidebar";
-// import Footer from "./Footer";
+// import Footer from "./Footer"; // TODO: ADD FOOTER
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
-import {withRouter} from "react-router-dom";
 
 const styles = theme => ({
     body: {
@@ -88,4 +87,4 @@ class Page extends React.Component {
     }
 }
 
-export default withRouter(withStyles(styles)(Page));
+export default withStyles(styles)(Page);
