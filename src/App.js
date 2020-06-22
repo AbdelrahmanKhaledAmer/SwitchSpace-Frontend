@@ -8,9 +8,9 @@ import {
     // Redirect,
 } from "react-router-dom";
 
-import {UserLoginView} from "./views/UserLoginView";
-import {UserSignupView} from "./views/UserSignupView";
-import {TrendingView} from "./views/TrendingView";
+import UserLoginView from "./views/UserLoginView";
+import UserSignupView from "./views/UserSignupView";
+import TrendingView from "./views/TrendingView";
 
 export default class App extends React.Component {
     constructor(props) {

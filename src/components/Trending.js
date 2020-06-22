@@ -2,7 +2,6 @@
 
 import React from "react";
 import {withStyles} from "@material-ui/core/styles";
-import {withRouter} from "react-router-dom";
 import {BarChart, XAxis, Tooltip, YAxis, Bar, Cell, ResponsiveContainer} from "recharts";
 import PropTypes from "prop-types";
 import Page from "./Page";
@@ -74,4 +73,4 @@ class Trending extends React.Component {
         );
     }
 }
-export default withRouter(withStyles(styles)(Trending));
+export default withStyles(styles)(Trending);

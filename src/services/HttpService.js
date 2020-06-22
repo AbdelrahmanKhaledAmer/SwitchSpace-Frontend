@@ -29,8 +29,6 @@ export default class HttpService {
                 headers: header,
             });
 
-            resp = await resp.json();
-
             // save token in local storage if exists
             if (Object.prototype.hasOwnProperty.call(resp, "token")) {
                 window.localStorage["jwtToken"] = resp.token;
