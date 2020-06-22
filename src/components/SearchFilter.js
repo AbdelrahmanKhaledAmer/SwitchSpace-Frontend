@@ -1,11 +1,9 @@
 "use strict";
 import React from "react";
 import Page from "./Page";
+import PostList from "./PostList";
 
-//import {makeStyles} from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -13,6 +11,7 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
 
 import {withStyles} from "@material-ui/core/styles";
 import {withRouter} from "react-router-dom";
@@ -20,8 +19,19 @@ import PropTypes from "prop-types";
 import GoogleMap from "../components/GoogleMap";
 
 const styles = theme => ({
-    root: {
-        flexGrow: 1,
+    inputCard: {
+        marginTop: theme.spacing(2.5),
+        width: "100%",
+    },
+    map: {
+        margin: theme.spacing(2),
+        maxHeight: "20%",
+        maxWidth: "20%",
+    },
+    mapCard: {
+        width: "100%",
+        height: "50vh",
+        position: "relative",
     },
     paper: {
         padding: theme.spacing(2),
@@ -33,6 +43,16 @@ const styles = theme => ({
             margin: theme.spacing(1),
             width: "25ch",
         },
+    },
+    cont: {
+        marginTop: theme.spacing(7),
+    },
+    button: {
+        alignItems: "center",
+    },
+    formAlignment: {
+        width: "100%",
+        textAlign: "center",
     },
 });
 
@@ -73,54 +93,63 @@ class SearchFilter extends React.Component {
         return (
             <Page>
                 <div className={classes.root}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6}>
-                            <Container maxWidth="sm">
-                                <Grid item xs={12}>
-                                    <GoogleMap></GoogleMap>
-                                </Grid>
-                                <Typography component="div" style={{backgroundColor: "#cfe8fc", height: "60vh"}} />
-                                <form className={classes.textBox} noValidate autoComplete="off">
-                                    <TextField id="filled-basic" label="Location" />
-                                    <TextField id="filled-basic" label="Radius" />
-                                    <TextField id="filled-basic" label="Item Desired" />
-                                    <TextField id="filled-basic" label="Item Owned" />
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel id="demo-controlled-open-select-label">Condition</InputLabel>
-                                        <Select
-                                            labelId="demo-controlled-open-select-label"
-                                            id="demo-controlled-open-select"
-                                            open={this.open}
-                                            onClose={this.handleClose}
-                                            onOpen={this.handleOpen}
-                                            value={this.condition}
-                                            onChange={this.handleChange}>
-                                            <MenuItem value={"new"}>New</MenuItem>
-                                            <MenuItem value={"used"}>Used</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel id="demo-controlled-open-select-label">Category</InputLabel>
-                                        <Select
-                                            labelId="demo-controlled-open-select-label"
-                                            id="demo-controlled-open-select"
-                                            open={this.open}
-                                            onClose={this.handleClose}
-                                            onOpen={this.handleOpen}
-                                            value={this.cat}
-                                            onChange={this.handleChange}>
-                                            <MenuItem value={"electronics"}>Electronics</MenuItem>
-                                            <MenuItem value={"furniture"}>Furniture</MenuItem>
-                                            <MenuItem value={"vehicles"}>Vehicles</MenuItem>
-                                        </Select>
-                                    </FormControl>
+                    <Grid container className={classes.cont}>
+                        <Grid item sm={6}>
+                            <Container maxWidth="lg">
+                                <Card elevation={3} className={classes.mapCard}>
+                                    <GoogleMap className={classes.map}></GoogleMap>
+                                </Card>
 
-                                    <Button className={classes.button}>Filter</Button>
-                                </form>
+                                <Card elevation={3} className={classes.inputCard}>
+                                    <div className={classes.formAlignment}>
+                                        <form className={classes.textBox} noValidate autoComplete="off">
+                                            <TextField id="filled-basic" label="Location" />
+                                            <TextField id="filled-basic" label="Radius" />
+                                            <TextField id="filled-basic" label="Item Desired" />
+                                            <TextField id="filled-basic" label="Item Owned" />
+                                            <FormControl className={classes.formControl}>
+                                                <InputLabel id="demo-controlled-open-select-label">Condition</InputLabel>
+                                                <Select
+                                                    labelId="demo-controlled-open-select-label"
+                                                    id="demo-controlled-open-select"
+                                                    open={this.open}
+                                                    onClose={this.handleClose}
+                                                    onOpen={this.handleOpen}
+                                                    value={this.condition}
+                                                    onChange={this.handleChange}>
+                                                    <MenuItem value={"new"}>New</MenuItem>
+                                                    <MenuItem value={"used"}>Used</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            <FormControl className={classes.formControl}>
+                                                <InputLabel id="demo-controlled-open-select-label">Category</InputLabel>
+                                                <Select
+                                                    labelId="demo-controlled-open-select-label"
+                                                    id="demo-controlled-open-select"
+                                                    open={this.open}
+                                                    onClose={this.handleClose}
+                                                    onOpen={this.handleOpen}
+                                                    value={this.cat}
+                                                    onChange={this.handleChange}>
+                                                    <MenuItem value={"electronics"}>Electronics</MenuItem>
+                                                    <MenuItem value={"furniture"}>Furniture</MenuItem>
+                                                    <MenuItem value={"vehicles"}>Vehicles</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            <Button variant="contained" color="primary">
+                                                Submit
+                                            </Button>
+                                        </form>
+                                    </div>
+                                </Card>
                             </Container>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Paper className={classes.paper}>Posts</Paper>
+                        <Grid item sm={6}>
+                            <Container maxWidth="lg">
+                                <Card elevation={3}>
+                                    <PostList></PostList>
+                                </Card>
+                            </Container>
                         </Grid>
                     </Grid>
                 </div>

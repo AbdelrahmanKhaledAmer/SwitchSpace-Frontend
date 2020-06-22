@@ -6,19 +6,7 @@ import PropTypes from "prop-types";
 
 import Card from "@material-ui/core/Card";
 
-const styles = () => ({
-    paper: {
-        width: "100%",
-        height: "100%",
-        // maxWidth: "80%",
-        // maxHeight: "80%",
-        backgroundColor: "#000000",
-    },
-    map: {
-        maxWidth: "90%",
-        maxHeight: "90%",
-    },
-});
+const styles = () => ({});
 
 class GoogleMap extends React.Component {
     constructor(props) {
@@ -64,11 +52,7 @@ class GoogleMap extends React.Component {
         return (
             <div width={"100%"}>
                 <Card elevation={3} className={classes.paper}>
-                    <Map
-                        google={this.props.google}
-                        className={classes.map}
-                        onReady={(mapProps, map) => this._mapLoaded(mapProps, map)}
-                        onClick={this.onMapClicked}>
+                    <Map google={this.props.google} onReady={(mapProps, map) => this._mapLoaded(mapProps, map)} onClick={this.onMapClicked}>
                         <Marker
                             title={"The marker`s title will appear as a tooltip."}
                             name={"Post Tname in the marker "}
