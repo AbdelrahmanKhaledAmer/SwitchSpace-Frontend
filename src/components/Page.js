@@ -6,6 +6,7 @@ import Sidebar from "./Sidebar";
 // import Footer from "./Footer"; // TODO: ADD FOOTER
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
+import {ToastContainer} from "react-toastify";
 
 const styles = theme => ({
     body: {
@@ -13,6 +14,7 @@ const styles = theme => ({
         paddingBottom: theme.spacing(2),
     },
 });
+
 class Page extends React.Component {
     constructor(props) {
         super(props);
@@ -28,6 +30,7 @@ class Page extends React.Component {
         this.expandToggle = this.expandToggle.bind(this);
         this.authorizationToggle = this.authorizationToggle.bind(this);
     }
+
     // need to defince prop type for every function
     static get propTypes() {
         return {
@@ -82,6 +85,16 @@ class Page extends React.Component {
                 />
                 <section className={classes.body}>{this.props.children}</section>
                 {/* <Footer /> */}
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={5000}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
             </section>
         );
     }
