@@ -42,6 +42,9 @@ const styles = theme => ({
             background: "#558dad",
         },
     },
+    centerFold: {
+        textAlign: "center",
+    },
 });
 
 class UserLogin extends React.Component {

@@ -39,6 +39,9 @@ const styles = theme => ({
             background: "#558dad",
         },
     },
+    centerFold: {
+        textAlign: "center",
+    },
 });
 
 class UserSignup extends React.Component {
@@ -116,7 +119,7 @@ class UserSignup extends React.Component {
         let errorMsg = {...this.state.errorMsg};
         let errorValidate = {...this.state.errorValidate};
 
-        let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
         if (!passwordRegex.test(value)) {
             errorMsg.password = "Password must be at least 6 characters long and contain special character";
             errorValidate.password = true;
