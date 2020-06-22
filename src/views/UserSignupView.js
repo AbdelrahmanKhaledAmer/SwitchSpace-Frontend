@@ -10,7 +10,7 @@ import {ToastContainer, toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-export class UserSignupView extends React.Component {
+export default class UserSignupView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

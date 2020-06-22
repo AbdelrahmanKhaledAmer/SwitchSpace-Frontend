@@ -8,9 +8,10 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Card from "@material-ui/core/Card";
 import PropTypes from "prop-types";
 import React from "react";
-import {Link, withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
 import EmailValidator from "email-validator";
 import Page from "./Page";
 
@@ -20,6 +21,7 @@ const styles = theme => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        padding: theme.spacing(2),
     },
     avatar: {
         margin: theme.spacing(1),
@@ -36,6 +38,9 @@ const styles = theme => ({
         "&:hover": {
             background: "#558dad",
         },
+    },
+    centerFold: {
+        textAlign: "center",
     },
 });
 
@@ -114,7 +119,7 @@ class UserSignup extends React.Component {
         let errorMsg = {...this.state.errorMsg};
         let errorValidate = {...this.state.errorValidate};
 
-        let passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
         if (!passwordRegex.test(value)) {
             errorMsg.password = "Password must be at least 6 characters long and contain special character";
             errorValidate.password = true;
@@ -173,9 +178,9 @@ class UserSignup extends React.Component {
         const {classes} = this.props;
         return (
             <Page>
-                <Container component="main" maxWidth="xs">
+                <Container component="main" maxWidth="sm">
                     <CssBaseline />
-                    <div className={classes.paper}>
+                    <Card className={classes.paper} elevation={5}>
                         <Avatar className={classes.avatar}>
                             <LockOutlinedIcon />
                         </Avatar>
@@ -246,11 +251,11 @@ class UserSignup extends React.Component {
                                 <Link to={"/login"}>{"Already a member? Login"}</Link>
                             </div>
                         </form>
-                    </div>
+                    </Card>
                 </Container>
             </Page>
         );
     }
 }
 
-export default withRouter(withStyles(styles)(UserSignup));
+export default withStyles(styles)(UserSignup);

@@ -3,9 +3,17 @@
 import React from "react";
 import QuickNavMenu from "./QuickNavMenu";
 import Sidebar from "./Sidebar";
-import {Footer} from "./Footer";
+// import Footer from "./Footer"; // TODO: ADD FOOTER
 import PropTypes from "prop-types";
-export default class Page extends React.Component {
+import {withStyles} from "@material-ui/core/styles";
+
+const styles = theme => ({
+    body: {
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
+    },
+});
+class Page extends React.Component {
     constructor(props) {
         super(props);
 
@@ -23,6 +31,7 @@ export default class Page extends React.Component {
     // need to defince prop type for every function
     static get propTypes() {
         return {
+            classes: PropTypes.object.isRequired,
             children: PropTypes.object,
         };
     }
@@ -53,6 +62,8 @@ export default class Page extends React.Component {
     }
 
     render() {
+        const {classes} = this.props;
+
         return (
             <section>
                 <QuickNavMenu
@@ -69,9 +80,11 @@ export default class Page extends React.Component {
                     expanded={this.state.expanded}
                     expandToggle={this.expandToggle}
                 />
-                {this.props.children}
-                <Footer />
+                <section className={classes.body}>{this.props.children}</section>
+                {/* <Footer /> */}
             </section>
         );
     }
 }
+
+export default withStyles(styles)(Page);

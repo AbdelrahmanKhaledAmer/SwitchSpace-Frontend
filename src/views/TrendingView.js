@@ -5,7 +5,7 @@ import Trending from "../components/Trending";
 
 import PropTypes from "prop-types";
 
-export class TrendingView extends React.Component {
+export default class TrendingView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
