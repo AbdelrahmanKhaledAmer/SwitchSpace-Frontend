@@ -13,6 +13,15 @@ export default class HttpService {
         }
         return errorMsg;
     }
+    // check if user unauthorized
+    static checkIfUnauthorized(err) {
+        // do nothing if no response
+        if (!err.response) return true;
+        if (err.response.status === 401) {
+            return true;
+        }
+        return false;
+    }
 
     // Get request
     static async get(url, onSuccess, onError) {
@@ -36,6 +45,9 @@ export default class HttpService {
             onSuccess(resp);
         } catch (err) {
             // parse error msg from server if present else use the err message
+            if (this.checkIfUnauthorized(err)) {
+                window.location = "/#login";
+            }
             const errorMsg = HttpService.handleError(err);
             onError(errorMsg);
         }
@@ -63,6 +75,9 @@ export default class HttpService {
             }
             onSuccess(resp);
         } catch (err) {
+            if (this.checkIfUnauthorized(err)) {
+                window.location = "/#login";
+            }
             // parse error msg from server if present else use the err message
             const errorMsg = HttpService.handleError(err);
             onError(errorMsg);
@@ -91,6 +106,9 @@ export default class HttpService {
             }
             onSuccess(resp);
         } catch (err) {
+            if (this.checkIfUnauthorized(err)) {
+                window.location = "/#login";
+            }
             // parse error msg from server if present else use the err message
             const errorMsg = HttpService.handleError(err);
             onError(errorMsg);
@@ -112,6 +130,9 @@ export default class HttpService {
             });
             onSuccess(resp);
         } catch (err) {
+            if (this.checkIfUnauthorized(err)) {
+                window.location = "/#login";
+            }
             // parse error msg from server if present else use the err message
             const errorMsg = HttpService.handleError(err);
             onError(errorMsg);
