@@ -1,10 +1,10 @@
 "use strict";
 
 import React from "react";
-import SearchFiler from "../components/SearchFilter";
+import SearchFilter from "../components/SearchFilter";
 import PropTypes from "prop-types";
 
-export class SearchFilerView extends React.Component {
+export class SearchFilterView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -17,6 +17,6 @@ export class SearchFilerView extends React.Component {
     }
 
     render() {
-        return <SearchFiler></SearchFiler>;
+        return <SearchFilter></SearchFilter>;
     }
 }

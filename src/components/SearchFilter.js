@@ -17,6 +17,7 @@ import Button from "@material-ui/core/Button";
 import {withStyles} from "@material-ui/core/styles";
 import {withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
+import GoogleMap from "../components/GoogleMap";
 
 const styles = theme => ({
     root: {
@@ -73,9 +74,11 @@ class SearchFilter extends React.Component {
             <Page>
                 <div className={classes.root}>
                     <Grid container spacing={3}>
-                        <Grid item xs={12}></Grid>
                         <Grid item xs={12} sm={6}>
                             <Container maxWidth="sm">
+                                <Grid item xs={12}>
+                                    <GoogleMap></GoogleMap>
+                                </Grid>
                                 <Typography component="div" style={{backgroundColor: "#cfe8fc", height: "60vh"}} />
                                 <form className={classes.textBox} noValidate autoComplete="off">
                                     <TextField id="filled-basic" label="Location" />
