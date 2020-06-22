@@ -8,6 +8,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Card from "@material-ui/core/Card";
 import PropTypes from "prop-types";
 import React from "react";
 import {Link, withRouter} from "react-router-dom";
@@ -20,6 +21,7 @@ const styles = theme => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        padding: theme.spacing(2),
     },
     avatar: {
         margin: theme.spacing(1),
@@ -173,9 +175,9 @@ class UserSignup extends React.Component {
         const {classes} = this.props;
         return (
             <Page>
-                <Container component="main" maxWidth="xs">
+                <Container component="main" maxWidth="sm">
                     <CssBaseline />
-                    <div className={classes.paper}>
+                    <Card className={classes.paper} elevation={5}>
                         <Avatar className={classes.avatar}>
                             <LockOutlinedIcon />
                         </Avatar>
@@ -246,7 +248,7 @@ class UserSignup extends React.Component {
                                 <Link to={"/login"}>{"Already a member? Login"}</Link>
                             </div>
                         </form>
-                    </div>
+                    </Card>
                 </Container>
             </Page>
         );
