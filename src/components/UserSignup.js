@@ -11,7 +11,7 @@ import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 import PropTypes from "prop-types";
 import React from "react";
-import {Link, withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
 import EmailValidator from "email-validator";
 import Page from "./Page";
 
@@ -258,4 +258,4 @@ class UserSignup extends React.Component {
     }
 }
 
-export default withRouter(withStyles(styles)(UserSignup));
+export default withStyles(styles)(UserSignup);

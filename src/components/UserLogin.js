@@ -15,7 +15,6 @@ import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 import Page from "./Page";
 import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
 import EmailValidator from "email-validator";
 
 const styles = theme => ({
@@ -146,4 +145,4 @@ class UserLogin extends React.Component {
     }
 }
 
-export default withRouter(withStyles(styles)(UserLogin));
+export default withStyles(styles)(UserLogin);

@@ -8,7 +8,6 @@ import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
 import Geocode from "react-geocode";
 import {Divider} from "@material-ui/core";
 
@@ -173,4 +172,4 @@ class PostListItem extends React.Component {
     }
 }
 
-export default withRouter(withStyles(styles)(PostListItem));
+export default withStyles(styles)(PostListItem);

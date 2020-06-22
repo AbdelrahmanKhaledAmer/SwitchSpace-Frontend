@@ -6,7 +6,7 @@ import UserLogin from "../components/UserLogin";
 
 import UserAuthService from "../services/UserAuthService";
 import PropTypes from "prop-types";
-export class UserLoginView extends React.Component {
+export default class UserLoginView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
