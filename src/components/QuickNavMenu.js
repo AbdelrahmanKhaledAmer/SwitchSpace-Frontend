@@ -187,7 +187,7 @@ export default function QuickNavMenu({title, isAuthorized, sidebarToggle, unread
 
     return (
         <div className={classes.grow}>
-            <AppBar position="static" className={classes.appBar}>
+            <AppBar className={classes.appBar}>
                 <Toolbar>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" onClick={sidebarToggle}>
                         <MenuIcon />

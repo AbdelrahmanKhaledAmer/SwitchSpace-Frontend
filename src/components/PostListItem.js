@@ -12,7 +12,7 @@ import {withRouter} from "react-router-dom";
 import Geocode from "react-geocode";
 import {Divider} from "@material-ui/core";
 
-Geocode.setApiKey("AIzaSyAgZUCzN3sxZzQdpbb_mm9X-5-Zj_RdKbk");
+Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
 const styles = {
     image: {
