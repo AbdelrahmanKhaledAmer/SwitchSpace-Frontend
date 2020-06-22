@@ -6,12 +6,13 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
+import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import Geocode from "react-geocode";
 import {Divider} from "@material-ui/core";
 
-Geocode.setApiKey(process.env.GOOGLE_API_KEY);
+Geocode.setApiKey(process.env.GOOGLE_API_KEY || "AIzaSyAgZUCzN3sxZzQdpbb_mm9X-5-Zj_RdKbk");
 
 const styles = {
     image: {
@@ -58,44 +59,53 @@ class PostListItem extends React.Component {
         this.getLocation = this.getLocation.bind(this);
 
         this.post = {
-            _id: "5ee2869e3d8df45c02a0f382",
-            creatorId: "5ee245bbdedc1468ff6e3221",
+            _id: "5ee28666de1873f021bcf563",
+            photos: [
+                {
+                    _id: "5eef818f1ca7ce3b37b3d348",
+                    url: "https://static.toiimg.com/photo/61654288.cms",
+                    key: "1",
+                },
+                {
+                    _id: "5eef818f1ca7ce3b37b3d349",
+                    url: "https://i.gadgets360cdn.com/large/iphone_11_pro_max_afp_new_1568185633865.jpg",
+                    key: "2",
+                },
+                {
+                    _id: "5eef818f1ca7ce3b37b3d369",
+                    url: "https://cdn.cultofmac.com/wp-content/uploads/2019/08/210BCC3A-98B1-41D4-A98D-E4BDD34B5DC3.jpg",
+                    key: "3",
+                },
+            ],
             itemOwned: {
-                title: "BMW X3",
+                _id: "5eee8625d836d34976705da8",
+                title: "iphone 10+",
                 condition: "Used",
                 modelYear: 2010,
-                description: "Used in a good condition",
-                category: "vehicles",
-                subcategory: "cars",
+                description:
+                    "Used in a good condition Used in a good condition Used in a good condition Used in a good condition Used in a good condition Used in a good condition Used in a good condition Used in a good condition",
+                category: "electronics",
+                subcategory: "smartphones",
             },
             itemDesired: {
-                title: "Audi A5",
+                _id: "5eee8625d836d34976705da9",
+                title: "Samsung s9",
                 condition: "New",
                 modelYear: 2019,
                 description: "Must be new",
-                category: "vehicles",
-                subcategory: "cars",
+                category: "electronics",
+                subcategory: "smartphones",
             },
             exchangeLocation: {
+                coordinates: [11.581981, 48.135124],
+                _id: "5eee8625d836d34976705daa",
                 type: "Point",
-                coordinates: [48.249653, 11.626915],
             },
-            photos: ["photo1", "photo2"],
-        };
-
-        this.user = {
-            _id: "5ee245bbdedc1468ff6e3221",
-            commRate: 0,
-            conditionRate: 0,
-            descriptionRate: 0,
-            tier: "PerPost",
-            violationsCount: 0,
-            password: "$2y$10$9LUVPLcVuq34H9F8MQs.V.JrfXpJlIN4QU9uRREgWxlEgM7G1uVsO",
-            name: "mohamed",
-            email: "mohamed@gmail.com",
-            reviews: [],
-            deleted: false,
-            deletedAt: null,
+            creatorId: "5ee245bbdedc1468ff6e3221",
+            creatorName: "Mohamed",
+            createdAt: "2020-06-20T21:56:53.039Z",
+            updatedAt: "2020-06-20T21:56:53.039Z",
+            __v: 0,
         };
 
         this.getLocation();
@@ -110,7 +120,7 @@ class PostListItem extends React.Component {
 
     async getLocation() {
         const coord = this.post.exchangeLocation.coordinates;
-        let loc = await Geocode.fromLatLng(coord[0], coord[1]);
+        let loc = await Geocode.fromLatLng(coord[1], coord[0]);
         let components = loc.results[0].address_components;
         let filtered = components.filter(elem => elem.types[0] == "locality")[0];
         if (filtered) {
@@ -124,31 +134,29 @@ class PostListItem extends React.Component {
             <div>
                 <Grid container spacing={1}>
                     <Grid item xs={3}>
-                        <img
-                            src="https://static.toiimg.com/photo/61654288.cms" // TODO: GET IMAGE FROM POST
-                            className={classes.image}></img>
+                        <img src={this.props.post.photos[0].url} className={classes.image}></img>
                     </Grid>
                     <Grid item xs={6}>
                         <List>
                             <ListItem>
                                 <Grid container>
                                     <Grid item xs={6}>
-                                        <div className={classes.itemOwned}>{this.post.itemOwned.title}</div>
+                                        <div className={classes.itemOwned}>{this.props.post.itemOwned.title}</div>
                                     </Grid>
                                     <Grid item container xs={6}>
                                         <div className={classes.icon}>
                                             <PersonOutlineIcon />
                                         </div>
-                                        <div>{this.user.name}</div>
+                                        <div>{this.props.post.creatorName}</div>
                                     </Grid>
                                 </Grid>
                             </ListItem>
                             <ListItem>
                                 <div className={classes.boldText}>Exchanged with: </div>
-                                <div className={classes.miniMarginLeft}>{this.post.itemDesired.title}</div>
+                                <div className={classes.miniMarginLeft}>{this.props.post.itemDesired.title}</div>
                             </ListItem>
                             <ListItem>
-                                <div>{this.post.itemOwned.description}</div>
+                                <Typography noWrap>{this.props.post.itemOwned.description}</Typography>
                                 {/*TODO: CUT DESCRIPTION SHORT OF LENGTH OF COMPONENT*/}
                             </ListItem>
                             <ListItem className={classes.locationListItem}>
@@ -161,7 +169,7 @@ class PostListItem extends React.Component {
                     </Grid>
                     <Grid item xs={3}>
                         <ListItem>
-                            <div className={classes.backdrop}>{this.post.itemOwned.category}</div>
+                            <div className={classes.backdrop}>{this.props.post.itemOwned.category}</div>
                         </ListItem>
                         <ListItem>{/*TODO: ADD DATE OR NOT?*/}</ListItem>
                     </Grid>

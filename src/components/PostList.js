@@ -11,15 +11,14 @@ class PostList extends React.Component {
     }
     static get propTypes() {
         return {
-            classes: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
         };
     }
     render() {
         return (
             <List>
-                {[1, 2, 3].map(post => (
-                    <PostListItem key={post} post={{}}></PostListItem>
+                {this.props.posts.map((post, idx) => (
+                    <PostListItem key={idx} post={post}></PostListItem>
                 ))}
             </List>
         );

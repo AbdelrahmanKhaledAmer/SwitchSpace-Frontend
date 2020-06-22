@@ -5,6 +5,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {BarChart, XAxis, Tooltip, YAxis, Bar, Cell, ResponsiveContainer} from "recharts";
 import PropTypes from "prop-types";
 import Page from "./Page";
+import PostList from "./PostList";
 const styles = theme => ({
     trendingContainer: {
         textAlign: "center",
@@ -25,28 +26,22 @@ const styles = theme => ({
 class Trending extends React.Component {
     constructor(props) {
         super(props);
-        this.data = [
-            {title: "smartphones", posts: 10},
-            {title: "tablets", posts: 9},
-            {title: "chairs", posts: 8},
-            {title: "tables", posts: 7},
-            {title: "cars", posts: 6},
-            {title: "bikes", posts: 5},
-            {title: "microwaves", posts: 4},
-            {title: "utensils", posts: 3},
-        ];
+
+        this.colors = ["#659dbd", "#457dbd"];
 
         this.handlePvBarClick = this.handlePvBarClick.bind(this);
     }
 
-    handlePvBarClick(data, index) {
-        console.log(`Pv Bar (${index}) Click: `, data); // TODO: GET POSTS BY SUBCATEGORY
+    handlePvBarClick(data) {
+        this.props.onCategoryClick(data.activeLabel);
     }
 
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
+            data: PropTypes.array.isRequired,
+            onCategoryClick: PropTypes.func.isRequired,
         };
     }
 
@@ -57,17 +52,18 @@ class Trending extends React.Component {
             <Page>
                 <div className={classes.trendingContainer}>
                     <ResponsiveContainer width="100%" height="100%" className={classes.chart}>
-                        <BarChart data={this.data} onClick={this.handlePvBarClick}>
+                        <BarChart data={this.props.data} onClick={this.handlePvBarClick}>
                             <XAxis dataKey="title" /> {/*change axis color axisLine={{ stroke: "purple" }}*/}
                             <YAxis />
                             <Tooltip />
-                            <Bar dataKey="posts">
-                                {this.data.map(entry => (
-                                    <Cell key={`cell-${entry.title}`} fill={"#659dbd"} />
+                            <Bar dataKey="trendingScore">
+                                {this.props.data.map((entry, idx) => (
+                                    <Cell key={`cell-${entry.title}`} fill={this.colors[idx % this.colors.length]} />
                                 ))}
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
+                    <PostList posts={this.props.posts}></PostList>
                 </div>
             </Page>
         );
