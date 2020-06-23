@@ -9,7 +9,7 @@ import PostList from "./PostList";
 const styles = theme => ({
     trendingContainer: {
         textAlign: "center",
-        width: "65%",
+        width: "60%",
         height: "50vh",
         margin: "0 auto",
         marginTop: theme.spacing(7),
@@ -54,7 +54,7 @@ class Trending extends React.Component {
                     <ResponsiveContainer width="100%" height="100%" className={classes.chart}>
                         <BarChart data={this.props.data} onClick={this.handlePvBarClick}>
                             <XAxis dataKey="title" /> {/*change axis color axisLine={{ stroke: "purple" }}*/}
-                            <YAxis />
+                            <YAxis width={35} />
                             <Tooltip />
                             <Bar dataKey="trendingScore">
                                 {this.props.data.map((entry, idx) => (

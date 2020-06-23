@@ -7,18 +7,21 @@ import ListItem from "@material-ui/core/ListItem";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
 import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import Geocode from "react-geocode";
 import {Divider} from "@material-ui/core";
 
-Geocode.setApiKey(process.env.GOOGLE_API_KEY || "AIzaSyAgZUCzN3sxZzQdpbb_mm9X-5-Zj_RdKbk");
+Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
-const styles = {
+const styles = theme => ({
+    postContainer: {
+        marginTop: theme.spacing(2),
+    },
     image: {
-        clipPath: "circle()",
-        width: "100%",
-        margin: "1em 0 0 0",
+        width: theme.spacing(18),
+        height: theme.spacing(18),
     },
     itemOwned: {
         fontWeight: "bold",
@@ -39,14 +42,32 @@ const styles = {
         fontSize: "0.75em",
     },
     backdrop: {
-        minWidth: "150px",
+        minWidth: "100%",
         background: "#bababa",
         padding: "0.5em",
         borderRadius: "75px",
         color: "#000000",
         textAlign: "center",
+        marginTop: theme.spacing(2),
     },
-};
+    categoryAndDate: {
+        position: "relative",
+        textAlign: "center",
+        alignItems: "center",
+    },
+    date: {
+        position: "absolute",
+        bottom: 0,
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginBottom: theme.spacing(3),
+        left: 0,
+        right: 0,
+        textAlign: "center",
+        fontSize: "0.85em",
+        color: "#3b3b3b",
+    },
+});
 
 class PostListItem extends React.Component {
     constructor(props) {
@@ -57,56 +78,6 @@ class PostListItem extends React.Component {
         };
 
         this.getLocation = this.getLocation.bind(this);
-
-        this.post = {
-            _id: "5ee28666de1873f021bcf563",
-            photos: [
-                {
-                    _id: "5eef818f1ca7ce3b37b3d348",
-                    url: "https://static.toiimg.com/photo/61654288.cms",
-                    key: "1",
-                },
-                {
-                    _id: "5eef818f1ca7ce3b37b3d349",
-                    url: "https://i.gadgets360cdn.com/large/iphone_11_pro_max_afp_new_1568185633865.jpg",
-                    key: "2",
-                },
-                {
-                    _id: "5eef818f1ca7ce3b37b3d369",
-                    url: "https://cdn.cultofmac.com/wp-content/uploads/2019/08/210BCC3A-98B1-41D4-A98D-E4BDD34B5DC3.jpg",
-                    key: "3",
-                },
-            ],
-            itemOwned: {
-                _id: "5eee8625d836d34976705da8",
-                title: "iphone 10+",
-                condition: "Used",
-                modelYear: 2010,
-                description:
-                    "Used in a good condition Used in a good condition Used in a good condition Used in a good condition Used in a good condition Used in a good condition Used in a good condition Used in a good condition",
-                category: "electronics",
-                subcategory: "smartphones",
-            },
-            itemDesired: {
-                _id: "5eee8625d836d34976705da9",
-                title: "Samsung s9",
-                condition: "New",
-                modelYear: 2019,
-                description: "Must be new",
-                category: "electronics",
-                subcategory: "smartphones",
-            },
-            exchangeLocation: {
-                coordinates: [11.581981, 48.135124],
-                _id: "5eee8625d836d34976705daa",
-                type: "Point",
-            },
-            creatorId: "5ee245bbdedc1468ff6e3221",
-            creatorName: "Mohamed",
-            createdAt: "2020-06-20T21:56:53.039Z",
-            updatedAt: "2020-06-20T21:56:53.039Z",
-            __v: 0,
-        };
 
         this.getLocation();
     }
@@ -119,7 +90,7 @@ class PostListItem extends React.Component {
     }
 
     async getLocation() {
-        const coord = this.post.exchangeLocation.coordinates;
+        const coord = this.props.post.exchangeLocation.coordinates;
         let loc = await Geocode.fromLatLng(coord[1], coord[0]);
         let components = loc.results[0].address_components;
         let filtered = components.filter(elem => elem.types[0] == "locality")[0];
@@ -132,9 +103,9 @@ class PostListItem extends React.Component {
         const {classes} = this.props;
         return (
             <div>
-                <Grid container spacing={1}>
+                <Grid container spacing={1} className={classes.postContainer}>
                     <Grid item xs={3}>
-                        <img src={this.props.post.photos[0].url} className={classes.image}></img>
+                        <Avatar src={this.props.post.photos[0].url} className={classes.image} />
                     </Grid>
                     <Grid item xs={6}>
                         <List>
@@ -157,7 +128,6 @@ class PostListItem extends React.Component {
                             </ListItem>
                             <ListItem>
                                 <Typography noWrap>{this.props.post.itemOwned.description}</Typography>
-                                {/*TODO: CUT DESCRIPTION SHORT OF LENGTH OF COMPONENT*/}
                             </ListItem>
                             <ListItem className={classes.locationListItem}>
                                 <div className={classes.icon}>
@@ -167,11 +137,9 @@ class PostListItem extends React.Component {
                             </ListItem>
                         </List>
                     </Grid>
-                    <Grid item xs={3}>
-                        <ListItem>
-                            <div className={classes.backdrop}>{this.props.post.itemOwned.category}</div>
-                        </ListItem>
-                        <ListItem>{/*TODO: ADD DATE OR NOT?*/}</ListItem>
+                    <Grid item xs={3} className={classes.categoryAndDate}>
+                        <div className={classes.backdrop}>{this.props.post.itemOwned.category}</div>
+                        <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
                     </Grid>
                 </Grid>
                 <Divider />
