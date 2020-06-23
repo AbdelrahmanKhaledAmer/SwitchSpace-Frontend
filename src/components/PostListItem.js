@@ -67,6 +67,9 @@ const styles = theme => ({
         fontSize: "0.85em",
         color: "#3b3b3b",
     },
+    itemPadding: {
+        padding: theme.spacing(0, 3),
+    },
 });
 
 class PostListItem extends React.Component {
@@ -102,7 +105,7 @@ class PostListItem extends React.Component {
     render() {
         const {classes} = this.props;
         return (
-            <div>
+            <div className={classes.itemPadding}>
                 <Grid container spacing={1} className={classes.postContainer}>
                     <Grid item xs={3}>
                         <Avatar src={this.props.post.photos[0].url} className={classes.image} />
