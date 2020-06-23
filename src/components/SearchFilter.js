@@ -14,7 +14,6 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 
 import {withStyles} from "@material-ui/core/styles";
-import {withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
 import GoogleMap from "../components/GoogleMap";
 
@@ -157,4 +156,4 @@ class SearchFilter extends React.Component {
         );
     }
 }
-export default withRouter(withStyles(styles)(SearchFilter));
+export default withStyles(styles)(SearchFilter);
