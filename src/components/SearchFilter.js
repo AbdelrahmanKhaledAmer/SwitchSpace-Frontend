@@ -19,7 +19,6 @@ import GoogleMap from "../components/GoogleMap";
 
 const styles = theme => ({
     inputCard: {
-        marginTop: theme.spacing(2.5),
         width: "100%",
     },
     map: {
@@ -32,21 +31,23 @@ const styles = theme => ({
         height: "50vh",
         position: "relative",
     },
-    paper: {
-        padding: theme.spacing(2),
-        textAlign: "center",
-        color: theme.palette.text.secondary,
-    },
     textBox: {
         "& > *": {
             margin: theme.spacing(1),
             width: "25ch",
         },
     },
-    cont: {
-        marginTop: theme.spacing(7),
+    root: {
+        // main grid
+        flexGrow: 1,
+        marginTop: theme.spacing(4.5), // for navbar
+        padding: theme.spacing(3), // outside margin
+    },
+    child: {
+        flexGrow: 1,
     },
     button: {
+        // search button
         alignItems: "center",
     },
     formAlignment: {
@@ -91,20 +92,24 @@ class SearchFilter extends React.Component {
 
         return (
             <Page>
-                <div className={classes.root}>
-                    <Grid container className={classes.cont}>
-                        <Grid item sm={6}>
-                            <Container maxWidth="lg">
+                <Grid container spacing={3} className={classes.root}>
+                    <Grid item sm={6}>
+                        <Grid container maxWidth="lg" spacing={3} className={classes.child}>
+                            {/* map */}
+                            <Grid item sm={12}>
                                 <Card elevation={3} className={classes.mapCard}>
                                     <GoogleMap className={classes.map}></GoogleMap>
                                 </Card>
-
+                            </Grid>
+                            {/* form */}
+                            <Grid item sm={12}>
                                 <Card elevation={3} className={classes.inputCard}>
                                     <div className={classes.formAlignment}>
                                         <form className={classes.textBox} noValidate autoComplete="off">
                                             <TextField id="filled-basic" label="Location" />
                                             <TextField id="filled-basic" label="Radius" />
                                             <TextField id="filled-basic" label="Item Desired" />
+                                            <br />
                                             <TextField id="filled-basic" label="Item Owned" />
                                             <FormControl className={classes.formControl}>
                                                 <InputLabel id="demo-controlled-open-select-label">Condition</InputLabel>
@@ -135,23 +140,25 @@ class SearchFilter extends React.Component {
                                                     <MenuItem value={"vehicles"}>Vehicles</MenuItem>
                                                 </Select>
                                             </FormControl>
+                                            <br />
                                             <Button variant="contained" color="primary">
-                                                Submit
+                                                Search
                                             </Button>
                                         </form>
                                     </div>
                                 </Card>
-                            </Container>
-                        </Grid>
-                        <Grid item sm={6}>
-                            <Container maxWidth="lg">
-                                <Card elevation={3}>
-                                    <PostList></PostList>
-                                </Card>
-                            </Container>
+                            </Grid>
                         </Grid>
                     </Grid>
-                </div>
+                    {/* post list grid */}
+                    <Grid item sm={6}>
+                        <Grid Container maxWidth="lg" spacing={3} className={classes.child}>
+                            <Card elevation={3}>
+                                <PostList></PostList>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                </Grid>
             </Page>
         );
     }
