@@ -55,20 +55,20 @@ class UserInfo extends React.Component {
             <div className={classes.mainContainer}>
                 <Avatar src={userInfo.profilePicture.url} className={classes.avatar} />
                 <div className={classes.ratingsContainer}>
-                    <text className={classes.username}>
+                    <p className={classes.username}>
                         <b>{userInfo.name}</b>
-                    </text>
+                    </p>
                     <div className={classes.ratingItemContainer}>
                         <Rating value={userInfo.commRate} precision={0.5} size="large" readOnly />
-                        <text className={classes.ratingText}> Communication </text>
+                        <p className={classes.ratingText}> Communication </p>
                     </div>
                     <div className={classes.ratingItemContainer}>
                         <Rating value={userInfo.descriptionRate} precision={0.5} size="large" readOnly />
-                        <text className={classes.ratingText}> Item as described </text>
+                        <p className={classes.ratingText}> Item as described </p>
                     </div>
                     <div className={classes.ratingItemContainer}>
                         <Rating value={userInfo.conditionRate} precision={0.5} size="large" readOnly />
-                        <text className={classes.ratingText}> Item condition </text>
+                        <p className={classes.ratingText}> Item condition </p>
                     </div>
                 </div>
             </div>
