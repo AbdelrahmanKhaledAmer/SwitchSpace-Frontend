@@ -2,52 +2,56 @@
 
 import React from "react";
 import {withStyles} from "@material-ui/core/styles";
-import {withRouter} from "react-router-dom";
 import {BarChart, XAxis, Tooltip, YAxis, Bar, Cell, ResponsiveContainer} from "recharts";
 import PropTypes from "prop-types";
+import Card from "@material-ui/core/Card";
 import Page from "./Page";
+import PostList from "./PostList";
+
 const styles = theme => ({
-    trendingContainer: {
+    graphContainer: {
         textAlign: "center",
-        width: "65%",
-        height: "50vh",
+        width: "90%",
+        height: "90%",
         margin: "0 auto",
-        marginTop: theme.spacing(7),
-    },
-    chart: {
-        width: "100px",
-        height: "100px",
+        marginTop: theme.spacing(3),
     },
     line: {
         backgroudColor: "purple",
+    },
+    graphCard: {
+        textAlign: "center",
+        width: "70%",
+        height: "60vh",
+        margin: "0 auto",
+        marginTop: theme.spacing(7),
+    },
+    postsContainer: {
+        width: "70%",
+        margin: "0 auto",
+        marginTop: theme.spacing(3),
     },
 });
 
 class Trending extends React.Component {
     constructor(props) {
         super(props);
-        this.data = [
-            {title: "smartphones", posts: 10},
-            {title: "tablets", posts: 9},
-            {title: "chairs", posts: 8},
-            {title: "tables", posts: 7},
-            {title: "cars", posts: 6},
-            {title: "bikes", posts: 5},
-            {title: "microwaves", posts: 4},
-            {title: "utensils", posts: 3},
-        ];
+
+        this.colors = ["#659dbd", "#457dbd"];
 
         this.handlePvBarClick = this.handlePvBarClick.bind(this);
     }
 
-    handlePvBarClick(data, index) {
-        console.log(`Pv Bar (${index}) Click: `, data); // TODO: GET POSTS BY SUBCATEGORY
+    handlePvBarClick(data) {
+        this.props.onCategoryClick(data.activeLabel);
     }
 
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
+            data: PropTypes.array.isRequired,
+            onCategoryClick: PropTypes.func.isRequired,
         };
     }
 
@@ -56,22 +60,27 @@ class Trending extends React.Component {
 
         return (
             <Page>
-                <div className={classes.trendingContainer}>
-                    <ResponsiveContainer width="100%" height="100%" className={classes.chart}>
-                        <BarChart data={this.data} onClick={this.handlePvBarClick}>
-                            <XAxis dataKey="title" /> {/*change axis color axisLine={{ stroke: "purple" }}*/}
-                            <YAxis />
-                            <Tooltip />
-                            <Bar dataKey="posts">
-                                {this.data.map(entry => (
-                                    <Cell key={`cell-${entry.title}`} fill={"#659dbd"} />
-                                ))}
-                            </Bar>
-                        </BarChart>
-                    </ResponsiveContainer>
+                <Card elevation={5} className={classes.graphCard}>
+                    <div className={classes.graphContainer}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={this.props.data} onClick={this.handlePvBarClick}>
+                                <XAxis dataKey="title" /> {/*change axis color axisLine={{ stroke: "purple" }}*/}
+                                <YAxis width={35} />
+                                <Tooltip />
+                                <Bar dataKey="trendingScore">
+                                    {this.props.data.map((entry, idx) => (
+                                        <Cell key={`cell-${entry.title}`} fill={this.colors[idx % this.colors.length]} />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </Card>
+                <div className={classes.postsContainer}>
+                    <PostList posts={this.props.posts}></PostList>
                 </div>
             </Page>
         );
     }
 }
-export default withRouter(withStyles(styles)(Trending));
+export default withStyles(styles)(Trending);

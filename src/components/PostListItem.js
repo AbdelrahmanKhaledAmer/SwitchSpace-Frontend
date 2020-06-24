@@ -6,19 +6,22 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
+import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
 import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
 import Geocode from "react-geocode";
 import {Divider} from "@material-ui/core";
 
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
-const styles = {
+const styles = theme => ({
+    postContainer: {
+        marginTop: theme.spacing(2),
+    },
     image: {
-        clipPath: "circle()",
-        width: "100%",
-        margin: "1em 0 0 0",
+        width: theme.spacing(18),
+        height: theme.spacing(18),
     },
     itemOwned: {
         fontWeight: "bold",
@@ -39,14 +42,35 @@ const styles = {
         fontSize: "0.75em",
     },
     backdrop: {
-        minWidth: "150px",
+        minWidth: "100%",
         background: "#bababa",
         padding: "0.5em",
         borderRadius: "75px",
         color: "#000000",
         textAlign: "center",
+        marginTop: theme.spacing(2),
     },
-};
+    categoryAndDate: {
+        position: "relative",
+        textAlign: "center",
+        alignItems: "center",
+    },
+    date: {
+        position: "absolute",
+        bottom: 0,
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginBottom: theme.spacing(3),
+        left: 0,
+        right: 0,
+        textAlign: "center",
+        fontSize: "0.85em",
+        color: "#3b3b3b",
+    },
+    itemPadding: {
+        padding: theme.spacing(0, 3),
+    },
+});
 
 class PostListItem extends React.Component {
     constructor(props) {
@@ -57,47 +81,6 @@ class PostListItem extends React.Component {
         };
 
         this.getLocation = this.getLocation.bind(this);
-
-        this.post = {
-            _id: "5ee2869e3d8df45c02a0f382",
-            creatorId: "5ee245bbdedc1468ff6e3221",
-            itemOwned: {
-                title: "BMW X3",
-                condition: "Used",
-                modelYear: 2010,
-                description: "Used in a good condition",
-                category: "vehicles",
-                subcategory: "cars",
-            },
-            itemDesired: {
-                title: "Audi A5",
-                condition: "New",
-                modelYear: 2019,
-                description: "Must be new",
-                category: "vehicles",
-                subcategory: "cars",
-            },
-            exchangeLocation: {
-                type: "Point",
-                coordinates: [48.249653, 11.626915],
-            },
-            photos: ["photo1", "photo2"],
-        };
-
-        this.user = {
-            _id: "5ee245bbdedc1468ff6e3221",
-            commRate: 0,
-            conditionRate: 0,
-            descriptionRate: 0,
-            tier: "PerPost",
-            violationsCount: 0,
-            password: "$2y$10$9LUVPLcVuq34H9F8MQs.V.JrfXpJlIN4QU9uRREgWxlEgM7G1uVsO",
-            name: "mohamed",
-            email: "mohamed@gmail.com",
-            reviews: [],
-            deleted: false,
-            deletedAt: null,
-        };
 
         this.getLocation();
     }
@@ -110,8 +93,8 @@ class PostListItem extends React.Component {
     }
 
     async getLocation() {
-        const coord = this.post.exchangeLocation.coordinates;
-        let loc = await Geocode.fromLatLng(coord[0], coord[1]);
+        const coord = this.props.post.exchangeLocation.coordinates;
+        let loc = await Geocode.fromLatLng(coord[1], coord[0]);
         let components = loc.results[0].address_components;
         let filtered = components.filter(elem => elem.types[0] == "locality")[0];
         if (filtered) {
@@ -122,35 +105,32 @@ class PostListItem extends React.Component {
     render() {
         const {classes} = this.props;
         return (
-            <div>
-                <Grid container spacing={1}>
+            <div className={classes.itemPadding}>
+                <Grid container spacing={1} className={classes.postContainer}>
                     <Grid item xs={3}>
-                        <img
-                            src="https://static.toiimg.com/photo/61654288.cms" // TODO: GET IMAGE FROM POST
-                            className={classes.image}></img>
+                        <Avatar src={this.props.post.photos[0].url} className={classes.image} />
                     </Grid>
                     <Grid item xs={6}>
                         <List>
                             <ListItem>
                                 <Grid container>
                                     <Grid item xs={6}>
-                                        <div className={classes.itemOwned}>{this.post.itemOwned.title}</div>
+                                        <div className={classes.itemOwned}>{this.props.post.itemOwned.title}</div>
                                     </Grid>
                                     <Grid item container xs={6}>
                                         <div className={classes.icon}>
                                             <PersonOutlineIcon />
                                         </div>
-                                        <div>{this.user.name}</div>
+                                        <div>{this.props.post.creatorName}</div>
                                     </Grid>
                                 </Grid>
                             </ListItem>
                             <ListItem>
                                 <div className={classes.boldText}>Exchanged with: </div>
-                                <div className={classes.miniMarginLeft}>{this.post.itemDesired.title}</div>
+                                <div className={classes.miniMarginLeft}>{this.props.post.itemDesired.title}</div>
                             </ListItem>
                             <ListItem>
-                                <div>{this.post.itemOwned.description}</div>
-                                {/*TODO: CUT DESCRIPTION SHORT OF LENGTH OF COMPONENT*/}
+                                <Typography noWrap>{this.props.post.itemOwned.description}</Typography>
                             </ListItem>
                             <ListItem className={classes.locationListItem}>
                                 <div className={classes.icon}>
@@ -160,11 +140,9 @@ class PostListItem extends React.Component {
                             </ListItem>
                         </List>
                     </Grid>
-                    <Grid item xs={3}>
-                        <ListItem>
-                            <div className={classes.backdrop}>{this.post.itemOwned.category}</div>
-                        </ListItem>
-                        <ListItem>{/*TODO: ADD DATE OR NOT?*/}</ListItem>
+                    <Grid item xs={3} className={classes.categoryAndDate}>
+                        <div className={classes.backdrop}>{this.props.post.itemOwned.category}</div>
+                        <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
                     </Grid>
                 </Grid>
                 <Divider />
@@ -173,4 +151,4 @@ class PostListItem extends React.Component {
     }
 }
 
-export default withRouter(withStyles(styles)(PostListItem));
+export default withStyles(styles)(PostListItem);

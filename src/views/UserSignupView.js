@@ -6,11 +6,11 @@ import UserSignup from "../components/UserSignup";
 
 import UserAuthService from "../services/UserAuthService";
 import PropTypes from "prop-types";
-import {ToastContainer, toast} from "react-toastify";
+import {toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-export class UserSignupView extends React.Component {
+export default class UserSignupView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,6 +20,7 @@ export class UserSignupView extends React.Component {
         this.renderLoading = this.renderLoading.bind(this);
         this.renderComponent = this.renderComponent.bind(this);
     }
+
     // need to defince prop type for every function
     static get propTypes() {
         return {
@@ -42,6 +43,7 @@ export class UserSignupView extends React.Component {
             progress: undefined,
         });
     }
+
     async signup(user) {
         this.setState({loading: true});
         try {
@@ -58,6 +60,7 @@ export class UserSignupView extends React.Component {
             this.setState({loading: false});
         }
     }
+
     renderLoading() {
         return (
             <div>
@@ -66,27 +69,12 @@ export class UserSignupView extends React.Component {
             </div>
         );
     }
+
     renderComponent() {
         return <UserSignup onSubmit={user => this.signup(user)}></UserSignup>;
     }
 
     render() {
-        return (
-            <div>
-                {this.state.loading ? this.renderLoading() : this.renderComponent()}
-                {/* notification */}
-                <ToastContainer
-                    position="bottom-right"
-                    autoClose={5000}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                />
-            </div>
-            // <UserSignup></UserSignup>
-        );
+        return <div>{this.state.loading ? this.renderLoading() : this.renderComponent()}</div>;
     }
 }
