@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import Subscriptions from "../components/Subscriptions";
+import Subscriptions from "../components/Payment/Subscriptions";
 
 import UserService from "../services/UserService";
 import PropTypes from "prop-types";
