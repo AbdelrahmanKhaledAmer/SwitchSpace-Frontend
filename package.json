@@ -45,6 +45,7 @@
         "file-loader": "^6.0.0",
         "prettier": "^2.0.5",
         "react": "16.8.4",
+        "react-awesome-slider": "^4.1.0",
         "react-dom": "16.8.4",
         "react-geocode": "^0.2.1",
         "react-md": "1.2.11",
