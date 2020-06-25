@@ -93,7 +93,7 @@ class SearchFilter extends React.Component {
             <Page>
                 <Grid container spacing={3} className={classes.root}>
                     <Grid item sm={5}>
-                        <Grid container maxWidth="lg" spacing={3} className={classes.child}>
+                        <Grid container spacing={3} className={classes.child}>
                             {/* map */}
                             <Grid item sm={12}>
                                 <Card elevation={3} className={classes.mapCard}>
@@ -151,9 +151,9 @@ class SearchFilter extends React.Component {
                     </Grid>
                     {/* post list grid */}
                     <Grid item sm={7}>
-                        <Grid Container maxWidth="lg" spacing={3} className={classes.child}>
+                        <Grid container spacing={3} className={classes.child}>
                             <Card elevation={3}>
-                                <PostList></PostList>
+                                <PostList posts={[]}></PostList>
                             </Card>
                         </Grid>
                     </Grid>
