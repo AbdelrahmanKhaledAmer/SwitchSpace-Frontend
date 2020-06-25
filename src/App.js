@@ -11,7 +11,7 @@ import {
 import UserLoginView from "./views/UserLoginView";
 import UserSignupView from "./views/UserSignupView";
 import TrendingView from "./views/TrendingView";
-import {SearchFilterView} from "./views/SearchFilterView";
+import SearchFilterView from "./views/SearchFilterView";
 
 import UserProfileView from "./views/UserProfileView";
 export default class App extends React.Component {
