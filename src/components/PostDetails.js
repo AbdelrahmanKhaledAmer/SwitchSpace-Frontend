@@ -138,7 +138,7 @@ class PostDetails extends React.Component {
                                     />
                                 </div>
                                 <div>
-                                    <img className={classes.slidingImage} src={images[2]} />
+                                    <img className={classes.slidingImage} src={images[1]} />
                                 </div>
                             </AwesomeSlider>
 
