@@ -44,6 +44,7 @@
         "email-validator": "^2.0.4",
         "eslint": "^7.2.0",
         "file-loader": "^6.0.0",
+        "google-maps-react": "^2.0.6",
         "prettier": "^2.0.5",
         "react": "16.8.4",
         "react-dom": "16.8.4",
