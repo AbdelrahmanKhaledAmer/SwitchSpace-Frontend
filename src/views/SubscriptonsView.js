@@ -17,7 +17,7 @@ const styles = theme => ({
         color: "#fff",
     },
 });
-class PaymentView extends React.Component {
+class SubscriptionsView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -53,6 +53,7 @@ class PaymentView extends React.Component {
         try {
             await UserService.changeSubscriptionTier(request);
             // this.props.history.push("/");
+            this.notify("Subscription changed successfully");
         } catch (err) {
             console.error(err);
             this.notify(err);
@@ -82,4 +83,4 @@ class PaymentView extends React.Component {
     }
 }
 
-export default withStyles(styles)(PaymentView);
+export default withStyles(styles)(SubscriptionsView);

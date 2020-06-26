@@ -12,7 +12,7 @@ import UserLoginView from "./views/UserLoginView";
 import UserSignupView from "./views/UserSignupView";
 import TrendingView from "./views/TrendingView";
 import {SearchFilterView} from "./views/SearchFilterView";
-import PaymentView from "./views/PaymentView";
+import SubscriptionsView from "./views/SubscriptonsView";
 
 import UserProfileView from "./views/UserProfileView";
 export default class App extends React.Component {
@@ -27,7 +27,7 @@ export default class App extends React.Component {
                 {component: SearchFilterView, path: "/search"},
                 {component: TrendingView, path: "/trending"},
                 {component: UserProfileView, path: "/profile/:id"},
-                {component: PaymentView, path: "/charge"},
+                {component: SubscriptionsView, path: "/charge"},
             ],
         };
     }
