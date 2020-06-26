@@ -44,11 +44,8 @@ class Payment extends React.Component {
         this.submitHandler = this.submitHandler.bind(this);
     }
 
-    async submitHandler(tokenID) {
-        const request = {
-            stripeToken: tokenID,
-            tier: this.props.tier.name,
-        };
+    async submitHandler(request) {
+        request["tier"] = this.props.tier.name;
         console.log(request);
         // submit from the view
         this.props.onSubmit(request);
