@@ -26,9 +26,10 @@ export default class HttpService {
     // Get request
     static async get(url, onSuccess, onError) {
         let token = window.localStorage["jwtToken"];
-        let header = new Headers();
+        let header = {};
         if (token) {
-            header.append("Authorization", `JWT ${token}`);
+            header.Authorization = `Bearer ${token}`;
+            header["Content-Type"] = "application/json";
         }
         // append full URL
         url = this.apiURL() + url;
@@ -38,9 +39,9 @@ export default class HttpService {
                 headers: header,
             });
 
-            // save token in local storage if exists
-            if (Object.prototype.hasOwnProperty.call(resp, "token")) {
-                window.localStorage["jwtToken"] = resp.token;
+            // set token if present
+            if (resp.data && resp.data.token) {
+                window.localStorage["jwtToken"] = resp.data.token;
             }
             onSuccess(resp);
         } catch (err) {
@@ -55,11 +56,11 @@ export default class HttpService {
     // Put request
     static async put(url, data, onSuccess, onError) {
         let token = window.localStorage["jwtToken"];
-        let header = new Headers();
+        let header = {};
         if (token) {
-            header.append("Authorization", `JWT ${token}`);
+            header.Authorization = `Bearer ${token}`;
+            header["Content-Type"] = "application/json";
         }
-        header.append("Content-Type", "application/json");
         // append full URL
         url = this.apiURL() + url;
 
@@ -70,8 +71,8 @@ export default class HttpService {
                 data: data,
             });
             // set token if present
-            if (Object.prototype.hasOwnProperty.call(resp, "token")) {
-                window.localStorage["jwtToken"] = resp.token;
+            if (resp.data && resp.data.token) {
+                window.localStorage["jwtToken"] = resp.data.token;
             }
             onSuccess(resp);
         } catch (err) {
@@ -86,11 +87,11 @@ export default class HttpService {
     // Post request
     static async post(url, data, onSuccess, onError) {
         let token = window.localStorage["jwtToken"];
-        let header = new Headers();
+        let header = {};
         if (token) {
-            header.append("Authorization", `JWT ${token}`);
+            header.Authorization = `Bearer ${token}`;
+            header["Content-Type"] = "application/json";
         }
-        header.append("Content-Type", "application/json");
         // append full URL
         url = this.apiURL() + url;
         try {
@@ -101,8 +102,8 @@ export default class HttpService {
             });
 
             // set token if present
-            if (Object.prototype.hasOwnProperty.call(resp, "token")) {
-                window.localStorage["jwtToken"] = resp.token;
+            if (resp.data && resp.data.token) {
+                window.localStorage["jwtToken"] = resp.data.token;
             }
             onSuccess(resp);
         } catch (err) {
@@ -117,9 +118,10 @@ export default class HttpService {
     // Delete request
     static async remove(url, onSuccess, onError) {
         let token = window.localStorage["jwtToken"];
-        let header = new Headers();
+        let header = {};
         if (token) {
-            header.append("Authorization", `JWT ${token}`);
+            header.Authorization = `Bearer ${token}`;
+            header["Content-Type"] = "application/json";
         }
         // append full URL
         url = this.apiURL() + url;
