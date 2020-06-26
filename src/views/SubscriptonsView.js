@@ -33,11 +33,9 @@ class SubscriptionsView extends React.Component {
             classes: PropTypes.object.isRequired,
         };
     }
-    notify(message) {
+    notify(message, type) {
         let customId;
-
-        customId = "toast-error";
-        toast.error(message, {
+        const options = {
             position: "bottom-right",
             toastId: customId,
             autoClose: 5000,
@@ -46,17 +44,25 @@ class SubscriptionsView extends React.Component {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-        });
+        };
+        if (type == "success") {
+            customId = "toast-success";
+            toast.success(message, options);
+        } else {
+            customId = "toast-error";
+            toast.error(message, options);
+        }
     }
     async alterSubscription(request) {
         this.setState({loading: true});
         try {
             await UserService.changeSubscriptionTier(request);
             // this.props.history.push("/");
-            this.notify("Subscription changed successfully");
+            this.notify("Subscription changed successfully", "success");
+            this.props.history.push("/");
         } catch (err) {
             console.error(err);
-            this.notify(err);
+            this.notify(err, "error");
             this.setState({
                 error: err,
             });
