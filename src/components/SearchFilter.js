@@ -15,6 +15,7 @@ import Card from "@material-ui/core/Card";
 import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import GoogleMap from "../components/GoogleMap";
+import Zoom from "@material-ui/core/Zoom";
 
 const styles = theme => ({
     inputCard: {
@@ -93,68 +94,74 @@ class SearchFilter extends React.Component {
             <Page>
                 <Grid container spacing={3} className={classes.root}>
                     <Grid item sm={5}>
-                        <Grid container maxWidth="lg" spacing={3} className={classes.child}>
+                        <Grid container spacing={3} className={classes.child}>
                             {/* map */}
                             <Grid item sm={12}>
-                                <Card elevation={3} className={classes.mapCard}>
-                                    <GoogleMap className={classes.map}></GoogleMap>
-                                </Card>
+                                <Zoom in={true} transitionduration={500}>
+                                    <Card elevation={3} className={classes.mapCard}>
+                                        <GoogleMap className={classes.map}></GoogleMap>
+                                    </Card>
+                                </Zoom>
                             </Grid>
                             {/* form */}
                             <Grid item sm={12}>
-                                <Card elevation={3} className={classes.inputCard}>
-                                    <div className={classes.formAlignment}>
-                                        <form className={classes.textBox} noValidate autoComplete="off">
-                                            <TextField id="filled-basic" label="Location" />
-                                            <TextField id="filled-basic" label="Radius" />
-                                            <TextField id="filled-basic" label="Item Desired" />
-                                            <br />
-                                            <TextField id="filled-basic" label="Item Owned" />
-                                            <FormControl className={classes.formControl}>
-                                                <InputLabel id="demo-controlled-open-select-label">Condition</InputLabel>
-                                                <Select
-                                                    labelId="demo-controlled-open-select-label"
-                                                    id="demo-controlled-open-select"
-                                                    open={this.open}
-                                                    onClose={this.handleClose}
-                                                    onOpen={this.handleOpen}
-                                                    value={this.condition}
-                                                    onChange={this.handleChange}>
-                                                    <MenuItem value={"new"}>New</MenuItem>
-                                                    <MenuItem value={"used"}>Used</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                            <FormControl className={classes.formControl}>
-                                                <InputLabel id="demo-controlled-open-select-label">Category</InputLabel>
-                                                <Select
-                                                    labelId="demo-controlled-open-select-label"
-                                                    id="demo-controlled-open-select"
-                                                    open={this.open}
-                                                    onClose={this.handleClose}
-                                                    onOpen={this.handleOpen}
-                                                    value={this.cat}
-                                                    onChange={this.handleChange}>
-                                                    <MenuItem value={"electronics"}>Electronics</MenuItem>
-                                                    <MenuItem value={"furniture"}>Furniture</MenuItem>
-                                                    <MenuItem value={"vehicles"}>Vehicles</MenuItem>
-                                                </Select>
-                                            </FormControl>
-                                            <br />
-                                            <Button variant="contained" color="primary">
-                                                Search
-                                            </Button>
-                                        </form>
-                                    </div>
-                                </Card>
+                                <Zoom in={true} transitionduration={500}>
+                                    <Card elevation={3} className={classes.inputCard}>
+                                        <div className={classes.formAlignment}>
+                                            <form className={classes.textBox} noValidate autoComplete="off">
+                                                <TextField id="filled-basic" label="Location" />
+                                                <TextField id="filled-basic" label="Radius" />
+                                                <TextField id="filled-basic" label="Item Desired" />
+                                                <br />
+                                                <TextField id="filled-basic" label="Item Owned" />
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="demo-controlled-open-select-label">Condition</InputLabel>
+                                                    <Select
+                                                        labelId="demo-controlled-open-select-label"
+                                                        id="demo-controlled-open-select"
+                                                        open={this.open}
+                                                        onClose={this.handleClose}
+                                                        onOpen={this.handleOpen}
+                                                        value={this.condition}
+                                                        onChange={this.handleChange}>
+                                                        <MenuItem value={"new"}>New</MenuItem>
+                                                        <MenuItem value={"used"}>Used</MenuItem>
+                                                    </Select>
+                                                </FormControl>
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="demo-controlled-open-select-label">Category</InputLabel>
+                                                    <Select
+                                                        labelId="demo-controlled-open-select-label"
+                                                        id="demo-controlled-open-select"
+                                                        open={this.open}
+                                                        onClose={this.handleClose}
+                                                        onOpen={this.handleOpen}
+                                                        value={this.cat}
+                                                        onChange={this.handleChange}>
+                                                        <MenuItem value={"electronics"}>Electronics</MenuItem>
+                                                        <MenuItem value={"furniture"}>Furniture</MenuItem>
+                                                        <MenuItem value={"vehicles"}>Vehicles</MenuItem>
+                                                    </Select>
+                                                </FormControl>
+                                                <br />
+                                                <Button variant="contained" color="primary">
+                                                    Search
+                                                </Button>
+                                            </form>
+                                        </div>
+                                    </Card>
+                                </Zoom>
                             </Grid>
                         </Grid>
                     </Grid>
                     {/* post list grid */}
                     <Grid item sm={7}>
-                        <Grid Container maxWidth="lg" spacing={3} className={classes.child}>
-                            <Card elevation={3}>
-                                <PostList></PostList>
-                            </Card>
+                        <Grid container spacing={3} className={classes.child}>
+                            <Zoom in={true} transitionduration={500}>
+                                <Card elevation={3}>
+                                    <PostList posts={[]}></PostList>
+                                </Card>
+                            </Zoom>
                         </Grid>
                     </Grid>
                 </Grid>

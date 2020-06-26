@@ -4,10 +4,11 @@ import React from "react";
 import SearchFilter from "../components/SearchFilter";
 import PropTypes from "prop-types";
 
-export class SearchFilterView extends React.Component {
+export default class SearchFilterView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.search = this.search.bind(this);
     }
     // need to defince prop type for every function
     static get propTypes() {
@@ -15,8 +16,11 @@ export class SearchFilterView extends React.Component {
             history: PropTypes.object,
         };
     }
+    search() {
+        console.log("search query submitted");
+    }
 
     render() {
-        return <SearchFilter></SearchFilter>;
+        return <SearchFilter onSubmit={this.search}></SearchFilter>;
     }
 }
