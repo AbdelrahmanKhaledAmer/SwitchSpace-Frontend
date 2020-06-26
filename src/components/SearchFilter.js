@@ -105,8 +105,8 @@ class SearchFilter extends React.Component {
                             </Grid>
                             {/* form */}
                             <Grid item sm={12}>
-                                <Card elevation={3} className={classes.inputCard}>
-                                    <Zoom in={true} transitionduration={500}>
+                                <Zoom in={true} transitionduration={500}>
+                                    <Card elevation={3} className={classes.inputCard}>
                                         <div className={classes.formAlignment}>
                                             <form className={classes.textBox} noValidate autoComplete="off">
                                                 <TextField id="filled-basic" label="Location" />
@@ -149,8 +149,8 @@ class SearchFilter extends React.Component {
                                                 </Button>
                                             </form>
                                         </div>
-                                    </Zoom>
-                                </Card>
+                                    </Card>
+                                </Zoom>
                             </Grid>
                         </Grid>
                     </Grid>
