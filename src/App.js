@@ -13,6 +13,7 @@ import UserSignupView from "./views/UserSignupView";
 import TrendingView from "./views/TrendingView";
 import SubscriptionsView from "./views/SubscriptonsView";
 import SearchFilterView from "./views/SearchFilterView";
+import PostCreateView from "./views/PostCreateView";
 
 import UserProfileView from "./views/UserProfileView";
 export default class App extends React.Component {
@@ -28,6 +29,7 @@ export default class App extends React.Component {
                 {component: TrendingView, path: "/trending"},
                 {component: UserProfileView, path: "/profile/:id"},
                 {component: SubscriptionsView, path: "/charge"},
+                {component: PostCreateView, path: "/create"},
             ],
         };
     }

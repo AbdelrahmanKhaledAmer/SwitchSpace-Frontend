@@ -16,8 +16,7 @@ export default class HttpService {
     // check if user unauthorized
     static checkIfUnauthorized(err) {
         // do nothing if no response
-        if (!err.response) return true;
-        if (err.response.status === 401) {
+        if (err.response && err.response.status === 401) {
             return true;
         }
         return false;
