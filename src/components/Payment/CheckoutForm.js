@@ -6,6 +6,7 @@ import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import CardSection from "./CardSection";
 import Grid from "@material-ui/core/Grid";
+import {Zoom} from "@material-ui/core";
 
 const cardOptions = {
     style: {
@@ -134,7 +135,6 @@ class CheckoutForm extends React.Component {
                             name="First Name"
                             autoComplete="name"
                             onChange={this.onFirstNameChange}
-                            autoFocus
                             error={this.state.fnameError}
                             helperText={this.state.fnameError ? "Name must be at least 2 characters long" : ""}
                         />
@@ -149,13 +149,14 @@ class CheckoutForm extends React.Component {
                             name="name"
                             autoComplete="name"
                             onChange={this.onLastNameChange}
-                            autoFocus
                             error={this.state.lnameError}
                             helperText={this.state.lnameError ? "Name must be at least 2 characters long" : ""}
                         />
                     </Grid>
-                    <CardSection options={cardOptions} />
                     <Grid item xs={12}>
+                        <Zoom in={true}>
+                            <CardSection options={cardOptions} />
+                        </Zoom>
                         <Button fullWidth variant="contained" disabled={!this.props.stripe} className={classes.submit} onClick={this.submitHandler}>
                             {"Pay"} {this.props.price}
                         </Button>

@@ -8,11 +8,6 @@ import Grid from "@material-ui/core/Grid";
 // import "./CardSectionStyles.css";
 
 const CARD_ELEMENT_OPTIONS = {
-    classes: {
-        focus: "focused",
-        empty: "empty",
-        invalid: "invalid",
-    },
     style: {
         base: {
             color: "black",
@@ -41,12 +36,14 @@ const CARD_ELEMENT_OPTIONS = {
 export default function CardSection() {
     return (
         // <div>
+
+        // <CardElement id="contained-button-file" options={CARD_ELEMENT_OPTIONS} />
+
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <CardNumberElement options={CARD_ELEMENT_OPTIONS}></CardNumberElement>
             </Grid>
             <Grid item xs={12} sm={6}>
-                {/* <CardElement id="contained-button-file" options={CARD_ELEMENT_OPTIONS} /> */}
                 <CardExpiryElement options={CARD_ELEMENT_OPTIONS}></CardExpiryElement>
             </Grid>
             <Grid item xs={12} sm={6}>

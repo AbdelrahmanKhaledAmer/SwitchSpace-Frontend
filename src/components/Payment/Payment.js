@@ -1,21 +1,22 @@
 "use strict";
 
 import React from "react";
-import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Card from "@material-ui/core/Card";
-import Page from "../Page";
+
 import PropTypes from "prop-types";
 // import Grid from "@material-ui/core/Grid";
 import CheckoutForm from "./CheckoutForm";
 // import CardSection from "./CardSection";
 import {loadStripe} from "@stripe/stripe-js";
 import {Elements, ElementsConsumer} from "@stripe/react-stripe-js";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import Zoom from "@material-ui/core/Zoom";
 
-const stripePromise = loadStripe("pk_test_51Gss3pBpTM0LcyRYZosR9f9sFp1jwqdwVoquDByaDRl4ANqTa1al2tEyyXW77OhHJxgssqUTNPtpXHxAo83sVOZA00JZcWzWfG");
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 // set card options
-
 const styles = theme => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -59,28 +60,35 @@ class Payment extends React.Component {
             classes: PropTypes.object.isRequired,
             onSubmit: PropTypes.func.isRequired,
             tier: PropTypes.object.isRequired,
+            modalOpen: PropTypes.bool.isRequired,
+            onClose: PropTypes.func.isRequired,
         };
     }
 
     render() {
-        const {classes} = this.props;
         return (
-            <Page>
-                <Container component="main" maxWidth="sm">
-                    <Card className={classes.paper} elevation={5}>
-                        <Typography component="h1" variant="h5">
-                            {this.props.tier.name}
-                        </Typography>
-                        <Elements stripe={stripePromise}>
-                            <ElementsConsumer>
-                                {({stripe, elements}) => (
-                                    <CheckoutForm price={this.props.tier.price} onSubmit={this.submitHandler} stripe={stripe} elements={elements} />
-                                )}
-                            </ElementsConsumer>
-                        </Elements>
-                    </Card>
-                </Container>
-            </Page>
+            <Dialog
+                aria-labelledby="form-dialog-title"
+                open={this.props.modalOpen}
+                onClose={() => this.props.onClose()}
+                TransitionComponent={Zoom}
+                transitionDuration={500}>
+                <DialogTitle id="form-dialog-title">
+                    {"Change tiers to "}
+                    {this.props.tier.name}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>To renew or change your subscription please enter the credit card information below</DialogContentText>
+
+                    <Elements stripe={stripePromise}>
+                        <ElementsConsumer>
+                            {({stripe, elements}) => (
+                                <CheckoutForm price={this.props.tier.price} onSubmit={this.submitHandler} stripe={stripe} elements={elements} />
+                            )}
+                        </ElementsConsumer>
+                    </Elements>
+                </DialogContent>
+            </Dialog>
         );
     }
 }
