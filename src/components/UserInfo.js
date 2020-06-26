@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import Rating from "@material-ui/lab/Rating";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
     mainContainer: {
@@ -54,20 +55,20 @@ class UserInfo extends React.Component {
             <div className={classes.mainContainer}>
                 <Avatar src={userInfo.profilePicture.url} className={classes.avatar} />
                 <div className={classes.ratingsContainer}>
-                    <p className={classes.username}>
+                    <Typography className={classes.username}>
                         <b>{userInfo.name}</b>
-                    </p>
+                    </Typography>
                     <div className={classes.ratingItemContainer}>
                         <Rating value={userInfo.commRate} precision={0.5} size="large" readOnly />
-                        <p className={classes.ratingText}> Communication </p>
+                        <Typography className={classes.ratingText}> Communication </Typography>
                     </div>
                     <div className={classes.ratingItemContainer}>
                         <Rating value={userInfo.descriptionRate} precision={0.5} size="large" readOnly />
-                        <p className={classes.ratingText}> Item as described </p>
+                        <Typography className={classes.ratingText}> Item as described </Typography>
                     </div>
                     <div className={classes.ratingItemContainer}>
                         <Rating value={userInfo.conditionRate} precision={0.5} size="large" readOnly />
-                        <p className={classes.ratingText}> Item condition </p>
+                        <Typography className={classes.ratingText}> Item condition </Typography>
                     </div>
                 </div>
             </div>
