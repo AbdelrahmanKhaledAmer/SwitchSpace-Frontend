@@ -7,7 +7,6 @@ import Card from "@material-ui/core/Card";
 import Page from "./Page";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import {red} from "@material-ui/core/colors";
