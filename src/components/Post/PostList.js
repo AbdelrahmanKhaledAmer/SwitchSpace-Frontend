@@ -3,7 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Card from "@material-ui/core/Card";
-import PostListItem from "../components/PostListItem";
+import PostListItem from "../Post/PostListItem";
 import {withStyles} from "@material-ui/core/styles";
 
 const styles = {
