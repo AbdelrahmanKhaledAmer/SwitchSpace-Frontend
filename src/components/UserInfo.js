@@ -11,8 +11,6 @@ const styles = theme => ({
     mainContainer: {
         display: "flex",
         flexDirection: "row",
-        marginTop: theme.spacing(10),
-        marginLeft: theme.spacing(5),
     },
     ratingsContainer: {
         display: "flex",
