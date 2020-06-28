@@ -4,7 +4,7 @@ import React from "react";
 import SearchFilter from "../components/SearchFilter";
 import PropTypes from "prop-types";
 
-export class SearchFilterView extends React.Component {
+export default class SearchFilterView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
