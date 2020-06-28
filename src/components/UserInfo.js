@@ -5,13 +5,12 @@ import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import Rating from "@material-ui/lab/Rating";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
     mainContainer: {
         display: "flex",
         flexDirection: "row",
-        marginTop: theme.spacing(10),
-        marginLeft: theme.spacing(5),
     },
     ratingsContainer: {
         display: "flex",
@@ -50,25 +49,24 @@ class UserInfo extends React.Component {
 
     render() {
         const {classes, userInfo} = this.props;
-        console.log(userInfo);
         return (
             <div className={classes.mainContainer}>
                 <Avatar src={userInfo.profilePicture.url} className={classes.avatar} />
                 <div className={classes.ratingsContainer}>
-                    <text className={classes.username}>
+                    <Typography className={classes.username}>
                         <b>{userInfo.name}</b>
-                    </text>
+                    </Typography>
                     <div className={classes.ratingItemContainer}>
                         <Rating value={userInfo.commRate} precision={0.5} size="large" readOnly />
-                        <text className={classes.ratingText}> Communication </text>
+                        <Typography className={classes.ratingText}> Communication </Typography>
                     </div>
                     <div className={classes.ratingItemContainer}>
                         <Rating value={userInfo.descriptionRate} precision={0.5} size="large" readOnly />
-                        <text className={classes.ratingText}> Item as described </text>
+                        <Typography className={classes.ratingText}> Item as described </Typography>
                     </div>
                     <div className={classes.ratingItemContainer}>
                         <Rating value={userInfo.conditionRate} precision={0.5} size="large" readOnly />
-                        <text className={classes.ratingText}> Item condition </text>
+                        <Typography className={classes.ratingText}> Item condition </Typography>
                     </div>
                 </div>
             </div>
