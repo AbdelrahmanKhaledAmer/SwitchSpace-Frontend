@@ -10,7 +10,7 @@ export default class SearchFilterView extends React.Component {
         this.state = {
             posts: [],
         };
-        this.getSeachPosts = this.getSeachPosts.bind(this);
+        this.getSearchPosts = this.getSearchPosts.bind(this);
     }
     // need to defince prop type for every function
     static get propTypes() {
@@ -19,9 +19,19 @@ export default class SearchFilterView extends React.Component {
         };
     }
 
-    async getSeachPosts(itemWanted, itemOwned, itemWantedCategory, itemOwnedCategory, lon, lat, raduis) {
+    async getSearchPosts(itemWanted, itemOwned, wantedCategory, wantedCondition, ownedCategory, ownedCondition, lon, lat, raduis) {
         try {
-            let response = await PostService.getSearchPosts(itemWanted, itemOwned, itemWantedCategory, itemOwnedCategory, lon, lat, raduis);
+            let response = await PostService.getSearchPosts(
+                itemWanted,
+                itemOwned,
+                wantedCategory,
+                wantedCondition,
+                ownedCategory,
+                ownedCondition,
+                lon,
+                lat,
+                raduis
+            );
             this.setState({posts: response.data.data});
         } catch (err) {
             console.log(err);
@@ -29,6 +39,6 @@ export default class SearchFilterView extends React.Component {
     }
 
     render() {
-        return <SearchFilter posts={this.state.posts}></SearchFilter>;
+        return <SearchFilter posts={this.state.posts} getSearchPosts={this.getSearchPosts}></SearchFilter>;
     }
 }

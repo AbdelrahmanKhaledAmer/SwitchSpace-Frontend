@@ -61,12 +61,12 @@ class SearchFilter extends React.Component {
         super(props);
         this.state = {
             open: false,
-            category: "",
-            condition: "",
+            wantedCondition: "",
+            ownedCondition: "",
             itemOwned: "",
             itemWanted: "",
-            itemWantedCategory: "",
-            itemOwnedCategory: "",
+            wantedCategory: "",
+            ownedCategory: "",
             lon: 11.581981,
             lat: 48.135124,
             radius: 1e5 * 1000,
@@ -77,8 +77,10 @@ class SearchFilter extends React.Component {
         this.onItemOwnedChange = this.onItemOwnedChange.bind(this);
         this.onItemWantedChange = this.onItemWantedChange.bind(this);
         this.onRadiusChange = this.onRadiusChange.bind(this);
-        this.onConditionChange = this.onConditionChange.bind(this);
-        this.onCategoryChange = this.onCategoryChange.bind(this);
+        this.onOwnedConditionChange = this.onOwnedConditionChange.bind(this);
+        this.onOwnedCategoryChange = this.onOwnedCategoryChange.bind(this);
+        this.onWantedCategoryChange = this.onWantedCategoryChange.bind(this);
+        this.onWantedConditionChange = this.onWantedConditionChange.bind(this);
         this.hndelSubmitSearch = this.hndelSubmitSearch.bind(this);
     }
 
@@ -87,16 +89,17 @@ class SearchFilter extends React.Component {
             classes: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
             onSubmit: PropTypes.func.isRequired,
-            getSeachPosts: PropTypes.func.isRequired,
+            getSearchPosts: PropTypes.func.isRequired,
         };
     }
     hndelSubmitSearch() {
-        console.log("Here");
-        this.props.getSeachPosts(
+        this.props.getSearchPosts(
             this.state.itemWanted,
             this.state.itemOwned,
-            this.state.itemWantedCategory,
-            this.state.itemOwnedCategory,
+            this.state.wantedCategory,
+            this.state.wantedCondition,
+            this.state.ownedCategory,
+            this.state.ownedCondition,
             this.state.lon,
             this.state.lat,
             this.state.radius
@@ -114,13 +117,26 @@ class SearchFilter extends React.Component {
         const value = e.currentTarget.value;
         this.setState({radius: value});
     }
-    onCategoryChange(e) {
-        const value = e.currentTarget.value;
+    onWantedCategoryChange(e) {
+        const value = e.target.value;
+        this.setState({open: value});
+        this.setState({wantedCategory: value});
+    }
+    onOwnedCategoryChange(e) {
+        const value = e.target.value;
+        this.setState({open: value});
+        this.setState({ownedCategory: value});
+    }
+    onWantedConditionChange(e) {
+        const value = e.target.value;
+        console.log(value);
+        this.setState({wantedCondition: value});
         this.setState({open: value});
     }
-    onConditionChange(e) {
-        const value = e.currentTarget.value;
+    onOwnedConditionChange(e) {
+        const value = e.target.value;
         this.setState({open: value});
+        this.setState({ownedCondition: value});
     }
 
     handleClose() {
@@ -153,37 +169,68 @@ class SearchFilter extends React.Component {
                                         <div className={classes.formAlignment}>
                                             <form className={classes.textBox} noValidate autoComplete="off">
                                                 <TextField id="filled-basic" label="Location" />
-                                                <TextField id="filled-basic" label="Radius" />
-                                                <TextField id="filled-basic" label="Item Desired" />
+                                                <TextField id="filled-basic" label="Radius" onChange={this.onRadiusChange} />
+                                                <TextField id="filled-basic" label="Item Desired" onChange={this.onItemWantedChange} />
                                                 <br />
-                                                <TextField id="filled-basic" label="Item Owned" />
+                                                <TextField id="filled-basic" label="Item Owned" onChange={this.onItemOwnedChange} />
                                                 <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-controlled-open-select-label">Condition</InputLabel>
+                                                    <InputLabel id="demo-controlled-open-select-label">Item Desired Condition</InputLabel>
                                                     <Select
                                                         labelId="demo-controlled-open-select-label"
                                                         id="demo-controlled-open-select"
-                                                        open={this.open}
+                                                        //open={this.open}
                                                         onClose={this.handleClose}
                                                         onOpen={this.handleOpen}
-                                                        value={this.condition}
-                                                        onChange={this.onConditionChange}>
+                                                        //value={this.wantedCondition}
+                                                        onChange={this.onWantedConditionChange}>
                                                         <MenuItem value={"new"}>New</MenuItem>
                                                         <MenuItem value={"used"}>Used</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                                 <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-controlled-open-select-label">Category</InputLabel>
+                                                    <InputLabel id="demo-controlled-open-select-label">Item Desired Category</InputLabel>
                                                     <Select
                                                         labelId="demo-controlled-open-select-label"
                                                         id="demo-controlled-open-select"
-                                                        open={this.open}
+                                                        //open={this.open}
                                                         onClose={this.handleClose}
                                                         onOpen={this.handleOpen}
-                                                        value={this.cat}
-                                                        onChange={this.onCategoryChange}>
+                                                        //value={this.cat}
+                                                        onChange={this.onWantedCategoryChange}>
                                                         <MenuItem value={"electronics"}>Electronics</MenuItem>
                                                         <MenuItem value={"furniture"}>Furniture</MenuItem>
                                                         <MenuItem value={"vehicles"}>Vehicles</MenuItem>
+                                                        <MenuItem value={"kitchenware"}>KitchenWare</MenuItem>
+                                                    </Select>
+                                                </FormControl>
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="demo-controlled-open-select-label">Item Owned Condition</InputLabel>
+                                                    <Select
+                                                        labelId="demo-controlled-open-select-label"
+                                                        id="demo-controlled-open-select"
+                                                        //open={this.open}
+                                                        onClose={this.handleClose}
+                                                        onOpen={this.handleOpen}
+                                                        //value={this.condition}
+                                                        onChange={this.onOwnedConditionChange}>
+                                                        <MenuItem value={"new"}>New</MenuItem>
+                                                        <MenuItem value={"used"}>Used</MenuItem>
+                                                    </Select>
+                                                </FormControl>
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="demo-controlled-open-select-label">Item Owned Category</InputLabel>
+                                                    <Select
+                                                        labelId="demo-controlled-open-select-label"
+                                                        id="demo-controlled-open-select"
+                                                        //open={this.open}
+                                                        onClose={this.handleClose}
+                                                        onOpen={this.handleOpen}
+                                                        //value={this.cat}
+                                                        onChange={this.onOwnedCategoryChange}>
+                                                        <MenuItem value={"electronics"}>Electronics</MenuItem>
+                                                        <MenuItem value={"furniture"}>Furniture</MenuItem>
+                                                        <MenuItem value={"vehicles"}>Vehicles</MenuItem>
+                                                        <MenuItem value={"kitchenware"}>KitchenWare</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                                 <br />
@@ -199,13 +246,14 @@ class SearchFilter extends React.Component {
                     </Grid>
                     {/* post list grid */}
                     <Grid item sm={7}>
-                        <Grid container spacing={3} className={classes.child}>
-                            <Zoom in={true} transitionduration={500}>
-                                <Card elevation={3}>
+                        <PostList posts={this.props.posts}></PostList>
+                        {/* <Grid container spacing={10} className={classes.child}>
+                            <Zoom in={true} transitionduration={5000}>
+                                <Card elevation={5}>
                                     <PostList posts={this.props.posts}></PostList>
                                 </Card>
                             </Zoom>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </Grid>
             </Page>
