@@ -2,16 +2,8 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import Card from "@material-ui/core/Card";
 import PostListItem from "../components/PostListItem";
-import {withStyles} from "@material-ui/core/styles";
-
-const styles = {
-    scrollableCard: {
-        maxHeight: "90vh",
-        overflowY: "scroll",
-    },
-};
+import Typography from "@material-ui/core/Typography";
 
 class PostList extends React.Component {
     constructor(props) {
@@ -21,19 +13,20 @@ class PostList extends React.Component {
     static get propTypes() {
         return {
             posts: PropTypes.array.isRequired,
-            classes: PropTypes.object.isRequired,
+            msgForNoPosts: PropTypes.string.isRequired,
         };
     }
 
     render() {
-        const {classes} = this.props;
-        return (
-            <Card elevation={5} className={classes.scrollableCard}>
-                {this.props.posts.map((post, idx) => (
-                    <PostListItem key={idx} post={post} />
-                ))}
-            </Card>
-        );
+        if (this.props.posts.length == 0) {
+            return (
+                <Typography variant="h5" align="center">
+                    {this.props.msgForNoPosts}
+                </Typography>
+            );
+        }
+
+        return this.props.posts.map((post, idx) => <PostListItem key={idx} post={post} />);
     }
 }
-export default withStyles(styles)(PostList);
+export default PostList;
