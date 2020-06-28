@@ -261,9 +261,9 @@ class PostStepper extends React.Component {
             // TODO: REDIRECT
             return;
         } else {
-            // if ((this.state.activeStep == 0 && !this.validateItemOwnedForm()) || (this.state.activeStep == 1 && !this.validateItemDesiredForm())) {
-            //     return;
-            // }
+            if ((this.state.activeStep == 0 && !this.validateItemOwnedForm()) || (this.state.activeStep == 1 && !this.validateItemDesiredForm())) {
+                return;
+            }
             this.setState({
                 activeStep: this.state.activeStep + 1,
             });
