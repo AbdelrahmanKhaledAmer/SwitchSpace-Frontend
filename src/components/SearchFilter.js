@@ -63,20 +63,63 @@ class SearchFilter extends React.Component {
             open: false,
             category: "",
             condition: "",
+            itemOwned: "",
+            itemWanted: "",
+            itemWantedCategory: "",
+            itemOwnedCategory: "",
+            lon: 11.581981,
+            lat: 48.135124,
+            radius: 1e5 * 1000,
         };
 
-        this.handleChange = this.handleChange.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
+        this.onItemOwnedChange = this.onItemOwnedChange.bind(this);
+        this.onItemWantedChange = this.onItemWantedChange.bind(this);
+        this.onRadiusChange = this.onRadiusChange.bind(this);
+        this.onConditionChange = this.onConditionChange.bind(this);
+        this.onCategoryChange = this.onCategoryChange.bind(this);
+        this.hndelSubmitSearch = this.hndelSubmitSearch.bind(this);
     }
+
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
+            posts: PropTypes.array.isRequired,
             onSubmit: PropTypes.func.isRequired,
+            getSeachPosts: PropTypes.func.isRequired,
         };
     }
-    handleChange(event) {
-        const value = event.currentTarget.value;
+    hndelSubmitSearch() {
+        console.log("Here");
+        this.props.getSeachPosts(
+            this.state.itemWanted,
+            this.state.itemOwned,
+            this.state.itemWantedCategory,
+            this.state.itemOwnedCategory,
+            this.state.lon,
+            this.state.lat,
+            this.state.radius
+        );
+    }
+    onItemWantedChange(e) {
+        const value = e.currentTarget.value;
+        this.setState({itemWanted: value});
+    }
+    onItemOwnedChange(e) {
+        const value = e.currentTarget.value;
+        this.setState({itemOwned: value});
+    }
+    onRadiusChange(e) {
+        const value = e.currentTarget.value;
+        this.setState({radius: value});
+    }
+    onCategoryChange(e) {
+        const value = e.currentTarget.value;
+        this.setState({open: value});
+    }
+    onConditionChange(e) {
+        const value = e.currentTarget.value;
         this.setState({open: value});
     }
 
@@ -123,7 +166,7 @@ class SearchFilter extends React.Component {
                                                         onClose={this.handleClose}
                                                         onOpen={this.handleOpen}
                                                         value={this.condition}
-                                                        onChange={this.handleChange}>
+                                                        onChange={this.onConditionChange}>
                                                         <MenuItem value={"new"}>New</MenuItem>
                                                         <MenuItem value={"used"}>Used</MenuItem>
                                                     </Select>
@@ -137,14 +180,14 @@ class SearchFilter extends React.Component {
                                                         onClose={this.handleClose}
                                                         onOpen={this.handleOpen}
                                                         value={this.cat}
-                                                        onChange={this.handleChange}>
+                                                        onChange={this.onCategoryChange}>
                                                         <MenuItem value={"electronics"}>Electronics</MenuItem>
                                                         <MenuItem value={"furniture"}>Furniture</MenuItem>
                                                         <MenuItem value={"vehicles"}>Vehicles</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                                 <br />
-                                                <Button variant="contained" color="primary">
+                                                <Button variant="contained" color="primary" onClick={this.hndelSubmitSearch}>
                                                     Search
                                                 </Button>
                                             </form>
@@ -159,7 +202,7 @@ class SearchFilter extends React.Component {
                         <Grid container spacing={3} className={classes.child}>
                             <Zoom in={true} transitionduration={500}>
                                 <Card elevation={3}>
-                                    <PostList posts={[]}></PostList>
+                                    <PostList posts={this.props.posts}></PostList>
                                 </Card>
                             </Zoom>
                         </Grid>

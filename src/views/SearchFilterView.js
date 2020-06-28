@@ -3,11 +3,14 @@
 import React from "react";
 import SearchFilter from "../components/SearchFilter";
 import PropTypes from "prop-types";
-
+import PostService from "../services/PostService";
 export default class SearchFilterView extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            posts: [],
+        };
+        this.getSeachPosts = this.getSeachPosts.bind(this);
     }
     // need to defince prop type for every function
     static get propTypes() {
@@ -16,7 +19,16 @@ export default class SearchFilterView extends React.Component {
         };
     }
 
+    async getSeachPosts(itemWanted, itemOwned, itemWantedCategory, itemOwnedCategory, lon, lat, raduis) {
+        try {
+            let response = await PostService.getSearchPosts(itemWanted, itemOwned, itemWantedCategory, itemOwnedCategory, lon, lat, raduis);
+            this.setState({posts: response.data.data});
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     render() {
-        return <SearchFilter></SearchFilter>;
+        return <SearchFilter posts={this.state.posts}></SearchFilter>;
     }
 }
