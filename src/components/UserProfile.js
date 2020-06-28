@@ -14,6 +14,7 @@ import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 import Card from "@material-ui/core/Card";
+import PostList from "./PostList";
 
 const styles = theme => ({
     topContainer: {
@@ -29,7 +30,7 @@ const styles = theme => ({
         backgroundColor: "#659dbd",
         color: "#FFFFFF",
     },
-    card: {
+    tabsCard: {
         width: "70%",
         marginTop: theme.spacing(3),
         marginLeft: "auto",
@@ -39,25 +40,16 @@ const styles = theme => ({
 class UserProfile extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            selectedTab: "reviews",
-        };
-
-        this.handleChange = this.handleChange.bind(this);
     }
 
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
             userInfo: PropTypes.object.isRequired,
+            selectedTab: PropTypes.string.isRequired,
+            onTabChange: PropTypes.func.isRequired,
+            posts: PropTypes.array.isRequired,
         };
-    }
-
-    handleChange(event, newValue) {
-        this.setState({
-            selectedTab: newValue,
-        });
     }
 
     render() {
@@ -77,16 +69,18 @@ class UserProfile extends React.Component {
                         </Grid>
                     </Grid>
                 </div>
-                <Card elevation={5} className={classes.card}>
-                    <TabContext value={this.state.selectedTab}>
+                <Card elevation={5} className={classes.tabsCard}>
+                    <TabContext value={this.props.selectedTab}>
                         <AppBar className={classes.appBar} position="static">
-                            <TabList onChange={this.handleChange}>
+                            <TabList onChange={this.props.onTabChange}>
                                 <Tab label="Reviews" value="reviews" />
                                 <Tab label="Posts" value="posts" />
                             </TabList>
                         </AppBar>
                         <TabPanel value="reviews">No Reviews</TabPanel>
-                        <TabPanel value="posts">No Posts</TabPanel>
+                        <TabPanel value="posts">
+                            <PostList posts={this.props.posts} msgForNoPosts="No posts available"></PostList>
+                        </TabPanel>
                     </TabContext>
                 </Card>
             </Page>

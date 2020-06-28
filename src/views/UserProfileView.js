@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {withStyles} from "@material-ui/core/styles";
 import UserProfile from "../components/UserProfile";
+import PostService from "../services/PostService";
 
 const styles = {
     centered: {
@@ -21,17 +22,23 @@ class UserProfileView extends React.Component {
         super(props);
 
         this.state = {
-            loading: true,
+            pageLoading: true,
+            selectedTab: "reviews",
+            userId: this.props.match.params.id,
+            userInfo: {},
         };
+
+        this.handleTabChange = this.handleTabChange.bind(this);
     }
 
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
+            match: PropTypes.object.isRequired,
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // TODO: get userInfo from a service
         const userInfo = {
             name: "Frodo Baggins",
@@ -44,9 +51,27 @@ class UserProfileView extends React.Component {
             descriptionRate: 3.2,
         };
 
+        let response = await this.getUserPosts();
         this.setState({
-            loading: false,
+            pageLoading: false,
             userInfo: userInfo,
+            posts: response.data.data,
+        });
+    }
+
+    async getUserPosts() {
+        try {
+            let posts = await PostService.getUserPosts(this.state.userId);
+            return posts;
+        } catch (err) {
+            // TODO: add feedback for the error
+            console.log(err);
+        }
+    }
+
+    handleTabChange(event, newValue) {
+        this.setState({
+            selectedTab: newValue,
         });
     }
 
@@ -54,7 +79,7 @@ class UserProfileView extends React.Component {
         const {classes} = this.props;
 
         // TODO: use a common loader for all components
-        if (this.state.loading) {
+        if (this.state.pageLoading) {
             return (
                 <div>
                     <CircularProgress size={100} className={classes.centered} />
@@ -62,7 +87,14 @@ class UserProfileView extends React.Component {
             );
         }
 
-        return <UserProfile userInfo={this.state.userInfo} />;
+        return (
+            <UserProfile
+                userInfo={this.state.userInfo}
+                selectedTab={this.state.selectedTab}
+                onTabChange={this.handleTabChange}
+                posts={this.state.posts}
+            />
+        );
     }
 }
 
