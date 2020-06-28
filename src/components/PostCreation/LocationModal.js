@@ -15,7 +15,7 @@ import Zoom from "@material-ui/core/Zoom";
 // set card options
 const styles = {
     mapContainer: {
-        width: "50vw",
+        width: "40vw",
         height: "50vh",
         position: "relative",
         textAlign: "center",
@@ -23,6 +23,7 @@ const styles = {
     map: {
         maxWidth: "100%",
         maxHeight: "100%",
+        margin: "auto",
     },
     centerFold: {
         textAlign: "center",

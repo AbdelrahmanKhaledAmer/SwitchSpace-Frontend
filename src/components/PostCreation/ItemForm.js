@@ -8,6 +8,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import PropTypes from "prop-types";
 
 import "@brainhubeu/react-file-input/dist/react-file-input.css";
@@ -49,6 +50,7 @@ class ItemForm extends React.Component {
             classes: PropTypes.object.isRequired,
             categories: PropTypes.array.isRequired,
             item: PropTypes.object.isRequired,
+            errors: PropTypes.object.isRequired,
             onChange: PropTypes.func.isRequired,
         };
     }
@@ -77,7 +79,7 @@ class ItemForm extends React.Component {
         this.props.onChange(item);
     }
 
-    async handleSubategoryChange(e) {
+    handleSubategoryChange(e) {
         let item = {
             ...this.props.item,
             subcategory: e.target.value,
@@ -85,7 +87,7 @@ class ItemForm extends React.Component {
         this.props.onChange(item);
     }
 
-    async handleConditionChange(e) {
+    handleConditionChange(e) {
         let item = {
             ...this.props.item,
             condition: e.target.value,
@@ -93,7 +95,7 @@ class ItemForm extends React.Component {
         this.props.onChange(item);
     }
 
-    async handleModelYearChange(e) {
+    handleModelYearChange(e) {
         let item = {
             ...this.props.item,
             modelYear: e.target.value,
@@ -101,7 +103,7 @@ class ItemForm extends React.Component {
         this.props.onChange(item);
     }
 
-    async handleNameChange(e) {
+    handleNameChange(e) {
         let item = {
             ...this.props.item,
             title: e.target.value,
@@ -133,13 +135,16 @@ class ItemForm extends React.Component {
                     label="Item Name"
                     autoFocus
                     onChange={this.handleNameChange}
+                    error={Boolean(this.props.errors.title)}
+                    helperText={this.props.errors.title}
                 />
-                <FormControl className={classes.formControl}>
+                <FormControl className={classes.formControl} error={Boolean(this.props.errors.condition)}>
                     <InputLabel>Condition *</InputLabel>
                     <Select autoWidth value={this.props.item.condition} onChange={this.handleConditionChange}>
-                        <MenuItem value={"new"}>New</MenuItem>
-                        <MenuItem value={"used"}>Used</MenuItem>
+                        <MenuItem value={"New"}>New</MenuItem>
+                        <MenuItem value={"Used"}>Used</MenuItem>
                     </Select>
+                    <FormHelperText>{this.props.errors.condition}</FormHelperText>
                 </FormControl>
                 <TextField
                     value={this.props.item.description}
@@ -151,7 +156,7 @@ class ItemForm extends React.Component {
                     label="Description"
                     onChange={this.handleDescriptionChange}
                 />
-                <FormControl className={classes.formControl}>
+                <FormControl className={classes.formControl} error={Boolean(this.props.errors.category)}>
                     <InputLabel>Category *</InputLabel>
                     <Select autoWidth value={this.props.item.category} onChange={this.handleCategoryChange}>
                         {this.props.categories.map((category, idx) => (
@@ -160,9 +165,10 @@ class ItemForm extends React.Component {
                             </MenuItem>
                         ))}
                     </Select>
+                    <FormHelperText>{this.props.errors.category}</FormHelperText>
                 </FormControl>
                 {this.shouldRenderSubcategories() ? (
-                    <FormControl className={classes.formControl}>
+                    <FormControl className={classes.formControl} error={Boolean(this.props.errors.subcategory)}>
                         <InputLabel>Subcategory</InputLabel>
                         <Select autoWidth value={this.props.item.subcategory} onChange={this.handleSubategoryChange}>
                             {this.state.chosenCategory.subcategories.map((subcategory, idx) => (
@@ -171,6 +177,7 @@ class ItemForm extends React.Component {
                                 </MenuItem>
                             ))}
                         </Select>
+                        <FormHelperText>{this.props.errors.subcategory}</FormHelperText>
                     </FormControl>
                 ) : null}
                 <FormControl className={classes.formControl}>

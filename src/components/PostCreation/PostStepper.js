@@ -10,11 +10,17 @@ import Container from "@material-ui/core/Container";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
+import ImageIcon from "@material-ui/icons/Image";
 import StepConnector from "@material-ui/core/StepConnector";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
-// import FileInput from "@brainhubeu/react-file-input";
+import Typography from "@material-ui/core/Typography";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import Page from "../Page";
+import PostDetails from "../Post/PostDetails";
 import ItemForm from "./ItemForm";
 import LocationModal from "./LocationModal";
 
@@ -142,10 +148,17 @@ const styles = theme => ({
         backgroundColor: "#659dbd",
         color: "#fbeec1",
         margin: theme.spacing(0, 1),
+        marginTop: theme.spacing(1),
     },
-    locationButton: {
+    formButton: {
         backgroundColor: "#659dbd",
         color: "#fbeec1",
+        marginTop: theme.spacing(1),
+    },
+    formButtonError: {
+        backgroundColor: "#a70000",
+        color: "#fbeec1",
+        marginTop: theme.spacing(1),
     },
     instructions: {
         marginTop: theme.spacing(1),
@@ -161,12 +174,9 @@ const styles = theme => ({
         border: "1px solid grey",
         borderRadius: "5px",
     },
-    // ".brainhub-file-input__label": {
-    //     fontSize: "14px",
-    //     lineHeight: "18px",
-    //     color: "#808080",
-    //     marginBottom: "4px",
-    // },
+    input: {
+        display: "none",
+    },
 });
 
 class PostStepper extends React.Component {
@@ -193,7 +203,21 @@ class PostStepper extends React.Component {
             photos: [],
             exchangeLocation: {
                 type: "Point",
-                coordinates: null,
+                coordinates: [],
+            },
+            itemOwnedError: {
+                title: "",
+                category: "",
+                subcategory: "",
+                condition: "",
+                exchangeLocation: "",
+                photos: "",
+            },
+            itemDesiredError: {
+                title: "",
+                category: "",
+                subcategory: "",
+                condition: "",
             },
             locationModalOpen: false,
         };
@@ -205,6 +229,10 @@ class PostStepper extends React.Component {
         this.onItemDesiredChange = this.onItemDesiredChange.bind(this);
         this.toggleLocationModal = this.toggleLocationModal.bind(this);
         this.setLocation = this.setLocation.bind(this);
+        this.onImageUpload = this.onImageUpload.bind(this);
+        this.validateItemOwnedForm = this.validateItemOwnedForm.bind(this);
+        this.validateItemDesiredForm = this.validateItemDesiredForm.bind(this);
+        this.makePost = this.makePost.bind(this);
     }
 
     static get propTypes() {
@@ -214,14 +242,108 @@ class PostStepper extends React.Component {
         };
     }
 
+    makePost() {
+        let postPhotos = [];
+        this.state.photos.forEach(photo => {
+            postPhotos.push({url: URL.createObjectURL(photo)});
+        });
+        let post = {
+            itemOwned: this.state.itemOwned,
+            itemDesired: this.state.itemDesired,
+            exchangeLocation: this.state.exchangeLocation,
+            photos: postPhotos,
+        };
+        return post;
+    }
+
     handleNext() {
         if (this.state.activeStep == 2) {
             // TODO: REDIRECT
+            return;
         } else {
+            // if ((this.state.activeStep == 0 && !this.validateItemOwnedForm()) || (this.state.activeStep == 1 && !this.validateItemDesiredForm())) {
+            //     return;
+            // }
             this.setState({
                 activeStep: this.state.activeStep + 1,
             });
         }
+    }
+
+    validateItemDesiredForm() {
+        console.log("what");
+        let res = true;
+        let itemDesiredError = {
+            title: "",
+            category: "",
+            subcategory: "",
+            condition: "",
+        };
+        if (this.state.itemDesired.title == "") {
+            itemDesiredError.title = "What's the item's name?";
+            res = false;
+        }
+        if (this.state.itemDesired.condition == "") {
+            itemDesiredError.condition = "What condition should it be in?";
+            res = false;
+        }
+        if (this.state.itemDesired.category != "other" && this.state.itemDesired.subcategory == "") {
+            if (this.state.itemDesired.category == "") {
+                itemDesiredError.category = "What's the item's category?";
+            } else {
+                itemDesiredError.subcategory = "What's the item's subcategory?";
+            }
+            res = false;
+        }
+        this.setState({
+            itemDesiredError: {
+                ...itemDesiredError,
+            },
+        });
+        console.log(res);
+        return res;
+    }
+
+    validateItemOwnedForm() {
+        let res = true;
+        let itemOwnedError = {
+            title: "",
+            category: "",
+            subcategory: "",
+            condition: "",
+            exchangeLocation: "",
+            photos: "",
+        };
+        if (this.state.itemOwned.title == "") {
+            itemOwnedError.title = "What's your item's name?";
+            res = false;
+        }
+        if (this.state.itemOwned.condition == "") {
+            itemOwnedError.condition = "What your item's condition?";
+            res = false;
+        }
+        if (this.state.itemOwned.category != "other" && this.state.itemOwned.subcategory == "") {
+            if (this.state.itemOwned.category == "") {
+                itemOwnedError.category = "What's your item's category?";
+            } else {
+                itemOwnedError.subcategory = "What's your item's subcategory?";
+            }
+            res = false;
+        }
+        if (this.state.exchangeLocation.coordinates.length != 2) {
+            itemOwnedError.exchangeLocation = "Where would you like the exchange to take place?";
+            res = false;
+        }
+        if (this.state.photos.length < 1 || this.state.photos.length > 3) {
+            itemOwnedError.photos = "You need to have at least one photo and at most three.";
+            res = false;
+        }
+        this.setState({
+            itemOwnedError: {
+                ...itemOwnedError,
+            },
+        });
+        return res;
     }
 
     handleBack() {
@@ -258,23 +380,66 @@ class PostStepper extends React.Component {
         this.toggleLocationModal();
     }
 
+    onImageUpload(e) {
+        let photos = [];
+        for (let i = 0; i < e.target.files.length; i++) {
+            photos.push(e.target.files[i]);
+        }
+        this.setState({photos: photos});
+    }
+
     renderForm() {
         const {classes} = this.props;
-        console.log(this.state);
         switch (this.state.activeStep) {
             case 0:
                 return (
                     <div>
-                        <ItemForm categories={this.props.categories} onChange={this.onItemOwnedChange} item={this.state.itemOwned} />
+                        <ItemForm
+                            categories={this.props.categories}
+                            onChange={this.onItemOwnedChange}
+                            item={this.state.itemOwned}
+                            errors={this.state.itemOwnedError}
+                        />
                         <Container component="main" maxWidth="sm">
-                            <br />
-                            <Button fullWidth className={classes.locationButton} onClick={this.toggleLocationModal}>
-                                Pick Location *
-                            </Button>
-                            {/* <div className={classes.fileInputContainer}>
-                                <FileInput label="Pictures" />
-                            </div> */}
-                            <br />
+                            <FormControl fullWidth error={Boolean(this.state.itemOwnedError.exchangeLocation)}>
+                                <Button
+                                    fullWidth
+                                    className={!this.state.itemOwnedError.exchangeLocation ? classes.formButton : classes.formButtonError}
+                                    endIcon={<LocationOnIcon />}
+                                    onClick={this.toggleLocationModal}>
+                                    Pick Location *
+                                </Button>
+                                <FormHelperText>{this.state.itemOwnedError.exchangeLocation}</FormHelperText>
+                                {this.state.exchangeLocation.coordinates.length == 2 ? (
+                                    <Typography align="center">Location Selected successfully</Typography>
+                                ) : null}
+                            </FormControl>
+                            <FormControl fullWidth error={Boolean(this.state.itemOwnedError.photos)}>
+                                <input
+                                    accept="image/*"
+                                    className={classes.input}
+                                    id="contained-button-file"
+                                    multiple
+                                    type="file"
+                                    onChange={this.onImageUpload}
+                                />
+                                <label htmlFor="contained-button-file">
+                                    <Button
+                                        fullWidth
+                                        className={!this.state.itemOwnedError.photos ? classes.formButton : classes.formButtonError}
+                                        component="span"
+                                        endIcon={<CloudUploadIcon />}>
+                                        Upload *
+                                    </Button>
+                                </label>
+                                <FormHelperText>{this.state.itemOwnedError.photos}</FormHelperText>
+                                {this.state.photos.map((photo, idx) => (
+                                    <Typography key={idx} align="center">
+                                        <ImageIcon />
+                                        {photo.name}
+                                    </Typography>
+                                ))}
+                            </FormControl>
                         </Container>
                         <LocationModal
                             modalOpen={this.state.locationModalOpen}
@@ -285,11 +450,20 @@ class PostStepper extends React.Component {
             case 1:
                 return (
                     <div>
-                        <ItemForm categories={this.props.categories} onChange={this.onItemDesiredChange} item={this.state.itemDesired} />
+                        <ItemForm
+                            categories={this.props.categories}
+                            onChange={this.onItemDesiredChange}
+                            item={this.state.itemDesired}
+                            errors={this.state.itemDesiredError}
+                        />
                     </div>
                 );
-            case 3:
-                return <div>POST DETAILS</div>; // TODO: POST DETAILS
+            case 2:
+                return (
+                    <div>
+                        <PostDetails post={this.makePost()}></PostDetails>
+                    </div>
+                );
         }
     }
 
@@ -303,7 +477,6 @@ class PostStepper extends React.Component {
                         {steps.map(label => (
                             <Step key={label}>
                                 <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-                                {/*TODO: FORMS AND DETAIL VIEW*/}
                             </Step>
                         ))}
                     </Stepper>
