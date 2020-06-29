@@ -7,11 +7,12 @@ import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
 import {withStyles} from "@material-ui/core/styles";
 
-const styles = theme => ({
+const styles = {
     consoleContainer: {
-        marginTop: theme.spacing(10),
+        // marginTop: theme.spacing(10),
+        backgroud: "transparent",
     },
-});
+};
 
 class AdminConsole extends React.Component {
     constructor(props) {
