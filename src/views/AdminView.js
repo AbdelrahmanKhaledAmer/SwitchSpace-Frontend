@@ -51,7 +51,6 @@ export default class AdminView extends React.Component {
         this.setState({loading: true});
         try {
             const reports = await AdminService.getReports();
-            console.log(reports);
             this.setState({reports: reports.data.data});
         } catch (err) {
             console.error(err);
@@ -86,6 +85,6 @@ export default class AdminView extends React.Component {
     // }
 
     render() {
-        return <AdminConsole reports={this.state.reports} deleteReport={this.deleteReport}></AdminConsole>;
+        return <AdminConsole loading={this.state.loading} reports={this.state.reports} deleteReport={this.deleteReport}></AdminConsole>;
     }
 }
