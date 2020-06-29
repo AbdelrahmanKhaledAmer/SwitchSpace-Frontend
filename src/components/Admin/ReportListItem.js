@@ -23,7 +23,7 @@ const styles = theme => ({
     itemPadding: {
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2),
-        maxWidth: "900px",
+        maxWidth: "70vw",
     },
 
     itemText: {

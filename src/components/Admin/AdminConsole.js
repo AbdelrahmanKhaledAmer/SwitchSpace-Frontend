@@ -20,10 +20,10 @@ class AdminConsole extends React.Component {
     }
     static get propTypes() {
         return {
-            // classes: PropTypes.object.isRequired,
             reports: PropTypes.array.isRequired,
             deleteReport: PropTypes.func.isRequired,
             classes: PropTypes.object.isRequired,
+            loading: PropTypes.bool.isRequired,
         };
     }
 
@@ -33,10 +33,10 @@ class AdminConsole extends React.Component {
             <Page>
                 <Grid container direction="column" justify="space-between" alignItems="center" spacing={2} className={classes.consoleContainer}>
                     <Grid item xs={5}>
-                        <Typography variant={"h4"}>{"User's Reports"}</Typography>
+                        <Typography variant={"h4"}>{"Pending Users Reports"}</Typography>
                     </Grid>
                     <Grid item xs={10}>
-                        <Zoom in={true} transitionduration={5000}>
+                        <Zoom in={true} transitionduration={500}>
                             <ReportList reports={this.props.reports} deleteReport={this.props.deleteReport}></ReportList>
                         </Zoom>
                     </Grid>

@@ -13,6 +13,7 @@ export default class AdminView extends React.Component {
         super(props);
         this.state = {
             reports: [],
+            loading: true,
         };
         this.notify = this.notify.bind(this);
     }
@@ -43,7 +44,10 @@ export default class AdminView extends React.Component {
             progress: undefined,
         });
     }
+
+    // view all reports
     async getReports() {
+        this.setState({loading: true});
         try {
             const reports = await AdminService.getReports();
             console.log(reports);
@@ -51,37 +55,30 @@ export default class AdminView extends React.Component {
         } catch (err) {
             console.error(err);
             this.notify(err);
-            this.setState({
-                error: err,
-            });
         }
+        this.setState({loading: false});
     }
+    // delete reports
     async deleteReport(id) {
-        console.log("hey");
-        console.log(id);
         try {
             await AdminService.deleteReport(id);
-            console.log("allGood");
         } catch (err) {
             console.error(err);
             this.notify(err);
-            this.setState({
-                error: err,
-            });
         }
     }
 
-    async deletePost(id) {
-        try {
-            await AdminService.deletePost(id);
-        } catch (err) {
-            console.error(err);
-            this.notify(err);
-            this.setState({
-                error: err,
-            });
-        }
-    }
+    // async deletePost(id) {
+    //     try {
+    //         await AdminService.deletePost(id);
+    //     } catch (err) {
+    //         console.error(err);
+    //         this.notify(err);
+    //         this.setState({
+    //             error: err,
+    //         });
+    //     }
+    // }
 
     render() {
         return <AdminConsole reports={this.state.reports} deleteReport={this.deleteReport}></AdminConsole>;
