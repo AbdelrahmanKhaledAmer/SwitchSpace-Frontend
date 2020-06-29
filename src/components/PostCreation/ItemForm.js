@@ -11,8 +11,6 @@ import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import PropTypes from "prop-types";
 
-import "@brainhubeu/react-file-input/dist/react-file-input.css";
-
 const styles = {
     formControl: {
         margin: 0,
