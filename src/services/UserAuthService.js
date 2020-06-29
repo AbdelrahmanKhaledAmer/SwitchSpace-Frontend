@@ -15,6 +15,7 @@ export default class UserAuthService {
             HttpService.post(
                 `${UserAuthService.baseURL()}/register`,
                 user,
+                null,
                 function (data) {
                     resolve(data);
                 },
@@ -31,6 +32,7 @@ export default class UserAuthService {
             HttpService.post(
                 `${UserAuthService.baseURL()}/login`,
                 {email: email, password: password},
+                null,
                 function (data) {
                     resolve(data);
                 },

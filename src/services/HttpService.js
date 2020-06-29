@@ -26,9 +26,9 @@ export default class HttpService {
     static async get(url, onSuccess, onError) {
         let token = window.localStorage["jwtToken"];
         let header = {};
+        header["Content-Type"] = "application/json";
         if (token) {
             header.Authorization = `Bearer ${token}`;
-            header["Content-Type"] = "application/json";
         }
         // append full URL
         url = this.apiURL() + url;
@@ -56,9 +56,9 @@ export default class HttpService {
     static async put(url, data, onSuccess, onError) {
         let token = window.localStorage["jwtToken"];
         let header = {};
+        header["Content-Type"] = "application/json";
         if (token) {
             header.Authorization = `Bearer ${token}`;
-            header["Content-Type"] = "application/json";
         }
         // append full URL
         url = this.apiURL() + url;
@@ -84,19 +84,21 @@ export default class HttpService {
         }
     }
     // Post request
-    static async post(url, data, onSuccess, onError) {
+    static async post(url, data, headers, onSuccess, onError) {
         let token = window.localStorage["jwtToken"];
-        let header = {};
+        if (!headers) {
+            headers = {};
+            headers["Content-Type"] = "application/json";
+        }
         if (token) {
-            header.Authorization = `Bearer ${token}`;
-            header["Content-Type"] = "application/json";
+            headers.Authorization = `Bearer ${token}`;
         }
         // append full URL
         url = this.apiURL() + url;
         try {
             let resp = await axios(url, {
                 method: "POST",
-                headers: header,
+                headers: headers,
                 data: data,
             });
 
@@ -118,9 +120,9 @@ export default class HttpService {
     static async remove(url, onSuccess, onError) {
         let token = window.localStorage["jwtToken"];
         let header = {};
+        header["Content-Type"] = "application/json";
         if (token) {
             header.Authorization = `Bearer ${token}`;
-            header["Content-Type"] = "application/json";
         }
         // append full URL
         url = this.apiURL() + url;
