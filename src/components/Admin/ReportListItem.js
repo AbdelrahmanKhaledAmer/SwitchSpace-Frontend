@@ -69,10 +69,7 @@ class ReportListItem extends React.Component {
                         secondary={
                             // {/* <React.Fragment> */}
                             <Typography variant="subtitle1" className={classes.itemText}>
-                                {this.props.report.complaint}+
-                                {
-                                    "aaaaaashdbasdjsabydvtydtdvaayfsy dtsaftdstfsttfahhasgdgasdghsag ashgdsahgasdhgdghahgadhgdghdahgadhsgastfsa tttyastysatysatytyastytydstyasyttystyastys atysatystyatystydtydsyt"
-                                }
+                                {this.props.report.complaint}
                             </Typography>
                             // {/* </React.Fragment> */}
                         }
