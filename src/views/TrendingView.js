@@ -16,14 +16,16 @@ export default class TrendingView extends React.Component {
 
         this.getPostsBySubcategory = this.getPostsBySubcategory.bind(this);
         this.populateGraph = this.populateGraph.bind(this);
-
-        this.populateGraph();
     }
 
     static get propTypes() {
         return {
             history: PropTypes.object,
         };
+    }
+
+    componentDidMount() {
+        this.populateGraph();
     }
 
     async populateGraph() {

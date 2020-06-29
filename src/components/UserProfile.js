@@ -14,7 +14,7 @@ import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 import Card from "@material-ui/core/Card";
-import PostList from "./PostList";
+import PostList from "./Post/PostList";
 
 const styles = theme => ({
     topContainer: {

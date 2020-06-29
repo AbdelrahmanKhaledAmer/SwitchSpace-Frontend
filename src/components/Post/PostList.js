@@ -2,8 +2,16 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import PostListItem from "../components/PostListItem";
+import PostListItem from "../Post/PostListItem";
+import {withStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+
+const styles = {
+    scrollableCard: {
+        maxHeight: "90vh",
+        overflowY: "scroll",
+    },
+};
 
 class PostList extends React.Component {
     constructor(props) {
@@ -29,4 +37,4 @@ class PostList extends React.Component {
         return this.props.posts.map((post, idx) => <PostListItem key={idx} post={post} />);
     }
 }
-export default PostList;
+export default withStyles(styles)(PostList);

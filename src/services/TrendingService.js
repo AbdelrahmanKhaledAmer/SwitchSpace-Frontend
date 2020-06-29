@@ -2,18 +2,17 @@
 
 import HttpService from "./HttpService";
 
-export default class UserAuthService {
+export default class TrendingService {
     constructor() {}
 
     static baseURL() {
         return "/trending";
     }
 
-    // takes a full user object
     static getTrendingSubcategories() {
         return new Promise((resolve, reject) => {
             HttpService.get(
-                `${UserAuthService.baseURL()}/subcategories`,
+                `${TrendingService.baseURL()}/subcategories`,
                 function (data) {
                     resolve(data);
                 },
@@ -27,7 +26,7 @@ export default class UserAuthService {
     static getPostsBySubcategory(subcategory) {
         return new Promise((resolve, reject) => {
             HttpService.get(
-                `${UserAuthService.baseURL()}/posts?cat=` + subcategory,
+                `${TrendingService.baseURL()}/posts?cat=` + subcategory,
                 function (data) {
                     resolve(data);
                 },

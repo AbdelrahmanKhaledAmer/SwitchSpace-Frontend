@@ -6,7 +6,7 @@ import {BarChart, XAxis, Tooltip, YAxis, Bar, Cell, ResponsiveContainer} from "r
 import PropTypes from "prop-types";
 import Card from "@material-ui/core/Card";
 import Page from "./Page";
-import PostList from "./PostList";
+import PostList from "./Post/PostList";
 
 const styles = theme => ({
     graphContainer: {

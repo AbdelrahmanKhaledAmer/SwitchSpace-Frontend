@@ -2,22 +2,18 @@
 
 import HttpService from "./HttpService";
 
-export default class PostService {
+export default class CategoryService {
     constructor() {}
 
     static baseURL() {
-        return "/post";
+        return "/category";
     }
 
-    static createPost(postData) {
-        let headers = {
-            "Content-Type": "multipart/form-data",
-        };
+    // takes a full user object
+    static getSubcategories() {
         return new Promise((resolve, reject) => {
-            HttpService.post(
-                `${PostService.baseURL()}/`,
-                postData,
-                headers,
+            HttpService.get(
+                `${CategoryService.baseURL()}/subcategories`,
                 function (data) {
                     resolve(data);
                 },
@@ -28,10 +24,10 @@ export default class PostService {
         });
     }
 
-    static getUserPosts(userId) {
+    static getCategories() {
         return new Promise((resolve, reject) => {
             HttpService.get(
-                `${PostService.baseURL()}?userId=${userId}`,
+                `${CategoryService.baseURL()}/`,
                 function (data) {
                     resolve(data);
                 },
