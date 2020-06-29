@@ -35,7 +35,7 @@ class Page extends React.Component {
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
-            children: PropTypes.arrayOf(PropTypes.object),
+            children: PropTypes.object.isRequired,
         };
     }
 

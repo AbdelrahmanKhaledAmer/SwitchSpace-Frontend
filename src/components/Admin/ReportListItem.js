@@ -9,33 +9,27 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import {Divider} from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import FolderIcon from "@material-ui/icons/FolderOpen";
+import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import IconButton from "@material-ui/core/IconButton";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ViewHeadlineIcon from "@material-ui/icons/ViewHeadline";
+import ReportIcon from "@material-ui/icons/Report";
+
 const styles = theme => ({
-    reportContainer: {
-        marginTop: theme.spacing(2),
-    },
-    image: {
-        width: theme.spacing(18),
-        height: theme.spacing(18),
-    },
-    username: {
-        fontWeight: "bold",
-        fontSize: "1.5em",
-    },
     itemPadding: {
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2),
+        maxWidth: "900px",
     },
-    inline: {
-        display: "inline",
+
+    itemText: {
+        maxWidth: "80%",
+        display: "list-item",
+        // wordWrap: "inherit",
     },
 });
 
@@ -59,75 +53,50 @@ class ReportListItem extends React.Component {
     render() {
         const {classes} = this.props;
         return (
-            <Card className={classes.itemPadding} elevation={5}>
-                <ListItem alignItems="flex-start">
+            <Card raised className={classes.itemPadding} elevation={5}>
+                <ListItem alignItems="flex-start" button>
                     <ListItemAvatar>
                         <Avatar>
-                            <FolderIcon />
+                            <ReportIcon />
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText
-                        primary={this.props.report.reporterName}
+                        primary={
+                            <Typography align={"left"} variant="h6" color="textPrimary">
+                                {this.props.report.reporterName}
+                            </Typography>
+                        }
                         secondary={
-                            <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
+                            // {/* <React.Fragment> */}
+                            <Typography variant="subtitle1" className={classes.itemText}>
                                 {this.props.report.complaint}+
                                 {
-                                    "aaaaaashdbasdjsabshajbasxbydvtydtdvaayfsydtsaftdstfsttfastfsatttyastysatysatytyastytydstyasyttystyastysatysatystyatystydtydsyt"
+                                    "aaaaaashdbasdjsabydvtydtdvaayfsy dtsaftdstfsttfahhasgdgasdghsag ashgdsahgasdhgdghahgadhgdghdahgadhsgastfsa tttyastysatysatytyastytydstyasyttystyastys atysatystyatystydtydsyt"
                                 }
                             </Typography>
+                            // {/* </React.Fragment> */}
                         }
                     />
                     <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="go to post">
-                            <ViewHeadlineIcon />
-                        </IconButton>
-                        <IconButton
-                            edge="end"
-                            aria-label="delete"
-                            onClick={() => {
-                                console.log("hehehe");
-                                this.props.deleteReport(this.props.report._id);
-                            }}>
-                            <DeleteIcon />
-                        </IconButton>
+                        <Tooltip title="View Post" aria-label="go to post">
+                            <IconButton edge="end" aria-label="go to post">
+                                <ViewHeadlineIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="delete" aria-label="delete">
+                            <IconButton
+                                edge="end"
+                                aria-label="delete"
+                                onClick={() => {
+                                    console.log("hehehe");
+                                    this.props.deleteReport(this.props.report._id);
+                                }}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
                     </ListItemSecondaryAction>
                 </ListItem>
-                <Divider />
             </Card>
-
-            //     /*{ <Grid
-            //         container
-            //         spacing={2}
-            //         className={classes.reportContainer}
-            //         justify={"flex-start"}
-            //         alignContent={"flex-start"}
-            //         alignItems={"flex-start"}>
-            //         <Grid item sm={2}>
-            //             <Avatar src={undefined} className={classes.image} />
-            //         </Grid>
-            //         <Grid item sm={6}>
-            //             <List>
-            //                 <ListItem>
-            //                     <Grid container>
-            //                         <Grid item xs={6}>
-            //                             <div className={classes.username}>{this.props.report.reporterName}</div>
-            //                         </Grid>
-            //                     </Grid>
-            //                 </ListItem>
-
-            //                 <ListItem>
-            //                     <Typography noWrap>
-            //                         {this.props.report.complaint}
-            //                         {
-            //                             "this is aacasjkajsxkjskjskjdkjasdjaskdjdkjaskjdsakjasdjkdakjdkjsajksajksakjsajkaskjsaksajsaksajkaskjaskjsasakjaskaskjskja"
-            //                         }
-            //                     </Typography>
-            //                 </ListItem>
-            //             </List>
-            //         </Grid>
-            //     </Grid> */}
-            //     {/* <Divider /> */}
-            // {/* </Card> */}
         );
     }
 }
