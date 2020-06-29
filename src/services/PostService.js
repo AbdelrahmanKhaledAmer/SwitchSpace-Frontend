@@ -10,10 +10,14 @@ export default class PostService {
     }
 
     static createPost(postData) {
+        let headers = {
+            "Content-Type": "multipart/form-data",
+        };
         return new Promise((resolve, reject) => {
             HttpService.post(
                 `${PostService.baseURL()}/`,
                 postData,
+                headers,
                 function (data) {
                     resolve(data);
                 },

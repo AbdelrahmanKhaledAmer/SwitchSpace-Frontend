@@ -189,7 +189,7 @@ class PostStepper extends React.Component {
                 description: "",
                 category: "",
                 subcategory: "",
-                modelYear: "",
+                modelYear: 0,
                 condition: "",
             },
             itemDesired: {
@@ -197,7 +197,7 @@ class PostStepper extends React.Component {
                 description: "",
                 category: "",
                 subcategory: "",
-                modelYear: "",
+                modelYear: 0,
                 condition: "",
             },
             photos: [],
@@ -239,6 +239,7 @@ class PostStepper extends React.Component {
         return {
             classes: PropTypes.object.isRequired,
             categories: PropTypes.array.isRequired,
+            submit: PropTypes.func.isRequired,
         };
     }
 
@@ -256,10 +257,31 @@ class PostStepper extends React.Component {
         return post;
     }
 
-    handleNext() {
+    async handleNext() {
         if (this.state.activeStep == 2) {
-            // TODO: REDIRECT
-            return;
+            // let postData = {};
+            // postData.itemOwned = this.state.itemOwned;
+            // postData.itemDesired = this.state.itemDesired;
+            // postData.exchangeLocation = this.state.exchangeLocation;
+            // postData.photos = this.state.photos;
+            let itemOwned = this.state.itemOwned;
+            if (!itemOwned.modelYear) {
+                itemOwned.modelYear = undefined;
+            }
+            let itemDesired = this.state.itemDesired;
+            if (!itemDesired.modelYear) {
+                itemDesired.modelYear = undefined;
+            }
+            let formData = new FormData();
+            formData.append("itemOwned", JSON.stringify(this.state.itemOwned));
+            formData.append("itemDesired", JSON.stringify(this.state.itemDesired));
+            formData.append("exchangeLocation", JSON.stringify(this.state.exchangeLocation));
+            this.state.photos.map((file, index) => {
+                formData.append(`postPicture[${index}]`, file);
+            });
+            // formData.append(`postPicture`, this.state.photos);
+
+            this.props.submit(formData);
         } else {
             if ((this.state.activeStep == 0 && !this.validateItemOwnedForm()) || (this.state.activeStep == 1 && !this.validateItemDesiredForm())) {
                 return;
