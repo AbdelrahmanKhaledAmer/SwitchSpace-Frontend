@@ -88,7 +88,6 @@ class ReportListItem extends React.Component {
                                 edge="end"
                                 aria-label="delete"
                                 onClick={() => {
-                                    console.log("hehehe");
                                     this.props.deleteReport(this.props.report._id);
                                 }}>
                                 <DeleteIcon />

@@ -15,12 +15,13 @@ export default class AdminView extends React.Component {
             reports: [],
             loading: true,
         };
+        this.deleteReport = this.deleteReport.bind(this);
+        this.getReports = this.getReports.bind(this);
         this.notify = this.notify.bind(this);
     }
 
     async componentDidMount() {
         await this.getReports();
-        // this.setState({reports: reports});
     }
 
     // need to defince prop type for every function
@@ -68,6 +69,8 @@ export default class AdminView extends React.Component {
             this.notify(err);
         }
         this.setState({loading: false});
+        // refresh reports from thebackend
+        this.getReports();
     }
 
     // async deletePost(id) {
