@@ -1,7 +1,7 @@
 "use strict";
 import React from "react";
 import Page from "./Page";
-import PostList from "./PostList";
+import PostList from "./Post/PostList";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";

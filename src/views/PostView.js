@@ -1,7 +1,7 @@
 "use strict";
 
 import React from "react";
-import Post from "../components/PostDetails";
+import Post from "../components/Post/PostDetails";
 
 import PropTypes from "prop-types";
 
