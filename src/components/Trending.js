@@ -6,7 +6,7 @@ import {BarChart, XAxis, Tooltip, YAxis, Bar, Cell, ResponsiveContainer} from "r
 import PropTypes from "prop-types";
 import Card from "@material-ui/core/Card";
 import Page from "./Page";
-import PostList from "./PostList";
+import PostList from "./Post/PostList";
 
 const styles = theme => ({
     graphContainer: {
@@ -30,6 +30,9 @@ const styles = theme => ({
         width: "70%",
         margin: "0 auto",
         marginTop: theme.spacing(3),
+        maxHeight: "90vh",
+        // TODO: remove from trending add to search
+        overflowY: "scroll",
     },
 });
 
@@ -76,9 +79,9 @@ class Trending extends React.Component {
                         </ResponsiveContainer>
                     </div>
                 </Card>
-                <div className={classes.postsContainer}>
-                    <PostList posts={this.props.posts}></PostList>
-                </div>
+                <Card elevation={5} className={classes.postsContainer}>
+                    <PostList posts={this.props.posts} msgForNoPosts=""></PostList>
+                </Card>
             </Page>
         );
     }

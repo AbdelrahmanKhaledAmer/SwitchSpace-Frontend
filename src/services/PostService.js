@@ -2,17 +2,22 @@
 
 import HttpService from "./HttpService";
 
-export default class TrendingService {
+export default class PostService {
     constructor() {}
 
     static baseURL() {
-        return "/trending";
+        return "/post";
     }
 
-    static getTrendingSubcategories() {
+    static createPost(postData) {
+        let headers = {
+            "Content-Type": "multipart/form-data",
+        };
         return new Promise((resolve, reject) => {
-            HttpService.get(
-                `${TrendingService.baseURL()}/subcategories`,
+            HttpService.post(
+                `${PostService.baseURL()}/`,
+                postData,
+                headers,
                 function (data) {
                     resolve(data);
                 },
@@ -23,10 +28,10 @@ export default class TrendingService {
         });
     }
 
-    static getPostsBySubcategory(subcategory) {
+    static getUserPosts(userId) {
         return new Promise((resolve, reject) => {
             HttpService.get(
-                `${TrendingService.baseURL()}/posts?cat=` + subcategory,
+                `${PostService.baseURL()}?userId=${userId}`,
                 function (data) {
                     resolve(data);
                 },

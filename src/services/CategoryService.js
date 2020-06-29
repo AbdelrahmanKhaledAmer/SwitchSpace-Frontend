@@ -2,17 +2,18 @@
 
 import HttpService from "./HttpService";
 
-export default class TrendingService {
+export default class CategoryService {
     constructor() {}
 
     static baseURL() {
-        return "/trending";
+        return "/category";
     }
 
-    static getTrendingSubcategories() {
+    // takes a full user object
+    static getSubcategories() {
         return new Promise((resolve, reject) => {
             HttpService.get(
-                `${TrendingService.baseURL()}/subcategories`,
+                `${CategoryService.baseURL()}/subcategories`,
                 function (data) {
                     resolve(data);
                 },
@@ -23,10 +24,10 @@ export default class TrendingService {
         });
     }
 
-    static getPostsBySubcategory(subcategory) {
+    static getCategories() {
         return new Promise((resolve, reject) => {
             HttpService.get(
-                `${TrendingService.baseURL()}/posts?cat=` + subcategory,
+                `${CategoryService.baseURL()}/`,
                 function (data) {
                     resolve(data);
                 },
