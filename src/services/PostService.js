@@ -41,4 +41,21 @@ export default class PostService {
             );
         });
     }
+
+    static deletePost(id) {
+        return new Promise((resolve, reject) => {
+            HttpService.remove(
+                `${PostService.baseURL()}/${id}`,
+                id,
+                function (data) {
+                    //resolve
+                    resolve(data);
+                },
+                function (textStatus) {
+                    //reject
+                    reject(textStatus);
+                }
+            );
+        });
+    }
 }
