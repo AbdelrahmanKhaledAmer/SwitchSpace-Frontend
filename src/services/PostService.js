@@ -28,6 +28,20 @@ export default class PostService {
         });
     }
 
+    static getPost(postId) {
+        return new Promise((resolve, reject) => {
+            HttpService.get(
+                `${PostService.baseURL()}/${postId}`,
+                function (data) {
+                    resolve(data);
+                },
+                function (textStatus) {
+                    reject(textStatus);
+                }
+            );
+        });
+    }
+
     static getUserPosts(userId) {
         return new Promise((resolve, reject) => {
             HttpService.get(
