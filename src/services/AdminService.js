@@ -44,7 +44,7 @@ export default class AdminService {
     static deletePost(id) {
         return new Promise((resolve, reject) => {
             HttpService.remove(
-                `${AdminService.baseURL()}post`,
+                `${AdminService.baseURL()}post/${id}`,
                 id,
                 function (data) {
                     //resolve

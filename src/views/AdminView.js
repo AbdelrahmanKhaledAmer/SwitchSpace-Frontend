@@ -60,12 +60,14 @@ export default class AdminView extends React.Component {
     }
     // delete reports
     async deleteReport(id) {
+        this.setState({loading: true});
         try {
             await AdminService.deleteReport(id);
         } catch (err) {
             console.error(err);
             this.notify(err);
         }
+        this.setState({loading: false});
     }
 
     // async deletePost(id) {
