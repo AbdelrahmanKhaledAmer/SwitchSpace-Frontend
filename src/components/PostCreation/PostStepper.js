@@ -139,7 +139,7 @@ ColorlibStepIcon.propTypes = {
 const styles = theme => ({
     root: {
         width: "90%",
-        marginTop: theme.spacing(7),
+        // marginTop: theme.spacing(7),
         margin: "0 auto",
         paddingBottom: theme.spacing(2),
         borderRadius: "10px",

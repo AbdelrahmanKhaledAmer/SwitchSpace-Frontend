@@ -15,7 +15,6 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 
 const styles = theme => ({
     paper: {
-        marginTop: theme.spacing(8),
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

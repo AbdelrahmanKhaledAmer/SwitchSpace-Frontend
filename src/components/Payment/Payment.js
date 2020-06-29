@@ -19,19 +19,11 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 // set card options
 const styles = theme => ({
     paper: {
-        marginTop: theme.spacing(8),
+        // marginTop: theme.spacing(8),
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         padding: theme.spacing(2),
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: "#659dbd",
-    },
-
-    centerFold: {
-        textAlign: "center",
     },
 });
 

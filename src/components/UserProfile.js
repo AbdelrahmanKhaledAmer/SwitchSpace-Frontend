@@ -19,7 +19,7 @@ import PostList from "./Post/PostList";
 const styles = theme => ({
     topContainer: {
         width: "70%",
-        marginTop: theme.spacing(10),
+        // marginTop: theme.spacing(10),
         marginLeft: "auto",
         marginRight: "auto",
     },

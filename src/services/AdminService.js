@@ -1,51 +1,50 @@
+// router.get("/report", logger, middlewares.checkAuthentication, reportController.viewAllReports);
+// router.delete("/report", logger, middlewares.checkAuthentication, reportController.deleteReport);
+// router.delete("/post", logger, middlewares.checkAuthentication, postController.remove);
 "use strict";
-
 import HttpService from "./HttpService";
 
-export default class PostService {
+export default class AdminService {
     constructor() {}
-
     static baseURL() {
-        return "/post";
+        return "/moderate/";
     }
 
-    static createPost(postData) {
-        let headers = {
-            "Content-Type": "multipart/form-data",
-        };
-        return new Promise((resolve, reject) => {
-            HttpService.post(
-                `${PostService.baseURL()}/`,
-                postData,
-                headers,
-                function (data) {
-                    resolve(data);
-                },
-                function (textStatus) {
-                    reject(textStatus);
-                }
-            );
-        });
-    }
-
-    static getUserPosts(userId) {
+    static getReports() {
         return new Promise((resolve, reject) => {
             HttpService.get(
-                `${PostService.baseURL()}?userId=${userId}`,
+                `${AdminService.baseURL()}report`,
                 function (data) {
+                    //resolve
                     resolve(data);
                 },
                 function (textStatus) {
+                    //reject
                     reject(textStatus);
                 }
             );
         });
     }
 
+    static deleteReport(reportId) {
+        return new Promise((resolve, reject) => {
+            HttpService.remove(
+                `${AdminService.baseURL()}report/${reportId}`,
+                function (data) {
+                    //resolve
+                    resolve(data);
+                },
+                function (textStatus) {
+                    //reject
+                    reject(textStatus);
+                }
+            );
+        });
+    }
     static deletePost(id) {
         return new Promise((resolve, reject) => {
             HttpService.remove(
-                `${PostService.baseURL()}/${id}`,
+                `${AdminService.baseURL()}post/${id}`,
                 id,
                 function (data) {
                     //resolve
