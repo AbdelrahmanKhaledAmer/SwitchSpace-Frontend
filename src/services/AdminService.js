@@ -26,11 +26,10 @@ export default class AdminService {
         });
     }
 
-    static deleteReports(id) {
+    static deleteReport(reportId) {
         return new Promise((resolve, reject) => {
             HttpService.remove(
-                `${AdminService.baseURL()}report`,
-                id,
+                `${AdminService.baseURL()}report/${reportId}`,
                 function (data) {
                     //resolve
                     resolve(data);
