@@ -25,18 +25,6 @@ const styles = theme => ({
         margin: theme.spacing(1),
         backgroundColor: "#659dbd",
     },
-    form: {
-        width: "100%", // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
-        "&:hover": {
-            background: "#558dad",
-        },
-    },
     centerFold: {
         textAlign: "center",
     },
