@@ -69,8 +69,6 @@ class UserProfile extends React.Component {
                             <Grid item>
                                 <UserInfo userInfo={this.props.userInfo} />
                             </Grid>
-                            {/* TODO: check if my profile only  */}
-
                             <Grid item>
                                 {!this.props.isMyProfile ? (
                                     <Button className={classes.createReviewButton} variant="contained" startIcon={<Icon>add_circle</Icon>}>
