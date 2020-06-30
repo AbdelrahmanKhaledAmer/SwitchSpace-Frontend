@@ -7,6 +7,7 @@ import {withStyles} from "@material-ui/core/styles";
 import UserProfile from "../components/UserProfile";
 import PostService from "../services/PostService";
 import UserService from "../services/UserService";
+import UserAuthService from "../services/UserAuthService";
 
 const styles = {
     centered: {
@@ -24,12 +25,25 @@ class UserProfileView extends React.Component {
 
         this.state = {
             pageLoading: true,
-            selectedTab: "reviews",
+            selectedTab: "posts",
             userId: this.props.match.params.id,
+            tabs: [
+                {
+                    label: "Posts",
+                    value: "posts",
+                },
+                {
+                    label: "Reviews",
+                    value: "reviews",
+                },
+            ],
+            isMyProfile: false,
+            myEmail: undefined,
             userInfo: {},
         };
 
         this.handleTabChange = this.handleTabChange.bind(this);
+        this.updateProfile = this.updateProfile.bind(this);
     }
 
     static get propTypes() {
@@ -40,16 +54,45 @@ class UserProfileView extends React.Component {
     }
 
     async componentDidMount() {
+        const currentUser = UserAuthService.getCurrentUser();
+        const tabs = this.state.tabs;
+        let isMyProfile = false;
+        if (currentUser.id == this.state.userId) {
+            isMyProfile = true;
+            tabs.push({
+                label: "Settings",
+                value: "settings",
+            });
+        }
         try {
             const postsResp = await PostService.getUserPosts(this.state.userId);
             const userInfoResp = await UserService.getUserInfo(this.state.userId);
+
             this.setState({
                 pageLoading: false,
                 userInfo: userInfoResp.data.data,
                 posts: postsResp.data.data,
+                isMyProfile: isMyProfile,
+                myEmail: currentUser.email,
+                tabs: tabs,
             });
         } catch (err) {
             // TODO: add feedback for the error
+            console.log(err);
+        }
+    }
+    async updateProfile(user) {
+        const data = new FormData();
+        for (let key in user) {
+            data.append(key, user[key]);
+        }
+        try {
+            await UserService.updateProfile(data);
+
+            //TODO: notify and update tab
+            this.setState({selectedTab: "posts"});
+        } catch (err) {
+            //TODO: handle notification
             console.log(err);
         }
     }
@@ -74,8 +117,12 @@ class UserProfileView extends React.Component {
 
         return (
             <UserProfile
+                tabs={this.state.tabs}
+                isMyProfile={this.state.isMyProfile}
+                myEmail={this.state.myEmail}
                 selectedTab={this.state.selectedTab}
                 onTabChange={this.handleTabChange}
+                onProfileUpdate={this.updateProfile}
                 userInfo={this.state.userInfo}
                 posts={this.state.posts}
             />
