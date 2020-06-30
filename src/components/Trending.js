@@ -30,9 +30,9 @@ const styles = theme => ({
         width: "70%",
         margin: "0 auto",
         marginTop: theme.spacing(3),
-        maxHeight: "90vh",
+        // maxHeight: "90vh",
         // TODO: remove from trending add to search
-        overflowY: "scroll",
+        // overflowY: "scroll",
     },
 });
 
@@ -60,7 +60,7 @@ class Trending extends React.Component {
 
     render() {
         const {classes} = this.props;
-
+        // TODO: TITLE BEFORE AND AFTER GRAPH
         return (
             <Page>
                 <React.Fragment>
@@ -80,9 +80,9 @@ class Trending extends React.Component {
                             </ResponsiveContainer>
                         </div>
                     </Card>
-                    <Card elevation={5} className={classes.postsContainer}>
-                        <PostList posts={this.props.posts} msgForNoPosts=""></PostList>
-                    </Card>
+                    <div className={classes.postsContainer}>
+                        <PostList posts={this.props.posts} msgForNoPosts="Click on a category to see posts"></PostList>
+                    </div>
                 </React.Fragment>
             </Page>
         );

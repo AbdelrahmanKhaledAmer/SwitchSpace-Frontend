@@ -6,12 +6,7 @@ import PostListItem from "../Post/PostListItem";
 import {withStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
-const styles = {
-    scrollableCard: {
-        maxHeight: "90vh",
-        overflowY: "scroll",
-    },
-};
+const styles = {};
 
 class PostList extends React.Component {
     constructor(props) {
