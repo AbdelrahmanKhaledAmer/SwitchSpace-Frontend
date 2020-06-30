@@ -1,32 +1,34 @@
 "use strict";
-
 import HttpService from "./HttpService";
 
-export default class TrendingService {
+export default class UserService {
     constructor() {}
-
     static baseURL() {
-        return "/trending";
+        return "/profile";
     }
 
-    static getTrendingSubcategories() {
+    static changeSubscriptionTier(changeRequest) {
+        console.log(changeRequest);
         return new Promise((resolve, reject) => {
-            HttpService.get(
-                `${TrendingService.baseURL()}/subcategories`,
+            HttpService.put(
+                `${UserService.baseURL()}/subscription`,
+                changeRequest,
                 function (data) {
+                    //resolve
                     resolve(data);
                 },
                 function (textStatus) {
+                    //reject
                     reject(textStatus);
                 }
             );
         });
     }
 
-    static getPostsBySubcategory(subcategory) {
+    static getUserInfo(userId) {
         return new Promise((resolve, reject) => {
             HttpService.get(
-                `${TrendingService.baseURL()}/posts?cat=` + subcategory,
+                `${UserService.baseURL()}/user/${userId}`,
                 function (data) {
                     resolve(data);
                 },
