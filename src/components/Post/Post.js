@@ -14,7 +14,7 @@ import Geocode from "react-geocode";
 import PostDetails from "../Post/PostDetails";
 import UserInfo from "../UserInfo";
 import Page from "../Page";
-import ReportModal from "../Report";
+import ReportModal from "../ReportModal";
 
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
@@ -64,13 +64,12 @@ class Post extends React.Component {
         super(props);
 
         this.state = {
-            postLocation: "Unknown Location",
             ReportModalOpen: false,
             reportContent: "",
         };
 
-        this.getLocation = this.getLocation.bind(this);
         this.toggleReportModal = this.toggleReportModal.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     static get propTypes() {
@@ -78,6 +77,7 @@ class Post extends React.Component {
             classes: PropTypes.object.isRequired,
             post: PropTypes.object.isRequired,
             loading: PropTypes.bool.isRequired,
+            submitReport: PropTypes.func.isRequired,
         };
     }
     toggleReportModal() {
@@ -85,24 +85,10 @@ class Post extends React.Component {
             ReportModalOpen: !this.state.ReportModalOpen,
         });
     }
-
-    componentDidMount() {
-        this.getLocation();
+    submit(report) {
+        this.props.submitReport(report);
+        this.toggleReportModal();
     }
-
-    async getLocation() {
-        if (this.props.loading || !this.post.exchangeLocation) {
-            return;
-        }
-        const coord = this.props.post.exchangeLocation.coordinates;
-        let loc = await Geocode.fromLatLng(coord[1], coord[0]);
-        let components = loc.results[0].address_components;
-        let filtered = components.filter(elem => elem.types[0] == "locality")[0];
-        if (filtered) {
-            this.setState({postLocation: filtered.long_name});
-        }
-    }
-
     render() {
         const {classes} = this.props;
         return (
@@ -137,7 +123,7 @@ class Post extends React.Component {
                                 </Button>
                             </div>
                         </Container>
-                        <ReportModal modalOpen={this.state.ReportModalOpen} onClose={this.toggleReportModal}></ReportModal>
+                        <ReportModal modalOpen={this.state.ReportModalOpen} onClose={this.toggleReportModal} submitReport={this.submit}></ReportModal>
                     </div>
                 )}
             </Page>

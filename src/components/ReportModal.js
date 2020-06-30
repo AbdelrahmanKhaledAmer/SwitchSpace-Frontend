@@ -45,7 +45,7 @@ const styles = theme => ({
     },
 });
 
-class Report extends React.Component {
+class ReportModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -53,6 +53,7 @@ class Report extends React.Component {
             reportEmpty: true,
         };
         this.onReportChange = this.onReportChange.bind(this);
+        this.submitHandler = this.submitHandler.bind(this);
     }
     static get propTypes() {
         return {
@@ -60,6 +61,7 @@ class Report extends React.Component {
             posts: PropTypes.array.isRequired,
             modalOpen: PropTypes.bool.isRequired,
             onClose: PropTypes.func.isRequired,
+            submitReport: PropTypes.func.isRequired,
         };
     }
     onReportChange(e) {
@@ -70,6 +72,9 @@ class Report extends React.Component {
         } else {
             this.setState({reportEmpty: false});
         }
+    }
+    submitHandler() {
+        this.props.submitReport(this.state.report);
     }
 
     render() {
@@ -124,4 +129,4 @@ class Report extends React.Component {
         );
     }
 }
-export default withRouter(withStyles(styles)(Report));
+export default withRouter(withStyles(styles)(ReportModal));
