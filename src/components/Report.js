@@ -8,7 +8,12 @@ import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import ReportIcon from "@material-ui/icons/Report";
-import Page from "./Page";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
+import Zoom from "@material-ui/core/Zoom";
+
 import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
 
@@ -53,6 +58,8 @@ class Report extends React.Component {
         return {
             classes: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
+            modalOpen: PropTypes.bool.isRequired,
+            onClose: PropTypes.func.isRequired,
         };
     }
     onReportChange(e) {
@@ -69,40 +76,56 @@ class Report extends React.Component {
         const {classes} = this.props;
 
         return (
-            <Page>
-                <Container component="main" maxWidth="xs">
-                    <CssBaseline />
-                    <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <ReportIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Report
-                        </Typography>
-                        <form className={classes.form} noValidate>
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                fullWidth
-                                multiline
-                                rows={8}
-                                id="report"
-                                label="Report"
-                                name="report"
-                                autoComplete="Report Text"
-                                onChange={this.onReportChange}
-                                autoFocus
-                                error={this.state.reportEmpty}
-                                helperText={this.state.reportEmpty ? "Report Cannot be Empty" : ""}
-                            />
-                            <Button fullWidth variant="contained" className={classes.submit} onClick={this.submitHandler}>
-                                Submit Report
-                            </Button>
-                        </form>
-                    </div>
-                </Container>
-            </Page>
+            <Dialog
+                aria-labelledby="form-dialog-title"
+                open={this.props.modalOpen}
+                onClose={() => this.props.onClose()}
+                TransitionComponent={Zoom}
+                transitionDuration={500}>
+                <DialogTitle id="form-dialog-title" className={classes.centerFold}>
+                    {"Write your report here"}
+                </DialogTitle>
+                <DialogContent className={classes.mapContainer}>
+                    <Container component="main" maxWidth="xs">
+                        <CssBaseline />
+                        <div className={classes.paper}>
+                            <Avatar className={classes.avatar}>
+                                <ReportIcon />
+                            </Avatar>
+                            <Typography component="h1" variant="h5">
+                                Report
+                            </Typography>
+                            <form className={classes.form} noValidate>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    multiline
+                                    rows={8}
+                                    id="report"
+                                    label="Report"
+                                    name="report"
+                                    autoComplete="Report Text"
+                                    onChange={this.onReportChange}
+                                    autoFocus
+                                    error={this.state.reportEmpty}
+                                    helperText={this.state.reportEmpty ? "Report Cannot be Empty" : ""}
+                                />
+
+                                {/* <Button fullWidth variant="contained" className={classes.submit} onClick={this.submitHandler}>
+                                    Submit Report
+                                </Button> */}
+                            </form>
+                        </div>
+                    </Container>
+                </DialogContent>
+                <DialogActions className={classes.centerFold}>
+                    <Button disabled={!this.state.isMarkerPlaced} onClick={this.submitHandler} color="primary">
+                        Submit report
+                    </Button>
+                </DialogActions>
+            </Dialog>
         );
     }
 }
