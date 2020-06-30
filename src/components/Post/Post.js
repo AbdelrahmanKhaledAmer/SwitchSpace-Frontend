@@ -22,7 +22,6 @@ const styles = theme => ({
         textAlign: "center",
         width: "85%",
         margin: "0 auto",
-        marginTop: theme.spacing(7),
     },
     backdrop: {
         zIndex: theme.zIndex.drawer + 2,
