@@ -14,8 +14,8 @@ import Card from "@material-ui/core/Card";
 
 import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import GoogleMap from "../components/GoogleMap";
 import Zoom from "@material-ui/core/Zoom";
+import MapContainer from "./MapContainer";
 
 const styles = theme => ({
     inputCard: {
@@ -157,7 +157,7 @@ class SearchFilter extends React.Component {
                             <Grid item sm={12}>
                                 <Zoom in={true} transitionduration={500}>
                                     <Card elevation={3} className={classes.mapCard}>
-                                        <GoogleMap className={classes.map}></GoogleMap>
+                                        <MapContainer className={classes.map} posts={this.props.posts}></MapContainer>
                                     </Card>
                                 </Zoom>
                             </Grid>
