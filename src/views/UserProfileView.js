@@ -6,6 +6,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import {withStyles} from "@material-ui/core/styles";
 import UserProfile from "../components/UserProfile";
 import PostService from "../services/PostService";
+import UserService from "../services/UserService";
 
 const styles = {
     centered: {
@@ -39,30 +40,14 @@ class UserProfileView extends React.Component {
     }
 
     async componentDidMount() {
-        // TODO: get userInfo from a service
-        const userInfo = {
-            name: "Frodo Baggins",
-            profilePicture: {
-                url: "https://tipsmake.com/data/thumbs/how-to-hide-facebook-profile-picture-thumb-EhRnrBzAY.jpg",
-                key: "awsKey",
-            },
-            commRate: 3.5,
-            conditionRate: 3.7,
-            descriptionRate: 3.2,
-        };
-
-        let response = await this.getUserPosts();
-        this.setState({
-            pageLoading: false,
-            userInfo: userInfo,
-            posts: response.data.data,
-        });
-    }
-
-    async getUserPosts() {
         try {
-            let posts = await PostService.getUserPosts(this.state.userId);
-            return posts;
+            const postsResp = await PostService.getUserPosts(this.state.userId);
+            const userInfoResp = await UserService.getUserInfo(this.state.userId);
+            this.setState({
+                pageLoading: false,
+                userInfo: userInfoResp.data.data,
+                posts: postsResp.data.data,
+            });
         } catch (err) {
             // TODO: add feedback for the error
             console.log(err);
@@ -89,9 +74,9 @@ class UserProfileView extends React.Component {
 
         return (
             <UserProfile
-                userInfo={this.state.userInfo}
                 selectedTab={this.state.selectedTab}
                 onTabChange={this.handleTabChange}
+                userInfo={this.state.userInfo}
                 posts={this.state.posts}
             />
         );
