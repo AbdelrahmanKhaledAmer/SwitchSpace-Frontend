@@ -27,8 +27,8 @@ const styles = theme => ({
         marginLeft: theme.spacing(2),
     },
     avatar: {
-        width: theme.spacing(14),
-        height: theme.spacing(14),
+        width: theme.spacing(18),
+        height: theme.spacing(18),
     },
     username: {
         fontSize: "18px",
@@ -51,7 +51,7 @@ class UserInfo extends React.Component {
         const {classes, userInfo} = this.props;
         return (
             <div className={classes.mainContainer}>
-                <Avatar src={userInfo.profilePicture ? userInfo.profilePicture.url : null} className={classes.avatar} />
+                <Avatar className={classes.avatar} src={userInfo.profilePicture ? userInfo.profilePicture.url : null} />
                 <div className={classes.ratingsContainer}>
                     <Typography className={classes.username}>
                         <b>{userInfo.name}</b>

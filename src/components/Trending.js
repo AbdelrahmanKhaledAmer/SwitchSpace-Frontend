@@ -24,7 +24,7 @@ const styles = theme => ({
         width: "70%",
         height: "60vh",
         margin: "0 auto",
-        marginTop: theme.spacing(7),
+        // marginTop: theme.spacing(7),
     },
     postsContainer: {
         width: "70%",
@@ -63,25 +63,27 @@ class Trending extends React.Component {
 
         return (
             <Page>
-                <Card elevation={5} className={classes.graphCard}>
-                    <div className={classes.graphContainer}>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={this.props.data} onClick={this.handlePvBarClick}>
-                                <XAxis dataKey="title" /> {/*change axis color axisLine={{ stroke: "purple" }}*/}
-                                <YAxis width={35} />
-                                <Tooltip />
-                                <Bar dataKey="trendingScore">
-                                    {this.props.data.map((entry, idx) => (
-                                        <Cell key={`cell-${entry.title}`} fill={this.colors[idx % this.colors.length]} />
-                                    ))}
-                                </Bar>
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
-                </Card>
-                <Card elevation={5} className={classes.postsContainer}>
-                    <PostList posts={this.props.posts} msgForNoPosts=""></PostList>
-                </Card>
+                <React.Fragment>
+                    <Card elevation={5} className={classes.graphCard}>
+                        <div className={classes.graphContainer}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={this.props.data} onClick={this.handlePvBarClick}>
+                                    <XAxis dataKey="title" /> {/*change axis color axisLine={{ stroke: "purple" }}*/}
+                                    <YAxis width={35} />
+                                    <Tooltip />
+                                    <Bar dataKey="trendingScore">
+                                        {this.props.data.map((entry, idx) => (
+                                            <Cell key={`cell-${entry.title}`} fill={this.colors[idx % this.colors.length]} />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </Card>
+                    <Card elevation={5} className={classes.postsContainer}>
+                        <PostList posts={this.props.posts} msgForNoPosts=""></PostList>
+                    </Card>
+                </React.Fragment>
             </Page>
         );
     }

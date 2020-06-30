@@ -18,7 +18,7 @@ import EmailValidator from "email-validator";
 
 const styles = theme => ({
     paper: {
-        marginTop: theme.spacing(8),
+        // marginTop: theme.spacing(8),
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -30,7 +30,7 @@ const styles = theme => ({
     },
     form: {
         width: "100%", // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
+        marginTop: theme.spacing(2),
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
@@ -52,6 +52,7 @@ class UserLogin extends React.Component {
         this.state = {
             email: "",
             emailError: false,
+            passwordError: false,
             password: "",
         };
 
@@ -62,18 +63,14 @@ class UserLogin extends React.Component {
 
     onEmailChange(e) {
         const value = e.currentTarget.value;
-        this.setState({email: value});
-
-        if (EmailValidator.validate(value)) {
-            this.setState({emailError: false});
-        } else {
-            this.setState({emailError: true});
-        }
+        const error = EmailValidator.validate(value) ? false : true;
+        this.setState({email: value, emailError: error});
     }
 
     onPasswordChange(e) {
         const value = e.currentTarget.value;
-        this.setState({password: value});
+        const error = !value ? true : false;
+        this.setState({password: value, passwordError: error});
     }
 
     submitHandler() {
@@ -87,6 +84,7 @@ class UserLogin extends React.Component {
         return {
             classes: PropTypes.object.isRequired,
             onSubmit: PropTypes.func.isRequired,
+            isAdmin: PropTypes.bool,
         };
     }
 
@@ -128,15 +126,21 @@ class UserLogin extends React.Component {
                                 id="password"
                                 autoComplete="current-password"
                                 onChange={this.onPasswordChange}
+                                error={this.state.passwordError}
+                                helperText={this.state.passwordError ? "Password is Required" : ""}
                             />
                             {/*TODO: CHECK IF REMEMBER ME IS A VIABLE OPTION*/}
                             <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
                             <Button fullWidth variant="contained" className={classes.submit} onClick={this.submitHandler}>
                                 Sign In
                             </Button>
-                            <div className={classes.centerFold}>
-                                <Link to={"/register"}>{"Not a member? Register"}</Link>
-                            </div>
+                            {!this.props.isAdmin ? (
+                                <div className={classes.centerFold}>
+                                    <Link to={"/register"}>{"Not a member? Register"}</Link>
+                                </div>
+                            ) : (
+                                ""
+                            )}
                         </form>
                     </Card>
                 </Container>

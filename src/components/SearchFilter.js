@@ -40,7 +40,7 @@ const styles = theme => ({
     root: {
         // main grid
         flexGrow: 1,
-        marginTop: theme.spacing(4.5), // for navbar
+        // marginTop: theme.spacing(4.5), // for navbar
         padding: theme.spacing(3), // outside margin
     },
     child: {

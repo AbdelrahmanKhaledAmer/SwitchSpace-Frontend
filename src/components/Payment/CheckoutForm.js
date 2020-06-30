@@ -66,7 +66,7 @@ class CheckoutForm extends React.Component {
     }
     onFirstNameChange(e) {
         const value = e.currentTarget.value;
-        this.setState({lastname: value});
+        this.setState({firstname: value});
         if (value.length >= 2) {
             this.setState({fnameError: false});
         } else {
@@ -75,7 +75,7 @@ class CheckoutForm extends React.Component {
     }
     onLastNameChange(e) {
         const value = e.currentTarget.value;
-        this.setState({firstname: value});
+        this.setState({lastname: value});
         if (value.length >= 2) {
             this.setState({lnameError: false});
         } else {
