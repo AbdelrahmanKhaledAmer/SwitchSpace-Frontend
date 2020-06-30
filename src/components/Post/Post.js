@@ -14,6 +14,7 @@ import Geocode from "react-geocode";
 import PostDetails from "../Post/PostDetails";
 import UserInfo from "../UserInfo";
 import Page from "../Page";
+import ReportModal from "../Report";
 
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
@@ -64,9 +65,12 @@ class Post extends React.Component {
 
         this.state = {
             postLocation: "Unknown Location",
+            ReportModalOpen: false,
+            reportContent: "",
         };
 
         this.getLocation = this.getLocation.bind(this);
+        this.toggleReportModal = this.toggleReportModal.bind(this);
     }
 
     static get propTypes() {
@@ -75,6 +79,11 @@ class Post extends React.Component {
             post: PropTypes.object.isRequired,
             loading: PropTypes.bool.isRequired,
         };
+    }
+    toggleReportModal() {
+        this.setState({
+            ReportModalOpen: !this.state.ReportModalOpen,
+        });
     }
 
     componentDidMount() {
@@ -103,28 +112,33 @@ class Post extends React.Component {
                         <CircularProgress color="primary" />
                     </Backdrop>
                 ) : (
-                    <Container className={classes.conatiner}>
-                        <Grid container justify="space-between" alignItems="center" className={classes.topContainer}>
-                            <Grid item xs={6}>
-                                <UserInfo userInfo={this.props.post.creatorId} />
-                            </Grid>
-                            <Grid item xs={6} className={classes.rightGridItem}>
-                                <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
-                                <Grid container justify="flex-end">
-                                    <div className={classes.icon}>
-                                        <LocationOnOutlinedIcon />
-                                    </div>
-                                    {this.state.postLocation}
+                    <div>
+                        <Container className={classes.conatiner}>
+                            <Grid container justify="space-between" alignItems="center" className={classes.topContainer}>
+                                <Grid item xs={6}>
+                                    <UserInfo userInfo={this.props.post.creatorId} />
                                 </Grid>
-                                <Button className={classes.button}>Contact for Exchange</Button>
-                                {/*TODO: START CHAT*/}
+                                <Grid item xs={6} className={classes.rightGridItem}>
+                                    <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
+                                    <Grid container justify="flex-end">
+                                        <div className={classes.icon}>
+                                            <LocationOnOutlinedIcon />
+                                        </div>
+                                        {this.state.postLocation}
+                                    </Grid>
+                                    <Button className={classes.button}>Contact for Exchange</Button>
+                                    {/*TODO: START CHAT*/}
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <PostDetails post={this.props.post} />
-                        <div className={classes.bottom}>
-                            <Button className={classes.reportButton}>Report Post</Button>
-                        </div>
-                    </Container>
+                            <PostDetails post={this.props.post} />
+                            <div className={classes.bottom}>
+                                <Button className={classes.reportButton} onClick={this.toggleReportModal}>
+                                    Report Post
+                                </Button>
+                            </div>
+                        </Container>
+                        <ReportModal modalOpen={this.state.ReportModalOpen} onClose={this.toggleReportModal}></ReportModal>
+                    </div>
                 )}
             </Page>
         );
