@@ -39,6 +39,6 @@ export default class SearchFilterView extends React.Component {
     }
 
     render() {
-        return <SearchFilter posts={this.state.posts} getSearchPosts={this.getSearchPosts}></SearchFilter>;
+        return <SearchFilter posts={this.state.posts} onSubmit={this.getSearchPosts}></SearchFilter>;
     }
 }

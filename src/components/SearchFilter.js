@@ -89,11 +89,10 @@ class SearchFilter extends React.Component {
             classes: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
             onSubmit: PropTypes.func.isRequired,
-            getSearchPosts: PropTypes.func.isRequired,
         };
     }
     hndelSubmitSearch() {
-        this.props.getSearchPosts(
+        this.props.onSubmit(
             this.state.itemWanted,
             this.state.itemOwned,
             this.state.wantedCategory,
@@ -153,7 +152,7 @@ class SearchFilter extends React.Component {
             <Page>
                 <Grid container spacing={3} className={classes.root}>
                     <Grid item sm={5}>
-                        <Grid container maxWidth="lg" spacing={3} className={classes.child}>
+                        <Grid container spacing={3} className={classes.child}>
                             {/* map */}
                             <Grid item sm={12}>
                                 <Zoom in={true} transitionduration={500}>
@@ -168,11 +167,11 @@ class SearchFilter extends React.Component {
                                     <Card elevation={3} className={classes.inputCard}>
                                         <div className={classes.formAlignment}>
                                             <form className={classes.textBox} noValidate autoComplete="off">
-                                                <TextField id="filled-basic" label="Location" />
-                                                <TextField id="filled-basic" label="Radius" onChange={this.onRadiusChange} />
-                                                <TextField id="filled-basic" label="Item Desired" onChange={this.onItemWantedChange} />
+                                                <TextField id="location" label="Location" />
+                                                <TextField id="radius" label="Radius" onChange={this.onRadiusChange} />
+                                                <TextField id="itemDesired" label="Item Desired" onChange={this.onItemWantedChange} />
                                                 <br />
-                                                <TextField id="filled-basic" label="Item Owned" onChange={this.onItemOwnedChange} />
+                                                <TextField id="ItemOwned" label="Item Owned" onChange={this.onItemOwnedChange} />
                                                 <FormControl className={classes.formControl}>
                                                     <InputLabel id="demo-controlled-open-select-label">Item Desired Condition</InputLabel>
                                                     <Select
@@ -246,7 +245,7 @@ class SearchFilter extends React.Component {
                     </Grid>
                     {/* post list grid */}
                     <Grid item sm={7}>
-                        <PostList posts={this.props.posts}></PostList>
+                        <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
                         {/* <Grid container spacing={10} className={classes.child}>
                             <Zoom in={true} transitionduration={5000}>
                                 <Card elevation={5}>
