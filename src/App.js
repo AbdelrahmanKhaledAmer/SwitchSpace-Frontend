@@ -11,7 +11,7 @@ import {
 import UserLoginView from "./views/UserLoginView";
 import UserSignupView from "./views/UserSignupView";
 import TrendingView from "./views/TrendingView";
-// import PostView from "./views/PostView";
+import PostView from "./views/PostView";
 import SubscriptionsView from "./views/SubscriptonsView";
 import SearchFilterView from "./views/SearchFilterView";
 import AdminLoginView from "./views/AdminLoginView";
@@ -34,8 +34,7 @@ export default class App extends React.Component {
                 {component: UserSignupView, path: "/register"},
                 {component: SearchFilterView, path: "/search"},
                 {component: TrendingView, path: "/trending"},
-                // TODO: check loggedin
-                // {component: PostView, path: "/post"},
+                {component: PostView, path: "/post/:id"},
                 {component: UserProfileView, path: "/profile/:id"},
                 // TODO: check loggedin
                 {component: SubscriptionsView, path: "/charge"},
