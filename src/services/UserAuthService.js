@@ -15,7 +15,7 @@ export default class UserAuthService {
             HttpService.post(
                 `${UserAuthService.baseURL()}/register`,
                 user,
-                null,
+                {"Content-Type": "multipart/form-data"},
                 function (data) {
                     resolve(data);
                 },
@@ -55,7 +55,8 @@ export default class UserAuthService {
         let base64 = base64Url.replace("-", "+").replace("_", "/");
         return {
             id: JSON.parse(window.atob(base64)).id,
-            username: JSON.parse(window.atob(base64)).username,
+            email: JSON.parse(window.atob(base64)).email,
+            isAdmin: JSON.parse(window.atob(base64)).isAdmin,
         };
     }
 
