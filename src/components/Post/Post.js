@@ -14,6 +14,7 @@ import Geocode from "react-geocode";
 import PostDetails from "../Post/PostDetails";
 import UserInfo from "../UserInfo";
 import Page from "../Page";
+import ReportModal from "../ReportModal";
 
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
@@ -63,10 +64,12 @@ class Post extends React.Component {
         super(props);
 
         this.state = {
-            postLocation: "Unknown Location",
+            ReportModalOpen: false,
+            reportContent: "",
         };
 
-        this.getLocation = this.getLocation.bind(this);
+        this.toggleReportModal = this.toggleReportModal.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     static get propTypes() {
@@ -74,26 +77,18 @@ class Post extends React.Component {
             classes: PropTypes.object.isRequired,
             post: PropTypes.object.isRequired,
             loading: PropTypes.bool.isRequired,
+            submitReport: PropTypes.func.isRequired,
         };
     }
-
-    componentDidMount() {
-        this.getLocation();
+    toggleReportModal() {
+        this.setState({
+            ReportModalOpen: !this.state.ReportModalOpen,
+        });
     }
-
-    async getLocation() {
-        if (this.props.loading || !this.post.exchangeLocation) {
-            return;
-        }
-        const coord = this.props.post.exchangeLocation.coordinates;
-        let loc = await Geocode.fromLatLng(coord[1], coord[0]);
-        let components = loc.results[0].address_components;
-        let filtered = components.filter(elem => elem.types[0] == "locality")[0];
-        if (filtered) {
-            this.setState({postLocation: filtered.long_name});
-        }
+    submit(report) {
+        this.props.submitReport(report);
+        this.toggleReportModal();
     }
-
     render() {
         const {classes} = this.props;
         return (
@@ -103,28 +98,33 @@ class Post extends React.Component {
                         <CircularProgress color="primary" />
                     </Backdrop>
                 ) : (
-                    <Container className={classes.conatiner}>
-                        <Grid container justify="space-between" alignItems="center" className={classes.topContainer}>
-                            <Grid item xs={6}>
-                                <UserInfo userInfo={this.props.post.creatorId} />
-                            </Grid>
-                            <Grid item xs={6} className={classes.rightGridItem}>
-                                <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
-                                <Grid container justify="flex-end">
-                                    <div className={classes.icon}>
-                                        <LocationOnOutlinedIcon />
-                                    </div>
-                                    {this.state.postLocation}
+                    <div>
+                        <Container className={classes.conatiner}>
+                            <Grid container justify="space-between" alignItems="center" className={classes.topContainer}>
+                                <Grid item xs={6}>
+                                    <UserInfo userInfo={this.props.post.creatorId} />
                                 </Grid>
-                                <Button className={classes.button}>Contact for Exchange</Button>
-                                {/*TODO: START CHAT*/}
+                                <Grid item xs={6} className={classes.rightGridItem}>
+                                    <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
+                                    <Grid container justify="flex-end">
+                                        <div className={classes.icon}>
+                                            <LocationOnOutlinedIcon />
+                                        </div>
+                                        {this.state.postLocation}
+                                    </Grid>
+                                    <Button className={classes.button}>Contact for Exchange</Button>
+                                    {/*TODO: START CHAT*/}
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <PostDetails post={this.props.post} />
-                        <div className={classes.bottom}>
-                            <Button className={classes.reportButton}>Report Post</Button>
-                        </div>
-                    </Container>
+                            <PostDetails post={this.props.post} />
+                            <div className={classes.bottom}>
+                                <Button className={classes.reportButton} onClick={this.toggleReportModal}>
+                                    Report Post
+                                </Button>
+                            </div>
+                        </Container>
+                        <ReportModal modalOpen={this.state.ReportModalOpen} onClose={this.toggleReportModal} submitReport={this.submit}></ReportModal>
+                    </div>
                 )}
             </Page>
         );
