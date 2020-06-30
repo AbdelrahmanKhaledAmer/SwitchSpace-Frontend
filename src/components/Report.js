@@ -50,7 +50,7 @@ class Report extends React.Component {
         super(props);
         this.state = {
             report: "",
-            repotEmpty: false,
+            reportEmpty: true,
         };
         this.onReportChange = this.onReportChange.bind(this);
     }
@@ -111,16 +111,12 @@ class Report extends React.Component {
                                     error={this.state.reportEmpty}
                                     helperText={this.state.reportEmpty ? "Report Cannot be Empty" : ""}
                                 />
-
-                                {/* <Button fullWidth variant="contained" className={classes.submit} onClick={this.submitHandler}>
-                                    Submit Report
-                                </Button> */}
                             </form>
                         </div>
                     </Container>
                 </DialogContent>
                 <DialogActions className={classes.centerFold}>
-                    <Button disabled={!this.state.isMarkerPlaced} onClick={this.submitHandler} color="primary">
+                    <Button variant="contained" disabled={this.state.reportEmpty} onClick={this.submitHandler} color="primary">
                         Submit report
                     </Button>
                 </DialogActions>
