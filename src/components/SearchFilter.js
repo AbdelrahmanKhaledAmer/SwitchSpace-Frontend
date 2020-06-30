@@ -88,6 +88,7 @@ class SearchFilter extends React.Component {
         return {
             classes: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
+            categories: PropTypes.array.isRequired,
             onSubmit: PropTypes.func.isRequired,
         };
     }
@@ -196,10 +197,11 @@ class SearchFilter extends React.Component {
                                                         onOpen={this.handleOpen}
                                                         //value={this.cat}
                                                         onChange={this.onWantedCategoryChange}>
-                                                        <MenuItem value={"electronics"}>Electronics</MenuItem>
-                                                        <MenuItem value={"furniture"}>Furniture</MenuItem>
-                                                        <MenuItem value={"vehicles"}>Vehicles</MenuItem>
-                                                        <MenuItem value={"kitchenware"}>KitchenWare</MenuItem>
+                                                        {this.props.categories.map((category, idx) => (
+                                                            <MenuItem key={idx} value={category == undefined ? "" : category.title}>
+                                                                {category == undefined ? "" : category.title}
+                                                            </MenuItem>
+                                                        ))}
                                                     </Select>
                                                 </FormControl>
                                                 <FormControl className={classes.formControl}>
@@ -226,10 +228,11 @@ class SearchFilter extends React.Component {
                                                         onOpen={this.handleOpen}
                                                         //value={this.cat}
                                                         onChange={this.onOwnedCategoryChange}>
-                                                        <MenuItem value={"electronics"}>Electronics</MenuItem>
-                                                        <MenuItem value={"furniture"}>Furniture</MenuItem>
-                                                        <MenuItem value={"vehicles"}>Vehicles</MenuItem>
-                                                        <MenuItem value={"kitchenware"}>KitchenWare</MenuItem>
+                                                        {this.props.categories.map((category, idx) => (
+                                                            <MenuItem key={idx} value={category == undefined ? "" : category.title}>
+                                                                {category == undefined ? "" : category.title}
+                                                            </MenuItem>
+                                                        ))}
                                                     </Select>
                                                 </FormControl>
                                                 <br />
