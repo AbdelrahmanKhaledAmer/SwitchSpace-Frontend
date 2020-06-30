@@ -54,6 +54,14 @@ const styles = theme => ({
         width: "100%",
         textAlign: "center",
     },
+    postList: {
+        overflowY: "scroll",
+        // border: "1px solid ",
+        width: "300px",
+        float: "left",
+        height: "700px",
+        position: "relative",
+    },
 });
 
 class SearchFilter extends React.Component {
@@ -247,7 +255,7 @@ class SearchFilter extends React.Component {
                         </Grid>
                     </Grid>
                     {/* post list grid */}
-                    <Grid item sm={7}>
+                    <Grid item sm={7} className={classes.postList}>
                         <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
                         {/* <Grid container spacing={10} className={classes.child}>
                             <Zoom in={true} transitionduration={5000}>
