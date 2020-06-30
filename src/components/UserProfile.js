@@ -15,6 +15,7 @@ import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 import Card from "@material-ui/core/Card";
 import PostList from "./Post/PostList";
+import ReviewList from "./ReviewList";
 
 const styles = theme => ({
     topContainer: {
@@ -45,9 +46,9 @@ class UserProfile extends React.Component {
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
-            userInfo: PropTypes.object.isRequired,
             selectedTab: PropTypes.string.isRequired,
             onTabChange: PropTypes.func.isRequired,
+            userInfo: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
         };
     }
@@ -77,7 +78,9 @@ class UserProfile extends React.Component {
                                 <Tab label="Posts" value="posts" />
                             </TabList>
                         </AppBar>
-                        <TabPanel value="reviews">No Reviews</TabPanel>
+                        <TabPanel value="reviews">
+                            <ReviewList reviews={this.props.userInfo.reviews}></ReviewList>
+                        </TabPanel>
                         <TabPanel value="posts">
                             <PostList posts={this.props.posts} msgForNoPosts="No posts available"></PostList>
                         </TabPanel>
