@@ -4,11 +4,11 @@ import React from "react";
 
 import UserLogin from "../components/UserLogin";
 
-import UserAuthService from "../services/UserAuthService";
+import AdminAuthService from "../services/AdminAuthService";
 import PropTypes from "prop-types";
 import {toast} from "react-toastify";
 
-export default class UserLoginView extends React.Component {
+export default class AdminLoginView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -35,10 +35,11 @@ export default class UserLoginView extends React.Component {
             progress: undefined,
         });
     }
-    async login(user) {
+    async login(admin) {
         try {
-            await UserAuthService.login(user.email, user.password);
-            this.props.history.push("/");
+            await AdminAuthService.login(admin);
+            // TODO:this.props.history.push("/");
+            console.log("logged in succesfully");
         } catch (err) {
             console.error(err);
             this.notify(err);
@@ -49,6 +50,6 @@ export default class UserLoginView extends React.Component {
     }
 
     render() {
-        return <UserLogin onSubmit={user => this.login(user)} error={this.state.error}></UserLogin>;
+        return <UserLogin onSubmit={user => this.login(user)} isAdmin={true} error={this.state.error}></UserLogin>;
     }
 }

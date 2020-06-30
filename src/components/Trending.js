@@ -1,78 +1,91 @@
 "use strict";
 
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
-import { ResponsiveBar } from "@nivo/bar";
+import {withStyles} from "@material-ui/core/styles";
+import {BarChart, XAxis, Tooltip, YAxis, Bar, Cell, ResponsiveContainer} from "recharts";
 import PropTypes from "prop-types";
+import Card from "@material-ui/core/Card";
 import Page from "./Page";
-import PostList from "./PostList";
-const styles = {
-  trendingContainer: {
-    textAlign: "center",
-    width: "65%",
-    height: "50vh",
-    margin: "0 auto",
-  },
-};
+import PostList from "./Post/PostList";
+
+const styles = theme => ({
+    graphContainer: {
+        textAlign: "center",
+        width: "90%",
+        height: "90%",
+        margin: "0 auto",
+        marginTop: theme.spacing(3),
+    },
+    line: {
+        backgroudColor: "purple",
+    },
+    graphCard: {
+        textAlign: "center",
+        width: "70%",
+        height: "60vh",
+        margin: "0 auto",
+        // marginTop: theme.spacing(7),
+    },
+    postsContainer: {
+        width: "70%",
+        margin: "0 auto",
+        marginTop: theme.spacing(3),
+        maxHeight: "90vh",
+        // TODO: remove from trending add to search
+        overflowY: "scroll",
+    },
+});
 
 class Trending extends React.Component {
-  constructor(props) {
-    super(props);
-    this.data = [
-      { title: "smartphones", posts: 10 },
-      { title: "tablets", posts: 9 },
-      { title: "chairs", posts: 8 },
-      { title: "tables", posts: 7 },
-      { title: "cars", posts: 6 },
-      { title: "bikes", posts: 5 },
-      { title: "microwaves", posts: 4 },
-      { title: "utensils", posts: 3 },
-    ];
+    constructor(props) {
+        super(props);
 
-    this.handleChartClick = this.handleChartClick.bind(this);
-  }
+        this.colors = ["#659dbd", "#457dbd"];
 
-  handleChartClick(data) {
-    console.log(data.indexValue); // TODO: GET POSTS BY SUBCATEGORY
-  }
+        this.handlePvBarClick = this.handlePvBarClick.bind(this);
+    }
 
-  static get propTypes() {
-    return {
-      classes: PropTypes.object.isRequired,
-      posts: PropTypes.array.isRequired,
-    };
-  }
+    handlePvBarClick(data) {
+        this.props.onCategoryClick(data.activeLabel);
+    }
 
-  render() {
-    const { classes } = this.props;
+    static get propTypes() {
+        return {
+            classes: PropTypes.object.isRequired,
+            posts: PropTypes.array.isRequired,
+            data: PropTypes.array.isRequired,
+            onCategoryClick: PropTypes.func.isRequired,
+        };
+    }
 
-    return (
-      <Page>
-        <div className={classes.trendingContainer}>
-          <ResponsiveBar
-            data={this.data}
-            keys={["posts"]}
-            indexBy="title"
-            margin={{ top: 40, right: 35, bottom: 50, left: 50 }}
-            padding={0.3}
-            colors={{ scheme: "paired" }}
-            axisBottom={{
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-            }}
-            enableGridY={false}
-            enableLabel={false}
-            animate={true}
-            motionStiffness={90}
-            motionDamping={15}
-            onClick={this.handleChartClick}
-          />
-          <PostList></PostList>
-        </div>
-      </Page>
-    );
-  }
+    render() {
+        const {classes} = this.props;
+
+        return (
+            <Page>
+                <React.Fragment>
+                    <Card elevation={5} className={classes.graphCard}>
+                        <div className={classes.graphContainer}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={this.props.data} onClick={this.handlePvBarClick}>
+                                    <XAxis dataKey="title" /> {/*change axis color axisLine={{ stroke: "purple" }}*/}
+                                    <YAxis width={35} />
+                                    <Tooltip />
+                                    <Bar dataKey="trendingScore">
+                                        {this.props.data.map((entry, idx) => (
+                                            <Cell key={`cell-${entry.title}`} fill={this.colors[idx % this.colors.length]} />
+                                        ))}
+                                    </Bar>
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </Card>
+                    <Card elevation={5} className={classes.postsContainer}>
+                        <PostList posts={this.props.posts} msgForNoPosts=""></PostList>
+                    </Card>
+                </React.Fragment>
+            </Page>
+        );
+    }
 }
-export default withRouter(withStyles(styles)(Trending));
+export default withStyles(styles)(Trending);
