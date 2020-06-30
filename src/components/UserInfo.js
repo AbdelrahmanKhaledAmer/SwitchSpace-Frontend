@@ -49,7 +49,6 @@ class UserInfo extends React.Component {
 
     render() {
         const {classes, userInfo} = this.props;
-        console.log(userInfo);
         return (
             <div className={classes.mainContainer}>
                 <Avatar src={userInfo.profilePicture ? userInfo.profilePicture.url : null} className={classes.avatar} />
