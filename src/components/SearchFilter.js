@@ -54,6 +54,14 @@ const styles = theme => ({
         width: "100%",
         textAlign: "center",
     },
+    postList: {
+        overflowY: "scroll",
+        // border: "1px solid ",
+        width: "300px",
+        float: "left",
+        height: "700px",
+        position: "relative",
+    },
 });
 
 class SearchFilter extends React.Component {
@@ -88,6 +96,7 @@ class SearchFilter extends React.Component {
         return {
             classes: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
+            categories: PropTypes.array.isRequired,
             onSubmit: PropTypes.func.isRequired,
         };
     }
@@ -171,12 +180,12 @@ class SearchFilter extends React.Component {
                                                 <TextField id="radius" label="Radius" onChange={this.onRadiusChange} />
                                                 <TextField id="itemDesired" label="Item Desired" onChange={this.onItemWantedChange} />
                                                 <br />
-                                                <TextField id="ItemOwned" label="Item Owned" onChange={this.onItemOwnedChange} />
+                                                <TextField id="itemOwned" label="Item Owned" onChange={this.onItemOwnedChange} />
                                                 <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-controlled-open-select-label">Item Desired Condition</InputLabel>
+                                                    <InputLabel id="desiredLocation">Item Desired Condition</InputLabel>
                                                     <Select
-                                                        labelId="demo-controlled-open-select-label"
-                                                        id="demo-controlled-open-select"
+                                                        labelId="desiredConditionLabel"
+                                                        id="desiredCondition"
                                                         //open={this.open}
                                                         onClose={this.handleClose}
                                                         onOpen={this.handleOpen}
@@ -187,26 +196,27 @@ class SearchFilter extends React.Component {
                                                     </Select>
                                                 </FormControl>
                                                 <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-controlled-open-select-label">Item Desired Category</InputLabel>
+                                                    <InputLabel id="desiredCategoryInput">Item Desired Category</InputLabel>
                                                     <Select
-                                                        labelId="demo-controlled-open-select-label"
-                                                        id="demo-controlled-open-select"
+                                                        labelId="desiredCategoryLabel"
+                                                        id="desiredCategory"
                                                         //open={this.open}
                                                         onClose={this.handleClose}
                                                         onOpen={this.handleOpen}
                                                         //value={this.cat}
                                                         onChange={this.onWantedCategoryChange}>
-                                                        <MenuItem value={"electronics"}>Electronics</MenuItem>
-                                                        <MenuItem value={"furniture"}>Furniture</MenuItem>
-                                                        <MenuItem value={"vehicles"}>Vehicles</MenuItem>
-                                                        <MenuItem value={"kitchenware"}>KitchenWare</MenuItem>
+                                                        {this.props.categories.map((category, idx) => (
+                                                            <MenuItem key={idx} value={category == undefined ? "" : category.title}>
+                                                                {category == undefined ? "" : category.title}
+                                                            </MenuItem>
+                                                        ))}
                                                     </Select>
                                                 </FormControl>
                                                 <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-controlled-open-select-label">Item Owned Condition</InputLabel>
+                                                    <InputLabel id="ownedConditionInput">Item Owned Condition</InputLabel>
                                                     <Select
-                                                        labelId="demo-controlled-open-select-label"
-                                                        id="demo-controlled-open-select"
+                                                        labelId="ownedConditionLabel"
+                                                        id="ownedCondition"
                                                         //open={this.open}
                                                         onClose={this.handleClose}
                                                         onOpen={this.handleOpen}
@@ -217,19 +227,20 @@ class SearchFilter extends React.Component {
                                                     </Select>
                                                 </FormControl>
                                                 <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-controlled-open-select-label">Item Owned Category</InputLabel>
+                                                    <InputLabel id="ownedCategoryInput">Item Owned Category</InputLabel>
                                                     <Select
-                                                        labelId="demo-controlled-open-select-label"
-                                                        id="demo-controlled-open-select"
+                                                        labelId="ownedCategoryLabel"
+                                                        id="ownedCategory"
                                                         //open={this.open}
                                                         onClose={this.handleClose}
                                                         onOpen={this.handleOpen}
                                                         //value={this.cat}
                                                         onChange={this.onOwnedCategoryChange}>
-                                                        <MenuItem value={"electronics"}>Electronics</MenuItem>
-                                                        <MenuItem value={"furniture"}>Furniture</MenuItem>
-                                                        <MenuItem value={"vehicles"}>Vehicles</MenuItem>
-                                                        <MenuItem value={"kitchenware"}>KitchenWare</MenuItem>
+                                                        {this.props.categories.map((category, idx) => (
+                                                            <MenuItem key={idx} value={category == undefined ? "" : category.title}>
+                                                                {category == undefined ? "" : category.title}
+                                                            </MenuItem>
+                                                        ))}
                                                     </Select>
                                                 </FormControl>
                                                 <br />
@@ -244,7 +255,7 @@ class SearchFilter extends React.Component {
                         </Grid>
                     </Grid>
                     {/* post list grid */}
-                    <Grid item sm={7}>
+                    <Grid item sm={7} className={classes.postList}>
                         <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
                         {/* <Grid container spacing={10} className={classes.child}>
                             <Zoom in={true} transitionduration={5000}>
