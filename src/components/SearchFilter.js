@@ -68,20 +68,16 @@ class SearchFilter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false,
             wantedCondition: "",
             ownedCondition: "",
             itemOwned: "",
             itemWanted: "",
             wantedCategory: "",
             ownedCategory: "",
-            lon: 11.581981,
-            lat: 48.135124,
+            myLocation: {lon: 0, lat: 0},
             radius: 1e5 * 1000,
         };
 
-        this.handleClose = this.handleClose.bind(this);
-        this.handleOpen = this.handleOpen.bind(this);
         this.onItemOwnedChange = this.onItemOwnedChange.bind(this);
         this.onItemWantedChange = this.onItemWantedChange.bind(this);
         this.onRadiusChange = this.onRadiusChange.bind(this);
@@ -89,7 +85,9 @@ class SearchFilter extends React.Component {
         this.onOwnedCategoryChange = this.onOwnedCategoryChange.bind(this);
         this.onWantedCategoryChange = this.onWantedCategoryChange.bind(this);
         this.onWantedConditionChange = this.onWantedConditionChange.bind(this);
-        this.hndelSubmitSearch = this.hndelSubmitSearch.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onLocationChange = this.onLocationChange.bind(this);
+        this.onPostFocusChange = this.onPostFocusChange.bind(this);
     }
 
     static get propTypes() {
@@ -100,7 +98,7 @@ class SearchFilter extends React.Component {
             onSubmit: PropTypes.func.isRequired,
         };
     }
-    hndelSubmitSearch() {
+    handleSubmit() {
         this.props.onSubmit(
             this.state.itemWanted,
             this.state.itemOwned,
@@ -108,8 +106,8 @@ class SearchFilter extends React.Component {
             this.state.wantedCondition,
             this.state.ownedCategory,
             this.state.ownedCondition,
-            this.state.lon,
-            this.state.lat,
+            this.state.myLocation.lon,
+            this.state.myLocation.lat,
             this.state.radius
         );
     }
@@ -127,33 +125,31 @@ class SearchFilter extends React.Component {
     }
     onWantedCategoryChange(e) {
         const value = e.target.value;
-        this.setState({open: value});
         this.setState({wantedCategory: value});
     }
     onOwnedCategoryChange(e) {
         const value = e.target.value;
-        this.setState({open: value});
         this.setState({ownedCategory: value});
     }
     onWantedConditionChange(e) {
         const value = e.target.value;
         console.log(value);
         this.setState({wantedCondition: value});
-        this.setState({open: value});
     }
     onOwnedConditionChange(e) {
         const value = e.target.value;
-        this.setState({open: value});
         this.setState({ownedCondition: value});
     }
-
-    handleClose() {
-        this.open = false;
+    onLocationChange(loc) {
+        console.log(loc);
+        //TODO: get city and set it in the location text box
+    }
+    // send post in focus
+    onPostFocusChange(idx) {
+        //TODO: Hilight or focus on the selected box
+        console.log(idx);
     }
 
-    handleOpen() {
-        this.open = true;
-    }
     render() {
         const {classes} = this.props;
 
@@ -166,7 +162,13 @@ class SearchFilter extends React.Component {
                             <Grid item sm={12}>
                                 <Zoom in={true} transitionduration={500}>
                                     <Card elevation={3} className={classes.mapCard}>
-                                        <MapContainer className={classes.map} posts={this.props.posts}></MapContainer>
+                                        <MapContainer
+                                            className={classes.map}
+                                            posts={this.props.posts}
+                                            radius={parseInt(this.state.radius)}
+                                            onLocationChange={this.onLocationChange}
+                                            onPostFocusChange={this.onPostFocusChange}
+                                        />
                                     </Card>
                                 </Zoom>
                             </Grid>
@@ -177,7 +179,7 @@ class SearchFilter extends React.Component {
                                         <div className={classes.formAlignment}>
                                             <form className={classes.textBox} noValidate autoComplete="off">
                                                 <TextField id="location" label="Location" />
-                                                <TextField id="radius" label="Radius" onChange={this.onRadiusChange} />
+                                                <TextField id="radius" type={"number"} label="Radius" onChange={this.onRadiusChange} />
                                                 <TextField id="itemDesired" label="Item Desired" onChange={this.onItemWantedChange} />
                                                 <br />
                                                 <TextField id="itemOwned" label="Item Owned" onChange={this.onItemOwnedChange} />
@@ -186,9 +188,6 @@ class SearchFilter extends React.Component {
                                                     <Select
                                                         labelId="desiredConditionLabel"
                                                         id="desiredCondition"
-                                                        //open={this.open}
-                                                        onClose={this.handleClose}
-                                                        onOpen={this.handleOpen}
                                                         //value={this.wantedCondition}
                                                         onChange={this.onWantedConditionChange}>
                                                         <MenuItem value={"new"}>New</MenuItem>
@@ -200,9 +199,6 @@ class SearchFilter extends React.Component {
                                                     <Select
                                                         labelId="desiredCategoryLabel"
                                                         id="desiredCategory"
-                                                        //open={this.open}
-                                                        onClose={this.handleClose}
-                                                        onOpen={this.handleOpen}
                                                         //value={this.cat}
                                                         onChange={this.onWantedCategoryChange}>
                                                         {this.props.categories.map((category, idx) => (
@@ -217,9 +213,6 @@ class SearchFilter extends React.Component {
                                                     <Select
                                                         labelId="ownedConditionLabel"
                                                         id="ownedCondition"
-                                                        //open={this.open}
-                                                        onClose={this.handleClose}
-                                                        onOpen={this.handleOpen}
                                                         //value={this.condition}
                                                         onChange={this.onOwnedConditionChange}>
                                                         <MenuItem value={"new"}>New</MenuItem>
@@ -231,9 +224,6 @@ class SearchFilter extends React.Component {
                                                     <Select
                                                         labelId="ownedCategoryLabel"
                                                         id="ownedCategory"
-                                                        //open={this.open}
-                                                        onClose={this.handleClose}
-                                                        onOpen={this.handleOpen}
                                                         //value={this.cat}
                                                         onChange={this.onOwnedCategoryChange}>
                                                         {this.props.categories.map((category, idx) => (
@@ -244,7 +234,7 @@ class SearchFilter extends React.Component {
                                                     </Select>
                                                 </FormControl>
                                                 <br />
-                                                <Button variant="contained" color="primary" onClick={this.hndelSubmitSearch}>
+                                                <Button variant="contained" color="primary" onClick={this.handleSubmit}>
                                                     Search
                                                 </Button>
                                             </form>
@@ -256,13 +246,13 @@ class SearchFilter extends React.Component {
                     </Grid>
                     {/* post list grid */}
                     <Grid item sm={7} className={classes.postList}>
-                        <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
+                        <Zoom in={true} transitionduration={5000}>
+                            <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
+                        </Zoom>
                         {/* <Grid container spacing={10} className={classes.child}>
-                            <Zoom in={true} transitionduration={5000}>
                                 <Card elevation={5}>
                                     <PostList posts={this.props.posts}></PostList>
                                 </Card>
-                            </Zoom>
                         </Grid> */}
                     </Grid>
                 </Grid>

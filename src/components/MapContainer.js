@@ -3,15 +3,17 @@ import {Map, Marker, GoogleApiWrapper, InfoWindow, Circle} from "google-maps-rea
 import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/Card";
+// import Card from "@material-ui/core/Card";
+// import Paper from "@material-ui/core/Paper";
+// import CardContent from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import {Grid} from "@material-ui/core";
 
 // infowindow style
 const styles = () => ({
     root: {
-        minWidth: 275,
+        minWidth: "50vw",
+        maxHeight: "50vh",
     },
     bullet: {
         display: "inline-block",
@@ -63,8 +65,6 @@ class GoogleMap extends React.Component {
             mapCenterLat: latitude,
             mapCenterLong: longitude,
             myMarker: {title: this.state.myMarker.title, name: this.state.myMarker.name, position: {lat: latitude, lng: longitude}},
-            // mapCenterLat: latitude,
-            // mapCenterLong: longitude,
         });
     }
 
@@ -78,19 +78,14 @@ class GoogleMap extends React.Component {
     // add a marker on the postion clicked on the map
     onMapClicked(t, map, coord) {
         const {latLng} = coord;
-        const lat = latLng.lat();
-        const lng = latLng.lng();
-        //get all markers
-        // if there was a me marker before
 
-        // allMarkers.pop();
-
-        // allMarkers.push({title: "My self", name: "My post", position: {lat: lat, lng: lng}});
+        const position = {lat: latLng.lat(), lng: latLng.lng()};
         this.setState({
             showInfo: false,
             activePost: undefined,
-            myMarker: {title: this.state.myMarker.title, name: this.state.myMarker.name, position: {lat: lat, lng: lng}},
+            myMarker: {title: this.state.myMarker.title, name: this.state.myMarker.name, position: position},
         });
+        this.props.onLocationChange(position);
     }
     // open infowindow when marker is clicked
     onMarkerClicked(props, marker, e) {
@@ -99,6 +94,7 @@ class GoogleMap extends React.Component {
         console.log(marker);
         console.log(props);
         this.setState({showInfo: true, activePost: {idx: marker.name, marker: marker}});
+        this.props.onPostFocusChange(marker.name);
     }
     // triggered when the map finishes loading
     mapLoaded(mapProps, map) {
@@ -111,9 +107,11 @@ class GoogleMap extends React.Component {
             classes: PropTypes.object.isRequired,
             google: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
+            radius: PropTypes.number,
+            onLocationChange: PropTypes.func.isRequired,
+            onPostFocusChange: PropTypes.func.isRequired,
         };
     }
-    // renderMyMarker() TODO:
 
     render() {
         const {classes} = this.props;
@@ -152,45 +150,47 @@ class GoogleMap extends React.Component {
                             scaledSize: new this.props.google.maps.Size(32, 32),
                         }}
                     />
-                    <InfoWindow visible={this.state.showInfo} marker={this.state.activePost ? this.state.activePost.marker : undefined}>
-                        <Card className={classes.root}>
-                            {/* <CardContent> */}
-                            <Grid container spacing={2}>
-                                <Grid item xs={6}>
-                                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                        {"Item Owned"}
-                                    </Typography>
-                                    <Typography nowrap variant="h5" component="h2">
-                                        {this.state.activePost ? this.props.posts[this.state.activePost.idx].itemOwned.title : ""}
-                                    </Typography>
-                                    <Typography className={classes.pos} color="textSecondary">
-                                        {this.state.activePost ? this.props.posts[this.state.activePost.idx].itemOwned.category : ""}
-                                    </Typography>
-                                    <Typography variant="body1" component="p">
-                                        {this.state.activePost ? this.props.posts[this.state.activePost.idx].itemOwned.condition : ""}
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                                        {"Item Desired"}
-                                    </Typography>
-                                    <Typography nowrap variant="h5" component="h2">
-                                        {this.state.activePost ? this.props.posts[this.state.activePost.idx].itemDesired.title : ""}
-                                    </Typography>
-                                    <Typography className={classes.pos} color="textSecondary">
-                                        {this.state.activePost ? this.props.posts[this.state.activePost.idx].itemDesired.category : ""}
-                                    </Typography>
-                                    <Typography variant="body1" component="p">
-                                        {this.state.activePost ? this.props.posts[this.state.activePost.idx].itemOwned.condition : ""}
-                                    </Typography>
-                                </Grid>
+                    <InfoWindow
+                        visible={this.state.showInfo}
+                        styles={{width: "550px", height: "250px"}}
+                        marker={this.state.activePost ? this.state.activePost.marker : undefined}>
+                        {/* <CardContent> */}
+
+                        <Grid container spacing={2} className={classes.root}>
+                            <Grid item xs={6}>
+                                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                    {"Item Owned"}
+                                </Typography>
+                                <Typography variant="h5" component="h2">
+                                    {this.state.activePost ? this.props.posts[this.state.activePost.idx].itemOwned.title : ""}
+                                </Typography>
+                                <Typography className={classes.pos} color="textSecondary">
+                                    {this.state.activePost ? this.props.posts[this.state.activePost.idx].itemOwned.category : ""}
+                                </Typography>
+                                <Typography variant="body1" component="p">
+                                    {this.state.activePost ? this.props.posts[this.state.activePost.idx].itemOwned.condition : ""}
+                                </Typography>
                             </Grid>
-                            {/* </CardContent> */}
-                        </Card>
+                            <Grid item xs={6}>
+                                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                                    {"Item Desired"}
+                                </Typography>
+                                <Typography variant="h5" component="h2">
+                                    {this.state.activePost ? this.props.posts[this.state.activePost.idx].itemDesired.title : ""}
+                                </Typography>
+                                <Typography className={classes.pos} color="textSecondary">
+                                    {this.state.activePost ? this.props.posts[this.state.activePost.idx].itemDesired.category : ""}
+                                </Typography>
+                                <Typography variant="body1" component="p">
+                                    {this.state.activePost ? this.props.posts[this.state.activePost.idx].itemOwned.condition : ""}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                        {/* </CardContent> */}
                     </InfoWindow>
 
                     <Circle
-                        radius={10000}
+                        radius={this.props.radius ? this.props.radius : 10000}
                         center={this.state.myMarker.position}
                         // onMouseover={() => console.log("mouseover")}
                         onClick={this.onMapClicked}
