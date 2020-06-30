@@ -20,7 +20,7 @@ Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 const styles = theme => ({
     conatiner: {
         textAlign: "center",
-        width: "95%",
+        width: "85%",
         margin: "0 auto",
         marginTop: theme.spacing(7),
     },

@@ -69,7 +69,7 @@ class PostDetails extends React.Component {
                         <CardHeader className={classes.cardHeader} title="Offered Item" />
                         <CardContent>
                             <List>
-                                <ListItem>
+                                <ListItem dense>
                                     <AwesomeSlider bullets={false} organicArrows={true}>
                                         {this.props.post.photos.map((photo, idx) => (
                                             <div key={idx}>
@@ -78,13 +78,13 @@ class PostDetails extends React.Component {
                                         ))}
                                     </AwesomeSlider>
                                 </ListItem>
-                                <ListItem>
+                                <ListItem dense>
                                     <div className={classes.itemTitle}>{this.props.post.itemOwned.title}</div>
                                 </ListItem>
-                                <ListItem>
+                                <ListItem dense>
                                     <div className={classes.boldText}>Condition: </div> {this.props.post.itemOwned.condition}
                                 </ListItem>
-                                <ListItem>
+                                <ListItem dense>
                                     <div className={classes.boldText}>Model year:</div>
                                     {this.props.post.itemOwned.modelYear ? (
                                         this.props.post.itemOwned.modelYear
@@ -92,10 +92,10 @@ class PostDetails extends React.Component {
                                         <Typography color="textSecondary">{"N/A"}</Typography>
                                     )}
                                 </ListItem>
-                                <ListItem>
+                                <ListItem dense>
                                     <div className={classes.boldText}>Description: </div>
                                 </ListItem>
-                                <ListItem>
+                                <ListItem dense>
                                     {this.props.post.itemOwned.description ? this.props.post.itemOwned.description : "No description provided."}
                                 </ListItem>
                             </List>
