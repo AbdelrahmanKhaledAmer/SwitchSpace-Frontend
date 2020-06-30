@@ -89,7 +89,7 @@ class ReportModal extends React.Component {
                 transitionDuration={500}
                 maxWidth="sm"
                 fullWidth>
-                <DialogContent className={classes.mapContainer}>
+                <DialogContent>
                     <Container component="main" maxWidth="xs">
                         <CssBaseline />
                         <div className={classes.paper}>

@@ -14,7 +14,6 @@ export default class PostView extends React.Component {
             postId: this.props.match.params.id,
             post: {},
             loading: true,
-            report: "",
         };
 
         this.getPost = this.getPost.bind(this);
