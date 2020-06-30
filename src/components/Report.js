@@ -10,7 +10,7 @@ import Container from "@material-ui/core/Container";
 import ReportIcon from "@material-ui/icons/Report";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
+//import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import Zoom from "@material-ui/core/Zoom";
 
@@ -81,10 +81,9 @@ class Report extends React.Component {
                 open={this.props.modalOpen}
                 onClose={() => this.props.onClose()}
                 TransitionComponent={Zoom}
-                transitionDuration={500}>
-                <DialogTitle id="form-dialog-title" className={classes.centerFold}>
-                    {"Write your report here"}
-                </DialogTitle>
+                transitionDuration={500}
+                maxWidth="sm"
+                fullWidth>
                 <DialogContent className={classes.mapContainer}>
                     <Container component="main" maxWidth="xs">
                         <CssBaseline />
