@@ -20,7 +20,7 @@ import ViewHeadlineIcon from "@material-ui/icons/ViewHeadline";
 import ReportIcon from "@material-ui/icons/Report";
 
 const styles = theme => ({
-    itemPadding: {
+    itemMargin: {
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2),
         maxWidth: "70vw",
@@ -53,7 +53,7 @@ class ReportListItem extends React.Component {
     render() {
         const {classes} = this.props;
         return (
-            <Card raised className={classes.itemPadding} elevation={5}>
+            <Card raised className={classes.itemMargin} elevation={5}>
                 <ListItem alignItems="flex-start" button>
                     <ListItemAvatar>
                         <Avatar>

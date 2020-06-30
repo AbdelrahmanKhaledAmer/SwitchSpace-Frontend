@@ -8,10 +8,12 @@ import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
 import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import Geocode from "react-geocode";
-import {Divider} from "@material-ui/core";
+import {withRouter} from "react-router-dom";
 
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
@@ -69,6 +71,7 @@ const styles = theme => ({
     },
     itemPadding: {
         padding: theme.spacing(0, 3),
+        margin: theme.spacing(2, 0),
     },
 });
 
@@ -81,15 +84,19 @@ class PostListItem extends React.Component {
         };
 
         this.getLocation = this.getLocation.bind(this);
-
-        this.getLocation();
+        this.goToPost = this.goToPost.bind(this);
     }
 
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
             post: PropTypes.object.isRequired,
+            history: PropTypes.object,
         };
+    }
+
+    componentDidMount() {
+        this.getLocation();
     }
 
     async getLocation() {
@@ -102,53 +109,58 @@ class PostListItem extends React.Component {
         }
     }
 
+    goToPost() {
+        this.props.history.push(`/post/${this.props.post._id}`);
+    }
+
     render() {
         const {classes} = this.props;
         return (
-            <div className={classes.itemPadding}>
-                <Grid container spacing={1} className={classes.postContainer}>
-                    <Grid item xs={3}>
-                        <Avatar src={this.props.post.photos[0].url} className={classes.image} />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <List>
-                            <ListItem>
-                                <Grid container>
-                                    <Grid item xs={6}>
-                                        <div className={classes.itemOwned}>{this.props.post.itemOwned.title}</div>
+            <Card elevation={5} className={classes.itemPadding}>
+                <CardActionArea onClick={this.goToPost}>
+                    <Grid container spacing={1} className={classes.postContainer}>
+                        <Grid item xs={3}>
+                            <Avatar src={this.props.post.photos[0].url} className={classes.image} />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <List>
+                                <ListItem>
+                                    <Grid container>
+                                        <Grid item xs={6}>
+                                            <div className={classes.itemOwned}>{this.props.post.itemOwned.title}</div>
+                                        </Grid>
+                                        <Grid item container xs={6}>
+                                            <div className={classes.icon}>
+                                                <PersonOutlineIcon />
+                                            </div>
+                                            <div>{this.props.post.creatorName}</div>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item container xs={6}>
-                                        <div className={classes.icon}>
-                                            <PersonOutlineIcon />
-                                        </div>
-                                        <div>{this.props.post.creatorName}</div>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem>
-                                <div className={classes.boldText}>Exchanged with: </div>
-                                <div className={classes.miniMarginLeft}>{this.props.post.itemDesired.title}</div>
-                            </ListItem>
-                            <ListItem>
-                                <Typography noWrap>{this.props.post.itemOwned.description}</Typography>
-                            </ListItem>
-                            <ListItem className={classes.locationListItem}>
-                                <div className={classes.icon}>
-                                    <LocationOnOutlinedIcon />
-                                </div>
-                                {this.state.postLocation}
-                            </ListItem>
-                        </List>
+                                </ListItem>
+                                <ListItem>
+                                    <div className={classes.boldText}>Exchanged with: </div>
+                                    <div className={classes.miniMarginLeft}>{this.props.post.itemDesired.title}</div>
+                                </ListItem>
+                                <ListItem>
+                                    <Typography noWrap>{this.props.post.itemOwned.description}</Typography>
+                                </ListItem>
+                                <ListItem className={classes.locationListItem}>
+                                    <div className={classes.icon}>
+                                        <LocationOnOutlinedIcon />
+                                    </div>
+                                    {this.state.postLocation}
+                                </ListItem>
+                            </List>
+                        </Grid>
+                        <Grid item xs={3} className={classes.categoryAndDate}>
+                            <div className={classes.backdrop}>{this.props.post.itemOwned.category}</div>
+                            <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={3} className={classes.categoryAndDate}>
-                        <div className={classes.backdrop}>{this.props.post.itemOwned.category}</div>
-                        <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
-                    </Grid>
-                </Grid>
-                <Divider />
-            </div>
+                </CardActionArea>
+            </Card>
         );
     }
 }
 
-export default withStyles(styles)(PostListItem);
+export default withRouter(withStyles(styles)(PostListItem));
