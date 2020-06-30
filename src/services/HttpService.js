@@ -53,12 +53,14 @@ export default class HttpService {
         }
     }
     // Put request
-    static async put(url, data, onSuccess, onError) {
+    static async put(url, data, headers, onSuccess, onError) {
         let token = window.localStorage["jwtToken"];
-        let header = {};
-        header["Content-Type"] = "application/json";
+        if (!headers) {
+            headers = {};
+            headers["Content-Type"] = "application/json";
+        }
         if (token) {
-            header.Authorization = `Bearer ${token}`;
+            headers.Authorization = `Bearer ${token}`;
         }
         // append full URL
         url = this.apiURL() + url;
@@ -66,7 +68,7 @@ export default class HttpService {
         try {
             let resp = await axios(url, {
                 method: "PUT",
-                headers: header,
+                headers: headers,
                 data: data,
             });
             // set token if present

@@ -24,7 +24,23 @@ export default class UserService {
             );
         });
     }
-
+    static updateProfile(user) {
+        return new Promise((resolve, reject) => {
+            HttpService.put(
+                `${UserService.baseURL()}/update`,
+                user,
+                {"Content-Type": "multipart/form-data"},
+                function (data) {
+                    //resolve
+                    resolve(data);
+                },
+                function (textStatus) {
+                    //reject
+                    reject(textStatus);
+                }
+            );
+        });
+    }
     static getUserInfo(userId) {
         return new Promise((resolve, reject) => {
             HttpService.get(
