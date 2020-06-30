@@ -46,15 +46,22 @@ export default class UserSignupView extends React.Component {
 
     async signup(user) {
         this.setState({loading: true});
+
+        const data = new FormData();
+        for (let key in user) {
+            data.append(key, user[key]);
+        }
+        console.log(data);
+
         try {
-            await UserAuthService.register(user);
-            // TODO redirects
+            await UserAuthService.register(data);
+            // TODO: redirects
 
             this.notify("Account created succesfully", true);
             this.setState({loading: false});
             this.props.history.push("/");
         } catch (err) {
-            // send notification message
+            // TODO: send notification message
             this.notify(err);
             console.error(err);
             this.setState({loading: false});
