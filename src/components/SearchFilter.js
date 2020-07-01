@@ -11,11 +11,15 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 
 import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import Zoom from "@material-ui/core/Zoom";
 import MapContainer from "./MapContainer";
+import Geocode from "react-geocode";
 
 const styles = theme => ({
     inputCard: {
@@ -57,7 +61,7 @@ const styles = theme => ({
     postList: {
         overflowY: "scroll",
         // border: "1px solid ",
-        width: "300px",
+        width: "100%",
         float: "left",
         height: "700px",
         position: "relative",
@@ -244,11 +248,20 @@ class SearchFilter extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    {/* post list grid */}
-                    <Grid item sm={7} className={classes.postList}>
-                        <Zoom in={true} transitionduration={5000}>
-                            <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
-                        </Zoom>
+
+                    <Grid item sm={7}>
+                        <AppBar position="static">
+                            <Toolbar variant="dense">
+                                <Typography variant="h6" color="inherit">
+                                    Search Results
+                                </Typography>
+                            </Toolbar>
+                        </AppBar>
+                        <div className={classes.postList}>
+                            <Zoom in={true} transitionduration={5000}>
+                                <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
+                            </Zoom>
+                        </div>
                     </Grid>
                 </Grid>
             </Page>
