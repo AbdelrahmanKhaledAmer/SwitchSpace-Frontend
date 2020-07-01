@@ -33,7 +33,8 @@ export default class TrendingView extends React.Component {
             let response = await TrendingService.getTrendingSubcategories();
             this.setState({subcategories: response.data.data});
         } catch (err) {
-            console.log(err);
+            // TODO: TOAST ERROR
+            console.error(err);
         }
     }
 
@@ -42,7 +43,8 @@ export default class TrendingView extends React.Component {
             let response = await TrendingService.getPostsBySubcategory(subcategory);
             this.setState({posts: response.data.data});
         } catch (err) {
-            console.log(err);
+            // TODO: TOAST ERROR
+            console.error(err);
         }
     }
 

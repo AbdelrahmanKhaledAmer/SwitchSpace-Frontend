@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 import Post from "../components/Post/Post";
 import PostService from "../services/PostService";
 import ReportService from "../services/ReportService";
+import UserAuthService from "../services/UserAuthService";
+import CategoryService from "../services/CategoryService";
 
 export default class PostView extends React.Component {
     constructor(props) {
@@ -13,11 +15,16 @@ export default class PostView extends React.Component {
         this.state = {
             postId: this.props.match.params.id,
             post: {},
+            categories: [],
             loading: true,
+            userId: "",
         };
 
         this.getPost = this.getPost.bind(this);
         this.submitReport = this.submitReport.bind(this);
+        this.getCategories = this.getCategories.bind(this);
+        this.endLoading = this.endLoading.bind(this);
+        this.editPost = this.editPost.bind(this);
     }
 
     static get propTypes() {
@@ -29,6 +36,11 @@ export default class PostView extends React.Component {
 
     componentDidMount() {
         this.getPost();
+        this.getCategories();
+        let user = UserAuthService.getCurrentUser();
+        this.setState({
+            userId: user.id,
+        });
     }
 
     async getPost() {
@@ -36,27 +48,68 @@ export default class PostView extends React.Component {
             let response = await PostService.getPost(this.state.postId);
             this.setState({
                 post: response.data.data,
-                loading: false,
             });
         } catch (err) {
             // TODO: TOAST ERROR
             console.error(err);
         }
+        this.endLoading();
     }
+
+    async getCategories() {
+        try {
+            let response = await CategoryService.getCategories();
+            this.setState({
+                categories: response.data.data,
+            });
+        } catch (err) {
+            // TODO: TOAST ERROR
+            console.error(err);
+        }
+        this.endLoading();
+    }
+
+    endLoading() {
+        if (this.state.post._id && this.state.categories.length > 0) {
+            this.setState({
+                loading: false,
+            });
+        }
+    }
+
     async submitReport(report) {
         try {
             let body = {
                 complaint: report,
                 postId: this.state.postId,
             };
-            console.log(body);
             await ReportService.createReport(body);
         } catch (err) {
-            console.log(err);
+            // TODO: TOAST ERROR
+            console.error(err);
+        }
+    }
+
+    async editPost(post) {
+        try {
+            await PostService.editPost(post, this.state.postId);
+            window.location.reload(false);
+        } catch (err) {
+            // TODO: TOAST ERROR
+            console.error(err);
         }
     }
 
     render() {
-        return <Post post={this.state.post} loading={this.state.loading} submitReport={this.submitReport} />;
+        return (
+            <Post
+                post={this.state.post}
+                userId={this.state.userId}
+                loading={this.state.loading}
+                submitReport={this.submitReport}
+                categories={this.state.categories}
+                editPost={this.editPost}
+            />
+        );
     }
 }

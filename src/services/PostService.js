@@ -28,6 +28,26 @@ export default class PostService {
         });
     }
 
+    static editPost(postData, postId) {
+        let headers = {
+            "Content-Type": "multipart/form-data",
+        };
+
+        return new Promise((resolve, reject) => {
+            HttpService.put(
+                `${PostService.baseURL()}/${postId}`,
+                postData,
+                headers,
+                function (data) {
+                    resolve(data);
+                },
+                function (textStatus) {
+                    reject(textStatus);
+                }
+            );
+        });
+    }
+
     static getPost(postId) {
         return new Promise((resolve, reject) => {
             HttpService.get(

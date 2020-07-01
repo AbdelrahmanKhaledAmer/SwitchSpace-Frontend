@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import PostStepper from "../components/PostCreation/PostStepper";
+import PostStepper from "../components/Post/PostStepper";
 import CategoryService from "../services/CategoryService";
 import PostService from "../services/PostService";
 
@@ -35,7 +35,7 @@ export default class UserLoginView extends React.Component {
             this.setState({categories: response.data.data});
         } catch (err) {
             // TODO: TOAST NETWORK ERROR
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -45,7 +45,7 @@ export default class UserLoginView extends React.Component {
             this.props.history.push("/");
         } catch (err) {
             // TODO: TOAST ERROR
-            console.log(err);
+            console.error(err);
         }
     }
 
