@@ -10,7 +10,6 @@ import Container from "@material-ui/core/Container";
 import ReportIcon from "@material-ui/icons/Report";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-//import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import Zoom from "@material-ui/core/Zoom";
 
@@ -19,7 +18,6 @@ import {withRouter} from "react-router-dom";
 
 const styles = theme => ({
     paper: {
-        marginTop: theme.spacing(8),
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -58,7 +56,6 @@ class ReportModal extends React.Component {
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
-            posts: PropTypes.array.isRequired,
             modalOpen: PropTypes.bool.isRequired,
             onClose: PropTypes.func.isRequired,
             submitReport: PropTypes.func.isRequired,

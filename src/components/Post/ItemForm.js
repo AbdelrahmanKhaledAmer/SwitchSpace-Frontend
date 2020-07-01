@@ -29,8 +29,13 @@ class ItemForm extends React.Component {
             array.push(i);
         }
 
+        let chosenCategory = null;
+        if (this.props.item.category) {
+            chosenCategory = this.props.categories.filter(elem => elem.title == this.props.item.category)[0];
+        }
+
         this.state = {
-            chosenCategory: null,
+            chosenCategory: chosenCategory,
             yearArray: array,
         };
 

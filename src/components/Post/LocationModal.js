@@ -38,6 +38,8 @@ class LocationModal extends React.Component {
             isMarkerPlaced: false,
             lat: 0,
             lng: 0,
+            centerLat: 0,
+            centerLng: 0,
         };
 
         this.submitHandler = this.submitHandler.bind(this);
@@ -51,7 +53,20 @@ class LocationModal extends React.Component {
             onClose: PropTypes.func.isRequired,
             setLocation: PropTypes.func.isRequired,
             google: PropTypes.object.isRequired,
+            oldMarker: PropTypes.object,
         };
+    }
+
+    componentDidMount() {
+        if (this.props.oldMarker) {
+            this.setState({
+                isMarkerPlaced: true,
+                lat: this.props.oldMarker.coordinates[1],
+                lng: this.props.oldMarker.coordinates[0],
+                centerLat: this.props.oldMarker.coordinates[1],
+                centerLng: this.props.oldMarker.coordinates[0],
+            });
+        }
     }
 
     submitHandler() {
@@ -88,7 +103,7 @@ class LocationModal extends React.Component {
                     {"Choose your desired exchange location"}
                 </DialogTitle>
                 <DialogContent className={classes.mapContainer}>
-                    <Map google={this.props.google} zoom={11} className={classes.map} containerStyle={containerStyle} onClick={this.onMapClicked}>
+                    <Map google={this.props.google} zoom={15} containerStyle={containerStyle} onClick={this.onMapClicked} className={classes.map}>
                         {this.state.isMarkerPlaced ? (
                             <Marker title={"location"} name={"Exchange Location"} position={{lat: this.state.lat, lng: this.state.lng}} />
                         ) : null}

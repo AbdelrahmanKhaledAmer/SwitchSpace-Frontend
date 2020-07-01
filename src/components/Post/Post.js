@@ -9,12 +9,14 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
 import Geocode from "react-geocode";
 
 import PostDetails from "../Post/PostDetails";
 import UserInfo from "../UserInfo";
 import Page from "../Page";
 import ReportModal from "../ReportModal";
+import LocationModal from "./LocationModal";
 
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
@@ -66,10 +68,25 @@ class Post extends React.Component {
         this.state = {
             ReportModalOpen: false,
             reportContent: "",
+            postLocation: "Unknown Location",
+            locationModalOpen: false,
+            editedItemOwned: null,
+            editedItemDesired: null,
+            editedPhotos: null,
+            editedLocation: null,
         };
 
         this.toggleReportModal = this.toggleReportModal.bind(this);
-        this.submit = this.submit.bind(this);
+        this.submitReport = this.submitReport.bind(this);
+        this.getLocation = this.getLocation.bind(this);
+        this.isOwnPost = this.isOwnPost.bind(this);
+        this.toggleLocationModal = this.toggleLocationModal.bind(this);
+        this.setLocation = this.setLocation.bind(this);
+        this.isEdited = this.isEdited.bind(this);
+        this.getPhotos = this.getPhotos.bind(this);
+        this.getItemOwned = this.getItemOwned.bind(this);
+        this.getItemDesired = this.getItemDesired.bind(this);
+        this.submitEdit = this.submitEdit.bind(this);
     }
 
     static get propTypes() {
@@ -78,17 +95,102 @@ class Post extends React.Component {
             post: PropTypes.object.isRequired,
             loading: PropTypes.bool.isRequired,
             submitReport: PropTypes.func.isRequired,
+            userId: PropTypes.string.isRequired,
+            categories: PropTypes.array.isRequired,
+            editPost: PropTypes.func.isRequired,
         };
     }
+
+    componentDidMount() {
+        // this.getLocation(); // TODO: FIND BEST TIME TO CALL THIS HERE AND IN POSTLISTITEM
+    }
+
+    isOwnPost() {
+        // return false;
+        return this.props.userId == this.props.post.creatorId._id;
+    }
+
+    isEdited() {
+        return this.state.editedItemDesired || this.state.editedItemOwned || this.state.editedPhotos || this.state.editedLocation;
+    }
+
+    toggleLocationModal() {
+        this.setState({
+            locationModalOpen: !this.state.locationModalOpen,
+        });
+    }
+
+    setLocation(lat, lng) {
+        this.setState({
+            editedLocation: {
+                type: "Point",
+                coordinates: [lng, lat],
+            },
+        });
+        this.toggleLocationModal();
+    }
+
+    async getLocation() {
+        if (this.props.loading || !this.post.exchangeLocation) {
+            return;
+        }
+        const coord = this.props.post.exchangeLocation.coordinates;
+        let loc = await Geocode.fromLatLng(coord[1], coord[0]);
+        let components = loc.results[0].address_components;
+        let filtered = components.filter(elem => elem.types[0] == "locality")[0];
+        if (filtered) {
+            this.setState({postLocation: filtered.long_name});
+        }
+    }
+
+    getPhotos(photos) {
+        this.setState({
+            editedPhotos: photos,
+        });
+    }
+
+    getItemOwned(item) {
+        this.setState({
+            editedItemOwned: item,
+        });
+    }
+
+    getItemDesired(item) {
+        this.setState({
+            editedItemDesired: item,
+        });
+    }
+
     toggleReportModal() {
         this.setState({
             ReportModalOpen: !this.state.ReportModalOpen,
         });
     }
-    submit(report) {
+
+    submitReport(report) {
         this.props.submitReport(report);
         this.toggleReportModal();
     }
+
+    async submitEdit() {
+        let formData = new FormData();
+        if (this.state.editedItemOwned) {
+            formData.append("itemOwned", JSON.stringify(this.state.editedItemOwned));
+        }
+        if (this.state.editedItemDesired) {
+            formData.append("itemDesired", JSON.stringify(this.state.editedItemDesired));
+        }
+        if (this.state.editedLocation) {
+            formData.append("exchangeLocation", JSON.stringify(this.state.editedLocation));
+        }
+        if (this.state.editedPhotos) {
+            this.state.editedPhotos.map((file, index) => {
+                formData.append(`postPicture[${index}]`, file);
+            });
+        }
+        this.props.editPost(formData);
+    }
+
     render() {
         const {classes} = this.props;
         return (
@@ -112,18 +214,49 @@ class Post extends React.Component {
                                         </div>
                                         {this.state.postLocation}
                                     </Grid>
-                                    <Button className={classes.button}>Contact for Exchange</Button>
-                                    {/*TODO: START CHAT*/}
+                                    {this.isOwnPost() ? (
+                                        <Button className={classes.button} endIcon={<LocationOnIcon />} onClick={this.toggleLocationModal}>
+                                            Edit Location
+                                        </Button>
+                                    ) : (
+                                        <Button className={classes.button} onClick={this.toggleLocationModal}>
+                                            Contact for Exchange
+                                        </Button>
+                                        // TODO: START CHAT
+                                    )}
                                 </Grid>
                             </Grid>
-                            <PostDetails post={this.props.post} />
+                            <PostDetails
+                                post={this.props.post}
+                                isOwnPost={this.isOwnPost()}
+                                editPhotos={this.getPhotos}
+                                categories={this.props.categories}
+                                editItemOwned={this.getItemOwned}
+                                editItemDesired={this.getItemDesired}
+                            />
                             <div className={classes.bottom}>
-                                <Button className={classes.reportButton} onClick={this.toggleReportModal}>
-                                    Report Post
-                                </Button>
+                                {this.isOwnPost() ? (
+                                    this.isEdited() ? (
+                                        <Button className={classes.button} onClick={this.submitEdit}>
+                                            Sumbit Edits
+                                        </Button>
+                                    ) : (
+                                        <React.Fragment />
+                                    )
+                                ) : (
+                                    <Button className={classes.reportButton} onClick={this.toggleReportModal}>
+                                        Report Post
+                                    </Button>
+                                )}
                             </div>
                         </Container>
-                        <ReportModal modalOpen={this.state.ReportModalOpen} onClose={this.toggleReportModal} submitReport={this.submit}></ReportModal>
+                        <ReportModal modalOpen={this.state.ReportModalOpen} onClose={this.toggleReportModal} submitReport={this.submitReport} />
+                        <LocationModal
+                            modalOpen={this.state.locationModalOpen}
+                            onClose={this.toggleLocationModal}
+                            setLocation={this.setLocation}
+                            oldMarker={this.props.post.exchangeLocation}
+                        />
                     </div>
                 )}
             </Page>

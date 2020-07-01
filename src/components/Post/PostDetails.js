@@ -6,13 +6,19 @@ import PropTypes from "prop-types";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import ImageIcon from "@material-ui/icons/Image";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import SwapHorizOutlinedIcon from "@material-ui/icons/SwapHorizOutlined";
+import Item from "./Item";
 import AwesomeSlider from "react-awesome-slider";
 import "react-awesome-slider/dist/styles.css";
-import SwapHorizOutlinedIcon from "@material-ui/icons/SwapHorizOutlined";
 
 const styles = theme => ({
     cardHeader: {
@@ -36,7 +42,6 @@ const styles = theme => ({
     },
     itemTitle: {
         fontWeight: "bold",
-        fontStyle: "italic",
         fontSize: "1.75em",
     },
     boldText: {
@@ -46,18 +51,48 @@ const styles = theme => ({
     fullHeightCard: {
         height: "100%",
     },
+    input: {
+        display: "none",
+    },
+    formButton: {
+        backgroundColor: "#659dbd",
+        color: "#fbeec1",
+        marginTop: theme.spacing(1),
+    },
 });
 
 class PostDetails extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            photos: [],
+        };
+
+        this.onImageUpload = this.onImageUpload.bind(this);
     }
 
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
             post: PropTypes.object.isRequired,
+            isOwnPost: PropTypes.bool,
+            editPhotos: PropTypes.func,
+            categories: PropTypes.array,
+            editItemOwned: PropTypes.func,
+            editItemDesired: PropTypes.func,
         };
+    }
+
+    onImageUpload(e) {
+        let photos = [];
+        for (let i = 0; i < e.target.files.length; i++) {
+            photos.push(e.target.files[i]);
+        }
+        this.setState({photos: photos});
+        if (photos.length > 0) {
+            this.props.editPhotos(photos);
+        }
     }
 
     render() {
@@ -78,26 +113,42 @@ class PostDetails extends React.Component {
                                         ))}
                                     </AwesomeSlider>
                                 </ListItem>
-                                <ListItem dense>
-                                    <div className={classes.itemTitle}>{this.props.post.itemOwned.title}</div>
-                                </ListItem>
-                                <ListItem dense>
-                                    <div className={classes.boldText}>Condition: </div> {this.props.post.itemOwned.condition}
-                                </ListItem>
-                                <ListItem dense>
-                                    <div className={classes.boldText}>Model year:</div>
-                                    {this.props.post.itemOwned.modelYear ? (
-                                        this.props.post.itemOwned.modelYear
+                                <ListItem>
+                                    {this.props.isOwnPost ? (
+                                        <FormControl fullWidth>
+                                            <input
+                                                accept="image/*"
+                                                className={classes.input}
+                                                id="post-details-upload"
+                                                multiple
+                                                type="file"
+                                                onChange={this.onImageUpload}
+                                            />
+                                            <label htmlFor="post-details-upload">
+                                                <Button fullWidth className={classes.formButton} component="span" endIcon={<CloudUploadIcon />}>
+                                                    Upload *
+                                                </Button>
+                                            </label>
+                                            <FormHelperText>
+                                                {"You can replace the photos here with up to 3 new photos and at least 1"}
+                                            </FormHelperText>
+                                            {this.state.photos.map((photo, idx) => (
+                                                <Typography key={idx} align="center">
+                                                    <ImageIcon />
+                                                    {photo.name}
+                                                </Typography>
+                                            ))}
+                                        </FormControl>
                                     ) : (
-                                        <Typography color="textSecondary">{"N/A"}</Typography>
+                                        <React.Fragment />
                                     )}
                                 </ListItem>
-                                <ListItem dense>
-                                    <div className={classes.boldText}>Description: </div>
-                                </ListItem>
-                                <ListItem dense>
-                                    {this.props.post.itemOwned.description ? this.props.post.itemOwned.description : "No description provided."}
-                                </ListItem>
+                                <Item
+                                    item={this.props.post.itemOwned}
+                                    isOwnPost={this.props.isOwnPost}
+                                    categories={this.props.categories}
+                                    onChange={this.props.editItemOwned}
+                                />
                             </List>
                         </CardContent>
                     </Card>
@@ -109,26 +160,14 @@ class PostDetails extends React.Component {
                     <Card elevation={5} className={classes.fullHeightCard}>
                         <CardHeader className={classes.cardHeader} title="Desired Item" />
                         <CardContent>
-                            <ListItem>
-                                <div className={classes.itemTitle}>{this.props.post.itemDesired.title}</div>
-                            </ListItem>
-                            <ListItem>
-                                <div className={classes.boldText}>Condition: </div> {this.props.post.itemDesired.condition}
-                            </ListItem>
-                            <ListItem>
-                                <div className={classes.boldText}>Model year: </div>
-                                {this.props.post.itemDesired.modelYear ? (
-                                    this.props.post.itemDesired.modelYear
-                                ) : (
-                                    <Typography color="textSecondary">{" N/A"}</Typography>
-                                )}
-                            </ListItem>
-                            <ListItem>
-                                <div className={classes.boldText}>Description: </div>
-                            </ListItem>
-                            <ListItem>
-                                {this.props.post.itemDesired.description ? this.props.post.itemDesired.description : "No description provided."}
-                            </ListItem>
+                            <List>
+                                <Item
+                                    item={this.props.post.itemDesired}
+                                    isOwnPost={this.props.isOwnPost}
+                                    categories={this.props.categories}
+                                    onChange={this.props.editItemDesired}
+                                />
+                            </List>
                         </CardContent>
                     </Card>
                 </Grid>
