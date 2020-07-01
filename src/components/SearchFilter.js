@@ -81,7 +81,7 @@ class SearchFilter extends React.Component {
             wantedCategory: "",
             ownedCategory: "",
             myLocation: {lng: 0, lat: 0},
-            radius: 10000,
+            radius: 6371, // radius in KM
             city: "",
             indexFocused: 100000000,
         };
@@ -104,7 +104,6 @@ class SearchFilter extends React.Component {
             posts: PropTypes.array.isRequired,
             categories: PropTypes.array.isRequired,
             onSubmit: PropTypes.func.isRequired,
-            indexFocused: PropTypes.number.isRequired,
         };
     }
     handleSubmit() {
@@ -169,6 +168,7 @@ class SearchFilter extends React.Component {
     }
     // send post in focus
     onPostFocusChange(idx) {
+        console.log(idx);
         this.setState({indexFocused: idx});
     }
 
@@ -201,7 +201,13 @@ class SearchFilter extends React.Component {
                                         <div className={classes.formAlignment}>
                                             <form className={classes.textBox} noValidate autoComplete="off">
                                                 <TextField id="location" value={this.state.city} label="Location" />
-                                                <TextField id="radius" type={"number"} label="Radius in Km" onChange={this.onRadiusChange} />
+                                                <TextField
+                                                    id="radius"
+                                                    type={"number"}
+                                                    label="Radius in Km"
+                                                    defaultValue={this.state.radius}
+                                                    onChange={this.onRadiusChange}
+                                                />
                                                 <TextField id="itemDesired" label="Item Desired" onChange={this.onItemWantedChange} />
                                                 <br />
                                                 <TextField id="itemOwned" label="Item Owned" onChange={this.onItemOwnedChange} />
@@ -279,7 +285,7 @@ class SearchFilter extends React.Component {
                             <Zoom in={true} transitionduration={5000}>
                                 <PostList
                                     posts={this.props.posts}
-                                    focus={this.props.indexFocused}
+                                    focus={this.state.indexFocused}
                                     msgForNoPosts={"Could not find any posts"}></PostList>
                             </Zoom>
                         </div>
