@@ -183,7 +183,7 @@ class SearchFilter extends React.Component {
                                         <MapContainer
                                             className={classes.map}
                                             posts={this.props.posts}
-                                            radius={parseInt(this.state.radius)}
+                                            radius={parseInt(this.state.radius) * 1000}
                                             onLocationChange={this.onLocationChange}
                                             onPostFocusChange={this.onPostFocusChange}
                                         />
