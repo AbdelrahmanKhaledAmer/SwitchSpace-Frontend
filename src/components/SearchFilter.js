@@ -82,6 +82,7 @@ class SearchFilter extends React.Component {
             ownedCategory: "",
             myLocation: {lon: 0, lat: 0},
             radius: 10000,
+            city: "",
         };
 
         this.onItemOwnedChange = this.onItemOwnedChange.bind(this);
@@ -114,7 +115,7 @@ class SearchFilter extends React.Component {
             this.state.ownedCondition,
             this.state.myLocation.lon,
             this.state.myLocation.lat,
-            this.state.radius
+            this.state.radius * 1000
         );
     }
     onItemWantedChange(e) {
@@ -127,7 +128,7 @@ class SearchFilter extends React.Component {
     }
     onRadiusChange(e) {
         const value = e.currentTarget.value;
-        this.setState({radius: value});
+        this.setState({radius: parseInt(value)});
     }
     onWantedCategoryChange(e) {
         const value = e.target.value;
@@ -147,15 +148,18 @@ class SearchFilter extends React.Component {
         this.setState({ownedCondition: value});
     }
     async onLocationChange(loc) {
-        console.log(loc);
-        let tmpLoc = await Geocode.fromLatLng(loc[1], loc[0]);
-        loc = tmpLoc;
-        let components = loc.results[0].address_components;
-        let filtered = components.filter(elem => elem.types[0] == "locality")[0];
-        console.log(filtered);
-        if (filtered) {
-            this.setState({postLocation: filtered.long_name});
-            console.log(filtered);
+        try {
+            let tmpLoc = await Geocode.fromLatLng(loc.lat, loc.lng);
+
+            loc = tmpLoc;
+            let components = loc.results[0].address_components;
+
+            let filtered = components.filter(elem => elem.types[0] == "locality")[0];
+            if (filtered) {
+                this.setState({city: filtered.long_name});
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
     // send post in focus
@@ -192,8 +196,8 @@ class SearchFilter extends React.Component {
                                     <Card elevation={3} className={classes.inputCard}>
                                         <div className={classes.formAlignment}>
                                             <form className={classes.textBox} noValidate autoComplete="off">
-                                                <TextField id="location" label="Location" />
-                                                <TextField id="radius" type={"number"} label="Radius" onChange={this.onRadiusChange} />
+                                                <TextField id="location" value={this.state.city} label="Location" />
+                                                <TextField id="radius" type={"number"} label="Radius in Km" onChange={this.onRadiusChange} />
                                                 <TextField id="itemDesired" label="Item Desired" onChange={this.onItemWantedChange} />
                                                 <br />
                                                 <TextField id="itemOwned" label="Item Owned" onChange={this.onItemOwnedChange} />
