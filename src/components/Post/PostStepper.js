@@ -20,7 +20,7 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Page from "../Page";
-import PostDetails from "../Post/PostDetails";
+import PostDetails from "./PostDetails";
 import ItemForm from "./ItemForm";
 import LocationModal from "./LocationModal";
 
@@ -160,19 +160,8 @@ const styles = theme => ({
         color: "#fbeec1",
         marginTop: theme.spacing(1),
     },
-    instructions: {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-    },
     bottom: {
         textAlign: "center",
-    },
-    fileInputContainer: {
-        width: "100%",
-        marginTop: theme.spacing(1),
-        padding: theme.spacing(1),
-        border: "1px solid grey",
-        borderRadius: "5px",
     },
     input: {
         display: "none",
@@ -259,11 +248,6 @@ class PostStepper extends React.Component {
 
     async handleNext() {
         if (this.state.activeStep == 2) {
-            // let postData = {};
-            // postData.itemOwned = this.state.itemOwned;
-            // postData.itemDesired = this.state.itemDesired;
-            // postData.exchangeLocation = this.state.exchangeLocation;
-            // postData.photos = this.state.photos;
             let itemOwned = this.state.itemOwned;
             if (!itemOwned.modelYear) {
                 itemOwned.modelYear = undefined;
@@ -279,8 +263,6 @@ class PostStepper extends React.Component {
             this.state.photos.map((file, index) => {
                 formData.append(`postPicture[${index}]`, file);
             });
-            // formData.append(`postPicture`, this.state.photos);
-
             this.props.submit(formData);
         } else {
             if ((this.state.activeStep == 0 && !this.validateItemOwnedForm()) || (this.state.activeStep == 1 && !this.validateItemDesiredForm())) {
@@ -293,7 +275,6 @@ class PostStepper extends React.Component {
     }
 
     validateItemDesiredForm() {
-        console.log("what");
         let res = true;
         let itemDesiredError = {
             title: "",
@@ -322,7 +303,6 @@ class PostStepper extends React.Component {
                 ...itemDesiredError,
             },
         });
-        console.log(res);
         return res;
     }
 
