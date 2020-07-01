@@ -1,4 +1,8 @@
+"use strict";
+// React
 import React from "react";
+import propTypes from "prop-types";
+// Material UI Core
 import {makeStyles} from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -7,6 +11,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
+// Material UI Icons
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -17,7 +22,6 @@ import AddBoxIcon from "@material-ui/icons/AddBox";
 import CategoryIcon from "@material-ui/icons/Category";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import propTypes from "prop-types";
 
 const useStyles = makeStyles({
     list: {

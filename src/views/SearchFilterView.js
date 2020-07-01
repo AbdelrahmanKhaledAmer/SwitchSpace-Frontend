@@ -1,8 +1,10 @@
 "use strict";
-
+// React
 import React from "react";
-import SearchFilter from "../components/SearchFilter";
 import PropTypes from "prop-types";
+// Components
+import SearchFilter from "../components/Post/SearchAndFilter/SearchFilter";
+// Services
 import PostService from "../services/PostService";
 import CategoryService from "../services/CategoryService";
 export default class SearchFilterView extends React.Component {

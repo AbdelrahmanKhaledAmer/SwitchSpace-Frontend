@@ -1,10 +1,13 @@
 "use strict";
-
+// React
 import React from "react";
 import PropTypes from "prop-types";
+// Material UI Core
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {withStyles} from "@material-ui/core/styles";
-import UserProfile from "../components/UserProfile";
+// Components
+import UserProfile from "../components/UserProfile/UserProfile";
+// Services
 import PostService from "../services/PostService";
 import UserService from "../services/UserService";
 import UserAuthService from "../services/UserAuthService";

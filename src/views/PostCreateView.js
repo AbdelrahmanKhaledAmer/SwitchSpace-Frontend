@@ -1,12 +1,12 @@
 "use strict";
-
+// React
 import React from "react";
-
-import PostStepper from "../components/Post/PostStepper";
+import PropTypes from "prop-types";
+// Components
+import PostStepper from "../components/Post/CreatePost/PostStepper";
+// Services
 import CategoryService from "../services/CategoryService";
 import PostService from "../services/PostService";
-
-import PropTypes from "prop-types";
 
 export default class UserLoginView extends React.Component {
     constructor(props) {

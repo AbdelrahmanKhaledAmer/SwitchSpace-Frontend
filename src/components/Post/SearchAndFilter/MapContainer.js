@@ -1,15 +1,16 @@
+"use strict";
+// React
 import React from "react";
-import {Map, Marker, GoogleApiWrapper, InfoWindow, Circle} from "google-maps-react";
-import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-
-// import Card from "@material-ui/core/Card";
-// import Paper from "@material-ui/core/Paper";
-// import CardContent from "@material-ui/core/Card";
+import {Map, Marker, GoogleApiWrapper, InfoWindow, Circle} from "google-maps-react";
+// Material UI Core
+import {withStyles} from "@material-ui/core/styles";
 import {Grid} from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import InfoCard from "./InfoCard";
+// Material UI Icons
 import SwapHorizOutlinedIcon from "@material-ui/icons/SwapHorizOutlined";
+// Components
+import InfoCard from "./InfoCard";
 
 //TODO: loading styles
 const LoadingContainer = () => {

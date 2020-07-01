@@ -1,10 +1,12 @@
 "use strict";
-
+// React
 import React from "react";
 import PropTypes from "prop-types";
-import ReportListItem from "./ReportListItem";
+// Material UI Core
 import {withStyles} from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
+// Components
+import ReportListItem from "./ReportListItem";
 
 const styles = {
     scrollableCard: {

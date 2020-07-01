@@ -1,12 +1,15 @@
 "use strict";
-
+// Material UI Icons
 import React from "react";
-import {withStyles} from "@material-ui/core/styles";
-import {BarChart, XAxis, Tooltip, YAxis, Bar, Cell, ResponsiveContainer} from "recharts";
 import PropTypes from "prop-types";
+// Material UI Core
+import {withStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
+// Components
 import Page from "./Page";
 import PostList from "./Post/PostList";
+// MISC
+import {BarChart, XAxis, Tooltip, YAxis, Bar, Cell, ResponsiveContainer} from "recharts";
 
 const styles = theme => ({
     graphContainer: {

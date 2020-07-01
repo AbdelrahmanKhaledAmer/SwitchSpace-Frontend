@@ -1,11 +1,12 @@
 "use strict";
-
+// React
 import React from "react";
-
-import UserLogin from "../components/UserLogin";
-
-import UserAuthService from "../services/UserAuthService";
 import PropTypes from "prop-types";
+// Components
+import UserLogin from "../components/UserAuth/UserLogin";
+// Services
+import UserAuthService from "../services/UserAuthService";
+// MISC
 import {toast} from "react-toastify";
 
 export default class UserLoginView extends React.Component {

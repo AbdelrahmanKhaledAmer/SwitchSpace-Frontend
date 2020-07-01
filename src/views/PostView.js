@@ -1,9 +1,10 @@
 "use strict";
-
+// React
 import React from "react";
 import PropTypes from "prop-types";
-
-import Post from "../components/Post/Post";
+// Components
+import Post from "../components/Post/PostDetails/Post";
+// Services
 import PostService from "../services/PostService";
 import ReportService from "../services/ReportService";
 import UserAuthService from "../services/UserAuthService";

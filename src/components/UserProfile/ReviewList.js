@@ -1,8 +1,10 @@
 "use strict";
-
+// React
 import React from "react";
 import PropTypes from "prop-types";
+// Material UI Core
 import Typography from "@material-ui/core/Typography";
+// Components
 import ReviewListItem from "./ReviewListItem";
 
 class ReviewList extends React.Component {

@@ -1,8 +1,9 @@
 "use strict";
-
+// React
 import React from "react";
-import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+// Material UI Core
+import {withStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import ListItem from "@material-ui/core/ListItem";
@@ -11,6 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
+// Material UI Icons
 import CancelIcon from "@material-ui/icons/Cancel";
 import EditIcon from "@material-ui/icons/Edit";
 

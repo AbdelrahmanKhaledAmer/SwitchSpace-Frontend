@@ -1,16 +1,19 @@
 "use strict";
-
+// React
+import PropTypes from "prop-types";
+import React from "react";
+import {Link} from "react-router-dom";
+// Material UI Core
 import Avatar from "@material-ui/core/Avatar";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
-import PropTypes from "prop-types";
-import React from "react";
-import {Link} from "react-router-dom";
-import Page from "./Page";
+// Material UI Icons
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+// Components
+import Page from "../Page";
 import UserDataForm from "./UserDataForm";
 
 const styles = theme => ({

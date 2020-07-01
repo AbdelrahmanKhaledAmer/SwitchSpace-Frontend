@@ -1,8 +1,9 @@
 "use strict";
+// React
 import React from "react";
-import Page from "./Page";
-import PostList from "./Post/PostList";
-
+import PropTypes from "prop-types";
+import Geocode from "react-geocode";
+// Material UI Core
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -14,12 +15,12 @@ import Card from "@material-ui/core/Card";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-
 import {withStyles} from "@material-ui/core/styles";
-import PropTypes from "prop-types";
 import Zoom from "@material-ui/core/Zoom";
+// Components
+import Page from "../../Page";
+import PostList from "../PostList";
 import MapContainer from "./MapContainer";
-import Geocode from "react-geocode";
 
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
