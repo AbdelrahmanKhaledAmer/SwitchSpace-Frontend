@@ -75,7 +75,7 @@ class SearchFilter extends React.Component {
             wantedCategory: "",
             ownedCategory: "",
             myLocation: {lon: 0, lat: 0},
-            radius: 1e5 * 1000,
+            radius: 10000,
         };
 
         this.onItemOwnedChange = this.onItemOwnedChange.bind(this);
@@ -249,11 +249,6 @@ class SearchFilter extends React.Component {
                         <Zoom in={true} transitionduration={5000}>
                             <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
                         </Zoom>
-                        {/* <Grid container spacing={10} className={classes.child}>
-                                <Card elevation={5}>
-                                    <PostList posts={this.props.posts}></PostList>
-                                </Card>
-                        </Grid> */}
                     </Grid>
                 </Grid>
             </Page>
