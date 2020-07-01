@@ -1,8 +1,11 @@
 "use strict";
-
+// React
 import React from "react";
-import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import AwesomeSlider from "react-awesome-slider";
+import "react-awesome-slider/dist/styles.css";
+// Material UI Core
+import {withStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -13,12 +16,12 @@ import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+// Material UI Icons
 import ImageIcon from "@material-ui/icons/Image";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import SwapHorizOutlinedIcon from "@material-ui/icons/SwapHorizOutlined";
+// Components
 import Item from "./Item";
-import AwesomeSlider from "react-awesome-slider";
-import "react-awesome-slider/dist/styles.css";
 
 const styles = theme => ({
     cardHeader: {

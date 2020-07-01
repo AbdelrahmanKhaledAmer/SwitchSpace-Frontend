@@ -1,15 +1,17 @@
 "use strict";
-
+// React
 import React from "react";
-
-import Subscriptions from "../components/Payment/Subscriptions";
-
-import UserService from "../services/UserService";
 import PropTypes from "prop-types";
-import {toast} from "react-toastify";
+// Material UI Core
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {withStyles} from "@material-ui/core";
+// Components
+import Subscriptions from "../components/Payment/Subscriptions";
+// Services
+import UserService from "../services/UserService";
+// MISC
+import {toast} from "react-toastify";
 
 const styles = theme => ({
     backdrop: {

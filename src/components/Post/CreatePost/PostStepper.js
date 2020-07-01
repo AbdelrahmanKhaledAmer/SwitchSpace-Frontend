@@ -1,28 +1,33 @@
+"use strict";
 import React from "react";
 import PropTypes from "prop-types";
+// Material UI Core
 import {makeStyles, withStyles} from "@material-ui/core/styles";
-import clsx from "clsx";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
-import Check from "@material-ui/icons/Check";
 import Container from "@material-ui/core/Container";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import ImageIcon from "@material-ui/icons/Image";
 import StepConnector from "@material-ui/core/StepConnector";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import Page from "../Page";
-import PostDetails from "./PostDetails";
+// Material UI Icons
+import ImageIcon from "@material-ui/icons/Image";
+import Check from "@material-ui/icons/Check";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+// Components
+import Page from "../../Page";
+import PostDetails from "../PostDetails/PostDetails";
 import ItemForm from "./ItemForm";
 import LocationModal from "./LocationModal";
+// MISC
+import clsx from "clsx";
 
 const useQontoStepIconStyles = makeStyles({
     root: {

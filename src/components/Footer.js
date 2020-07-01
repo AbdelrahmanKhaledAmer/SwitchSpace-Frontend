@@ -1,6 +1,7 @@
 "use strict";
-
+// React
 import React from "react";
+// Material UI Core
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles({

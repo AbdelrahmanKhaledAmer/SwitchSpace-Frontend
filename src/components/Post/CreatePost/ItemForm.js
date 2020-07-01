@@ -1,6 +1,8 @@
 "use strict";
-
+// React
 import React from "react";
+import PropTypes from "prop-types";
+// Material UI Core
 import TextField from "@material-ui/core/TextField";
 import {withStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -9,7 +11,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import PropTypes from "prop-types";
 
 const styles = {
     formControl: {

@@ -1,19 +1,19 @@
 "use strict";
-
+// React
 import React from "react";
-import {withStyles} from "@material-ui/core/styles";
-
 import PropTypes from "prop-types";
-// import Grid from "@material-ui/core/Grid";
-import CheckoutForm from "./CheckoutForm";
-// import CardSection from "./CardSection";
-import {loadStripe} from "@stripe/stripe-js";
-import {Elements, ElementsConsumer} from "@stripe/react-stripe-js";
+// Material UI Core
+import {withStyles} from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import Zoom from "@material-ui/core/Zoom";
+// Components
+import CheckoutForm from "./CheckoutForm";
+// MISC
+import {loadStripe} from "@stripe/stripe-js";
+import {Elements, ElementsConsumer} from "@stripe/react-stripe-js";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 // set card options

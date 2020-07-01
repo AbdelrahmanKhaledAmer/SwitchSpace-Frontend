@@ -1,22 +1,25 @@
 "use strict";
-
+// React
 import React from "react";
 import PropTypes from "prop-types";
-import Page from "./Page";
-import UserInfo from "./UserInfo";
+//Material UI Core
 import {withStyles} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import Grid from "@material-ui/core/Grid";
 import AppBar from "@material-ui/core/AppBar";
 import Tab from "@material-ui/core/Tab";
+import Card from "@material-ui/core/Card";
+// Material UI Lab
 import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
-import Card from "@material-ui/core/Card";
-import PostList from "./Post/PostList";
+// Components
+import Page from "../Page";
+import UserInfo from "./UserInfo";
+import PostList from "../Post/PostList";
 import ReviewList from "./ReviewList";
-import UserDataForm from "./UserDataForm";
+import UserDataForm from "../UserAuth/UserDataForm";
 
 const styles = theme => ({
     topContainer: {

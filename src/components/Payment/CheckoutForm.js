@@ -1,12 +1,17 @@
+"use strict";
+// React
 import React from "react";
-import {CardNumberElement} from "@stripe/react-stripe-js";
+import PropTypes from "prop-types";
+// Material UI Core
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import {withStyles} from "@material-ui/core/styles";
-import PropTypes from "prop-types";
-import CardSection from "./CardSection";
 import Grid from "@material-ui/core/Grid";
 import {Zoom} from "@material-ui/core";
+// Components
+import CardSection from "./CardSection";
+// MISC
+import {CardNumberElement} from "@stripe/react-stripe-js";
 
 const cardOptions = {
     style: {

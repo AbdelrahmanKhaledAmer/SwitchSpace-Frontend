@@ -1,19 +1,21 @@
 "use strict";
-
+// React
 import React from "react";
+import PropTypes from "prop-types";
+import Geocode from "react-geocode";
+import {withRouter} from "react-router-dom";
+// Material UI Core
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
-import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import {withStyles} from "@material-ui/core/styles";
-import PropTypes from "prop-types";
-import Geocode from "react-geocode";
-import {withRouter} from "react-router-dom";
+// Material UI Icons
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
+import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 

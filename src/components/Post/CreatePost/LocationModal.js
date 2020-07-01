@@ -1,16 +1,17 @@
 "use strict";
-
+// React
 import React from "react";
-import {withStyles} from "@material-ui/core/styles";
-
 import PropTypes from "prop-types";
+// Material UI Core
+import {withStyles} from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
-import {Map, Marker, GoogleApiWrapper} from "google-maps-react";
 import Zoom from "@material-ui/core/Zoom";
+// MISC
+import {Map, Marker, GoogleApiWrapper} from "google-maps-react";
 
 // set card options
 const styles = {

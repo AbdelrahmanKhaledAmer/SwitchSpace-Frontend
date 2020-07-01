@@ -1,11 +1,12 @@
 "use strict";
-
+//React
 import React from "react";
-
-import AdminConsole from "../components/Admin/AdminConsole";
-
-import AdminService from "../services/AdminService";
 import PropTypes from "prop-types";
+// Components
+import AdminConsole from "../components/Admin/AdminConsole";
+// Services
+import AdminService from "../services/AdminService";
+// MISC
 import {toast} from "react-toastify";
 
 export default class AdminView extends React.Component {

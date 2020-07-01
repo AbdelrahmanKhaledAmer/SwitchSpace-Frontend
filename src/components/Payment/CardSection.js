@@ -1,9 +1,10 @@
-/**
- * Use the CSS tab above to style your Element's container.
- */
+"use strict";
+// React
 import React from "react";
-import {CardCvcElement, CardExpiryElement, CardNumberElement} from "@stripe/react-stripe-js";
+// Material UI Core
 import Grid from "@material-ui/core/Grid";
+// MISC
+import {CardCvcElement, CardExpiryElement, CardNumberElement} from "@stripe/react-stripe-js";
 
 // import "./CardSectionStyles.css";
 

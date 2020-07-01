@@ -1,17 +1,18 @@
 "use strict";
-
+// React
+import PropTypes from "prop-types";
+import React from "react";
+// Material UI Core
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
-
-import PropTypes from "prop-types";
-import React from "react";
-
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
+// Material UI Icons
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import ImageIcon from "@material-ui/icons/Image";
+// MISC
 import EmailValidator from "email-validator";
 
 const styles = theme => ({
@@ -222,7 +223,6 @@ class UserProfileEdit extends React.Component {
         const {classes} = this.props;
         return (
             <form className={classes.form} noValidate>
-                <Typography>{this.state.formValid ? "valid" : "not valid"}</Typography>
                 <TextField
                     variant="outlined"
                     margin="normal"

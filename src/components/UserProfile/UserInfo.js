@@ -1,11 +1,13 @@
 "use strict";
-
+// React
 import React from "react";
 import PropTypes from "prop-types";
+// Material UI Core
 import {withStyles} from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
-import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
+//Material UI Lab
+import Rating from "@material-ui/lab/Rating";
 
 const styles = theme => ({
     mainContainer: {

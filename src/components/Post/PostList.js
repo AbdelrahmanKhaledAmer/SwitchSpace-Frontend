@@ -1,10 +1,12 @@
 "use strict";
-
+// React
 import React from "react";
 import PropTypes from "prop-types";
-import PostListItem from "../Post/PostListItem";
+// Material UI Core
 import {withStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+// Components
+import PostListItem from "./PostListItem";
 
 const styles = {};
 

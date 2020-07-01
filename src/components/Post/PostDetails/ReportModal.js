@@ -1,5 +1,9 @@
 "use strict";
+// React
 import React from "react";
+import PropTypes from "prop-types";
+import {withRouter} from "react-router-dom";
+// Material UI Core
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -7,14 +11,12 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import ReportIcon from "@material-ui/icons/Report";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Zoom from "@material-ui/core/Zoom";
-
-import PropTypes from "prop-types";
-import {withRouter} from "react-router-dom";
+// Material UI Icons
+import ReportIcon from "@material-ui/icons/Report";
 
 const styles = theme => ({
     paper: {

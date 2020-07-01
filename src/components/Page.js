@@ -1,11 +1,14 @@
 "use strict";
-
+// React
 import React from "react";
+import PropTypes from "prop-types";
+// Material UI Core
+import {withStyles} from "@material-ui/core/styles";
+// Components
 import QuickNavMenu from "./QuickNavMenu";
 import Sidebar from "./Sidebar";
 // import Footer from "./Footer"; // TODO: ADD FOOTER
-import PropTypes from "prop-types";
-import {withStyles} from "@material-ui/core/styles";
+// MISC
 import {ToastContainer} from "react-toastify";
 
 const styles = theme => ({

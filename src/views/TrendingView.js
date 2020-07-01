@@ -1,10 +1,11 @@
 "use strict";
-
+// React
 import React from "react";
-import Trending from "../components/Trending";
-import TrendingService from "../services/TrendingService";
-
 import PropTypes from "prop-types";
+// Components
+import Trending from "../components/Trending";
+// Services
+import TrendingService from "../services/TrendingService";
 
 export default class TrendingView extends React.Component {
     constructor(props) {

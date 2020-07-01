@@ -1,11 +1,12 @@
 "use strict";
-
+// React
 import React from "react";
-
-import UserLogin from "../components/UserLogin";
-
-import AdminAuthService from "../services/AdminAuthService";
 import PropTypes from "prop-types";
+// Components
+import UserLogin from "../components/UserAuth/UserLogin";
+// Services
+import AdminAuthService from "../services/AdminAuthService";
+// MISC
 import {toast} from "react-toastify";
 
 export default class AdminLoginView extends React.Component {

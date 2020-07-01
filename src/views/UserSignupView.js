@@ -1,14 +1,16 @@
 "use strict";
-
+// React
 import React from "react";
-
-import UserSignup from "../components/UserSignup";
-
-import UserAuthService from "../services/UserAuthService";
 import PropTypes from "prop-types";
+// Material UI Core
+import CircularProgress from "@material-ui/core/CircularProgress";
+// Components
+import UserSignup from "../components/UserAuth/UserSignup";
+// Services
+import UserAuthService from "../services/UserAuthService";
+// MISC
 import {toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 export default class UserSignupView extends React.Component {
     constructor(props) {

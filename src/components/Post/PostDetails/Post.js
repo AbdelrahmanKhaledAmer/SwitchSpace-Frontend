@@ -1,22 +1,24 @@
 "use strict";
-
+// React
 import React from "react";
 import PropTypes from "prop-types";
+import Geocode from "react-geocode";
+// Material UI Core
 import {withStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+// Material UI Icons
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
-import Geocode from "react-geocode";
-
-import PostDetails from "../Post/PostDetails";
-import UserInfo from "../UserInfo";
-import Page from "../Page";
-import ReportModal from "../ReportModal";
-import LocationModal from "./LocationModal";
+// Components
+import PostDetails from "./PostDetails";
+import UserInfo from "../../UserProfile/UserInfo";
+import Page from "../../Page";
+import ReportModal from "./ReportModal";
+import LocationModal from "../CreatePost/LocationModal";
 
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 

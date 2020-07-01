@@ -1,4 +1,8 @@
+"use strict";
+// React
 import React from "react";
+import propTypes from "prop-types";
+// Material UI Core
 import {fade, makeStyles} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -9,11 +13,11 @@ import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+// Material UI Icons
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import ChatIcon from "@material-ui/icons/Chat";
-import propTypes from "prop-types";
 
 const drawerWidth = 240;
 
