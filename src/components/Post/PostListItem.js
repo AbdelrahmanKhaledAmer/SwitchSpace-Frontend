@@ -71,6 +71,8 @@ const styles = theme => ({
     },
     itemPadding: {
         padding: theme.spacing(0, 3),
+    },
+    itemMargin: {
         margin: theme.spacing(2, 0),
     },
 });
@@ -116,8 +118,8 @@ class PostListItem extends React.Component {
     render() {
         const {classes} = this.props;
         return (
-            <Card elevation={5} className={classes.itemPadding}>
-                <CardActionArea onClick={this.goToPost}>
+            <Card elevation={5} className={classes.itemMargin}>
+                <CardActionArea onClick={this.goToPost} className={classes.itemPadding}>
                     <Grid container spacing={1} className={classes.postContainer}>
                         <Grid item xs={3}>
                             <Avatar src={this.props.post.photos[0].url} className={classes.image} />

@@ -92,4 +92,18 @@ export default class PostService {
             );
         });
     }
+
+    static getSearchPosts(itemWanted, itemOwned, wantedCategory, wantedCondition, ownedCategory, ownedCondition, lng, lat, radius) {
+        return new Promise((resolve, reject) => {
+            HttpService.get(
+                `${PostService.baseURL()}/search?iw=${itemWanted}&io=${itemOwned}&iwCat=${wantedCategory}&ioCat=${ownedCategory}&iwCon=${wantedCondition}&ioCon=${ownedCondition}&lng=${lng}&lat=${lat}&radius=${radius}`,
+                function (data) {
+                    resolve(data);
+                },
+                function (textStatus) {
+                    reject(textStatus);
+                }
+            );
+        });
+    }
 }

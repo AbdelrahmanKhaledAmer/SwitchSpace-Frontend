@@ -11,11 +11,17 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 
 import {withStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import GoogleMap from "../components/GoogleMap";
 import Zoom from "@material-ui/core/Zoom";
+import MapContainer from "./MapContainer";
+import Geocode from "react-geocode";
+
+Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
 const styles = theme => ({
     inputCard: {
@@ -54,39 +60,118 @@ const styles = theme => ({
         width: "100%",
         textAlign: "center",
     },
+    postList: {
+        overflowY: "scroll",
+        // border: "1px solid ",
+        width: "100%",
+        float: "left",
+        height: "700px",
+        position: "relative",
+    },
 });
 
 class SearchFilter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false,
-            category: "",
-            condition: "",
+            wantedCondition: "",
+            ownedCondition: "",
+            itemOwned: "",
+            itemWanted: "",
+            wantedCategory: "",
+            ownedCategory: "",
+            myLocation: {lng: 0, lat: 0},
+            radius: 6371, // radius in KM
+            city: "",
+            indexFocused: 100000000,
         };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleOpen = this.handleOpen.bind(this);
+        this.onItemOwnedChange = this.onItemOwnedChange.bind(this);
+        this.onItemWantedChange = this.onItemWantedChange.bind(this);
+        this.onRadiusChange = this.onRadiusChange.bind(this);
+        this.onOwnedConditionChange = this.onOwnedConditionChange.bind(this);
+        this.onOwnedCategoryChange = this.onOwnedCategoryChange.bind(this);
+        this.onWantedCategoryChange = this.onWantedCategoryChange.bind(this);
+        this.onWantedConditionChange = this.onWantedConditionChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.onLocationChange = this.onLocationChange.bind(this);
+        this.onPostFocusChange = this.onPostFocusChange.bind(this);
     }
+
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
+            posts: PropTypes.array.isRequired,
+            categories: PropTypes.array.isRequired,
             onSubmit: PropTypes.func.isRequired,
         };
     }
-    handleChange(event) {
-        const value = event.currentTarget.value;
-        this.setState({open: value});
+    handleSubmit() {
+        console.log(this.state.myLocation);
+        this.props.onSubmit(
+            this.state.itemWanted,
+            this.state.itemOwned,
+            this.state.wantedCategory,
+            this.state.wantedCondition,
+            this.state.ownedCategory,
+            this.state.ownedCondition,
+            this.state.myLocation.lng,
+            this.state.myLocation.lat,
+            this.state.radius
+        );
+    }
+    onItemWantedChange(e) {
+        const value = e.currentTarget.value;
+        this.setState({itemWanted: value});
+    }
+    onItemOwnedChange(e) {
+        const value = e.currentTarget.value;
+        this.setState({itemOwned: value});
+    }
+    onRadiusChange(e) {
+        const value = e.currentTarget.value;
+        this.setState({radius: parseInt(value)});
+    }
+    onWantedCategoryChange(e) {
+        const value = e.target.value;
+        this.setState({wantedCategory: value});
+    }
+    onOwnedCategoryChange(e) {
+        const value = e.target.value;
+        this.setState({ownedCategory: value});
+    }
+    onWantedConditionChange(e) {
+        const value = e.target.value;
+        console.log(value);
+        this.setState({wantedCondition: value});
+    }
+    onOwnedConditionChange(e) {
+        const value = e.target.value;
+        this.setState({ownedCondition: value});
+    }
+    async onLocationChange(loc) {
+        try {
+            let tmpLoc = await Geocode.fromLatLng(loc.lat, loc.lng);
+
+            loc = tmpLoc;
+            let components = loc.results[0].address_components;
+
+            let filtered = components.filter(elem => elem.types[0] == "locality")[0];
+            if (filtered) {
+                this.setState({city: filtered.long_name});
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        this.setState({myLocation: loc});
+    }
+    // send post in focus
+    onPostFocusChange(idx) {
+        console.log(idx);
+        this.setState({indexFocused: idx});
     }
 
-    handleClose() {
-        this.open = false;
-    }
-
-    handleOpen() {
-        this.open = true;
-    }
     render() {
         const {classes} = this.props;
 
@@ -99,7 +184,13 @@ class SearchFilter extends React.Component {
                             <Grid item sm={12}>
                                 <Zoom in={true} transitionduration={500}>
                                     <Card elevation={3} className={classes.mapCard}>
-                                        <GoogleMap className={classes.map}></GoogleMap>
+                                        <MapContainer
+                                            className={classes.map}
+                                            posts={this.props.posts}
+                                            radius={parseInt(this.state.radius) * 1000}
+                                            onLocationChange={this.onLocationChange}
+                                            onPostFocusChange={this.onPostFocusChange}
+                                        />
                                     </Card>
                                 </Zoom>
                             </Grid>
@@ -109,42 +200,73 @@ class SearchFilter extends React.Component {
                                     <Card elevation={3} className={classes.inputCard}>
                                         <div className={classes.formAlignment}>
                                             <form className={classes.textBox} noValidate autoComplete="off">
-                                                <TextField id="filled-basic" label="Location" />
-                                                <TextField id="filled-basic" label="Radius" />
-                                                <TextField id="filled-basic" label="Item Desired" />
+                                                <TextField id="location" value={this.state.city} label="Location" />
+                                                <TextField
+                                                    id="radius"
+                                                    type={"number"}
+                                                    label="Radius in Km"
+                                                    defaultValue={this.state.radius}
+                                                    onChange={this.onRadiusChange}
+                                                />
+                                                <TextField id="itemDesired" label="Item Desired" onChange={this.onItemWantedChange} />
                                                 <br />
-                                                <TextField id="filled-basic" label="Item Owned" />
+                                                <TextField id="itemOwned" label="Item Owned" onChange={this.onItemOwnedChange} />
                                                 <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-controlled-open-select-label">Condition</InputLabel>
+                                                    <InputLabel id="desiredLocation">Item Desired Condition</InputLabel>
                                                     <Select
-                                                        labelId="demo-controlled-open-select-label"
-                                                        id="demo-controlled-open-select"
-                                                        open={this.open}
-                                                        onClose={this.handleClose}
-                                                        onOpen={this.handleOpen}
-                                                        value={this.condition}
-                                                        onChange={this.handleChange}>
+                                                        labelId="desiredConditionLabel"
+                                                        id="desiredCondition"
+                                                        //value={this.wantedCondition}
+                                                        defaultValue={""}
+                                                        onChange={this.onWantedConditionChange}>
                                                         <MenuItem value={"new"}>New</MenuItem>
                                                         <MenuItem value={"used"}>Used</MenuItem>
                                                     </Select>
                                                 </FormControl>
                                                 <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-controlled-open-select-label">Category</InputLabel>
+                                                    <InputLabel id="desiredCategoryInput">Item Desired Category</InputLabel>
                                                     <Select
-                                                        labelId="demo-controlled-open-select-label"
-                                                        id="demo-controlled-open-select"
-                                                        open={this.open}
-                                                        onClose={this.handleClose}
-                                                        onOpen={this.handleOpen}
-                                                        value={this.cat}
-                                                        onChange={this.handleChange}>
-                                                        <MenuItem value={"electronics"}>Electronics</MenuItem>
-                                                        <MenuItem value={"furniture"}>Furniture</MenuItem>
-                                                        <MenuItem value={"vehicles"}>Vehicles</MenuItem>
+                                                        labelId="desiredCategoryLabel"
+                                                        id="desiredCategory"
+                                                        //value={this.cat}
+                                                        defaultValue={""}
+                                                        onChange={this.onWantedCategoryChange}>
+                                                        {this.props.categories.map((category, idx) => (
+                                                            <MenuItem key={idx} value={category == undefined ? "" : category.title}>
+                                                                {category == undefined ? "" : category.title}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="ownedConditionInput">Item Owned Condition</InputLabel>
+                                                    <Select
+                                                        labelId="ownedConditionLabel"
+                                                        id="ownedCondition"
+                                                        //value={this.condition}
+                                                        defaultValue={""}
+                                                        onChange={this.onOwnedConditionChange}>
+                                                        <MenuItem value={"new"}>New</MenuItem>
+                                                        <MenuItem value={"used"}>Used</MenuItem>
+                                                    </Select>
+                                                </FormControl>
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="ownedCategoryInput">Item Owned Category</InputLabel>
+                                                    <Select
+                                                        labelId="ownedCategoryLabel"
+                                                        id="ownedCategory"
+                                                        //value={this.cat}
+                                                        defaultValue={""}
+                                                        onChange={this.onOwnedCategoryChange}>
+                                                        {this.props.categories.map((category, idx) => (
+                                                            <MenuItem key={idx} value={category == undefined ? "" : category.title}>
+                                                                {category == undefined ? "" : category.title}
+                                                            </MenuItem>
+                                                        ))}
                                                     </Select>
                                                 </FormControl>
                                                 <br />
-                                                <Button variant="contained" color="primary">
+                                                <Button variant="contained" color="primary" onClick={this.handleSubmit}>
                                                     Search
                                                 </Button>
                                             </form>
@@ -154,15 +276,23 @@ class SearchFilter extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    {/* post list grid */}
+
                     <Grid item sm={7}>
-                        <Grid container spacing={3} className={classes.child}>
-                            <Zoom in={true} transitionduration={500}>
-                                <Card elevation={3}>
-                                    <PostList posts={[]}></PostList>
-                                </Card>
+                        <AppBar position="static">
+                            <Toolbar variant="dense">
+                                <Typography variant="h6" color="inherit">
+                                    Search Results
+                                </Typography>
+                            </Toolbar>
+                        </AppBar>
+                        <div className={classes.postList}>
+                            <Zoom in={true} transitionduration={5000}>
+                                <PostList
+                                    posts={this.props.posts}
+                                    focus={this.state.indexFocused}
+                                    msgForNoPosts={"Could not find any posts"}></PostList>
                             </Zoom>
-                        </Grid>
+                        </div>
                     </Grid>
                 </Grid>
             </Page>
