@@ -83,6 +83,7 @@ class SearchFilter extends React.Component {
             myLocation: {lon: 0, lat: 0},
             radius: 10000,
             city: "",
+            indexFocused: 100000000,
         };
 
         this.onItemOwnedChange = this.onItemOwnedChange.bind(this);
@@ -103,6 +104,7 @@ class SearchFilter extends React.Component {
             posts: PropTypes.array.isRequired,
             categories: PropTypes.array.isRequired,
             onSubmit: PropTypes.func.isRequired,
+            indexFocused: PropTypes.number.isRequired,
         };
     }
     handleSubmit() {
@@ -164,8 +166,7 @@ class SearchFilter extends React.Component {
     }
     // send post in focus
     onPostFocusChange(idx) {
-        //TODO: Hilight or focus on the selected box
-        console.log(idx);
+        this.setState({indexFocused: idx});
     }
 
     render() {
@@ -273,7 +274,10 @@ class SearchFilter extends React.Component {
                         </AppBar>
                         <div className={classes.postList}>
                             <Zoom in={true} transitionduration={5000}>
-                                <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
+                                <PostList
+                                    posts={this.props.posts}
+                                    focus={this.props.indexFocused}
+                                    msgForNoPosts={"Could not find any posts"}></PostList>
                             </Zoom>
                         </div>
                     </Grid>
