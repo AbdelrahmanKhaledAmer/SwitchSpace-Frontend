@@ -21,6 +21,8 @@ import Zoom from "@material-ui/core/Zoom";
 import MapContainer from "./MapContainer";
 import Geocode from "react-geocode";
 
+Geocode.setApiKey(process.env.GOOGLE_API_KEY);
+
 const styles = theme => ({
     inputCard: {
         width: "100%",
@@ -144,9 +146,17 @@ class SearchFilter extends React.Component {
         const value = e.target.value;
         this.setState({ownedCondition: value});
     }
-    onLocationChange(loc) {
+    async onLocationChange(loc) {
         console.log(loc);
-        //TODO: get city and set it in the location text box
+        let tmpLoc = await Geocode.fromLatLng(loc[1], loc[0]);
+        loc = tmpLoc;
+        let components = loc.results[0].address_components;
+        let filtered = components.filter(elem => elem.types[0] == "locality")[0];
+        console.log(filtered);
+        if (filtered) {
+            this.setState({postLocation: filtered.long_name});
+            console.log(filtered);
+        }
     }
     // send post in focus
     onPostFocusChange(idx) {
