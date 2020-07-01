@@ -217,6 +217,7 @@ class SearchFilter extends React.Component {
                                                         labelId="desiredConditionLabel"
                                                         id="desiredCondition"
                                                         //value={this.wantedCondition}
+                                                        defaultValue={""}
                                                         onChange={this.onWantedConditionChange}>
                                                         <MenuItem value={"new"}>New</MenuItem>
                                                         <MenuItem value={"used"}>Used</MenuItem>
@@ -228,6 +229,7 @@ class SearchFilter extends React.Component {
                                                         labelId="desiredCategoryLabel"
                                                         id="desiredCategory"
                                                         //value={this.cat}
+                                                        defaultValue={""}
                                                         onChange={this.onWantedCategoryChange}>
                                                         {this.props.categories.map((category, idx) => (
                                                             <MenuItem key={idx} value={category == undefined ? "" : category.title}>
@@ -242,6 +244,7 @@ class SearchFilter extends React.Component {
                                                         labelId="ownedConditionLabel"
                                                         id="ownedCondition"
                                                         //value={this.condition}
+                                                        defaultValue={""}
                                                         onChange={this.onOwnedConditionChange}>
                                                         <MenuItem value={"new"}>New</MenuItem>
                                                         <MenuItem value={"used"}>Used</MenuItem>
@@ -253,6 +256,7 @@ class SearchFilter extends React.Component {
                                                         labelId="ownedCategoryLabel"
                                                         id="ownedCategory"
                                                         //value={this.cat}
+                                                        defaultValue={""}
                                                         onChange={this.onOwnedCategoryChange}>
                                                         {this.props.categories.map((category, idx) => (
                                                             <MenuItem key={idx} value={category == undefined ? "" : category.title}>
