@@ -80,7 +80,7 @@ class SearchFilter extends React.Component {
             itemWanted: "",
             wantedCategory: "",
             ownedCategory: "",
-            myLocation: {lon: 0, lat: 0},
+            myLocation: {lng: 0, lat: 0},
             radius: 10000,
             city: "",
         };
@@ -106,6 +106,7 @@ class SearchFilter extends React.Component {
         };
     }
     handleSubmit() {
+        console.log(this.state.myLocation);
         this.props.onSubmit(
             this.state.itemWanted,
             this.state.itemOwned,
@@ -113,9 +114,9 @@ class SearchFilter extends React.Component {
             this.state.wantedCondition,
             this.state.ownedCategory,
             this.state.ownedCondition,
-            this.state.myLocation.lon,
+            this.state.myLocation.lng,
             this.state.myLocation.lat,
-            this.state.radius * 1000
+            this.state.radius
         );
     }
     onItemWantedChange(e) {
@@ -161,6 +162,8 @@ class SearchFilter extends React.Component {
         } catch (err) {
             console.log(err);
         }
+
+        this.setState({myLocation: loc});
     }
     // send post in focus
     onPostFocusChange(idx) {

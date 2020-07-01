@@ -56,26 +56,27 @@ class GoogleMap extends React.Component {
     }
     // called directly after mounting component
     async componentDidMount() {
-        let latitude = 38;
-        let longitude = -122;
+        let latitude = 0;
+        let longitude = 0;
         // will be props latter
         // const allMarkers = this.state.markers;
-
+        let myLocation = {lat: latitude, lng: longitude};
         try {
             const position = await this.getCoordinates();
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
+            myLocation = {lat: latitude, lng: longitude};
+            this.props.onLocationChange(myLocation);
         } catch (err) {
             console.log(err.message);
         }
 
         this.setState({
-            showInfo: false,
-            activePost: undefined,
             mapCenterLat: latitude,
             mapCenterLong: longitude,
-            myMarker: {title: this.state.myMarker.title, name: this.state.myMarker.name, position: {lat: latitude, lng: longitude}},
+            myMarker: {title: this.state.myMarker.title, name: this.state.myMarker.name, position: myLocation},
         });
+        // this.props.onLocationChange({lat: latitude, lng: longitude});
     }
 
     // get my coordinates // throws an error if the user denied location

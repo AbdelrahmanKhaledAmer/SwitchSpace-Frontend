@@ -25,7 +25,7 @@ export default class SearchFilterView extends React.Component {
         await this.getCategories();
     }
 
-    async getSearchPosts(itemWanted, itemOwned, wantedCategory, wantedCondition, ownedCategory, ownedCondition, lon, lat, raduis) {
+    async getSearchPosts(itemWanted, itemOwned, wantedCategory, wantedCondition, ownedCategory, ownedCondition, lng, lat, raduis) {
         try {
             let response = await PostService.getSearchPosts(
                 itemWanted,
@@ -34,7 +34,7 @@ export default class SearchFilterView extends React.Component {
                 wantedCondition,
                 ownedCategory,
                 ownedCondition,
-                lon,
+                lng,
                 lat,
                 raduis
             );
