@@ -4,6 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 // Components
 import Loading from "../components/Loading";
+import Notification from "../components/Notification";
 import UserProfile from "../components/UserProfile/UserProfile";
 // Services
 import PostService from "../services/PostService";
@@ -15,7 +16,13 @@ export default class UserProfileView extends React.Component {
         super(props);
 
         this.state = {
-            loading: true,
+            // Loading state
+            loading: true, // when true => loading state
+            // Notification State => can be passed as Props to children components
+            // send notify as a function prop with it if you want in-component notification
+            notify: false, // when true notification appears
+            notificationMsg: undefined, // must have value when notification appears
+            notificationSeverity: undefined, // values in "success", "error", "info", "warning"
             selectedTab: "posts",
             userId: this.props.match.params.id,
             tabs: [
@@ -33,7 +40,10 @@ export default class UserProfileView extends React.Component {
             myEmail: "",
             userInfo: {name: "", commRate: 0, descriptionRate: 0, conditionRate: 0, profilePicture: {}, reviews: []},
         };
-
+        // Bind notification functions
+        this.notify = this.notify.bind(this);
+        this.handleNotificationClose = this.handleNotificationClose.bind(this);
+        // Bind service functions
         this.handleTabChange = this.handleTabChange.bind(this);
         this.updateProfile = this.updateProfile.bind(this);
     }
@@ -70,10 +80,11 @@ export default class UserProfileView extends React.Component {
                 tabs: tabs,
             });
         } catch (err) {
-            // TODO: add feedback for the error
+            this.notify(err, "error");
             console.log(err);
         }
     }
+
     async updateProfile(user) {
         // TODO: reload and try get another token with the new username
         this.setState({loading: true});
@@ -83,10 +94,9 @@ export default class UserProfileView extends React.Component {
         }
         try {
             await UserService.updateProfile(data);
-
-            //TODO: notify and update tab
+            this.notify("Your information was updated successfully", "success");
         } catch (err) {
-            //TODO: handle notification
+            this.notify(err, "error");
             console.log(err);
         }
         this.setState({loading: false});
@@ -98,9 +108,19 @@ export default class UserProfileView extends React.Component {
         });
     }
 
+    // Notify the user on with a msg and severity => uses the state variables
+    notify(msg, notificationSeverity) {
+        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
+    }
+
+    // Reset notification state must bbe included in every view and passed to Notification Component
+    handleNotificationClose() {
+        this.setState({notify: false, notificationMsg: undefined});
+    }
+
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <Loading loading={this.state.loading} />
                 <UserProfile
                     tabs={this.state.tabs}
@@ -112,7 +132,13 @@ export default class UserProfileView extends React.Component {
                     userInfo={this.state.userInfo}
                     posts={this.state.posts}
                 />
-            </div>
+                <Notification
+                    notify={this.state.notify}
+                    notificationMsg={this.state.notificationMsg}
+                    severity={this.state.notificationSeverity}
+                    handleClose={this.handleNotificationClose}
+                />
+            </React.Fragment>
         );
     }
 }
