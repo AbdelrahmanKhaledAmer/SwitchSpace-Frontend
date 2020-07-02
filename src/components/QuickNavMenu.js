@@ -1,9 +1,9 @@
 "use strict";
 // React
 import React from "react";
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 // Material UI Core
-import {fade, makeStyles} from "@material-ui/core/styles";
+import {fade, withStyles} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -21,7 +21,7 @@ import ChatIcon from "@material-ui/icons/Chat";
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
     grow: {
         flexGrow: 1,
     },
@@ -87,12 +87,6 @@ const useStyles = makeStyles(theme => ({
             display: "flex",
         },
     },
-    sectionMobile: {
-        display: "flex",
-        [theme.breakpoints.up("md")]: {
-            display: "none",
-        },
-    },
     root: {
         display: "flex",
     },
@@ -110,121 +104,141 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
         padding: theme.spacing(3),
     },
-}));
+});
 
-export default function QuickNavMenu({title, isAuthorized, sidebarToggle, unreadMessages, authorizationToggle}) {
-    const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
+class QuickNavMenu extends React.Component {
+    constructor(props) {
+        super(props);
 
-    const isMenuOpen = Boolean(anchorEl);
+        this.state = {
+            anchorEl: null,
+        };
+        this.handleMenuClose = this.handleMenuClose.bind(this);
+        this.handleProfileMenuOpen = this.handleProfileMenuOpen.bind(this);
+        this.renderLoggedIn = this.renderLoggedIn.bind(this);
+        this.renderLoggedOut = this.renderLoggedOut.bind(this);
+        this.renderMenu = this.renderMenu.bind(this);
+    }
 
-    const handleProfileMenuOpen = event => {
-        setAnchorEl(event.currentTarget);
-    };
+    static get propTypes() {
+        return {
+            title: PropTypes.string.isRequired,
+            isAuthorized: PropTypes.bool.isRequired,
+            sidebarToggle: PropTypes.func.isRequired,
+            unreadMessages: PropTypes.number.isRequired,
+            authorizationToggle: PropTypes.func,
+            classes: PropTypes.object.isRequired,
+        };
+    }
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
+    handleProfileMenuOpen(event) {
+        this.setState({anchorEl: event.currentTarget});
+    }
 
-    const menuId = "primary-search-account-menu";
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{vertical: "top", horizontal: "right"}}
-            id={menuId}
-            keepMounted
-            transformOrigin={{vertical: "top", horizontal: "right"}}
-            open={isMenuOpen}
-            onClose={handleMenuClose}>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
-            {/* TODO: TESTING ONLY */}
-            <MenuItem
-                onClick={() => {
-                    handleMenuClose();
-                    authorizationToggle();
-                }}>
-                Logout
-            </MenuItem>{" "}
-        </Menu>
-    );
+    handleMenuClose() {
+        this.setState({anchorEl: null});
+    }
+    renderMenu() {
+        return (
+            <Menu
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{vertical: "top", horizontal: "right"}}
+                id="primary-search-account-menu"
+                keepMounted
+                transformOrigin={{vertical: "top", horizontal: "right"}}
+                open={Boolean(this.state.anchorEl)}
+                onClose={this.handleMenuClose}>
+                <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+                <MenuItem onClick={this.handleMenuClose}>Settings</MenuItem>
+                {/* TODO: TESTING ONLY */}
+                <MenuItem
+                    onClick={() => {
+                        this.handleMenuClose();
+                        this.props.authorizationToggle();
+                    }}>
+                    Logout
+                </MenuItem>
+            </Menu>
+        );
+    }
 
-    const renderLoggedIn = (
-        <div>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-                {unreadMessages == 0 ? (
-                    <ChatIcon />
-                ) : (
-                    <Badge badgeContent={unreadMessages} color="secondary">
+    renderLoggedIn() {
+        return (
+            <div>
+                <IconButton aria-label="show 4 new mails" color="inherit">
+                    {this.props.unreadMessages == 0 ? (
                         <ChatIcon />
-                    </Badge>
-                )}
-            </IconButton>
-            <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit">
-                <AccountCircle />
-            </IconButton>
-        </div>
-    );
+                    ) : (
+                        <Badge badgeContent={this.props.unreadMessages} color="secondary">
+                            <ChatIcon />
+                        </Badge>
+                    )}
+                </IconButton>
+                <IconButton
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    onClick={this.handleProfileMenuOpen}
+                    color="inherit">
+                    <AccountCircle />
+                </IconButton>
+            </div>
+        );
+    }
 
-    const renderLoggedOut = (
-        <div>
-            <Button
-                variant="contained"
-                onClick={authorizationToggle} // TODO: TESTING ONLY
-                className={classes.button}>
-                Register
-            </Button>
-            <Button
-                variant="contained"
-                onClick={authorizationToggle} // TODO: TESTING ONLY
-                className={classes.button}>
-                Login
-            </Button>
-        </div>
-    );
+    renderLoggedOut() {
+        const {classes} = this.props;
+        return (
+            <div>
+                <Button
+                    variant="contained"
+                    onClick={this.props.authorizationToggle} // TODO: TESTING ONLY
+                    className={classes.button}>
+                    Register
+                </Button>
+                <Button
+                    variant="contained"
+                    onClick={this.props.authorizationToggle} // TODO: TESTING ONLY
+                    className={classes.button}>
+                    Login
+                </Button>
+            </div>
+        );
+    }
 
-    return (
-        <div className={classes.grow}>
-            <AppBar className={classes.appBar}>
-                <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" onClick={sidebarToggle}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        {title}
-                    </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
+    render() {
+        const {classes} = this.props;
+        return (
+            <div className={classes.grow}>
+                <AppBar className={classes.appBar}>
+                    <Toolbar>
+                        <IconButton edge="start" className={classes.menuButton} color="inherit" onClick={this.props.sidebarToggle}>
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography className={classes.title} variant="h6" noWrap>
+                            {this.props.title}
+                        </Typography>
+                        <div className={classes.search}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                placeholder="Search…"
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                inputProps={{"aria-label": "search"}}
+                            />
                         </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{"aria-label": "search"}}
-                        />
-                    </div>
-                    <div className={classes.grow} />
-                    <div className={classes.sectionDesktop}>{isAuthorized ? renderLoggedIn : renderLoggedOut}</div>
-                </Toolbar>
-            </AppBar>
-            {renderMenu}
-        </div>
-    );
+                        <div className={classes.grow} />
+                        <div className={classes.sectionDesktop}>{this.props.isAuthorized ? this.renderLoggedIn() : this.renderLoggedOut()}</div>
+                    </Toolbar>
+                </AppBar>
+                {this.renderMenu()}
+            </div>
+        );
+    }
 }
-
-QuickNavMenu.propTypes = {
-    title: propTypes.string.isRequired,
-    isAuthorized: propTypes.bool.isRequired,
-    sidebarToggle: propTypes.func.isRequired,
-    unreadMessages: propTypes.number.isRequired,
-    authorizationToggle: propTypes.func,
-};
+export default withStyles(styles)(QuickNavMenu);
