@@ -52,23 +52,29 @@ class UserInfo extends React.Component {
     render() {
         const {classes, userInfo} = this.props;
         return (
-            <div className={classes.mainContainer}>
+            <div className={classes.mainContainer} color="inherit">
                 <Avatar className={classes.avatar} src={userInfo.profilePicture ? userInfo.profilePicture.url : null} />
                 <div className={classes.ratingsContainer}>
-                    <Typography className={classes.username}>
+                    <Typography className={classes.username} color="inherit">
                         <b>{userInfo.name}</b>
                     </Typography>
                     <div className={classes.ratingItemContainer}>
-                        <Rating value={userInfo.commRate} precision={0.5} size="large" readOnly />
-                        <Typography className={classes.ratingText}> Communication </Typography>
+                        <Rating value={userInfo.commRate} precision={0.5} size="large" readOnly color="inherit" />
+                        <Typography className={classes.ratingText} color="inherit">
+                            Communication
+                        </Typography>
                     </div>
                     <div className={classes.ratingItemContainer}>
-                        <Rating value={userInfo.descriptionRate} precision={0.5} size="large" readOnly />
-                        <Typography className={classes.ratingText}> Item as described </Typography>
+                        <Rating value={userInfo.descriptionRate} color="inherit" precision={0.5} size="large" readOnly />
+                        <Typography className={classes.ratingText} color="inherit">
+                            Item as described
+                        </Typography>
                     </div>
                     <div className={classes.ratingItemContainer}>
                         <Rating value={userInfo.conditionRate} precision={0.5} size="large" readOnly />
-                        <Typography className={classes.ratingText}> Item condition </Typography>
+                        <Typography className={classes.ratingText} color="inherit">
+                            Item condition
+                        </Typography>
                     </div>
                 </div>
             </div>

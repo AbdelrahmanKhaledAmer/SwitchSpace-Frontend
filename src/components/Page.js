@@ -9,8 +9,6 @@ import QuickNavMenu from "./QuickNavMenu";
 import Sidebar from "./Sidebar";
 // import Footer from "./Footer"; // TODO: ADD FOOTER
 // MISC
-import {ToastContainer} from "react-toastify";
-
 const styles = theme => ({
     body: {
         paddingTop: theme.spacing(10), // navbar padding
@@ -88,16 +86,6 @@ class Page extends React.Component {
                 />
                 <section className={classes.body}>{this.props.children}</section>
                 {/* <Footer /> */}
-                <ToastContainer
-                    position="bottom-right"
-                    autoClose={5000}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                />
             </section>
         );
     }

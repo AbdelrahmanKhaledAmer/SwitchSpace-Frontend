@@ -34,12 +34,12 @@ const styles = theme => ({
     },
     icon: {
         minWidth: "auto",
-        color: "#659dbd",
+        // color: "#659dbd",
     },
     date: {
         textAlign: "right",
         fontSize: "0.85em",
-        color: "#3b3b3b",
+        // color: "#3b3b3b",
         marginBottom: theme.spacing(1),
     },
     rightGridItem: {
@@ -49,13 +49,13 @@ const styles = theme => ({
         marginBottom: theme.spacing(1),
     },
     button: {
-        backgroundColor: "#659dbd",
+        // backgroundColor: "#659dbd", //TODO: theme.palette
         color: "#fbeec1",
         marginTop: theme.spacing(1),
     },
     reportButton: {
-        backgroundColor: "#a70000",
-        color: "#fbeec1",
+        // backgroundColor: "#a70000", //TODO: theme.palette
+        // color: "#fbeec1",
         marginTop: theme.spacing(1),
     },
     bottom: {

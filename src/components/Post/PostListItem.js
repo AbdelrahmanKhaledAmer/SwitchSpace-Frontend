@@ -13,6 +13,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import {withStyles} from "@material-ui/core/styles";
+import Chip from "@material-ui/core/Chip";
 // Material UI Icons
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
@@ -47,10 +48,10 @@ const styles = theme => ({
     },
     backdrop: {
         minWidth: "100%",
-        background: "#bababa",
+        // background: theme.palette.type === "dark" ? theme.palette.secondary.dark : theme.palette.warning.main,
         padding: "0.5em",
         borderRadius: "75px",
-        color: "#000000",
+        // color: "#000000",
         textAlign: "center",
         marginTop: theme.spacing(2),
     },
@@ -69,7 +70,7 @@ const styles = theme => ({
         right: 0,
         textAlign: "center",
         fontSize: "0.85em",
-        color: "#3b3b3b",
+        // color: theme.palette.type === "dark" ? theme.palette.secondary.dark : theme.palette.warning.main,
     },
     itemPadding: {
         padding: theme.spacing(0, 3),
@@ -146,7 +147,9 @@ class PostListItem extends React.Component {
                                     <div className={classes.miniMarginLeft}>{this.props.post.itemDesired.title}</div>
                                 </ListItem>
                                 <ListItem>
-                                    <Typography noWrap>{this.props.post.itemOwned.description}</Typography>
+                                    <Typography color="inherit" noWrap>
+                                        {this.props.post.itemOwned.description}
+                                    </Typography>
                                 </ListItem>
                                 <ListItem className={classes.locationListItem}>
                                     <div className={classes.icon}>
@@ -157,8 +160,11 @@ class PostListItem extends React.Component {
                             </List>
                         </Grid>
                         <Grid item xs={3} className={classes.categoryAndDate}>
-                            <div className={classes.backdrop}>{this.props.post.itemOwned.category}</div>
-                            <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
+                            {/* <div className={classes.backdrop}>{this.props.post.itemOwned.category}</div> */}
+                            <Chip size="small" label={this.props.post.itemOwned.category} />
+                            <div className={classes.date} color="inherit">
+                                {this.props.post.createdAt.substring(0, 10)}
+                            </div>
                         </Grid>
                     </Grid>
                 </CardActionArea>

@@ -29,11 +29,12 @@ const styles = theme => ({
         marginRight: "auto",
     },
     appBar: {
-        backgroundColor: "#659dbd",
+        // backgroundColor: "#659dbd",
+        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
     },
     createReviewButton: {
-        backgroundColor: "#659dbd",
-        color: "#FFFFFF",
+        // backgroundColor: "#659dbd",
+        // color: "#FFFFFF",
     },
     tabsCard: {
         width: "70%",

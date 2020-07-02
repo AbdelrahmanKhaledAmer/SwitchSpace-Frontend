@@ -25,7 +25,7 @@ import Item from "./Item";
 
 const styles = theme => ({
     cardHeader: {
-        backgroundColor: "#659dbd",
+        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
     },
     gridContainer: {
         width: "100%",
@@ -58,8 +58,8 @@ const styles = theme => ({
         display: "none",
     },
     formButton: {
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
+        // backgroundColor: "#659dbd", // TODO: color.palette
+        // color: "#fbeec1",
         marginTop: theme.spacing(1),
     },
 });
