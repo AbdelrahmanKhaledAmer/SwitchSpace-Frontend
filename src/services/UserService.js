@@ -13,6 +13,7 @@ export default class UserService {
             HttpService.put(
                 `${UserService.baseURL()}/subscription`,
                 changeRequest,
+                null,
                 function (data) {
                     //resolve
                     resolve(data);

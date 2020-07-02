@@ -19,7 +19,6 @@ class PostList extends React.Component {
         return {
             posts: PropTypes.array.isRequired,
             msgForNoPosts: PropTypes.string.isRequired,
-            focus: PropTypes.number.isRequired,
         };
     }
 
@@ -32,7 +31,7 @@ class PostList extends React.Component {
             );
         }
 
-        return this.props.posts.map((post, idx) => <PostListItem autoFocus={this.props.focus == idx ? true : false} key={idx} post={post} />);
+        return this.props.posts.map((post, idx) => <PostListItem key={idx} post={post} />);
     }
 }
 export default withStyles(styles)(PostList);
