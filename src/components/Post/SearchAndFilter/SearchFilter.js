@@ -84,7 +84,6 @@ class SearchFilter extends React.Component {
             myLocation: {lng: 0, lat: 0},
             radius: 6371, // radius in KM
             city: "",
-            indexFocused: 100000000,
         };
 
         this.onItemOwnedChange = this.onItemOwnedChange.bind(this);
@@ -170,7 +169,6 @@ class SearchFilter extends React.Component {
     // send post in focus
     onPostFocusChange(idx) {
         console.log(idx);
-        this.setState({indexFocused: idx});
     }
 
     render() {
@@ -288,10 +286,7 @@ class SearchFilter extends React.Component {
                         </AppBar>
                         <div className={classes.postList}>
                             <Zoom in={true} transitionduration={5000}>
-                                <PostList
-                                    posts={this.props.posts}
-                                    focus={this.state.indexFocused}
-                                    msgForNoPosts={"Could not find any posts"}></PostList>
+                                <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
                             </Zoom>
                         </div>
                     </Grid>
