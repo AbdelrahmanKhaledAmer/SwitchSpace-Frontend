@@ -4,20 +4,27 @@ import React from "react";
 import PropTypes from "prop-types";
 // Components
 import Loading from "../components/Loading";
+import Notification from "../components/Notification";
 import Subscriptions from "../components/Payment/Subscriptions";
 // Services
 import UserService from "../services/UserService";
-// MISC
-// import {toast} from "react-toastify";
-
 export default class SubscriptionsView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false,
+            // Loading state
+            loading: false, // when true => loading state
+            // Notification State => can be passed as Props to children components
+            // send notify as a function prop with it if you want in-component notification
+            notify: false, // when true notification appears
+            notificationMsg: undefined, // must have value when notification appears
+            notificationSeverity: undefined, // values in "success", "error", "info", "warning"
         };
-        // this.notify = this.notify.bind(this);
+        // Bind notification functions
+        this.notify = this.notify.bind(this);
+        this.handleNotificationClose = this.handleNotificationClose.bind(this);
     }
+
     // need to defince prop type for every function
     static get propTypes() {
         return {
@@ -25,33 +32,22 @@ export default class SubscriptionsView extends React.Component {
             // classes: PropTypes.object.isRequired,
         };
     }
-    // notify(message, type) {
-    //     let customId;
-    //     const options = {
-    //         position: "bottom-right",
-    //         toastId: customId,
-    //         autoClose: 5000,
-    //         hideProgressBar: true,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //     };
-    //     if (type == "success") {
-    //         customId = "toast-success";
-    //         toast.success(message, options);
-    //     } else {
-    //         customId = "toast-error";
-    //         toast.error(message, options);
-    //     }
-    // }
+
+    // Notify the user on with a msg and severity => uses the state variables
+    notify(msg, notificationSeverity) {
+        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
+    }
+
+    // Reset notification state must bbe included in every view and passed to Notification Component
+    handleNotificationClose() {
+        this.setState({notify: false, notificationMsg: undefined});
+    }
+
     async alterSubscription(request) {
         this.setState({loading: true});
         try {
             await UserService.changeSubscriptionTier(request);
-            // this.props.history.push("/");
             this.notify("Subscription changed successfully", "success");
-            this.props.history.push("/");
         } catch (err) {
             console.error(err);
             this.notify(err, "error");
@@ -59,16 +55,21 @@ export default class SubscriptionsView extends React.Component {
                 error: err,
             });
         }
-        // this.setState({loading: false});
+        this.setState({loading: false});
     }
 
     render() {
-        // return <Payment onSubmit={user => this.alterSubscription(user)} error={this.state.error}></Payment>;
         return (
-            <div>
+            <React.Fragment>
                 <Loading loading={this.state.loading} />
                 <Subscriptions onSubmit={user => this.alterSubscription(user)} error={this.state.error}></Subscriptions>
-            </div>
+                <Notification
+                    notify={this.state.notify}
+                    notificationMsg={this.state.notificationMsg}
+                    severity={this.state.notificationSeverity}
+                    handleClose={this.handleNotificationClose}
+                />
+            </React.Fragment>
         );
     }
 }
