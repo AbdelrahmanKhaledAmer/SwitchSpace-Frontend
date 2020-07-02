@@ -10,7 +10,7 @@ import UserService from "../services/UserService";
 // MISC
 // import {toast} from "react-toastify";
 
-class SubscriptionsView extends React.Component {
+export default class SubscriptionsView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -72,5 +72,3 @@ class SubscriptionsView extends React.Component {
         );
     }
 }
-
-export default SubscriptionsView;
