@@ -47,10 +47,10 @@ const styles = theme => ({
     },
     backdrop: {
         minWidth: "100%",
-        background: "#bababa",
+        background: theme.palette.type === "dark" ? theme.palette.secondary.dark : theme.palette.warning.main,
         padding: "0.5em",
         borderRadius: "75px",
-        color: "#000000",
+        // color: "#000000",
         textAlign: "center",
         marginTop: theme.spacing(2),
     },
@@ -69,7 +69,7 @@ const styles = theme => ({
         right: 0,
         textAlign: "center",
         fontSize: "0.85em",
-        color: "#3b3b3b",
+        color: theme.palette.type === "dark" ? theme.palette.secondary.dark : theme.palette.warning.main,
     },
     itemPadding: {
         padding: theme.spacing(0, 3),

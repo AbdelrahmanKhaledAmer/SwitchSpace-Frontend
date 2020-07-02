@@ -32,7 +32,7 @@ const styles = theme => ({
         backgroundColor: "#659dbd",
     },
     createReviewButton: {
-        backgroundColor: "#659dbd",
+        // backgroundColor: "#659dbd",
         color: "#FFFFFF",
     },
     tabsCard: {

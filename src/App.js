@@ -1,13 +1,11 @@
 "use strict";
-
+// React
 import React from "react";
-import {
-    HashRouter as Router,
-    Route,
-    Switch,
-    // Redirect,
-} from "react-router-dom";
-
+import {HashRouter as Router, Route, Switch} from "react-router-dom";
+// Material UI Core
+import {responsiveFontSizes, createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+// Views
 import UserLoginView from "./views/UserLoginView";
 import UserSignupView from "./views/UserSignupView";
 import TrendingView from "./views/TrendingView";
@@ -18,12 +16,48 @@ import AdminLoginView from "./views/AdminLoginView";
 import AdminView from "./views/AdminView";
 import PostCreateView from "./views/PostCreateView";
 import UserProfileView from "./views/UserProfileView";
+
+let theme = createMuiTheme({
+    palette: {
+        type: window.localStorage["dark"] ? "dark" : "light",
+        primary: {
+            // navbar and all tab/ toolbar related stuff
+            light: "#15a4f7",
+            main: "#7F7F7F",
+            dark: "#000000",
+            contrastText: "#fff",
+        },
+        secondary: {
+            main: "#64B42D",
+            dark: "#008732",
+            contrastText: "#fff",
+        },
+        // error: {
+        //     main: "#BD0043",
+        //     contrastText: "#fff",
+        // },
+        divider: "#D7D6D5",
+        // background: {
+        //     paper: "#fff",
+        //     default: "#ff0000",
+        // },
+    },
+
+    typography: {
+        // Use the system font over Roboto.
+        fontFamily: 'Avenir Next, Roboto,"Helvetica Neue",Arial,sans-serif',
+        htmlFontSize: 16,
+    },
+});
+theme = responsiveFontSizes(theme);
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             title: "Switch Space",
+            theme: null,
             routes: [
                 {component: AdminLoginView, path: "/admin/auth"},
                 // TODO: check loggedin Admin
@@ -43,22 +77,23 @@ export default class App extends React.Component {
             ],
         };
     }
-
     componentDidMount() {
         document.title = this.state.title;
     }
 
     render() {
         return (
-            <div>
-                <Router>
-                    <Switch>
-                        {this.state.routes.map((route, i) => (
-                            <Route key={i} {...route} />
-                        ))}
-                    </Switch>
-                </Router>
-            </div>
+            <ThemeProvider theme={theme}>
+                <CssBaseline>
+                    <Router>
+                        <Switch>
+                            {this.state.routes.map((route, i) => (
+                                <Route key={i} {...route} />
+                            ))}
+                        </Switch>
+                    </Router>
+                </CssBaseline>
+            </ThemeProvider>
         );
     }
 }

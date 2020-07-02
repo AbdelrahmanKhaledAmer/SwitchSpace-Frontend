@@ -22,6 +22,8 @@ import AddBoxIcon from "@material-ui/icons/AddBox";
 import CategoryIcon from "@material-ui/icons/Category";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+//Services
+import UserAuthService from "../services/UserAuthService";
 
 const useStyles = makeStyles({
     list: {
@@ -170,7 +172,7 @@ export default function Sidebar({isOpen, isAuthorized, sidebarToggle, expanded, 
                             </ListItem>
                         </List>
                     </div>
-                    {isAuthorized ? loggedInList : loggedOutList}
+                    {UserAuthService.isAuthenticated() ? loggedInList : loggedOutList}
                 </Drawer>
             }
         </div>
