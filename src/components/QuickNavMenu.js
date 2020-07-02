@@ -9,8 +9,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
 import ListItem from "@material-ui/core/ListItem";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -29,14 +27,12 @@ import {Grid, FormControl} from "@material-ui/core";
 // Service
 import UserAuthService from "../services/UserAuthService";
 
-const drawerWidth = 240;
-
 const styles = theme => ({
     grow: {
         flexGrow: 1,
     },
     appBar: {
-        backgroundColor: window.localStorage["dark"] ? theme.palette.primary.dark : theme.palette.primary.light,
+        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
         borderRadius: "0 0 5px 5px",
     },
     menuButton: {
@@ -44,15 +40,15 @@ const styles = theme => ({
     },
     button: {
         marginRight: theme.spacing(2),
-        backgroundColor: "#",
-        color: "#659dbd",
+        // backgroundColor: "#",
+        // color: "#659dbd",
     },
     title: {
         display: "none",
         [theme.breakpoints.up("sm")]: {
             display: "block",
         },
-        color: "#fbeec1",
+        // color: "#fbeec1",
     },
     search: {
         // position: "relative",
@@ -82,42 +78,6 @@ const styles = theme => ({
         alignItems: "center",
         justifyContent: "center",
     },
-    inputRoot: {
-        color: "inherit",
-    },
-    inputInput: {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-        transition: theme.transitions.create("width"),
-        width: "100%",
-        [theme.breakpoints.up("md")]: {
-            width: "20ch",
-        },
-    },
-    sectionDesktop: {
-        display: "none",
-        [theme.breakpoints.up("md")]: {
-            display: "flex",
-        },
-    },
-    root: {
-        display: "flex",
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    drawerContainer: {
-        overflow: "auto",
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-    },
 });
 
 class QuickNavMenu extends React.Component {
@@ -141,6 +101,7 @@ class QuickNavMenu extends React.Component {
             isAuthorized: PropTypes.bool.isRequired,
             sidebarToggle: PropTypes.func.isRequired,
             unreadMessages: PropTypes.number.isRequired,
+            history: PropTypes.object.isRequired,
             authorizationToggle: PropTypes.func,
             classes: PropTypes.object.isRequired,
         };
@@ -174,15 +135,6 @@ class QuickNavMenu extends React.Component {
                 <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
                 <MenuItem onClick={this.handleMenuClose}>Settings</MenuItem>
                 <MenuItem>
-                    {/* <FormControlLabel
-                        value={!!window.localStorage["dark"]}
-                        checked={!!window.localStorage["dark"]}
-                        color="primary"
-                        edge="end" */}
-                    {/* control={<Switch color="primary" onChange={this.toggleTheme} />} */}
-                    {/* label="Dark Mode"
-                        labelPlacement="start"
-                    /> */}
                     <FormControlLabel
                         control={<Switch checked={!!window.localStorage["dark"]} onChange={this.toggleTheme} name="Dark Mode" />}
                         label="Dark Mode"
@@ -203,11 +155,11 @@ class QuickNavMenu extends React.Component {
     renderLoggedIn() {
         return (
             <div>
-                <IconButton aria-label="show 4 new mails" color="primary">
+                <IconButton aria-label="show 4 new mails">
                     {this.props.unreadMessages == 0 ? (
                         <ChatIcon />
                     ) : (
-                        <Badge badgeContent={this.props.unreadMessages} color="secondary">
+                        <Badge badgeContent={this.props.unreadMessages}>
                             <ChatIcon />
                         </Badge>
                     )}
@@ -217,8 +169,7 @@ class QuickNavMenu extends React.Component {
                     aria-label="account of current user"
                     aria-controls="primary-search-account-menu"
                     aria-haspopup="true"
-                    onClick={this.handleProfileMenuOpen}
-                    color="primary">
+                    onClick={this.handleProfileMenuOpen}>
                     <AccountCircle />
                 </IconButton>
             </div>
@@ -261,7 +212,7 @@ class QuickNavMenu extends React.Component {
                     <Toolbar>
                         <Grid container spacing={1} direction="row" justify="space-between" alignItems="stretch">
                             <Grid item xs={2}>
-                                <IconButton edge="start" color="primary" onClick={this.props.sidebarToggle}>
+                                <IconButton edge="start" onClick={this.props.sidebarToggle}>
                                     <MenuIcon />
                                 </IconButton>
                             </Grid>

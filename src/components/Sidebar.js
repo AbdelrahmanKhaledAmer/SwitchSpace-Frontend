@@ -33,11 +33,11 @@ const useStyles = makeStyles({
         width: "auto",
     },
     listIcon: {
-        color: "#659dbd",
+        // color: "#659dbd",
     },
     DrawerHeader: {
-        color: "#fbeec1",
-        backgroundColor: "#659dbd",
+        // color: "#fbeec1",
+        // backgroundColor: "#659dbd",
         textAlign: "center",
         borderRadius: "0 0 0.5em 0",
     },
@@ -47,7 +47,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Sidebar({isOpen, isAuthorized, sidebarToggle, expanded, expandToggle}) {
+export default function Sidebar({isOpen, sidebarToggle, expanded, expandToggle}) {
     const classes = useStyles();
 
     const getCategories = function () {
@@ -168,7 +168,7 @@ export default function Sidebar({isOpen, isAuthorized, sidebarToggle, expanded, 
                                 <ListItemIcon className={classes.DrawerHeader}>
                                     <SwapHorizIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="SwitchSpace" secondary="Quick Menu" />
+                                <ListItemText primary="SwitchSpace" />
                             </ListItem>
                         </List>
                     </div>

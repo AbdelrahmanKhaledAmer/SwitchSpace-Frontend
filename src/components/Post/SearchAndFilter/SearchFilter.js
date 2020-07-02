@@ -69,6 +69,10 @@ const styles = theme => ({
         height: "700px",
         position: "relative",
     },
+    appBar: {
+        // backgroundColor: "#659dbd",
+        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
+    },
 });
 
 class SearchFilter extends React.Component {
@@ -277,7 +281,7 @@ class SearchFilter extends React.Component {
                     </Grid>
 
                     <Grid item sm={7}>
-                        <AppBar position="static">
+                        <AppBar position="static" className={classes.appBar}>
                             <Toolbar variant="dense">
                                 <Typography variant="h6" color="inherit">
                                     Search Results
