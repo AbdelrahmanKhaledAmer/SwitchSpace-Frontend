@@ -88,6 +88,7 @@ class SearchFilter extends React.Component {
             myLocation: {lng: 0, lat: 0},
             radius: 6371, // radius in KM
             city: "",
+            manualLocation: "",
         };
 
         this.onItemOwnedChange = this.onItemOwnedChange.bind(this);
@@ -100,6 +101,7 @@ class SearchFilter extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onLocationChange = this.onLocationChange.bind(this);
         this.onPostFocusChange = this.onPostFocusChange.bind(this);
+        this.onLocationTextChange = this.onLocationTextChange.bind(this);
     }
 
     static get propTypes() {
@@ -167,6 +169,17 @@ class SearchFilter extends React.Component {
         }
         this.setState({myLocation: loc, city: city});
     }
+    async onLocationTextChange(e) {
+        const value = e.target.value;
+        this.setState({city: value});
+        try {
+            let entered_loc = await Geocode.fromAddress(value);
+            let loc = entered_loc.results[0].geometry.location;
+            this.setState({myLocation: loc});
+        } catch (err) {
+            console.log(err);
+        }
+    }
     // send post in focus
     onPostFocusChange(idx) {
         console.log(idx);
@@ -200,7 +213,12 @@ class SearchFilter extends React.Component {
                                     <Card elevation={3} className={classes.inputCard}>
                                         <div className={classes.formAlignment}>
                                             <form className={classes.textBox} noValidate autoComplete="off">
-                                                <TextField id="location" value={this.state.city} label="Location" />
+                                                <TextField
+                                                    id="location"
+                                                    value={this.state.city}
+                                                    onChange={this.onLocationTextChange}
+                                                    label="Location"
+                                                />
                                                 <TextField
                                                     id="radius"
                                                     type={"number"}
