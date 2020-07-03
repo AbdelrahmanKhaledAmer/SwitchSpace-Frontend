@@ -139,11 +139,19 @@ class SearchFilter extends React.Component {
     }
     onWantedCategoryChange(e) {
         const value = e.target.value;
-        this.setState({wantedCategory: value});
+        if (value == "Any") {
+            this.setState({wantedCategory: ""});
+        } else {
+            this.setState({wantedCategory: value});
+        }
     }
     onOwnedCategoryChange(e) {
         const value = e.target.value;
-        this.setState({ownedCategory: value});
+        if (value == "Any") {
+            this.setState({ownedCategory: ""});
+        } else {
+            this.setState({ownedCategory: value});
+        }
     }
     onWantedConditionChange(e) {
         const value = e.target.value;
@@ -258,6 +266,7 @@ class SearchFilter extends React.Component {
                                                         //value={this.cat}
                                                         defaultValue={""}
                                                         onChange={this.onWantedCategoryChange}>
+                                                        <MenuItem value={"Any"}>Any</MenuItem>
                                                         {this.props.categories.map((category, idx) => (
                                                             <MenuItem key={idx} value={category == undefined ? "" : category.title}>
                                                                 {category == undefined ? "" : category.title}
@@ -286,6 +295,7 @@ class SearchFilter extends React.Component {
                                                         //value={this.cat}
                                                         defaultValue={""}
                                                         onChange={this.onOwnedCategoryChange}>
+                                                        <MenuItem value={"Any"}>Any</MenuItem>
                                                         {this.props.categories.map((category, idx) => (
                                                             <MenuItem key={idx} value={category == undefined ? "" : category.title}>
                                                                 {category == undefined ? "" : category.title}
