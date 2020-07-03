@@ -303,11 +303,13 @@ class SearchFilter extends React.Component {
                                 </Typography>
                             </Toolbar>
                         </AppBar>
-                        <div className={classes.postList}>
-                            <Zoom in={true} transitionduration={5000}>
-                                <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
-                            </Zoom>
-                        </div>
+                        <Card>
+                            <div className={classes.postList}>
+                                <Zoom in={true} transitionduration={5000}>
+                                    <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
+                                </Zoom>
+                            </div>
+                        </Card>
                     </Grid>
                 </Grid>
             </Page>
