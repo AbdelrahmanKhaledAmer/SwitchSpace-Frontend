@@ -17,6 +17,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
 import Zoom from "@material-ui/core/Zoom";
+import Slider from "@material-ui/core/Slider";
+import Chip from "@material-ui/core/Chip";
+
 // Components
 import Page from "../../Page";
 import PostList from "../PostList";
@@ -72,6 +75,14 @@ const styles = theme => ({
     appBar: {
         // backgroundColor: "#659dbd",
         backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
+    },
+    slider: {
+        //width: 300,
+        marginTop: theme.spacing(5),
+    },
+    chip: {
+        width: 50,
+        marginTop: "-45px",
     },
 });
 
@@ -133,8 +144,7 @@ class SearchFilter extends React.Component {
         const value = e.currentTarget.value;
         this.setState({itemOwned: value});
     }
-    onRadiusChange(e) {
-        const value = e.currentTarget.value;
+    onRadiusChange(e, value) {
         this.setState({radius: parseInt(value)});
     }
     onWantedCategoryChange(e) {
@@ -235,13 +245,17 @@ class SearchFilter extends React.Component {
                                                     onChange={this.onLocationTextChange}
                                                     label="Location"
                                                 />
-                                                <TextField
-                                                    id="radius"
-                                                    type={"number"}
-                                                    label="Radius in Km"
-                                                    defaultValue={this.state.radius}
+
+                                                <Slider
+                                                    className={classes.slider}
+                                                    defaultValue={50}
+                                                    max={100}
+                                                    step={1}
+                                                    valueLabelDisplay="on"
                                                     onChange={this.onRadiusChange}
                                                 />
+                                                <Chip size="small" label="KM" className={classes.chip} />
+
                                                 <TextField id="itemDesired" label="Item Desired" onChange={this.onItemWantedChange} />
                                                 <br />
                                                 <TextField id="itemOwned" label="Item Owned" onChange={this.onItemOwnedChange} />
