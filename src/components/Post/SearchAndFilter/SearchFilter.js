@@ -17,6 +17,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
 import Zoom from "@material-ui/core/Zoom";
+import Slider from "@material-ui/core/Slider";
+import Chip from "@material-ui/core/Chip";
+
 // Components
 import Page from "../../Page";
 import PostList from "../PostList";
@@ -73,6 +76,14 @@ const styles = theme => ({
         // backgroundColor: "#659dbd",
         backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
     },
+    slider: {
+        width: 500,
+        marginTop: theme.spacing(5),
+    },
+    chip: {
+        width: 100,
+        marginTop: "-40px",
+    },
 });
 
 class SearchFilter extends React.Component {
@@ -100,6 +111,7 @@ class SearchFilter extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onLocationChange = this.onLocationChange.bind(this);
         this.onPostFocusChange = this.onPostFocusChange.bind(this);
+        this.onLocationTextChange = this.onLocationTextChange.bind(this);
     }
 
     static get propTypes() {
@@ -111,17 +123,18 @@ class SearchFilter extends React.Component {
         };
     }
     handleSubmit() {
-        this.props.onSubmit(
-            this.state.itemWanted,
-            this.state.itemOwned,
-            this.state.wantedCategory,
-            this.state.wantedCondition,
-            this.state.ownedCategory,
-            this.state.ownedCondition,
-            this.state.myLocation.lng,
-            this.state.myLocation.lat,
-            this.state.radius
-        );
+        let searchQueryBody = {
+            itemWanted: this.state.itemWanted,
+            itemOwned: this.state.itemOwned,
+            wantedCategory: this.state.wantedCategory,
+            wantedCondition: this.state.wantedCondition,
+            ownedCategory: this.state.ownedCategory,
+            ownedCondition: this.state.ownedCondition,
+            lng: this.state.myLocation.lng,
+            lat: this.state.myLocation.lat,
+            radius: this.state.radius,
+        };
+        this.props.onSubmit(searchQueryBody);
     }
     onItemWantedChange(e) {
         const value = e.currentTarget.value;
@@ -131,42 +144,67 @@ class SearchFilter extends React.Component {
         const value = e.currentTarget.value;
         this.setState({itemOwned: value});
     }
-    onRadiusChange(e) {
-        const value = e.currentTarget.value;
+    onRadiusChange(e, value) {
         this.setState({radius: parseInt(value)});
     }
     onWantedCategoryChange(e) {
         const value = e.target.value;
-        this.setState({wantedCategory: value});
+        if (value == "Any") {
+            this.setState({wantedCategory: ""});
+        } else {
+            this.setState({wantedCategory: value});
+        }
     }
     onOwnedCategoryChange(e) {
         const value = e.target.value;
-        this.setState({ownedCategory: value});
+        if (value == "Any") {
+            this.setState({ownedCategory: ""});
+        } else {
+            this.setState({ownedCategory: value});
+        }
     }
     onWantedConditionChange(e) {
         const value = e.target.value;
-        this.setState({wantedCondition: value});
+        if (value == "Any") {
+            this.setState({wantedCondition: ""});
+        } else {
+            this.setState({wantedCondition: value});
+        }
     }
     onOwnedConditionChange(e) {
         const value = e.target.value;
-        this.setState({ownedCondition: value});
+        if (value == "Any") {
+            this.setState({ownedCondition: ""});
+        } else {
+            this.setState({ownedCondition: value});
+        }
     }
     async onLocationChange(loc) {
+        let city = this.state.city;
         try {
             let tmpLoc = await Geocode.fromLatLng(loc.lat, loc.lng);
-
-            loc = tmpLoc;
-            let components = loc.results[0].address_components;
-
+            let components = tmpLoc.results[0].address_components;
             let filtered = components.filter(elem => elem.types[0] == "locality")[0];
             if (filtered) {
-                this.setState({city: filtered.long_name});
+                city = filtered.long_name;
+            } else {
+                city = "unknown";
             }
         } catch (err) {
             console.log(err);
         }
-
-        this.setState({myLocation: loc});
+        this.setState({myLocation: loc, city: city});
+    }
+    async onLocationTextChange(e) {
+        const value = e.target.value;
+        this.setState({city: value});
+        try {
+            let entered_loc = await Geocode.fromAddress(value);
+            let loc = entered_loc.results[0].geometry.location;
+            this.setState({myLocation: loc});
+        } catch (err) {
+            console.log(err);
+        }
     }
     // send post in focus
     onPostFocusChange(idx) {
@@ -201,14 +239,13 @@ class SearchFilter extends React.Component {
                                     <Card elevation={3} className={classes.inputCard}>
                                         <div className={classes.formAlignment}>
                                             <form className={classes.textBox} noValidate autoComplete="off">
-                                                <TextField id="location" value={this.state.city} label="Location" />
                                                 <TextField
-                                                    id="radius"
-                                                    type={"number"}
-                                                    label="Radius in Km"
-                                                    defaultValue={this.state.radius}
-                                                    onChange={this.onRadiusChange}
+                                                    id="location"
+                                                    value={this.state.city}
+                                                    onChange={this.onLocationTextChange}
+                                                    label="Location"
                                                 />
+
                                                 <TextField id="itemDesired" label="Item Desired" onChange={this.onItemWantedChange} />
                                                 <br />
                                                 <TextField id="itemOwned" label="Item Owned" onChange={this.onItemOwnedChange} />
@@ -220,6 +257,7 @@ class SearchFilter extends React.Component {
                                                         //value={this.wantedCondition}
                                                         defaultValue={""}
                                                         onChange={this.onWantedConditionChange}>
+                                                        <MenuItem value={"Any"}>Any</MenuItem>
                                                         <MenuItem value={"new"}>New</MenuItem>
                                                         <MenuItem value={"used"}>Used</MenuItem>
                                                     </Select>
@@ -232,6 +270,7 @@ class SearchFilter extends React.Component {
                                                         //value={this.cat}
                                                         defaultValue={""}
                                                         onChange={this.onWantedCategoryChange}>
+                                                        <MenuItem value={"Any"}>Any</MenuItem>
                                                         {this.props.categories.map((category, idx) => (
                                                             <MenuItem key={idx} value={category == undefined ? "" : category.title}>
                                                                 {category == undefined ? "" : category.title}
@@ -247,6 +286,7 @@ class SearchFilter extends React.Component {
                                                         //value={this.condition}
                                                         defaultValue={""}
                                                         onChange={this.onOwnedConditionChange}>
+                                                        <MenuItem value={"Any"}>Any</MenuItem>
                                                         <MenuItem value={"new"}>New</MenuItem>
                                                         <MenuItem value={"used"}>Used</MenuItem>
                                                     </Select>
@@ -259,6 +299,7 @@ class SearchFilter extends React.Component {
                                                         //value={this.cat}
                                                         defaultValue={""}
                                                         onChange={this.onOwnedCategoryChange}>
+                                                        <MenuItem value={"Any"}>Any</MenuItem>
                                                         {this.props.categories.map((category, idx) => (
                                                             <MenuItem key={idx} value={category == undefined ? "" : category.title}>
                                                                 {category == undefined ? "" : category.title}
@@ -267,6 +308,16 @@ class SearchFilter extends React.Component {
                                                     </Select>
                                                 </FormControl>
                                                 <br />
+                                                <Chip label="Radius in KM" className={classes.chip} />
+                                                <Slider
+                                                    className={classes.slider}
+                                                    defaultValue={50}
+                                                    max={400}
+                                                    step={1}
+                                                    valueLabelDisplay="on"
+                                                    onChange={this.onRadiusChange}
+                                                />
+
                                                 <Button variant="contained" color="primary" onClick={this.handleSubmit}>
                                                     Search
                                                 </Button>
@@ -286,11 +337,13 @@ class SearchFilter extends React.Component {
                                 </Typography>
                             </Toolbar>
                         </AppBar>
-                        <div className={classes.postList}>
-                            <Zoom in={true} transitionduration={5000}>
-                                <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
-                            </Zoom>
-                        </div>
+                        <Card>
+                            <div className={classes.postList}>
+                                <Zoom in={true} transitionduration={5000}>
+                                    <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
+                                </Zoom>
+                            </div>
+                        </Card>
                     </Grid>
                 </Grid>
             </Page>

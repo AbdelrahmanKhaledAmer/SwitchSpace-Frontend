@@ -93,10 +93,14 @@ export default class PostService {
         });
     }
 
-    static getSearchPosts(itemWanted, itemOwned, wantedCategory, wantedCondition, ownedCategory, ownedCondition, lng, lat, radius) {
+    static getSearchPosts(searchQueryBody) {
         return new Promise((resolve, reject) => {
             HttpService.get(
-                `${PostService.baseURL()}/search?iw=${itemWanted}&io=${itemOwned}&iwCat=${wantedCategory}&ioCat=${ownedCategory}&iwCon=${wantedCondition}&ioCon=${ownedCondition}&lng=${lng}&lat=${lat}&radius=${radius}`,
+                `${PostService.baseURL()}/search?iw=${searchQueryBody.itemWanted}&io=${searchQueryBody.itemOwned}&iwCat=${
+                    searchQueryBody.wantedCategory
+                }&ioCat=${searchQueryBody.ownedCategory}&iwCon=${searchQueryBody.wantedCondition}&ioCon=${searchQueryBody.ownedCondition}&lng=${
+                    searchQueryBody.lng
+                }&lat=${searchQueryBody.lat}&radius=${searchQueryBody.radius}`,
                 function (data) {
                     resolve(data);
                 },
