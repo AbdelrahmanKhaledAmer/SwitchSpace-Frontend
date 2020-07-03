@@ -24,6 +24,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 //Services
 import UserAuthService from "../services/UserAuthService";
+import CategoryService from "../services/CategoryService";
 
 const styles = theme => ({
     list: {
@@ -53,6 +54,8 @@ class Sidebar extends React.Component {
         this.state = {
             categories: [],
         };
+        this.getCategories = this.getCategories.bind(this);
+        this.renderCategories = this.renderCategories.bind(this);
     }
     static get propTypes() {
         return {
@@ -64,14 +67,23 @@ class Sidebar extends React.Component {
             classes: propTypes.object.isRequired,
         };
     }
-    getCategories() {
+
+    async componentDidMount() {
+        console.log("heyhye");
+        await this.getCategories();
+    }
+    async getCategories() {
+        try {
+            const categories = await CategoryService.getCategories();
+            console.log(categories);
+            this.setState({categories: categories.data.data});
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    renderCategories() {
         //         // TODO: GET <<N>> TRENDING CATEGORIES FROM BACKEND
         const {classes} = this.props;
-        const categories = [
-            {id: 1, title: "Category A"},
-            {id: 2, title: "Category B"},
-            {id: 3, title: "Category C"},
-        ];
         return (
             <List>
                 <ListItem button onClick={this.props.expandToggle}>
@@ -83,8 +95,8 @@ class Sidebar extends React.Component {
                 </ListItem>
                 <Collapse in={this.props.expanded} timeout="auto" unmountOnExit>
                     <List className={classes.nested}>
-                        {categories.map(category => (
-                            <ListItem button key={category.id}>
+                        {this.state.categories.map(category => (
+                            <ListItem button key={category._id}>
                                 <ListItemIcon className={classes.listIcon}>
                                     <CategoryIcon /> {/* TODO: CHANGE ICON */}
                                 </ListItemIcon>
@@ -126,7 +138,7 @@ class Sidebar extends React.Component {
                     </ListItem>
                 </List>
                 <Divider />
-                {this.getCategories()}
+                {this.renderCategories()}
                 <Divider />
             </div>
         );
@@ -173,7 +185,7 @@ class Sidebar extends React.Component {
                     </ListItem>
                 </List>
                 <Divider />
-                {this.getCategories()}
+                {this.renderCategories()}
                 <Divider />
             </div>
         );
@@ -203,16 +215,4 @@ class Sidebar extends React.Component {
         );
     }
 }
-
 export default withStyles(styles)(Sidebar);
-
-// export default function Sidebar({isOpen, sidebarToggle, expanded, expandToggle}) {
-//     const classes = useStyles();
-
-// Sidebar.propTypes = {
-//     isOpen: propTypes.bool.isRequired,
-//     isAuthorized: propTypes.bool.isRequired,
-//     sidebarToggle: propTypes.func.isRequired,
-//     expanded: propTypes.bool.isRequired,
-//     expandToggle: propTypes.func.isRequired,
-// };
