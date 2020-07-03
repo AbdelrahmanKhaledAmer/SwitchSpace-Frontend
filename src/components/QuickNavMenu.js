@@ -138,6 +138,7 @@ class QuickNavMenu extends React.Component {
                     onClick={() => {
                         this.handleMenuClose();
                         UserAuthService.logout();
+                        this.props.history.push("/");
                     }}>
                     Logout
                 </MenuItem>

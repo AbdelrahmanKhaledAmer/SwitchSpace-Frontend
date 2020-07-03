@@ -2,8 +2,9 @@
 // React
 import React from "react";
 import propTypes from "prop-types";
+import {withRouter} from "react-router-dom";
 // Material UI Core
-import {fade, withStyles} from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -65,6 +66,7 @@ class Sidebar extends React.Component {
             expanded: propTypes.bool.isRequired,
             expandToggle: propTypes.func.isRequired,
             classes: propTypes.object.isRequired,
+            history: propTypes.object.isRequired,
         };
     }
 
@@ -118,28 +120,19 @@ class Sidebar extends React.Component {
                 // onClick={sidebarToggle} // TODO:
                 onKeyDown={this.props.sidebarToggle}>
                 <List>
-                    <ListItem button>
+                    <ListItem button onClick={() => this.props.history.push("/login")}>
                         <ListItemIcon className={classes.listIcon}>
                             <ExitToAppIcon />
                         </ListItemIcon>
                         <ListItemText primary="Login" />
                     </ListItem>
-                    <ListItem button>
+                    <ListItem button onClick={() => this.props.history.push("/register")}>
                         <ListItemIcon className={classes.listIcon}>
                             <SwapHorizIcon /> {/* TODO: GET BETTER ICON */}
                         </ListItemIcon>
                         <ListItemText primary="Register" />
                     </ListItem>
-                    <ListItem button>
-                        <ListItemIcon className={classes.listIcon}>
-                            <TrendingUpIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Trending" />
-                    </ListItem>
                 </List>
-                <Divider />
-                {this.renderCategories()}
-                <Divider />
             </div>
         );
     }
@@ -153,40 +146,37 @@ class Sidebar extends React.Component {
                 // onClick={sidebarToggle} //TODO: UNCOMMENT WHEN FUNCTIONALITY IS COMPLETE
                 onKeyDown={this.props.sidebarToggle}>
                 <List>
-                    <ListItem button>
+                    <ListItem button onClick={() => this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`)}>
                         <ListItemIcon className={classes.listIcon}>
                             <AccountBoxIcon />
                         </ListItemIcon>
                         <ListItemText primary="Profile" />
                     </ListItem>
-                    <ListItem button>
+                    <ListItem button onClick={() => this.props.history.push("/charge")}>
                         <ListItemIcon className={classes.listIcon}>
                             <CreditCardIcon />
                         </ListItemIcon>
                         <ListItemText primary="Upgrade" />
                     </ListItem>
-                    <ListItem button>
-                        <ListItemIcon className={classes.listIcon}>
-                            <TrendingUpIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Trending" />
-                    </ListItem>
-                    <ListItem button>
+
+                    <ListItem button onClick={() => this.props.history.push("/create")}>
                         <ListItemIcon className={classes.listIcon}>
                             <AddBoxIcon />
                         </ListItemIcon>
                         <ListItemText primary="New Post" />
                     </ListItem>
-                    <ListItem button>
+                    <ListItem
+                        button
+                        onClick={() => {
+                            UserAuthService.logout();
+                            this.props.history.push("/");
+                        }}>
                         <ListItemIcon className={classes.listIcon}>
                             <MeetingRoomIcon />
                         </ListItemIcon>
                         <ListItemText primary="Logout" />
                     </ListItem>
                 </List>
-                <Divider />
-                {this.renderCategories()}
-                <Divider />
             </div>
         );
     }
@@ -200,7 +190,7 @@ class Sidebar extends React.Component {
                     <Drawer anchor="left" open={this.props.isOpen} onClose={this.props.sidebarToggle}>
                         <div className={classes.DrawerHeader}>
                             <List>
-                                <ListItem>
+                                <ListItem button onClick={() => this.props.history.push("/")}>
                                     <ListItemIcon className={classes.DrawerHeader}>
                                         <SwapHorizIcon />
                                     </ListItemIcon>
@@ -209,10 +199,19 @@ class Sidebar extends React.Component {
                             </List>
                         </div>
                         {UserAuthService.isAuthenticated() ? this.loggedInList() : this.loggedOutList()}
+                        <ListItem button onClick={() => this.props.history.push("/trending")}>
+                            <ListItemIcon className={classes.listIcon}>
+                                <TrendingUpIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Trending" />
+                        </ListItem>
+                        <Divider />
+                        {this.renderCategories()}
+                        <Divider />
                     </Drawer>
                 }
             </div>
         );
     }
 }
-export default withStyles(styles)(Sidebar);
+export default withRouter(withStyles(styles)(Sidebar));
