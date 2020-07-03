@@ -152,20 +152,20 @@ class SearchFilter extends React.Component {
         this.setState({ownedCondition: value});
     }
     async onLocationChange(loc) {
-        this.setState({myLocation: loc});
+        let city = this.state.city;
         try {
             let tmpLoc = await Geocode.fromLatLng(loc.lat, loc.lng);
-
-            loc = tmpLoc;
-            let components = loc.results[0].address_components;
-
+            let components = tmpLoc.results[0].address_components;
             let filtered = components.filter(elem => elem.types[0] == "locality")[0];
             if (filtered) {
-                this.setState({city: filtered.long_name});
+                city = filtered.long_name;
+            } else {
+                city = "unknown";
             }
         } catch (err) {
             console.log(err);
         }
+        this.setState({myLocation: loc, city: city});
     }
     // send post in focus
     onPostFocusChange(idx) {
