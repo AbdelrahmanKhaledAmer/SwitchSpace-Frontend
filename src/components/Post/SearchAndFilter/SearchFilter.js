@@ -152,6 +152,7 @@ class SearchFilter extends React.Component {
         this.setState({ownedCondition: value});
     }
     async onLocationChange(loc) {
+        this.setState({myLocation: loc});
         try {
             let tmpLoc = await Geocode.fromLatLng(loc.lat, loc.lng);
 
@@ -165,8 +166,6 @@ class SearchFilter extends React.Component {
         } catch (err) {
             console.log(err);
         }
-
-        this.setState({myLocation: loc});
     }
     // send post in focus
     onPostFocusChange(idx) {
