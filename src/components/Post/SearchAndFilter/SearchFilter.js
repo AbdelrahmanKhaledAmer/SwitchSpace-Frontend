@@ -113,17 +113,18 @@ class SearchFilter extends React.Component {
         };
     }
     handleSubmit() {
-        this.props.onSubmit(
-            this.state.itemWanted,
-            this.state.itemOwned,
-            this.state.wantedCategory,
-            this.state.wantedCondition,
-            this.state.ownedCategory,
-            this.state.ownedCondition,
-            this.state.myLocation.lng,
-            this.state.myLocation.lat,
-            this.state.radius
-        );
+        let searchQueryBody = {
+            itemWanted: this.state.itemWanted,
+            itemOwned: this.state.itemOwned,
+            wantedCategory: this.state.wantedCategory,
+            wantedCondition: this.state.wantedCondition,
+            ownedCategory: this.state.ownedCategory,
+            ownedCondition: this.state.ownedCondition,
+            lng: this.state.myLocation.lng,
+            lat: this.state.myLocation.lat,
+            radius: this.state.radius,
+        };
+        this.props.onSubmit(searchQueryBody);
     }
     onItemWantedChange(e) {
         const value = e.currentTarget.value;
