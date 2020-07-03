@@ -71,13 +71,11 @@ class Sidebar extends React.Component {
     }
 
     async componentDidMount() {
-        console.log("heyhye");
         await this.getCategories();
     }
     async getCategories() {
         try {
             const categories = await CategoryService.getCategories();
-            console.log(categories);
             this.setState({categories: categories.data.data});
         } catch (err) {
             console.log(err);

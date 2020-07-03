@@ -7,7 +7,6 @@ export default class AdminAuthService {
     }
     // takes email and password  and make a login request
     static login(admin) {
-        console.log(admin);
         return new Promise((resolve, reject) => {
             HttpService.post(
                 `${AdminAuthService.baseURL()}/login`,

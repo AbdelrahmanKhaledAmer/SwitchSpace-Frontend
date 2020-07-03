@@ -101,7 +101,6 @@ class GoogleMap extends React.Component {
     }
     // open infowindow when marker is clicked
     onMarkerClicked(props, marker) {
-        // console.log(props.name);
         const idx = marker.name;
         // post is stored in activePost because it is needed for the map
         this.setState({showInfo: true, activePost: {idx: idx, post: this.props.posts[idx], marker: marker}});
@@ -127,7 +126,6 @@ class GoogleMap extends React.Component {
 
     render() {
         const {classes} = this.props;
-        console.log(this.props.posts);
         return (
             <Map
                 google={this.props.google}
