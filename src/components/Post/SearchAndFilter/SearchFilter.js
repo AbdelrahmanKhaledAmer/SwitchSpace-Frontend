@@ -3,6 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Geocode from "react-geocode";
+import {withRouter} from "react-router-dom";
 // Material UI Core
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -24,6 +25,8 @@ import Chip from "@material-ui/core/Chip";
 import Page from "../../Page";
 import PostList from "../PostList";
 import MapContainer from "./MapContainer";
+// MISC
+import queryString from "query-string";
 
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
@@ -90,12 +93,12 @@ class SearchFilter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            wantedCondition: "",
-            ownedCondition: "",
+            wantedCondition: "Any", //any
+            ownedCondition: "Any", //any
             itemOwned: "",
             itemWanted: "",
-            wantedCategory: "",
-            ownedCategory: "",
+            wantedCategory: "Any", //any
+            ownedCategory: "Any", //any
             myLocation: {lng: 0, lat: 0},
             radius: 6371, // radius in KM
             city: "",
@@ -120,16 +123,50 @@ class SearchFilter extends React.Component {
             posts: PropTypes.array.isRequired,
             categories: PropTypes.array.isRequired,
             onSubmit: PropTypes.func.isRequired,
+            //router props
+            history: PropTypes.object.isRequired,
+            location: PropTypes.object.isRequired,
+            match: PropTypes.object.isRequired,
         };
     }
+
+    componentDidMount() {
+        const searchParams = queryString.parse(this.props.location.search);
+        console.log(searchParams);
+        // get query params
+        const wantedCondition = searchParams.wantedCondition ? searchParams.wantedCondition : this.state.wantedCondition;
+        const ownedCondition = searchParams.ownedCondition ? searchParams.ownedCondition : this.state.ownedCondition;
+        const itemOwned = searchParams.itemOwned ? searchParams.itemOwned : this.state.itemOwned;
+        const itemWanted = searchParams.itemWanted ? searchParams.itemWanted : this.state.itemWanted;
+        const wantedCategory = searchParams.wantedCategory ? searchParams.wantedCategory : this.state.wantedCategory;
+        const ownedCategory = searchParams.ownedCategory ? searchParams.ownedCategory : this.state.ownedCategory;
+        const radius = searchParams.radius ? searchParams.radius : this.state.radius;
+        // set query params
+        this.setState(
+            {
+                wantedCondition: wantedCondition,
+                ownedCondition: ownedCondition,
+                itemOwned: itemOwned,
+                itemWanted: itemWanted,
+                wantedCategory: wantedCategory,
+                ownedCategory: ownedCategory,
+                radius: radius,
+            },
+            this.handleSubmit
+        );
+
+        console.log(this.state.wantedCategory);
+        console.log(this.props.location.search);
+    }
+
     handleSubmit() {
         let searchQueryBody = {
             itemWanted: this.state.itemWanted,
             itemOwned: this.state.itemOwned,
-            wantedCategory: this.state.wantedCategory,
-            wantedCondition: this.state.wantedCondition,
-            ownedCategory: this.state.ownedCategory,
-            ownedCondition: this.state.ownedCondition,
+            wantedCategory: this.state.wantedCategory === "Any" ? "" : this.state.wantedCategory,
+            wantedCondition: this.state.wantedCondition === "Any" ? "" : this.state.wantedCondition,
+            ownedCategory: this.state.ownedCategory === "Any" ? "" : this.state.ownedCategory,
+            ownedCondition: this.state.ownedCondition === "Any" ? "" : this.state.ownedCondition,
             lng: this.state.myLocation.lng,
             lat: this.state.myLocation.lat,
             radius: this.state.radius,
@@ -149,35 +186,19 @@ class SearchFilter extends React.Component {
     }
     onWantedCategoryChange(e) {
         const value = e.target.value;
-        if (value == "Any") {
-            this.setState({wantedCategory: ""});
-        } else {
-            this.setState({wantedCategory: value});
-        }
+        this.setState({wantedCategory: value});
     }
     onOwnedCategoryChange(e) {
         const value = e.target.value;
-        if (value == "Any") {
-            this.setState({ownedCategory: ""});
-        } else {
-            this.setState({ownedCategory: value});
-        }
+        this.setState({ownedCategory: value});
     }
     onWantedConditionChange(e) {
         const value = e.target.value;
-        if (value == "Any") {
-            this.setState({wantedCondition: ""});
-        } else {
-            this.setState({wantedCondition: value});
-        }
+        this.setState({wantedCondition: value});
     }
     onOwnedConditionChange(e) {
         const value = e.target.value;
-        if (value == "Any") {
-            this.setState({ownedCondition: ""});
-        } else {
-            this.setState({ownedCondition: value});
-        }
+        this.setState({ownedCondition: value});
     }
     async onLocationChange(loc) {
         let city = this.state.city;
@@ -246,16 +267,26 @@ class SearchFilter extends React.Component {
                                                     label="Location"
                                                 />
 
-                                                <TextField id="itemDesired" label="Item Desired" onChange={this.onItemWantedChange} />
+                                                <TextField
+                                                    id="itemDesired"
+                                                    label="Item Desired"
+                                                    value={this.state.itemWanted}
+                                                    onChange={this.onItemWantedChange}
+                                                />
                                                 <br />
-                                                <TextField id="itemOwned" label="Item Owned" onChange={this.onItemOwnedChange} />
+                                                <TextField
+                                                    id="itemOwned"
+                                                    label="Item Owned"
+                                                    value={this.state.itemOwned}
+                                                    onChange={this.onItemOwnedChange}
+                                                />
                                                 <FormControl className={classes.formControl}>
                                                     <InputLabel id="desiredLocation">Item Desired Condition</InputLabel>
                                                     <Select
-                                                        labelId="desiredConditionLabel"
-                                                        id="desiredCondition"
-                                                        //value={this.wantedCondition}
-                                                        defaultValue={""}
+                                                        labelId="wantedConditionLabel"
+                                                        id="wantedCondition"
+                                                        value={this.state.wantedCondition}
+                                                        defaultValue={this.state.wantedCondition}
                                                         onChange={this.onWantedConditionChange}>
                                                         <MenuItem value={"Any"}>Any</MenuItem>
                                                         <MenuItem value={"new"}>New</MenuItem>
@@ -267,13 +298,13 @@ class SearchFilter extends React.Component {
                                                     <Select
                                                         labelId="desiredCategoryLabel"
                                                         id="desiredCategory"
-                                                        //value={this.cat}
-                                                        defaultValue={""}
+                                                        defaultValue={this.state.wantedCategory}
+                                                        value={this.state.wantedCategory}
                                                         onChange={this.onWantedCategoryChange}>
                                                         <MenuItem value={"Any"}>Any</MenuItem>
                                                         {this.props.categories.map((category, idx) => (
-                                                            <MenuItem key={idx} value={category == undefined ? "" : category.title}>
-                                                                {category == undefined ? "" : category.title}
+                                                            <MenuItem key={idx} value={category == undefined ? "Any" : category.title}>
+                                                                {category == undefined ? "Any" : category.title}
                                                             </MenuItem>
                                                         ))}
                                                     </Select>
@@ -283,8 +314,8 @@ class SearchFilter extends React.Component {
                                                     <Select
                                                         labelId="ownedConditionLabel"
                                                         id="ownedCondition"
-                                                        //value={this.condition}
-                                                        defaultValue={""}
+                                                        value={this.state.ownedCondition}
+                                                        defaultValue={this.state.ownedCondition}
                                                         onChange={this.onOwnedConditionChange}>
                                                         <MenuItem value={"Any"}>Any</MenuItem>
                                                         <MenuItem value={"new"}>New</MenuItem>
@@ -296,8 +327,8 @@ class SearchFilter extends React.Component {
                                                     <Select
                                                         labelId="ownedCategoryLabel"
                                                         id="ownedCategory"
-                                                        //value={this.cat}
-                                                        defaultValue={""}
+                                                        value={this.state.ownedCategory}
+                                                        defaultValue={this.state.ownedCategory}
                                                         onChange={this.onOwnedCategoryChange}>
                                                         <MenuItem value={"Any"}>Any</MenuItem>
                                                         {this.props.categories.map((category, idx) => (
@@ -350,4 +381,4 @@ class SearchFilter extends React.Component {
         );
     }
 }
-export default withStyles(styles)(SearchFilter);
+export default withRouter(withStyles(styles)(SearchFilter));
