@@ -88,7 +88,6 @@ class SearchFilter extends React.Component {
             myLocation: {lng: 0, lat: 0},
             radius: 6371, // radius in KM
             city: "",
-            manualLocation: "",
         };
 
         this.onItemOwnedChange = this.onItemOwnedChange.bind(this);
@@ -148,11 +147,19 @@ class SearchFilter extends React.Component {
     }
     onWantedConditionChange(e) {
         const value = e.target.value;
-        this.setState({wantedCondition: value});
+        if (value == "Any") {
+            this.setState({wantedCondition: ""});
+        } else {
+            this.setState({wantedCondition: value});
+        }
     }
     onOwnedConditionChange(e) {
         const value = e.target.value;
-        this.setState({ownedCondition: value});
+        if (value == "Any") {
+            this.setState({ownedCondition: ""});
+        } else {
+            this.setState({ownedCondition: value});
+        }
     }
     async onLocationChange(loc) {
         let city = this.state.city;
@@ -238,6 +245,7 @@ class SearchFilter extends React.Component {
                                                         //value={this.wantedCondition}
                                                         defaultValue={""}
                                                         onChange={this.onWantedConditionChange}>
+                                                        <MenuItem value={"Any"}>Any</MenuItem>
                                                         <MenuItem value={"new"}>New</MenuItem>
                                                         <MenuItem value={"used"}>Used</MenuItem>
                                                     </Select>
@@ -265,6 +273,7 @@ class SearchFilter extends React.Component {
                                                         //value={this.condition}
                                                         defaultValue={""}
                                                         onChange={this.onOwnedConditionChange}>
+                                                        <MenuItem value={"Any"}>Any</MenuItem>
                                                         <MenuItem value={"new"}>New</MenuItem>
                                                         <MenuItem value={"used"}>Used</MenuItem>
                                                     </Select>
