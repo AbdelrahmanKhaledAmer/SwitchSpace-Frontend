@@ -6,8 +6,6 @@ import PropTypes from "prop-types";
 import AdminConsole from "../components/Admin/AdminConsole";
 // Services
 import AdminService from "../services/AdminService";
-// MISC
-import {toast} from "react-toastify";
 
 export default class AdminView extends React.Component {
     constructor(props) {
@@ -18,7 +16,6 @@ export default class AdminView extends React.Component {
         };
         this.deleteReport = this.deleteReport.bind(this);
         this.getReports = this.getReports.bind(this);
-        this.notify = this.notify.bind(this);
     }
 
     async componentDidMount() {
@@ -31,21 +28,6 @@ export default class AdminView extends React.Component {
             history: PropTypes.object,
         };
     }
-    notify(message) {
-        let customId;
-
-        customId = "toast-error";
-        toast.error(message, {
-            position: "bottom-right",
-            toastId: customId,
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-    }
 
     // view all reports
     async getReports() {
@@ -55,7 +37,6 @@ export default class AdminView extends React.Component {
             this.setState({reports: reports.data.data});
         } catch (err) {
             console.error(err);
-            this.notify(err);
         }
         this.setState({loading: false});
     }
@@ -66,7 +47,6 @@ export default class AdminView extends React.Component {
             await AdminService.deleteReport(id);
         } catch (err) {
             console.error(err);
-            this.notify(err);
         }
         this.setState({loading: false});
         // refresh reports from thebackend
@@ -78,7 +58,6 @@ export default class AdminView extends React.Component {
     //         await AdminService.deletePost(id);
     //     } catch (err) {
     //         console.error(err);
-    //         this.notify(err);
     //         this.setState({
     //             error: err,
     //         });
