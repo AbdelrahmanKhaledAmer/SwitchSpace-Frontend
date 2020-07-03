@@ -99,7 +99,7 @@ class Sidebar extends React.Component {
                                 button
                                 key={category._id}
                                 onClick={() => {
-                                    this.props.history.replace(`/search/?wantedCategory=${category.title}`);
+                                    this.props.history.replace(`/search?wantedCategory=${category.title}`);
                                     // TODO: ask
                                     window.location.reload(false);
                                 }}>
