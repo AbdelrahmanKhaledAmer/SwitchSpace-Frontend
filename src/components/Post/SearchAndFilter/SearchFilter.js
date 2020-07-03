@@ -142,15 +142,18 @@ class SearchFilter extends React.Component {
         const ownedCategory = searchParams.ownedCategory ? searchParams.ownedCategory : this.state.ownedCategory;
         const radius = searchParams.radius ? searchParams.radius : this.state.radius;
         // set query params
-        this.setState({
-            wantedCondition: wantedCondition,
-            ownedCondition: ownedCondition,
-            itemOwned: itemOwned,
-            itemWanted: itemWanted,
-            wantedCategory: wantedCategory,
-            ownedCategory: ownedCategory,
-            radius: radius,
-        });
+        this.setState(
+            {
+                wantedCondition: wantedCondition,
+                ownedCondition: ownedCondition,
+                itemOwned: itemOwned,
+                itemWanted: itemWanted,
+                wantedCategory: wantedCategory,
+                ownedCategory: ownedCategory,
+                radius: radius,
+            },
+            this.handleSubmit
+        );
 
         console.log(this.state.wantedCategory);
         console.log(this.props.location.search);
