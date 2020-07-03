@@ -61,7 +61,6 @@ class Sidebar extends React.Component {
     static get propTypes() {
         return {
             isOpen: propTypes.bool.isRequired,
-            isAuthorized: propTypes.bool.isRequired,
             sidebarToggle: propTypes.func.isRequired,
             expanded: propTypes.bool.isRequired,
             expandToggle: propTypes.func.isRequired,

@@ -29,7 +29,6 @@ class Page extends React.Component {
 
         this.sidebarToggle = this.sidebarToggle.bind(this);
         this.expandToggle = this.expandToggle.bind(this);
-        this.authorizationToggle = this.authorizationToggle.bind(this);
     }
 
     // need to defince prop type for every function
@@ -52,13 +51,6 @@ class Page extends React.Component {
         });
     }
 
-    // TODO: TESTING ONLY
-    authorizationToggle() {
-        this.setState({
-            isAuthorized: !this.state.isAuthorized,
-        });
-    }
-
     componentDidMount() {
         this.setState({
             title: document.title,
@@ -75,11 +67,9 @@ class Page extends React.Component {
                     isAuthorized={this.state.isAuthorized}
                     sidebarToggle={this.sidebarToggle}
                     unreadMessages={3} //TODO: GET FROM SERVER AT LOGIN
-                    authorizationToggle={this.authorizationToggle}
                 />
                 <Sidebar
                     isOpen={this.state.drawerIsOpen}
-                    isAuthorized={this.state.isAuthorized}
                     sidebarToggle={this.sidebarToggle}
                     expanded={this.state.expanded}
                     expandToggle={this.expandToggle}
