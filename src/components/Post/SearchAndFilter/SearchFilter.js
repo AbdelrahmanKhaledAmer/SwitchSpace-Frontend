@@ -3,6 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Geocode from "react-geocode";
+import {withRouter} from "react-router-dom";
 // Material UI Core
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -24,6 +25,8 @@ import Chip from "@material-ui/core/Chip";
 import Page from "../../Page";
 import PostList from "../PostList";
 import MapContainer from "./MapContainer";
+// MISC
+import queryString from "query-string";
 
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
@@ -120,8 +123,28 @@ class SearchFilter extends React.Component {
             posts: PropTypes.array.isRequired,
             categories: PropTypes.array.isRequired,
             onSubmit: PropTypes.func.isRequired,
+            //router props
+            history: PropTypes.object.isRequired,
+            location: PropTypes.object.isRequired,
+            match: PropTypes.object.isRequired,
         };
     }
+
+    componentDidMount() {
+        const searchParams = queryString.parse(this.props.location.search);
+        // // const parsedParams
+        // const wantedCondition: "",
+        // ownedCondition: "",
+        // itemOwned: "",
+        // itemWanted: "",
+        // wantedCategory: "",
+        // ownedCategory: "",
+        console.log(this.props.location.search);
+        console.log(queryString.parse(this.props.location.search));
+        console.log(this.props.match.params);
+        console.log(this.props.history);
+    }
+
     handleSubmit() {
         let searchQueryBody = {
             itemWanted: this.state.itemWanted,
@@ -350,4 +373,4 @@ class SearchFilter extends React.Component {
         );
     }
 }
-export default withStyles(styles)(SearchFilter);
+export default withRouter(withStyles(styles)(SearchFilter));

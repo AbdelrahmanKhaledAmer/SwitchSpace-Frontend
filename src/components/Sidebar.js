@@ -95,7 +95,14 @@ class Sidebar extends React.Component {
                 <Collapse in={this.props.expanded} timeout="auto" unmountOnExit>
                     <List className={classes.nested}>
                         {this.state.categories.map(category => (
-                            <ListItem button key={category._id}>
+                            <ListItem
+                                button
+                                key={category._id}
+                                onClick={() => {
+                                    this.props.history.replace(`/search/?wantedCategory=${category.title}`);
+                                    // TODO: ask
+                                    window.location.reload(false);
+                                }}>
                                 <ListItemIcon className={classes.listIcon}>
                                     <CategoryIcon /> {/* TODO: CHANGE ICON */}
                                 </ListItemIcon>

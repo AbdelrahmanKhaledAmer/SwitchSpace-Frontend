@@ -66,7 +66,7 @@ export default class App extends React.Component {
                 {component: UserLoginView, path: "/login"},
                 // TODO: check not loggedin
                 {component: UserSignupView, path: "/register"},
-                {component: SearchFilterView, path: "/search"},
+                {component: SearchFilterView, path: "/search/"},
                 {component: TrendingView, path: "/trending"},
                 {component: PostView, path: "/post/:id"},
                 {component: UserProfileView, path: "/profile/:id"},
