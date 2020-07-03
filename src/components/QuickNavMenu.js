@@ -32,6 +32,7 @@ const styles = theme => ({
         flexGrow: 1,
     },
     appBar: {
+        // backgroundColor: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
         backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
         borderRadius: "0 0 5px 5px",
     },
@@ -53,15 +54,7 @@ const styles = theme => ({
     search: {
         // position: "relative",
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.6),
-        "&:hover": {
-            backgroundColor: fade(theme.palette.common.white, 0.9),
-            transitionDuration: 500,
-        },
-        "&:focus": {
-            backgroundColor: fade(theme.palette.common.white, 1),
-            // transitionDuration: 500,
-        },
+        backgroundColor: theme.palette.type === "dark" ? fade(theme.palette.common.white, 0.8) : fade(theme.palette.common.white, 0.6),
         marginLeft: 0,
         width: "100%",
         // [theme.breakpoints.up("sm")]: {
@@ -145,6 +138,7 @@ class QuickNavMenu extends React.Component {
                     onClick={() => {
                         this.handleMenuClose();
                         UserAuthService.logout();
+                        this.props.history.push("/");
                     }}>
                     Logout
                 </MenuItem>

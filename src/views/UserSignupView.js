@@ -53,7 +53,6 @@ export default class UserSignupView extends React.Component {
         for (let key in user) {
             data.append(key, user[key]);
         }
-        console.log(data);
 
         try {
             await UserAuthService.register(data);

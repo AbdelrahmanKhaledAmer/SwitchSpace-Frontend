@@ -99,7 +99,6 @@ class CheckoutForm extends React.Component {
             return;
         }
         if (this.state.fnameError || this.state.lnameError || this.state.firstname === "" || this.state.lastnam === "") {
-            console.log("please complete fields correctly");
             return;
         }
 
@@ -112,7 +111,6 @@ class CheckoutForm extends React.Component {
             console.log(result.error.message);
             this.setState({paymentDisabled: false});
         } else {
-            console.log("token obtained succesfully");
             // pass the token to your backend API
             const token = result.token.id;
 

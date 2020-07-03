@@ -49,7 +49,6 @@ export default class SearchFilterView extends React.Component {
         try {
             let response = await CategoryService.getCategories();
             this.setState({categories: response.data.data});
-            console.log(this.state.categories);
         } catch (err) {
             console.log(err);
         }

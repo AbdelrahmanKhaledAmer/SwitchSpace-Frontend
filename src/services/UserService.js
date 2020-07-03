@@ -8,7 +8,6 @@ export default class UserService {
     }
 
     static changeSubscriptionTier(changeRequest) {
-        console.log(changeRequest);
         return new Promise((resolve, reject) => {
             HttpService.put(
                 `${UserService.baseURL()}/subscription`,

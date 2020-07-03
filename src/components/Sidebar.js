@@ -2,8 +2,9 @@
 // React
 import React from "react";
 import propTypes from "prop-types";
+import {withRouter} from "react-router-dom";
 // Material UI Core
-import {makeStyles} from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -24,8 +25,9 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 //Services
 import UserAuthService from "../services/UserAuthService";
+import CategoryService from "../services/CategoryService";
 
-const useStyles = makeStyles({
+const styles = theme => ({
     list: {
         width: 250,
     },
@@ -37,9 +39,9 @@ const useStyles = makeStyles({
     },
     DrawerHeader: {
         // color: "#fbeec1",
-        // backgroundColor: "#659dbd",
+        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
         textAlign: "center",
-        borderRadius: "0 0 0.5em 0",
+        borderRadius: "0 0 5px 0",
     },
     nested: {
         paddingLeft: "10%",
@@ -47,29 +49,53 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Sidebar({isOpen, sidebarToggle, expanded, expandToggle}) {
-    const classes = useStyles();
+class Sidebar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            categories: [],
+        };
+        this.getCategories = this.getCategories.bind(this);
+        this.renderCategories = this.renderCategories.bind(this);
+    }
+    static get propTypes() {
+        return {
+            isOpen: propTypes.bool.isRequired,
+            sidebarToggle: propTypes.func.isRequired,
+            expanded: propTypes.bool.isRequired,
+            expandToggle: propTypes.func.isRequired,
+            classes: propTypes.object.isRequired,
+            history: propTypes.object.isRequired,
+        };
+    }
 
-    const getCategories = function () {
-        // TODO: GET <<N>> TRENDING CATEGORIES FROM BACKEND
-        const categories = [
-            {id: 1, title: "Category A"},
-            {id: 2, title: "Category B"},
-            {id: 3, title: "Category C"},
-        ];
+    async componentDidMount() {
+        await this.getCategories();
+    }
+    async getCategories() {
+        try {
+            const categories = await CategoryService.getCategories();
+            this.setState({categories: categories.data.data});
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    renderCategories() {
+        //         // TODO: GET <<N>> TRENDING CATEGORIES FROM BACKEND
+        const {classes} = this.props;
         return (
             <List>
-                <ListItem button onClick={expandToggle}>
+                <ListItem button onClick={this.props.expandToggle}>
                     <ListItemIcon className={classes.listIcon}>
                         <CategoryIcon />
                     </ListItemIcon>
                     <ListItemText primary="Categories" />
-                    <ListItemIcon className={classes.listIcon}>{expanded ? <ExpandLess /> : <ExpandMore />}</ListItemIcon>
+                    <ListItemIcon className={classes.listIcon}>{this.props.expanded ? <ExpandLess /> : <ExpandMore />}</ListItemIcon>
                 </ListItem>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <Collapse in={this.props.expanded} timeout="auto" unmountOnExit>
                     <List className={classes.nested}>
-                        {categories.map(category => (
-                            <ListItem button key={category.id}>
+                        {this.state.categories.map(category => (
+                            <ListItem button key={category._id}>
                                 <ListItemIcon className={classes.listIcon}>
                                     <CategoryIcon /> {/* TODO: CHANGE ICON */}
                                 </ListItemIcon>
@@ -80,109 +106,109 @@ export default function Sidebar({isOpen, sidebarToggle, expanded, expandToggle})
                 </Collapse>
             </List>
         );
-    };
+    }
 
-    const loggedOutList = (
-        <div
-            className={classes.list}
-            role="presentation"
-            // onClick={sidebarToggle} // TODO:
-            onKeyDown={sidebarToggle}>
-            <List>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <ExitToAppIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Login" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <SwapHorizIcon /> {/* TODO: GET BETTER ICON */}
-                    </ListItemIcon>
-                    <ListItemText primary="Register" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <TrendingUpIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Trending" />
-                </ListItem>
-            </List>
-            <Divider />
-            {getCategories()}
-            <Divider />
-        </div>
-    );
+    loggedOutList() {
+        const {classes} = this.props;
+        return (
+            <div
+                className={classes.list}
+                role="presentation"
+                // onClick={sidebarToggle} // TODO:
+                onKeyDown={this.props.sidebarToggle}>
+                <List>
+                    <ListItem button onClick={() => this.props.history.push("/login")}>
+                        <ListItemIcon className={classes.listIcon}>
+                            <ExitToAppIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Login" />
+                    </ListItem>
+                    <ListItem button onClick={() => this.props.history.push("/register")}>
+                        <ListItemIcon className={classes.listIcon}>
+                            <SwapHorizIcon /> {/* TODO: GET BETTER ICON */}
+                        </ListItemIcon>
+                        <ListItemText primary="Register" />
+                    </ListItem>
+                </List>
+            </div>
+        );
+    }
+    loggedInList() {
+        const {classes} = this.props;
 
-    const loggedInList = (
-        <div
-            className={classes.list}
-            role="presentation"
-            // onClick={sidebarToggle} //TODO: UNCOMMENT WHEN FUNCTIONALITY IS COMPLETE
-            onKeyDown={sidebarToggle}>
-            <List>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <AccountBoxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Profile" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <CreditCardIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Upgrade" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <TrendingUpIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Trending" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <AddBoxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="New Post" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <MeetingRoomIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Logout" />
-                </ListItem>
-            </List>
-            <Divider />
-            {getCategories()}
-            <Divider />
-        </div>
-    );
+        return (
+            <div
+                className={classes.list}
+                role="presentation"
+                // onClick={sidebarToggle} //TODO: UNCOMMENT WHEN FUNCTIONALITY IS COMPLETE
+                onKeyDown={this.props.sidebarToggle}>
+                <List>
+                    <ListItem button onClick={() => this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`)}>
+                        <ListItemIcon className={classes.listIcon}>
+                            <AccountBoxIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Profile" />
+                    </ListItem>
+                    <ListItem button onClick={() => this.props.history.push("/charge")}>
+                        <ListItemIcon className={classes.listIcon}>
+                            <CreditCardIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Upgrade" />
+                    </ListItem>
 
-    return (
-        <div>
-            {
-                <Drawer anchor="left" open={isOpen} onClose={sidebarToggle}>
-                    <div className={classes.DrawerHeader}>
-                        <List>
-                            <ListItem>
-                                <ListItemIcon className={classes.DrawerHeader}>
-                                    <SwapHorizIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="SwitchSpace" />
-                            </ListItem>
-                        </List>
-                    </div>
-                    {UserAuthService.isAuthenticated() ? loggedInList : loggedOutList}
-                </Drawer>
-            }
-        </div>
-    );
+                    <ListItem button onClick={() => this.props.history.push("/create")}>
+                        <ListItemIcon className={classes.listIcon}>
+                            <AddBoxIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="New Post" />
+                    </ListItem>
+                    <ListItem
+                        button
+                        onClick={() => {
+                            UserAuthService.logout();
+                            this.props.history.push("/");
+                        }}>
+                        <ListItemIcon className={classes.listIcon}>
+                            <MeetingRoomIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Logout" />
+                    </ListItem>
+                </List>
+            </div>
+        );
+    }
+
+    render() {
+        const {classes} = this.props;
+
+        return (
+            <div>
+                {
+                    <Drawer anchor="left" open={this.props.isOpen} onClose={this.props.sidebarToggle}>
+                        <div className={classes.DrawerHeader}>
+                            <List>
+                                <ListItem button onClick={() => this.props.history.push("/")}>
+                                    <ListItemIcon className={classes.DrawerHeader}>
+                                        <SwapHorizIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="SwitchSpace" />
+                                </ListItem>
+                            </List>
+                        </div>
+                        {UserAuthService.isAuthenticated() ? this.loggedInList() : this.loggedOutList()}
+                        <ListItem button onClick={() => this.props.history.push("/trending")}>
+                            <ListItemIcon className={classes.listIcon}>
+                                <TrendingUpIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Trending" />
+                        </ListItem>
+                        <Divider />
+                        {this.renderCategories()}
+                        <Divider />
+                    </Drawer>
+                }
+            </div>
+        );
+    }
 }
-
-Sidebar.propTypes = {
-    isOpen: propTypes.bool.isRequired,
-    isAuthorized: propTypes.bool.isRequired,
-    sidebarToggle: propTypes.func.isRequired,
-    expanded: propTypes.bool.isRequired,
-    expandToggle: propTypes.func.isRequired,
-};
+export default withRouter(withStyles(styles)(Sidebar));

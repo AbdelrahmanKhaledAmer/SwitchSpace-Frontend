@@ -111,7 +111,6 @@ class SearchFilter extends React.Component {
         };
     }
     handleSubmit() {
-        console.log(this.state.myLocation);
         this.props.onSubmit(
             this.state.itemWanted,
             this.state.itemOwned,
@@ -146,7 +145,6 @@ class SearchFilter extends React.Component {
     }
     onWantedConditionChange(e) {
         const value = e.target.value;
-        console.log(value);
         this.setState({wantedCondition: value});
     }
     onOwnedConditionChange(e) {
