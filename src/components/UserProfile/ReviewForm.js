@@ -1,17 +1,19 @@
 "use strict";
-
+// React
 import React from "react";
 import PropTypes from "prop-types";
+//Material UI Core
 import {withStyles} from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import Zoom from "@material-ui/core/Zoom";
 import Grid from "@material-ui/core/Grid";
-import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+// Material UI Lab
+import Rating from "@material-ui/lab/Rating";
 
 const styles = theme => ({
     form: {
