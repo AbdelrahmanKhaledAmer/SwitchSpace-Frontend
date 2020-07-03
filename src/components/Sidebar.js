@@ -3,7 +3,7 @@
 import React from "react";
 import propTypes from "prop-types";
 // Material UI Core
-import {makeStyles} from "@material-ui/core/styles";
+import {fade, withStyles} from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -25,7 +25,7 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 //Services
 import UserAuthService from "../services/UserAuthService";
 
-const useStyles = makeStyles({
+const styles = theme => ({
     list: {
         width: 250,
     },
@@ -37,9 +37,9 @@ const useStyles = makeStyles({
     },
     DrawerHeader: {
         // color: "#fbeec1",
-        // backgroundColor: "#659dbd",
+        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
         textAlign: "center",
-        borderRadius: "0 0 0.5em 0",
+        borderRadius: "0 0 5px 0",
     },
     nested: {
         paddingLeft: "10%",
@@ -47,11 +47,26 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Sidebar({isOpen, sidebarToggle, expanded, expandToggle}) {
-    const classes = useStyles();
-
-    const getCategories = function () {
-        // TODO: GET <<N>> TRENDING CATEGORIES FROM BACKEND
+class Sidebar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            categories: [],
+        };
+    }
+    static get propTypes() {
+        return {
+            isOpen: propTypes.bool.isRequired,
+            isAuthorized: propTypes.bool.isRequired,
+            sidebarToggle: propTypes.func.isRequired,
+            expanded: propTypes.bool.isRequired,
+            expandToggle: propTypes.func.isRequired,
+            classes: propTypes.object.isRequired,
+        };
+    }
+    getCategories() {
+        //         // TODO: GET <<N>> TRENDING CATEGORIES FROM BACKEND
+        const {classes} = this.props;
         const categories = [
             {id: 1, title: "Category A"},
             {id: 2, title: "Category B"},
@@ -59,14 +74,14 @@ export default function Sidebar({isOpen, sidebarToggle, expanded, expandToggle})
         ];
         return (
             <List>
-                <ListItem button onClick={expandToggle}>
+                <ListItem button onClick={this.props.expandToggle}>
                     <ListItemIcon className={classes.listIcon}>
                         <CategoryIcon />
                     </ListItemIcon>
                     <ListItemText primary="Categories" />
-                    <ListItemIcon className={classes.listIcon}>{expanded ? <ExpandLess /> : <ExpandMore />}</ListItemIcon>
+                    <ListItemIcon className={classes.listIcon}>{this.props.expanded ? <ExpandLess /> : <ExpandMore />}</ListItemIcon>
                 </ListItem>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <Collapse in={this.props.expanded} timeout="auto" unmountOnExit>
                     <List className={classes.nested}>
                         {categories.map(category => (
                             <ListItem button key={category.id}>
@@ -80,109 +95,124 @@ export default function Sidebar({isOpen, sidebarToggle, expanded, expandToggle})
                 </Collapse>
             </List>
         );
-    };
+    }
 
-    const loggedOutList = (
-        <div
-            className={classes.list}
-            role="presentation"
-            // onClick={sidebarToggle} // TODO:
-            onKeyDown={sidebarToggle}>
-            <List>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <ExitToAppIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Login" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <SwapHorizIcon /> {/* TODO: GET BETTER ICON */}
-                    </ListItemIcon>
-                    <ListItemText primary="Register" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <TrendingUpIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Trending" />
-                </ListItem>
-            </List>
-            <Divider />
-            {getCategories()}
-            <Divider />
-        </div>
-    );
+    loggedOutList() {
+        const {classes} = this.props;
+        return (
+            <div
+                className={classes.list}
+                role="presentation"
+                // onClick={sidebarToggle} // TODO:
+                onKeyDown={this.props.sidebarToggle}>
+                <List>
+                    <ListItem button>
+                        <ListItemIcon className={classes.listIcon}>
+                            <ExitToAppIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Login" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon className={classes.listIcon}>
+                            <SwapHorizIcon /> {/* TODO: GET BETTER ICON */}
+                        </ListItemIcon>
+                        <ListItemText primary="Register" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon className={classes.listIcon}>
+                            <TrendingUpIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Trending" />
+                    </ListItem>
+                </List>
+                <Divider />
+                {this.getCategories()}
+                <Divider />
+            </div>
+        );
+    }
+    loggedInList() {
+        const {classes} = this.props;
 
-    const loggedInList = (
-        <div
-            className={classes.list}
-            role="presentation"
-            // onClick={sidebarToggle} //TODO: UNCOMMENT WHEN FUNCTIONALITY IS COMPLETE
-            onKeyDown={sidebarToggle}>
-            <List>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <AccountBoxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Profile" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <CreditCardIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Upgrade" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <TrendingUpIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Trending" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <AddBoxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="New Post" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon className={classes.listIcon}>
-                        <MeetingRoomIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Logout" />
-                </ListItem>
-            </List>
-            <Divider />
-            {getCategories()}
-            <Divider />
-        </div>
-    );
+        return (
+            <div
+                className={classes.list}
+                role="presentation"
+                // onClick={sidebarToggle} //TODO: UNCOMMENT WHEN FUNCTIONALITY IS COMPLETE
+                onKeyDown={this.props.sidebarToggle}>
+                <List>
+                    <ListItem button>
+                        <ListItemIcon className={classes.listIcon}>
+                            <AccountBoxIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Profile" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon className={classes.listIcon}>
+                            <CreditCardIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Upgrade" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon className={classes.listIcon}>
+                            <TrendingUpIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Trending" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon className={classes.listIcon}>
+                            <AddBoxIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="New Post" />
+                    </ListItem>
+                    <ListItem button>
+                        <ListItemIcon className={classes.listIcon}>
+                            <MeetingRoomIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Logout" />
+                    </ListItem>
+                </List>
+                <Divider />
+                {this.getCategories()}
+                <Divider />
+            </div>
+        );
+    }
 
-    return (
-        <div>
-            {
-                <Drawer anchor="left" open={isOpen} onClose={sidebarToggle}>
-                    <div className={classes.DrawerHeader}>
-                        <List>
-                            <ListItem>
-                                <ListItemIcon className={classes.DrawerHeader}>
-                                    <SwapHorizIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="SwitchSpace" />
-                            </ListItem>
-                        </List>
-                    </div>
-                    {UserAuthService.isAuthenticated() ? loggedInList : loggedOutList}
-                </Drawer>
-            }
-        </div>
-    );
+    render() {
+        const {classes} = this.props;
+
+        return (
+            <div>
+                {
+                    <Drawer anchor="left" open={this.props.isOpen} onClose={this.props.sidebarToggle}>
+                        <div className={classes.DrawerHeader}>
+                            <List>
+                                <ListItem>
+                                    <ListItemIcon className={classes.DrawerHeader}>
+                                        <SwapHorizIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="SwitchSpace" />
+                                </ListItem>
+                            </List>
+                        </div>
+                        {UserAuthService.isAuthenticated() ? this.loggedInList() : this.loggedOutList()}
+                    </Drawer>
+                }
+            </div>
+        );
+    }
 }
 
-Sidebar.propTypes = {
-    isOpen: propTypes.bool.isRequired,
-    isAuthorized: propTypes.bool.isRequired,
-    sidebarToggle: propTypes.func.isRequired,
-    expanded: propTypes.bool.isRequired,
-    expandToggle: propTypes.func.isRequired,
-};
+export default withStyles(styles)(Sidebar);
+
+// export default function Sidebar({isOpen, sidebarToggle, expanded, expandToggle}) {
+//     const classes = useStyles();
+
+// Sidebar.propTypes = {
+//     isOpen: propTypes.bool.isRequired,
+//     isAuthorized: propTypes.bool.isRequired,
+//     sidebarToggle: propTypes.func.isRequired,
+//     expanded: propTypes.bool.isRequired,
+//     expandToggle: propTypes.func.isRequired,
+// };
