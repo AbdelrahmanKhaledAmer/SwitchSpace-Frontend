@@ -120,7 +120,6 @@ class GoogleMap extends React.Component {
 
     // triggered when the map finishes loading
     mapLoaded(mapProps, map) {
-        console.log("map loaded");
         console.log(mapProps);
         console.log(map);
     }

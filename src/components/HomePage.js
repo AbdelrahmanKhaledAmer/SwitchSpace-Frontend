@@ -80,8 +80,8 @@ class HomePage extends React.Component {
         };
     }
 
-    goToSearch(category) {
-        this.props.history.push(`/search?ownedCategory=${category}`);
+    goToSearch(category, subcategory) {
+        this.props.history.push(`/search?wantedCategory=${category}&wantedSubcategory=${subcategory}`);
     }
 
     render() {

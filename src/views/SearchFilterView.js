@@ -33,19 +33,11 @@ export default class SearchFilterView extends React.Component {
         this.setState({loading: false});
     }
 
-    async getSearchPosts(itemWanted, itemOwned, wantedCategory, wantedCondition, ownedCategory, ownedCondition, lng, lat, raduis) {
+    async getSearchPosts(body) {
         try {
-            let response = await PostService.getSearchPosts(
-                itemWanted,
-                itemOwned,
-                wantedCategory,
-                wantedCondition,
-                ownedCategory,
-                ownedCondition,
-                lng,
-                lat,
-                raduis
-            );
+            console.log(body);
+            let response = await PostService.getSearchPosts(body);
+            console.log(response.data.data);
             this.setState({posts: response.data.data});
         } catch (err) {
             console.log(err);
@@ -81,7 +73,6 @@ export default class SearchFilterView extends React.Component {
                 subcategories: category.subcategories,
             }));
             categories.push({title: "Any", value: "", subcategories: subcategories});
-            console.log(categories);
             this.setState({categories: categories});
         } catch (err) {
             console.log(err);

@@ -91,7 +91,6 @@ const styles = theme => ({
 class SearchFilter extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props.categories);
         this.state = {
             wantedCondition: "Any", //any
             ownedCondition: "Any", //any
@@ -138,7 +137,6 @@ class SearchFilter extends React.Component {
 
     componentDidMount() {
         const searchParams = queryString.parse(this.props.location.search);
-        console.log(searchParams);
         // get query params
         const wantedCondition = searchParams.wantedCondition ? searchParams.wantedCondition : this.state.wantedCondition;
         const ownedCondition = searchParams.ownedCondition ? searchParams.ownedCondition : this.state.ownedCondition;
@@ -151,7 +149,6 @@ class SearchFilter extends React.Component {
         const radius = searchParams.radius ? searchParams.radius : this.state.radius;
 
         let idx = this.props.categories.findIndex(x => x.title === wantedCategory);
-        console.log(idx);
         // not found
         if (idx === -1) {
             idx = this.props.categories.length - 1;
@@ -210,11 +207,7 @@ class SearchFilter extends React.Component {
         const value = e.target.value;
         const idx = this.props.categories.findIndex(x => x.title === value);
         const selectedCat = this.props.categories[idx];
-        console.log(selectedCat + " " + idx);
-        console.log(selectedCat.subcategories);
         this.setState({wantedCategory: selectedCat.title, validWantedSubcategories: selectedCat.subcategories, wantedSubcategory: "Any"});
-        console.log(this.state.wantedCategory);
-        console.log(this.state.validWantedSubcategories);
     }
 
     onWantedSubcategoryChange(e) {
@@ -228,8 +221,6 @@ class SearchFilter extends React.Component {
         const selectedCat = this.props.categories[idx];
 
         this.setState({ownedCategory: selectedCat.title, validOwnedSubcategories: selectedCat.subcategories, ownedSubcategory: "Any"});
-        console.log(this.state.wantedCategory);
-        console.log(this.state.validWantedSubcategories);
     }
 
     onOwnedSubcategoryChange(e) {
