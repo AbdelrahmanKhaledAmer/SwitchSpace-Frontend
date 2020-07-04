@@ -11,9 +11,10 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import Carousel from "react-material-ui-carousel";
 //Components
 import Page from "./Page";
+// MISC
+import Carousel from "react-material-ui-carousel";
 
 const styles = theme => ({
     gridContainer: {
