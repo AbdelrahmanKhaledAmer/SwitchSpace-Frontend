@@ -77,12 +77,12 @@ const styles = theme => ({
         backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
     },
     slider: {
-        width: 500,
+        //width: 300,
         marginTop: theme.spacing(5),
     },
     chip: {
-        width: 100,
-        marginTop: "-40px",
+        width: 50,
+        marginTop: "-45px",
     },
 });
 
@@ -245,7 +245,15 @@ class SearchFilter extends React.Component {
                                                     onChange={this.onLocationTextChange}
                                                     label="Location"
                                                 />
-
+                                                <Slider
+                                                    className={classes.slider}
+                                                    defaultValue={50}
+                                                    max={400}
+                                                    step={1}
+                                                    valueLabelDisplay="on"
+                                                    onChange={this.onRadiusChange}
+                                                />
+                                                <Chip size="small" label="KM" className={classes.chip} />
                                                 <TextField id="itemDesired" label="Item Desired" onChange={this.onItemWantedChange} />
                                                 <br />
                                                 <TextField id="itemOwned" label="Item Owned" onChange={this.onItemOwnedChange} />
@@ -308,15 +316,6 @@ class SearchFilter extends React.Component {
                                                     </Select>
                                                 </FormControl>
                                                 <br />
-                                                <Chip label="Radius in KM" className={classes.chip} />
-                                                <Slider
-                                                    className={classes.slider}
-                                                    defaultValue={50}
-                                                    max={400}
-                                                    step={1}
-                                                    valueLabelDisplay="on"
-                                                    onChange={this.onRadiusChange}
-                                                />
 
                                                 <Button variant="contained" color="primary" onClick={this.handleSubmit}>
                                                     Search
