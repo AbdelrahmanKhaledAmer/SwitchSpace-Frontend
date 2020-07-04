@@ -98,9 +98,11 @@ export default class PostService {
             HttpService.get(
                 `${PostService.baseURL()}/search?iw=${searchQueryBody.itemWanted}&io=${searchQueryBody.itemOwned}&iwCat=${
                     searchQueryBody.wantedCategory
-                }&ioCat=${searchQueryBody.ownedCategory}&iwCon=${searchQueryBody.wantedCondition}&ioCon=${searchQueryBody.ownedCondition}&lng=${
-                    searchQueryBody.lng
-                }&lat=${searchQueryBody.lat}&radius=${searchQueryBody.radius}`,
+                }&iwSubcat=${searchQueryBody.wantedSubcategory}&ioCat=${searchQueryBody.ownedCategory}&ioSubcat=${
+                    searchQueryBody.ownedSubcategory
+                }&iwCon=${searchQueryBody.wantedCondition}&ioCon=${searchQueryBody.ownedCondition}&lng=${searchQueryBody.lng}&lat=${
+                    searchQueryBody.lat
+                }&radius=${searchQueryBody.radius}`,
                 function (data) {
                     resolve(data);
                 },
