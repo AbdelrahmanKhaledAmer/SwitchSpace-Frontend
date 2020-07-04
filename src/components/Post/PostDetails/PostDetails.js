@@ -111,7 +111,7 @@ class PostDetails extends React.Component {
                                     <AwesomeSlider bullets={false} organicArrows={true}>
                                         {this.props.post.photos.map((photo, idx) => (
                                             <div key={idx}>
-                                                <img className={classes.slidingImage} src={photo.url} />
+                                                <img className={classes.slidingImage} src={photo.url + "?versionId=null"} />
                                             </div>
                                         ))}
                                     </AwesomeSlider>

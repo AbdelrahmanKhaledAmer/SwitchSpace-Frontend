@@ -125,7 +125,7 @@ class PostListItem extends React.Component {
                 <CardActionArea onClick={this.goToPost} className={classes.itemPadding}>
                     <Grid container spacing={1} className={classes.postContainer}>
                         <Grid item xs={3}>
-                            <Avatar src={this.props.post.photos[0].url} className={classes.image} />
+                            <Avatar src={this.props.post.photos[0].url + "?versionId=null"} className={classes.image} />
                         </Grid>
                         <Grid item xs={6}>
                             <List>
