@@ -196,13 +196,16 @@ class SearchFilter extends React.Component {
         const value = e.currentTarget.value;
         this.setState({itemWanted: value});
     }
+
     onItemOwnedChange(e) {
         const value = e.currentTarget.value;
         this.setState({itemOwned: value});
     }
+
     onRadiusChange(e, value) {
         this.setState({radius: parseInt(value)});
     }
+
     onWantedCategoryChange(e) {
         const value = e.target.value;
         const idx = this.props.categories.findIndex(x => x.title === value);
@@ -228,18 +231,22 @@ class SearchFilter extends React.Component {
         console.log(this.state.wantedCategory);
         console.log(this.state.validWantedSubcategories);
     }
+
     onOwnedSubcategoryChange(e) {
         const value = e.target.value;
         this.setState({ownedSubcategory: value});
     }
+
     onWantedConditionChange(e) {
         const value = e.target.value;
         this.setState({wantedCondition: value});
     }
+
     onOwnedConditionChange(e) {
         const value = e.target.value;
         this.setState({ownedCondition: value});
     }
+
     async onLocationChange(loc) {
         let city = this.state.city;
         try {
@@ -256,6 +263,7 @@ class SearchFilter extends React.Component {
         }
         this.setState({myLocation: loc, city: city});
     }
+
     async onLocationTextChange(e) {
         const value = e.target.value;
         this.setState({city: value});
