@@ -11,6 +11,8 @@ import PostService from "../services/PostService";
 import UserService from "../services/UserService";
 import UserAuthService from "../services/UserAuthService";
 import ReviewService from "../services/ReviewService";
+// MISC
+import queryString from "query-string";
 
 export default class UserProfileView extends React.Component {
     constructor(props) {
@@ -56,6 +58,9 @@ export default class UserProfileView extends React.Component {
 
     static get propTypes() {
         return {
+            //router props
+            history: PropTypes.object.isRequired,
+            location: PropTypes.object.isRequired,
             match: PropTypes.object.isRequired,
         };
     }
@@ -72,6 +77,13 @@ export default class UserProfileView extends React.Component {
                 label: "Settings",
                 value: "settings",
             });
+
+            //check whether the user is routed to settings iff my profile and loggedin
+            const searchParams = queryString.parse(this.props.location.search);
+            if (searchParams.tab === "settings") {
+                this.setState({selectedTab: "settings"});
+            }
+            console.log(searchParams);
         }
         try {
             const postsResp = await PostService.getUserPosts(this.state.userId);

@@ -20,7 +20,6 @@ import {withStyles} from "@material-ui/core/styles";
 import Zoom from "@material-ui/core/Zoom";
 import Slider from "@material-ui/core/Slider";
 import Chip from "@material-ui/core/Chip";
-
 // Components
 import Page from "../../Page";
 import PostList from "../PostList";
@@ -154,9 +153,6 @@ class SearchFilter extends React.Component {
             },
             this.handleSubmit
         );
-
-        console.log(this.state.wantedCategory);
-        console.log(this.props.location.search);
     }
 
     handleSubmit() {

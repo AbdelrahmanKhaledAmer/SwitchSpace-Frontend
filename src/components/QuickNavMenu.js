@@ -79,6 +79,7 @@ class QuickNavMenu extends React.Component {
 
         this.state = {
             anchorEl: null,
+            darkMode: Boolean(window.localStorage["dark"]),
         };
         this.handleMenuClose = this.handleMenuClose.bind(this);
         this.handleProfileMenuOpen = this.handleProfileMenuOpen.bind(this);
@@ -110,6 +111,7 @@ class QuickNavMenu extends React.Component {
         } else {
             window.localStorage["dark"] = true;
         }
+        this.setState({darkMode: Boolean(window.localStorage["dark"])}, window.location.reload(false));
         window.location.reload(false);
     }
     handleMenuClose() {
@@ -125,11 +127,23 @@ class QuickNavMenu extends React.Component {
                 transformOrigin={{vertical: "top", horizontal: "right"}}
                 open={Boolean(this.state.anchorEl)}
                 onClose={this.handleMenuClose}>
-                <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-                <MenuItem onClick={this.handleMenuClose}>Settings</MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`);
+                        this.handleMenuClose();
+                    }}>
+                    My account
+                </MenuItem>
+                <MenuItem
+                    onClick={() => {
+                        this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}?tab=settings`);
+                        this.handleMenuClose();
+                    }}>
+                    Settings
+                </MenuItem>
                 <MenuItem>
                     <FormControlLabel
-                        control={<Switch checked={!!window.localStorage["dark"]} onChange={this.toggleTheme} name="Dark Mode" />}
+                        control={<Switch checked={this.state.darkMode} onChange={this.toggleTheme} name="Dark Mode" />}
                         label="Dark Mode"
                     />
                 </MenuItem>
