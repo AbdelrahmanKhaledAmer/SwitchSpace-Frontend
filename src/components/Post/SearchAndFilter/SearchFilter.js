@@ -91,6 +91,7 @@ const styles = theme => ({
 class SearchFilter extends React.Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             wantedCondition: "Any", //any
             ownedCondition: "Any", //any
@@ -103,6 +104,8 @@ class SearchFilter extends React.Component {
             myLocation: {lng: 0, lat: 0},
             radius: 6371, // radius in KM
             city: "",
+            validWantedSubcategories: [],
+            validOwnedSubcategories: [],
         };
 
         this.onItemOwnedChange = this.onItemOwnedChange.bind(this);
@@ -110,12 +113,16 @@ class SearchFilter extends React.Component {
         this.onRadiusChange = this.onRadiusChange.bind(this);
         this.onOwnedConditionChange = this.onOwnedConditionChange.bind(this);
         this.onOwnedCategoryChange = this.onOwnedCategoryChange.bind(this);
+        this.onWantedSubcategoryChange = this.onWantedSubcategoryChange.bind(this);
         this.onWantedCategoryChange = this.onWantedCategoryChange.bind(this);
+        this.onOwnedSubcategoryChange = this.onOwnedSubcategoryChange.bind(this);
         this.onWantedConditionChange = this.onWantedConditionChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onLocationChange = this.onLocationChange.bind(this);
         this.onPostFocusChange = this.onPostFocusChange.bind(this);
         this.onLocationTextChange = this.onLocationTextChange.bind(this);
+        this.updateWantedSubcategories = this.updateWantedSubcategories.bind(this);
+        this.updateOwnedSubcategories = this.updateOwnedSubcategories.bind(this);
     }
 
     static get propTypes() {
@@ -123,6 +130,7 @@ class SearchFilter extends React.Component {
             classes: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
             categories: PropTypes.array.isRequired,
+            subcategories: PropTypes.array.isRequired,
             onSubmit: PropTypes.func.isRequired,
             //router props
             history: PropTypes.object.isRequired,
@@ -156,6 +164,8 @@ class SearchFilter extends React.Component {
                 ownedCategory: ownedCategory,
                 wonedSubcategory: ownedSubcategory,
                 radius: radius,
+                validWantedSubcategories: this.props.subcategories,
+                validOwnedSubcategories: this.props.subcategories,
             },
             this.handleSubmit
         );
@@ -189,10 +199,47 @@ class SearchFilter extends React.Component {
     onWantedCategoryChange(e) {
         const value = e.target.value;
         this.setState({wantedCategory: value});
+        this.updateWantedSubcategories(value);
     }
+    updateWantedSubcategories(category) {
+        let validSubcategories = [];
+        for (let i = 0; i < this.props.categories.length; i++) {
+            if (this.props.categories[i].title == category) {
+                for (let j = 0; j < this.props.categories[i].subcategories.length; j++) {
+                    validSubcategories.push(this.props.categories[i].subcategories[j]);
+                    break;
+                }
+            }
+        }
+        this.setState({wantedSubcategory: "Any"});
+        this.setState({validWantedSubcategories: validSubcategories});
+    }
+    onWantedSubcategoryChange(e) {
+        const value = e.target.value;
+        this.setState({wantedSubcategory: value});
+    }
+
     onOwnedCategoryChange(e) {
         const value = e.target.value;
         this.setState({ownedCategory: value});
+        this.updateOwnedSubcategories(value);
+    }
+    updateOwnedSubcategories(category) {
+        let validSubcategories = [];
+        for (let i = 0; i < this.props.categories.length; i++) {
+            if (this.props.categories[i].title == category) {
+                for (let j = 0; j < this.props.categories[i].subcategories.length; j++) {
+                    validSubcategories.push(this.props.categories[i].subcategories[j]);
+                    break;
+                }
+            }
+        }
+        this.setState({ownedSubcategory: "Any"});
+        this.setState({validOwnedSubcategories: validSubcategories});
+    }
+    onOwnedSubcategoryChange(e) {
+        const value = e.target.value;
+        this.setState({ownedSubcategory: value});
     }
     onWantedConditionChange(e) {
         const value = e.target.value;
@@ -236,7 +283,6 @@ class SearchFilter extends React.Component {
 
     render() {
         const {classes} = this.props;
-
         return (
             <Page>
                 <Grid container spacing={3} className={classes.root}>
@@ -323,9 +369,9 @@ class SearchFilter extends React.Component {
                                                         value={this.state.wantedSubcategory}
                                                         onChange={this.onWantedSubcategoryChange}>
                                                         <MenuItem value={"Any"}>Any</MenuItem>
-                                                        {this.props.categories.map((category, idx) => (
-                                                            <MenuItem key={idx} value={category == undefined ? "Any" : category.title}>
-                                                                {category == undefined ? "Any" : category.title}
+                                                        {this.state.validWantedSubcategories.map((subcategory, idx) => (
+                                                            <MenuItem key={idx} value={subcategory == undefined ? "Any" : subcategory.title}>
+                                                                {subcategory == undefined ? "Any" : subcategory.title}
                                                             </MenuItem>
                                                         ))}
                                                     </Select>
@@ -361,6 +407,22 @@ class SearchFilter extends React.Component {
                                                         {this.props.categories.map((category, idx) => (
                                                             <MenuItem key={idx} value={category == undefined ? "" : category.title}>
                                                                 {category == undefined ? "" : category.title}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="ownedSubcategoryInput">Item Owned Subategory</InputLabel>
+                                                    <Select
+                                                        labelId="ownedSubccategoryLabel"
+                                                        id="ownedSubcategory"
+                                                        defaultValue={this.state.ownedSubcategory}
+                                                        value={this.state.ownedSubcategory}
+                                                        onChange={this.onOwnedSubcategoryChange}>
+                                                        <MenuItem value={"Any"}>Any</MenuItem>
+                                                        {this.state.validOwnedSubcategories.map((subcategory, idx) => (
+                                                            <MenuItem key={idx} value={subcategory == undefined ? "Any" : subcategory.title}>
+                                                                {subcategory == undefined ? "Any" : subcategory.title}
                                                             </MenuItem>
                                                         ))}
                                                     </Select>
