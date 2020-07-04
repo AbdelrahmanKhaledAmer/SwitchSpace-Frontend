@@ -82,6 +82,7 @@ class QuickNavMenu extends React.Component {
         this.state = {
             anchorEl: null,
             darkMode: Boolean(window.localStorage["dark"]),
+            searchQuery: "",
         };
         this.handleMenuClose = this.handleMenuClose.bind(this);
         this.handleProfileMenuOpen = this.handleProfileMenuOpen.bind(this);
@@ -116,15 +117,20 @@ class QuickNavMenu extends React.Component {
         this.setState({darkMode: Boolean(window.localStorage["dark"])}, window.location.reload(false));
         window.location.reload(false);
     }
+    // close menu item
     handleMenuClose() {
         this.setState({anchorEl: null});
+    }
+    onSearchQueryChange(e) {
+        const val = e.currentTarget.value;
+        this.setState({searchQuery: val});
     }
     renderMenu() {
         return (
             <Menu
                 anchorEl={this.state.anchorEl}
                 anchorOrigin={{vertical: "top", horizontal: "right"}}
-                id="primary-search-account-menu"
+                id="primary-account-menu"
                 keepMounted
                 transformOrigin={{vertical: "top", horizontal: "right"}}
                 open={Boolean(this.state.anchorEl)}
@@ -291,9 +297,16 @@ class QuickNavMenu extends React.Component {
                                         placeholder="Search"
                                         variant="outlined"
                                         className={classes.search}
+                                        onChange={this.onSearchQueryChange}
                                         InputProps={{
                                             endAdornment: (
-                                                <InputAdornment position="end" onClick={this.props.sidebarToggle}>
+                                                <InputAdornment
+                                                    position="end"
+                                                    onClick={() => {
+                                                        this.props.history.push(`/search?itemWanted=${this.state.searchQuery}`);
+                                                        //TODO ask
+                                                        window.localStorage.reload(false);
+                                                    }}>
                                                     <SearchIcon />
                                                 </InputAdornment>
                                             ),
