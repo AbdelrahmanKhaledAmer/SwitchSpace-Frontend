@@ -90,6 +90,7 @@ class QuickNavMenu extends React.Component {
         this.renderLoggedOut = this.renderLoggedOut.bind(this);
         this.renderMenu = this.renderMenu.bind(this);
         this.toggleTheme = this.toggleTheme.bind(this);
+        this.onSearchQueryChange = this.onSearchQueryChange.bind(this);
     }
 
     static get propTypes() {
@@ -315,7 +316,7 @@ class QuickNavMenu extends React.Component {
                                                     onClick={() => {
                                                         this.props.history.push(`/search?itemWanted=${this.state.searchQuery}`);
                                                         //TODO ask
-                                                        window.localStorage.reload(false);
+                                                        window.location.reload(false);
                                                     }}>
                                                     <SearchIcon />
                                                 </InputAdornment>
