@@ -204,12 +204,16 @@ class SearchFilter extends React.Component {
         this.updateWantedSubcategories(value);
     }
     updateWantedSubcategories(category) {
+        if (category == "Any") {
+            this.setState({wantedSubcategory: "Any"});
+            this.setState({validWantedSubcategories: this.props.subcategories});
+            return;
+        }
         let validSubcategories = [];
         for (let i = 0; i < this.props.categories.length; i++) {
             if (this.props.categories[i].title == category) {
                 for (let j = 0; j < this.props.categories[i].subcategories.length; j++) {
                     validSubcategories.push(this.props.categories[i].subcategories[j]);
-                    break;
                 }
             }
         }
@@ -227,12 +231,15 @@ class SearchFilter extends React.Component {
         this.updateOwnedSubcategories(value);
     }
     updateOwnedSubcategories(category) {
+        if (category == "Any") {
+            this.setState({ownedSubcategory: "Any"});
+            this.setState({validOwnedSubcategories: this.props.subcategories});
+        }
         let validSubcategories = [];
         for (let i = 0; i < this.props.categories.length; i++) {
             if (this.props.categories[i].title == category) {
                 for (let j = 0; j < this.props.categories[i].subcategories.length; j++) {
                     validSubcategories.push(this.props.categories[i].subcategories[j]);
-                    break;
                 }
             }
         }
