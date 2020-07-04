@@ -106,20 +106,23 @@ class HomePage extends React.Component {
                             ))}
                         </Carousel>
                     </Grid>
-                    {this.props.categories.map((category, idx) => (
-                        <Grid item xs={3} key={idx}>
-                            <CardActionArea onClick={() => this.goToSearch(category.title)}>
-                                <Card key={idx} elevation={5} className={classes.card}>
-                                    <CardMedia className={classes.cardMedia} image={this.tmp[idx % 2]} />
-                                    <CardContent>
-                                        <Typography variant="h5" color="inherit">
-                                            {category.title}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            </CardActionArea>
-                        </Grid>
-                    ))}
+                    {this.props.categories.map(category =>
+                        category.subcategories.map((subacategory, idx) => (
+                            <Grid item xs={3} key={idx}>
+                                <CardActionArea onClick={() => this.goToSearch(category.title, subacategory.title)}>
+                                    <Card key={idx} elevation={5} className={classes.card}>
+                                        {/*TODO: ASSIGN CORRECT IMAGE*/}
+                                        <CardMedia className={classes.cardMedia} image={this.tmp[idx % 2]} />
+                                        <CardContent>
+                                            <Typography variant="h5" color="inherit">
+                                                {subacategory.title}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </CardActionArea>
+                            </Grid>
+                        ))
+                    )}
                 </Grid>
             </Page>
         );

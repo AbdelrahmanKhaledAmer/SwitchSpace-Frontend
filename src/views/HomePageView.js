@@ -31,7 +31,7 @@ export default class HomePageView extends React.Component {
 
     async componentDidMount() {
         try {
-            let response = await CategoryService.getSubcategories();
+            let response = await CategoryService.getCategories();
             this.setState({
                 loading: false,
                 categories: response.data.data,
