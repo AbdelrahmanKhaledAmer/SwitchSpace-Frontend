@@ -79,7 +79,7 @@ const styles = theme => ({
         backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
     },
     slider: {
-        //width: 300,
+        width: 472,
         marginTop: theme.spacing(5),
     },
     chip: {
@@ -332,7 +332,6 @@ class SearchFilter extends React.Component {
                                                     onChange={this.onRadiusChange}
                                                 />
                                                 <Chip size="small" label="KM" className={classes.chip} />
-
                                                 <TextField
                                                     id="itemDesired"
                                                     label="Item Desired"
