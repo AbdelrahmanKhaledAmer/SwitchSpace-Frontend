@@ -97,7 +97,9 @@ class SearchFilter extends React.Component {
             itemOwned: "",
             itemWanted: "",
             wantedCategory: "Any", //any
+            wantedSubcategory: "Any",
             ownedCategory: "Any", //any
+            ownedSubcategory: "Any",
             myLocation: {lng: 0, lat: 0},
             radius: 6371, // radius in KM
             city: "",
@@ -138,7 +140,9 @@ class SearchFilter extends React.Component {
         const itemOwned = searchParams.itemOwned ? searchParams.itemOwned : this.state.itemOwned;
         const itemWanted = searchParams.itemWanted ? searchParams.itemWanted : this.state.itemWanted;
         const wantedCategory = searchParams.wantedCategory ? searchParams.wantedCategory : this.state.wantedCategory;
+        const wantedSubcategory = searchParams.wantedSubcategory ? searchParams.wantedSubcategory : this.state.wantedSubcategory;
         const ownedCategory = searchParams.ownedCategory ? searchParams.ownedCategory : this.state.ownedCategory;
+        const ownedSubcategory = searchParams.ownedSubcategory ? searchParams.ownedSubcategory : this.state.ownedSubcategory;
         const radius = searchParams.radius ? searchParams.radius : this.state.radius;
         // set query params
         this.setState(
@@ -148,7 +152,9 @@ class SearchFilter extends React.Component {
                 itemOwned: itemOwned,
                 itemWanted: itemWanted,
                 wantedCategory: wantedCategory,
+                wantedSubcategory: wantedSubcategory,
                 ownedCategory: ownedCategory,
+                wonedSubcategory: ownedSubcategory,
                 radius: radius,
             },
             this.handleSubmit
@@ -279,12 +285,6 @@ class SearchFilter extends React.Component {
                                                     onChange={this.onItemWantedChange}
                                                 />
 
-                                                <TextField
-                                                    id="itemOwned"
-                                                    label="Item Owned"
-                                                    value={this.state.itemOwned}
-                                                    onChange={this.onItemOwnedChange}
-                                                />
                                                 <FormControl className={classes.formControl}>
                                                     <InputLabel id="wantedCondition">Item Desired Condition</InputLabel>
                                                     <Select
@@ -314,6 +314,28 @@ class SearchFilter extends React.Component {
                                                         ))}
                                                     </Select>
                                                 </FormControl>
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="desiredSubcategoryInput">Item Desired Subategory</InputLabel>
+                                                    <Select
+                                                        labelId="desiredSubccategoryLabel"
+                                                        id="desiredSubcategory"
+                                                        defaultValue={this.state.wantedSubcategory}
+                                                        value={this.state.wantedSubcategory}
+                                                        onChange={this.onWantedSubcategoryChange}>
+                                                        <MenuItem value={"Any"}>Any</MenuItem>
+                                                        {this.props.categories.map((category, idx) => (
+                                                            <MenuItem key={idx} value={category == undefined ? "Any" : category.title}>
+                                                                {category == undefined ? "Any" : category.title}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </Select>
+                                                </FormControl>
+                                                <TextField
+                                                    id="itemOwned"
+                                                    label="Item Owned"
+                                                    value={this.state.itemOwned}
+                                                    onChange={this.onItemOwnedChange}
+                                                />
                                                 <FormControl className={classes.formControl}>
                                                     <InputLabel id="ownedConditionInput">Item Owned Condition</InputLabel>
                                                     <Select
