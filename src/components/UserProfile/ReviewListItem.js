@@ -46,7 +46,10 @@ class ReviewListItem extends React.Component {
             <div>
                 <Grid container className={classes.itemPadding}>
                     <Grid item xs={3}>
-                        <Avatar className={classes.avatar} src={review.reviewerId.profilePicture ? review.reviewerId.profilePicture.url : null} />
+                        <Avatar
+                            className={classes.avatar}
+                            src={review.reviewerId.profilePicture ? review.reviewerId.profilePicture.url + "?versionId=null" : null}
+                        />
                     </Grid>
                     <Grid item container xs={9} spacing={2} direction="column" justify="space-between">
                         <Grid item container justify="space-between">
