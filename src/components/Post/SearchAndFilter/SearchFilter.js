@@ -286,7 +286,7 @@ class SearchFilter extends React.Component {
                                                     onChange={this.onItemOwnedChange}
                                                 />
                                                 <FormControl className={classes.formControl}>
-                                                    <InputLabel id="desiredLocation">Item Desired Condition</InputLabel>
+                                                    <InputLabel id="wantedCondition">Item Desired Condition</InputLabel>
                                                     <Select
                                                         labelId="wantedConditionLabel"
                                                         id="wantedCondition"
