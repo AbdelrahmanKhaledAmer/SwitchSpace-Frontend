@@ -14,16 +14,18 @@ import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import MessageOutlinedIcon from "@material-ui/icons/MessageOutlined";
+import {Grid, FormControl, Typography} from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
 // Material UI Icons
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import ChatIcon from "@material-ui/icons/Chat";
-import {Grid, FormControl} from "@material-ui/core";
+import SettingsIcon from "@material-ui/icons/Settings";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 // Service
 import UserAuthService from "../services/UserAuthService";
 
@@ -80,6 +82,7 @@ class QuickNavMenu extends React.Component {
         this.state = {
             anchorEl: null,
             darkMode: Boolean(window.localStorage["dark"]),
+            searchQuery: "",
         };
         this.handleMenuClose = this.handleMenuClose.bind(this);
         this.handleProfileMenuOpen = this.handleProfileMenuOpen.bind(this);
@@ -87,6 +90,7 @@ class QuickNavMenu extends React.Component {
         this.renderLoggedOut = this.renderLoggedOut.bind(this);
         this.renderMenu = this.renderMenu.bind(this);
         this.toggleTheme = this.toggleTheme.bind(this);
+        this.onSearchQueryChange = this.onSearchQueryChange.bind(this);
     }
 
     static get propTypes() {
@@ -114,38 +118,94 @@ class QuickNavMenu extends React.Component {
         this.setState({darkMode: Boolean(window.localStorage["dark"])}, window.location.reload(false));
         window.location.reload(false);
     }
+    // close menu item
     handleMenuClose() {
         this.setState({anchorEl: null});
+    }
+    onSearchQueryChange(e) {
+        const val = e.currentTarget.value;
+        this.setState({searchQuery: val});
     }
     renderMenu() {
         return (
             <Menu
                 anchorEl={this.state.anchorEl}
                 anchorOrigin={{vertical: "top", horizontal: "right"}}
-                id="primary-search-account-menu"
+                id="primary-account-menu"
                 keepMounted
                 transformOrigin={{vertical: "top", horizontal: "right"}}
                 open={Boolean(this.state.anchorEl)}
                 onClose={this.handleMenuClose}>
                 <MenuItem
+                    elevation={5}
+                    // onClick={() => {
+                    //     this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`);
+                    //     this.handleMenuClose();
+                    // }}
+                >
+                    <Grid container spacing={3} alignItems="center" justify="center" direction="column">
+                        <Grid container item alignItems="center" justify="center">
+                            {/* TODO: get user image */}
+                            <Avatar
+                                alt="Remy Sharp"
+                                src={`https://switchspace-datastore.s3.eu-central-1.amazonaws.com/profilePics/${
+                                    UserAuthService.getCurrentUser().id
+                                }?versionId=null`}
+                            />
+                        </Grid>
+                        <Grid container item spacing={2} alignItems="center" justify="center" direction="column">
+                            <Grid item>
+                                <Typography color="inherit" variant="h6">
+                                    {UserAuthService.getCurrentUser().name}
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <Typography color="inherit" variant="body1">
+                                    {UserAuthService.getCurrentUser().email}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </MenuItem>
+                <MenuItem
                     onClick={() => {
                         this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`);
                         this.handleMenuClose();
                     }}>
-                    My account
+                    <Grid container item spacing={2} justify="flex-start">
+                        <Grid item>
+                            <AccountBoxIcon />
+                        </Grid>
+                        <Grid item>
+                            <Typography color="inherit" variant="body1">
+                                Profile
+                            </Typography>
+                        </Grid>
+                    </Grid>
                 </MenuItem>
                 <MenuItem
                     onClick={() => {
                         this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}?tab=settings`);
                         this.handleMenuClose();
                     }}>
-                    Settings
+                    <Grid container item spacing={2} justify="flex-start">
+                        <Grid item>
+                            <SettingsIcon color="inherit" />
+                        </Grid>
+                        <Grid item>
+                            <Typography color="inherit" variant="body1">
+                                Settings
+                            </Typography>
+                        </Grid>
+                    </Grid>
                 </MenuItem>
                 <MenuItem>
-                    <FormControlLabel
-                        control={<Switch checked={this.state.darkMode} onChange={this.toggleTheme} name="Dark Mode" />}
-                        label="Dark Mode"
-                    />
+                    <Grid container item spacing={2} justify="flex-start">
+                        <FormControlLabel
+                            control={<Switch checked={this.state.darkMode} onChange={this.toggleTheme} name="Dark Mode" />}
+                            label="Dark Mode"
+                        />
+                    </Grid>
                 </MenuItem>
                 {/* TODO: TESTING ONLY */}
                 <MenuItem
@@ -154,7 +214,16 @@ class QuickNavMenu extends React.Component {
                         UserAuthService.logout();
                         this.props.history.push("/");
                     }}>
-                    Logout
+                    <Grid container item spacing={2} justify="flex-start">
+                        <Grid item>
+                            <ExitToAppIcon color="inherit" />
+                        </Grid>
+                        <Grid item>
+                            <Typography color="inherit" variant="body1">
+                                Logout
+                            </Typography>
+                        </Grid>
+                    </Grid>
                 </MenuItem>
             </Menu>
         );
@@ -165,10 +234,12 @@ class QuickNavMenu extends React.Component {
             <div>
                 <IconButton aria-label="show 4 new mails">
                     {this.props.unreadMessages == 0 ? (
-                        <ChatIcon />
+                        <Avatar alt="Remy Sharp" variant="square" src="/static/images/avatar/1.jpg" />
                     ) : (
                         <Badge badgeContent={this.props.unreadMessages}>
-                            <ChatIcon />
+                            <Avatar>
+                                <MessageOutlinedIcon />
+                            </Avatar>
                         </Badge>
                     )}
                 </IconButton>
@@ -178,7 +249,13 @@ class QuickNavMenu extends React.Component {
                     aria-controls="primary-search-account-menu"
                     aria-haspopup="true"
                     onClick={this.handleProfileMenuOpen}>
-                    <AccountCircle />
+                    {/* TODO get user profile image */}
+                    <Avatar
+                        alt="Remy Sharp"
+                        src={`https://switchspace-datastore.s3.eu-central-1.amazonaws.com/profilePics/${
+                            UserAuthService.getCurrentUser().id
+                        }?versionId=null`}
+                    />
                 </IconButton>
             </div>
         );
@@ -231,9 +308,16 @@ class QuickNavMenu extends React.Component {
                                         placeholder="Search"
                                         variant="outlined"
                                         className={classes.search}
+                                        onChange={this.onSearchQueryChange}
                                         InputProps={{
                                             endAdornment: (
-                                                <InputAdornment position="end" onClick={this.props.sidebarToggle}>
+                                                <InputAdornment
+                                                    position="end"
+                                                    onClick={() => {
+                                                        this.props.history.push(`/search?itemWanted=${this.state.searchQuery}`);
+                                                        //TODO ask
+                                                        window.location.reload(false);
+                                                    }}>
                                                     <SearchIcon />
                                                 </InputAdornment>
                                             ),

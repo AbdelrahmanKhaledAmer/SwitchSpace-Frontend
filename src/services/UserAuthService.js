@@ -53,10 +53,12 @@ export default class UserAuthService {
 
         let base64Url = token.split(".")[1];
         let base64 = base64Url.replace("-", "+").replace("_", "/");
+        let content = JSON.parse(window.atob(base64));
         return {
-            id: JSON.parse(window.atob(base64)).id,
-            email: JSON.parse(window.atob(base64)).email,
-            isAdmin: JSON.parse(window.atob(base64)).isAdmin,
+            id: content.id,
+            email: content.email,
+            isAdmin: content.isAdmin,
+            name: content.name,
         };
     }
 
