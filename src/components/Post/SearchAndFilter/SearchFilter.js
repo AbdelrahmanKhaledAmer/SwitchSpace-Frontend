@@ -128,7 +128,6 @@ class SearchFilter extends React.Component {
             classes: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
             categories: PropTypes.array.isRequired,
-            subcategories: PropTypes.array.isRequired,
             onSubmit: PropTypes.func.isRequired,
             //router props
             history: PropTypes.object.isRequired,
