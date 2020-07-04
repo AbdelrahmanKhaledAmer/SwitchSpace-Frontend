@@ -278,7 +278,7 @@ class SearchFilter extends React.Component {
                                                     value={this.state.itemWanted}
                                                     onChange={this.onItemWantedChange}
                                                 />
-                                                <br />
+
                                                 <TextField
                                                     id="itemOwned"
                                                     label="Item Owned"
@@ -343,7 +343,6 @@ class SearchFilter extends React.Component {
                                                         ))}
                                                     </Select>
                                                 </FormControl>
-                                                <br />
 
                                                 <Button variant="contained" color="primary" onClick={this.handleSubmit}>
                                                     Search
