@@ -20,6 +20,7 @@ import UserInfo from "./UserInfo";
 import PostList from "../Post/PostList";
 import ReviewList from "./ReviewList";
 import UserDataForm from "../UserAuth/UserDataForm";
+import ReviewForm from "./ReviewForm";
 
 const styles = theme => ({
     topContainer: {
@@ -54,11 +55,15 @@ class UserProfile extends React.Component {
             selectedTab: PropTypes.string.isRequired,
             onTabChange: PropTypes.func.isRequired,
             onProfileUpdate: PropTypes.func.isRequired,
+            onUserReview: PropTypes.func.isRequired,
+            onModalClose: PropTypes.func.isRequired,
+            onModalOpen: PropTypes.func.isRequired,
             userInfo: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
             isMyProfile: PropTypes.bool.isRequired,
             myEmail: PropTypes.string, // not required
             tabs: PropTypes.array.isRequired,
+            modalOpen: PropTypes.bool.isRequired,
         };
     }
 
@@ -75,7 +80,11 @@ class UserProfile extends React.Component {
                             </Grid>
                             <Grid item>
                                 {!this.props.isMyProfile ? (
-                                    <Button className={classes.createReviewButton} variant="contained" startIcon={<Icon>add_circle</Icon>}>
+                                    <Button
+                                        className={classes.createReviewButton}
+                                        variant="contained"
+                                        startIcon={<Icon>add_circle</Icon>}
+                                        onClick={this.props.onModalOpen}>
                                         Create Review
                                     </Button>
                                 ) : (
@@ -113,6 +122,12 @@ class UserProfile extends React.Component {
                             </TabPanel>
                         </TabContext>
                     </Card>
+                    <ReviewForm
+                        modalOpen={this.props.modalOpen}
+                        onClose={this.props.onModalClose}
+                        onUserReview={this.props.onUserReview}
+                        revieweeId={this.props.userInfo._id}
+                    />
                 </React.Fragment>
             </Page>
         );

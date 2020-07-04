@@ -38,7 +38,6 @@ class Payment extends React.Component {
 
     async submitHandler(request) {
         request["tier"] = this.props.tier.name;
-        console.log(request);
         // submit from the view
         this.props.onSubmit(request);
         event.preventDefault();

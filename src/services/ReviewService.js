@@ -1,16 +1,18 @@
 "use strict";
 import HttpService from "./HttpService";
-export default class AdminAuthService {
+
+export default class ReviewService {
     constructor() {}
     static baseURL() {
-        return "/admin/auth";
+        return "/review";
     }
-    // takes email and password  and make a login request
-    static login(admin) {
+
+    static reviewUser(review) {
         return new Promise((resolve, reject) => {
             HttpService.post(
-                `${AdminAuthService.baseURL()}/login`,
-                admin,
+                `${ReviewService.baseURL()}/`,
+                review,
+                null,
                 function (data) {
                     resolve(data);
                 },
@@ -19,9 +21,5 @@ export default class AdminAuthService {
                 }
             );
         });
-    }
-
-    static logout() {
-        window.localStorage.removeItem("jwtToken");
     }
 }
