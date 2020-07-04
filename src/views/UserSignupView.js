@@ -8,9 +8,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import UserSignup from "../components/UserAuth/UserSignup";
 // Services
 import UserAuthService from "../services/UserAuthService";
-// MISC
-import {toast} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export default class UserSignupView extends React.Component {
     constructor(props) {
@@ -18,7 +15,6 @@ export default class UserSignupView extends React.Component {
         this.state = {
             loading: false,
         };
-        this.notify = this.notify.bind(this);
         this.renderLoading = this.renderLoading.bind(this);
         this.renderComponent = this.renderComponent.bind(this);
     }
@@ -28,22 +24,6 @@ export default class UserSignupView extends React.Component {
         return {
             history: PropTypes.object,
         };
-    }
-
-    notify(message) {
-        let customId;
-
-        customId = "toast-error";
-        toast.error(message, {
-            position: "bottom-right",
-            toastId: customId,
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
     }
 
     async signup(user) {
@@ -58,12 +38,10 @@ export default class UserSignupView extends React.Component {
             await UserAuthService.register(data);
             // TODO: redirects
 
-            this.notify("Account created succesfully", true);
             this.setState({loading: false});
             this.props.history.push("/");
         } catch (err) {
             // TODO: send notification message
-            this.notify(err);
             console.error(err);
             this.setState({loading: false});
         }

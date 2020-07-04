@@ -28,7 +28,7 @@ const styles = theme => ({
         fontSize: 14,
     },
     cardHeader: {
-        backgroundColor: "#659dbd",
+        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
     },
     cardPricing: {
         textAlign: "center",
@@ -118,13 +118,13 @@ class Subscription extends React.Component {
                                                     <br />
                                                     <Divider />
                                                     <br />
-                                                    <Typography variant="subtitle1" align="left">
+                                                    <Typography variant="subtitle1" align="left" color="inherit">
                                                         {tier.description}
                                                     </Typography>
                                                     <br />
                                                     <Divider />
                                                     <br />
-                                                    <Typography variant="subtitle1" align="center">
+                                                    <Typography variant="subtitle1" align="center" color="inherit">
                                                         {tier.pricePerPost} per post
                                                     </Typography>
                                                 </CardContent>

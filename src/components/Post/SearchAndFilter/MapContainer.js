@@ -55,6 +55,17 @@ class GoogleMap extends React.Component {
         this.mapLoaded = this.mapLoaded.bind(this);
         this.getCoordinates = this.getCoordinates.bind(this);
     }
+
+    static get propTypes() {
+        return {
+            classes: PropTypes.object.isRequired,
+            google: PropTypes.object.isRequired,
+            posts: PropTypes.array.isRequired,
+            radius: PropTypes.number,
+            onLocationChange: PropTypes.func.isRequired,
+            onPostFocusChange: PropTypes.func.isRequired,
+        };
+    }
     // called directly after mounting component
     async componentDidMount() {
         let latitude = 0;
@@ -112,16 +123,6 @@ class GoogleMap extends React.Component {
         console.log("map loaded");
         console.log(mapProps);
         console.log(map);
-    }
-    static get propTypes() {
-        return {
-            classes: PropTypes.object.isRequired,
-            google: PropTypes.object.isRequired,
-            posts: PropTypes.array.isRequired,
-            radius: PropTypes.number,
-            onLocationChange: PropTypes.func.isRequired,
-            onPostFocusChange: PropTypes.func.isRequired,
-        };
     }
 
     render() {

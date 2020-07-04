@@ -10,6 +10,9 @@ import UserProfile from "../components/UserProfile/UserProfile";
 import PostService from "../services/PostService";
 import UserService from "../services/UserService";
 import UserAuthService from "../services/UserAuthService";
+import ReviewService from "../services/ReviewService";
+// MISC
+import queryString from "query-string";
 
 export default class UserProfileView extends React.Component {
     constructor(props) {
@@ -39,17 +42,25 @@ export default class UserProfileView extends React.Component {
             isMyProfile: false,
             myEmail: "",
             userInfo: {name: "", commRate: 0, descriptionRate: 0, conditionRate: 0, profilePicture: {}, reviews: []},
+            modalOpen: false,
         };
+
         // Bind notification functions
         this.notify = this.notify.bind(this);
         this.handleNotificationClose = this.handleNotificationClose.bind(this);
         // Bind service functions
         this.handleTabChange = this.handleTabChange.bind(this);
         this.updateProfile = this.updateProfile.bind(this);
+        this.reviewUser = this.reviewUser.bind(this);
+        this.handleModalClose = this.handleModalClose.bind(this);
+        this.handleModalOpen = this.handleModalOpen.bind(this);
     }
 
     static get propTypes() {
         return {
+            //router props
+            history: PropTypes.object.isRequired,
+            location: PropTypes.object.isRequired,
             match: PropTypes.object.isRequired,
         };
     }
@@ -66,6 +77,13 @@ export default class UserProfileView extends React.Component {
                 label: "Settings",
                 value: "settings",
             });
+
+            //check whether the user is routed to settings iff my profile and loggedin
+            const searchParams = queryString.parse(this.props.location.search);
+            if (searchParams.tab === "settings") {
+                this.setState({selectedTab: "settings"});
+            }
+            console.log(searchParams);
         }
         try {
             const postsResp = await PostService.getUserPosts(this.state.userId);
@@ -102,6 +120,21 @@ export default class UserProfileView extends React.Component {
         this.setState({loading: false});
     }
 
+    async reviewUser(review) {
+        try {
+            await ReviewService.reviewUser(review);
+            // get updated user info
+            const userInfoResp = await UserService.getUserInfo(this.state.userId);
+            this.setState({
+                userInfo: userInfoResp.data.data,
+            });
+            this.handleModalClose();
+        } catch (err) {
+            // TODO: add feedback for the error
+            console.log(err);
+        }
+    }
+
     handleTabChange(event, newValue) {
         this.setState({
             selectedTab: newValue,
@@ -111,6 +144,13 @@ export default class UserProfileView extends React.Component {
     // Notify the user on with a msg and severity => uses the state variables
     notify(msg, notificationSeverity) {
         this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
+    }
+    handleModalClose() {
+        this.setState({modalOpen: false});
+    }
+
+    handleModalOpen() {
+        this.setState({modalOpen: true});
     }
 
     // Reset notification state must bbe included in every view and passed to Notification Component
@@ -129,6 +169,10 @@ export default class UserProfileView extends React.Component {
                     selectedTab={this.state.selectedTab}
                     onTabChange={this.handleTabChange}
                     onProfileUpdate={this.updateProfile}
+                    onUserReview={this.reviewUser}
+                    onModalOpen={this.handleModalOpen}
+                    onModalClose={this.handleModalClose}
+                    modalOpen={this.state.modalOpen}
                     userInfo={this.state.userInfo}
                     posts={this.state.posts}
                 />
