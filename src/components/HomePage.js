@@ -49,27 +49,25 @@ class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.categoriesUrl = process.env.MEDIA_SERVER_URL + "Categories/";
+        this.subcategoriesUrl = process.env.MEDIA_SERVER_URL + "subcategories/";
         // TODO: CONSIDER ADDING THIS TO A JSON FILE
         this.sliderData = [
             {
                 header: "Find people who are close",
                 subtitle: "No need to travel long distances",
-                url: "https://switchspace-datastore.s3.eu-central-1.amazonaws.com/Categories/Find_close_people_16_9.jpeg",
+                url: this.categoriesUrl + "Find_close_people_16_9.jpeg",
             },
             {
                 header: "Save money",
                 subtitle: "Get the items you want for a much lower cost",
-                url: "https://switchspace-datastore.s3.eu-central-1.amazonaws.com/Categories/Save_Money_16_9.jpg",
+                url: this.categoriesUrl + "Save_Money_16_9.jpg",
             },
             {
                 header: "Fast and easy communication",
                 subtitle: "Chat with other users and discuss deals",
-                url: "https://switchspace-datastore.s3.eu-central-1.amazonaws.com/Categories/Communication_16_9.jpeg",
+                url: this.categoriesUrl + "Communication_16_9.jpeg",
             },
-        ];
-        this.tmp = [
-            "https://expertphotography.com/wp-content/uploads/2018/07/Aspect-ratio-photography-Grand-mosque-Oman-1.jpg",
-            "https://www.projectorcentral.com/images/articles/4-3%20Bristlecone%20Pines.jpg",
         ];
     }
 
@@ -113,7 +111,10 @@ class HomePage extends React.Component {
                                 <CardActionArea onClick={() => this.goToSearch(category.title, subacategory.title)}>
                                     <Card key={idx} elevation={5} className={classes.card}>
                                         {/*TODO: ASSIGN CORRECT IMAGE*/}
-                                        <CardMedia className={classes.cardMedia} image={this.tmp[idx % 2]} />
+                                        <CardMedia
+                                            className={classes.cardMedia}
+                                            image={this.subcategoriesUrl + subacategory.title.replace(/ /g, "+") + ".jpeg"}
+                                        />
                                         <CardContent>
                                             <Typography variant="h5" color="inherit">
                                                 {subacategory.title}

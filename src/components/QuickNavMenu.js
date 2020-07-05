@@ -148,9 +148,7 @@ class QuickNavMenu extends React.Component {
                             {/* TODO: get user image */}
                             <Avatar
                                 alt="Remy Sharp"
-                                src={`https://switchspace-datastore.s3.eu-central-1.amazonaws.com/profilePics/${
-                                    UserAuthService.getCurrentUser().id
-                                }?versionId=null`}
+                                src={`${process.env.MEDIA_SERVER_URL}profilePics/${UserAuthService.getCurrentUser().id}?versionId=null`}
                             />
                         </Grid>
                         <Grid container item spacing={2} alignItems="center" justify="center" direction="column">
@@ -252,9 +250,7 @@ class QuickNavMenu extends React.Component {
                     {/* TODO get user profile image */}
                     <Avatar
                         alt="Remy Sharp"
-                        src={`https://switchspace-datastore.s3.eu-central-1.amazonaws.com/profilePics/${
-                            UserAuthService.getCurrentUser().id
-                        }?versionId=null`}
+                        src={`${process.env.MEDIA_SERVER_URL}profilePics/${UserAuthService.getCurrentUser().id}?versionId=null`}
                     />
                 </IconButton>
             </div>
