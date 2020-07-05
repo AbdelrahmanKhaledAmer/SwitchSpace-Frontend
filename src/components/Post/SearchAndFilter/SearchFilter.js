@@ -92,7 +92,6 @@ const styles = theme => ({
 class SearchFilter extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props.categories);
         this.state = {
             wantedCondition: "Any", //any
             ownedCondition: "Any", //any
@@ -139,7 +138,6 @@ class SearchFilter extends React.Component {
 
     componentDidMount() {
         const searchParams = queryString.parse(this.props.location.search);
-        console.log(searchParams);
         // get query params
         const wantedCondition = searchParams.wantedCondition ? searchParams.wantedCondition : this.state.wantedCondition;
         const ownedCondition = searchParams.ownedCondition ? searchParams.ownedCondition : this.state.ownedCondition;
@@ -152,7 +150,6 @@ class SearchFilter extends React.Component {
         const radius = searchParams.radius ? searchParams.radius : this.state.radius;
 
         let idx = this.props.categories.findIndex(x => x.title === wantedCategory);
-        console.log(idx);
         // not found
         if (idx === -1) {
             idx = this.props.categories.length - 1;
@@ -197,22 +194,21 @@ class SearchFilter extends React.Component {
         const value = e.currentTarget.value;
         this.setState({itemWanted: value});
     }
+
     onItemOwnedChange(e) {
         const value = e.currentTarget.value;
         this.setState({itemOwned: value});
     }
+
     onRadiusChange(e, value) {
         this.setState({radius: parseInt(value)});
     }
+
     onWantedCategoryChange(e) {
         const value = e.target.value;
         const idx = this.props.categories.findIndex(x => x.title === value);
         const selectedCat = this.props.categories[idx];
-        console.log(selectedCat + " " + idx);
-        console.log(selectedCat.subcategories);
         this.setState({wantedCategory: selectedCat.title, validWantedSubcategories: selectedCat.subcategories, wantedSubcategory: "Any"});
-        console.log(this.state.wantedCategory);
-        console.log(this.state.validWantedSubcategories);
     }
 
     onWantedSubcategoryChange(e) {
@@ -226,21 +222,23 @@ class SearchFilter extends React.Component {
         const selectedCat = this.props.categories[idx];
 
         this.setState({ownedCategory: selectedCat.title, validOwnedSubcategories: selectedCat.subcategories, ownedSubcategory: "Any"});
-        console.log(this.state.wantedCategory);
-        console.log(this.state.validWantedSubcategories);
     }
+
     onOwnedSubcategoryChange(e) {
         const value = e.target.value;
         this.setState({ownedSubcategory: value});
     }
+
     onWantedConditionChange(e) {
         const value = e.target.value;
         this.setState({wantedCondition: value});
     }
+
     onOwnedConditionChange(e) {
         const value = e.target.value;
         this.setState({ownedCondition: value});
     }
+
     async onLocationChange(loc) {
         let city = this.state.city;
         try {
@@ -257,6 +255,7 @@ class SearchFilter extends React.Component {
         }
         this.setState({myLocation: loc, city: city});
     }
+
     async onLocationTextChange(e) {
         const value = e.target.value;
         this.setState({city: value});

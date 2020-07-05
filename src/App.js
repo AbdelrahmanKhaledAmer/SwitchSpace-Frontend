@@ -16,6 +16,7 @@ import AdminLoginView from "./views/AdminLoginView";
 import AdminView from "./views/AdminView";
 import PostCreateView from "./views/PostCreateView";
 import UserProfileView from "./views/UserProfileView";
+import HomePageView from "./views/HomePageView";
 // Theme
 import settings from "./pallete";
 
@@ -49,6 +50,7 @@ export default class App extends React.Component {
                 {component: SubscriptionsView, path: "/charge"},
                 // TODO: check loggedin
                 {component: PostCreateView, path: "/create"},
+                {component: HomePageView, path: "/"},
             ],
         };
     }
