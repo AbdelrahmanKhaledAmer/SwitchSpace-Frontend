@@ -48,6 +48,9 @@ const styles = theme => ({
         paddingLeft: "10%",
         // color: "Blue",
     },
+    headerText: {
+        color: theme.palette.header.textColor(),
+    },
 });
 
 class Sidebar extends React.Component {
@@ -196,11 +199,13 @@ class Sidebar extends React.Component {
                         <div className={classes.DrawerHeader}>
                             <List>
                                 <ListItem button onClick={() => this.props.history.push("/")}>
-                                    <ListItemIcon className={classes.DrawerHeader}>
+                                    <ListItemIcon className={classes.headerText}>
                                         <SwapHorizIcon />
                                     </ListItemIcon>
                                     <ListItemText>
-                                        <Typography variant="h6">SWITCH SPACE</Typography>
+                                        <Typography className={classes.headerText} variant="h6">
+                                            SWITCH SPACE
+                                        </Typography>
                                     </ListItemText>
                                 </ListItem>
                             </List>

@@ -16,10 +16,10 @@ import AdminLoginView from "./views/AdminLoginView";
 import AdminView from "./views/AdminView";
 import PostCreateView from "./views/PostCreateView";
 import UserProfileView from "./views/UserProfileView";
-
-// theme
+// Theme
 import settings from "./pallete";
 
+// import theme from file
 let theme = createMuiTheme({
     palette: settings.colors,
     typography: settings.font,

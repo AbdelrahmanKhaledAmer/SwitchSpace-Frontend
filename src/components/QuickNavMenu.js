@@ -35,28 +35,18 @@ const styles = theme => ({
     },
     appBar: {
         // backgroundColor: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
-        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
+        backgroundColor: theme.palette.header.backgroundColor(),
         borderRadius: "0 0 5px 5px",
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
     },
     button: {
         marginRight: theme.spacing(2),
         // backgroundColor: "#",
         // color: "#659dbd",
     },
-    title: {
-        display: "none",
-        [theme.breakpoints.up("sm")]: {
-            display: "block",
-        },
-        // color: "#fbeec1",
-    },
     search: {
         // position: "relative",
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: theme.palette.type === "dark" ? fade(theme.palette.common.white, 0.8) : fade(theme.palette.common.white, 0.6),
+        backgroundColor: theme.palette.secondary.main,
         marginLeft: 0,
         width: "100%",
         // [theme.breakpoints.up("sm")]: {
@@ -72,6 +62,9 @@ const styles = theme => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+    },
+    headerText: {
+        color: theme.palette.header.textColor(),
     },
 });
 
@@ -290,12 +283,12 @@ class QuickNavMenu extends React.Component {
         const {classes} = this.props;
         return (
             <div className={classes.grow}>
-                <AppBar className={classes.appBar}>
+                <AppBar className={classes.appBar} variant="elevation">
                     <Toolbar>
                         <Grid container spacing={1} direction="row" justify="space-between" alignItems="stretch">
                             <Grid container item xs={2} alignItems="center" justify="flex-start">
                                 <Grid item>
-                                    <IconButton edge="start" onClick={this.props.sidebarToggle}>
+                                    <IconButton className={classes.headerText} edge="start" onClick={this.props.sidebarToggle}>
                                         <MenuIcon />
                                     </IconButton>
                                 </Grid>
@@ -305,7 +298,9 @@ class QuickNavMenu extends React.Component {
                                             this.props.history.push("/");
                                         }}>
                                         {/* <Typography variant="h6" color="secondary"> */}
-                                        <Typography variant="h6">Switch Space</Typography>
+                                        <Typography className={classes.headerText} variant="h6">
+                                            Switch Space
+                                        </Typography>
                                     </Button>
                                 </Grid>
                             </Grid>
