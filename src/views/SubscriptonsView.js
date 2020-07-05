@@ -23,13 +23,13 @@ export default class SubscriptionsView extends React.Component {
         // Bind notification functions
         this.notify = this.notify.bind(this);
         this.handleNotificationClose = this.handleNotificationClose.bind(this);
+        this.alterSubscription = this.alterSubscription.bind(this);
     }
 
-    // need to defince prop type for every function
+    // need to defince prop type for every prop
     static get propTypes() {
         return {
             history: PropTypes.object,
-            // classes: PropTypes.object.isRequired,
         };
     }
 
@@ -49,11 +49,7 @@ export default class SubscriptionsView extends React.Component {
             await UserService.changeSubscriptionTier(request);
             this.notify("Subscription changed successfully", "success");
         } catch (err) {
-            console.error(err);
             this.notify(err, "error");
-            this.setState({
-                error: err,
-            });
         }
         this.setState({loading: false});
     }
@@ -62,7 +58,7 @@ export default class SubscriptionsView extends React.Component {
         return (
             <React.Fragment>
                 <Loading loading={this.state.loading} />
-                <Subscriptions onSubmit={user => this.alterSubscription(user)} error={this.state.error}></Subscriptions>
+                <Subscriptions onSubmit={this.alterSubscription} notify={this.notify}></Subscriptions>
                 <Notification
                     notify={this.state.notify}
                     notificationMsg={this.state.notificationMsg}

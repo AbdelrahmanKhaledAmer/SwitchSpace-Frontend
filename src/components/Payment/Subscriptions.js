@@ -82,21 +82,25 @@ class Subscription extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleClose() {
-        this.setState({modalOpen: false});
-    }
-    handleOpen(tier) {
-        this.setState({modalOpen: true, activeTier: tier});
-    }
-    handleSubmit(request) {
-        this.setState({modalOpen: false, activeTier: {}});
-        this.props.onSubmit(request);
-    }
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
             onSubmit: PropTypes.func.isRequired,
+            notify: PropTypes.func.isRequired,
         };
+    }
+
+    handleClose() {
+        this.setState({modalOpen: false});
+    }
+
+    handleOpen(tier) {
+        this.setState({modalOpen: true, activeTier: tier});
+    }
+
+    handleSubmit(request) {
+        this.setState({modalOpen: false, activeTier: {}});
+        this.props.onSubmit(request);
     }
 
     render() {
@@ -149,7 +153,8 @@ class Subscription extends React.Component {
                             modalOpen={this.state.modalOpen}
                             tier={{name: this.state.activeTier.name, price: this.state.activeTier.price}}
                             onClose={this.handleClose}
-                            onSubmit={this.handleSubmit}></Payment>
+                            onSubmit={this.handleSubmit}
+                            notify={this.props.notify}></Payment>
                     </Card>
                 </Zoom>
             </Page>
