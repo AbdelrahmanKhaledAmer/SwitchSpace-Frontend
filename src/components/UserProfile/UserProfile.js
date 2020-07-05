@@ -30,7 +30,7 @@ const styles = theme => ({
         marginRight: "auto",
     },
     appBar: {
-        // backgroundColor: "#659dbd",
+        color: theme.palette.header.textColor(),
         backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
     },
     createReviewButton: {

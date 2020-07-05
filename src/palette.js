@@ -11,19 +11,25 @@ const color = {
 };
 
 const preference = window.localStorage["dark"] ? "dark" : "light";
+
+// choices for different color variants
+//here define functions for light and dark
+const mainPrimaryColor = () => (preference === "dark" ? color.terDark : color.primaryLight);
+const mainSecondaryColor = () => (preference === "dark" ? color.terDark : color.primaryLight);
+
 const palette = {
     type: preference,
     // Headers
     primary: {
         // navbar and all tab/ toolbar related stuff
         light: color.primaryLight,
-        main: color.primaryLight,
+        main: mainPrimaryColor(),
         dark: color.primaryDark,
         // contrastText: "#ffffff",
     },
     secondary: {
         light: color.secondaryLight,
-        main: "#FFFFF",
+        main: mainSecondaryColor(),
         dark: color.secondaryDark,
         // contrastText: "#FFF",
     },
