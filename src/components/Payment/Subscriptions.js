@@ -11,24 +11,24 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import Zoom from "@material-ui/core/Zoom";
-import Paper from "@material-ui/core/Paper";
 import CardActionArea from "@material-ui/core/CardActionArea";
 // Components
 import Payment from "./Payment";
 import Page from "../Page";
 
 const styles = theme => ({
-    paper: {
+    cardContainer: {
+        width: "85%",
+        marginTop: theme.spacing(2),
+        margin: "auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: theme.spacing(2),
-    },
-    title: {
-        fontSize: 14,
+        padding: theme.spacing(1),
     },
     cardHeader: {
-        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
+        backgroundColor: theme.palette.header.backgroundColor(),
+        color: theme.palette.header.textColor(),
     },
     cardPricing: {
         textAlign: "center",
@@ -37,6 +37,9 @@ const styles = theme => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+    },
+    fullHeightCard: {
+        height: "100%",
     },
 });
 
@@ -62,7 +65,7 @@ class Subscription extends React.Component {
                     description:
                         "If you feel like you have a lot to exchange, you can join our monthly subscription tier for just 4.99 and get up to 8 posts for almost half the price!",
                     price: "4.99€/month",
-                    pricePerPost: "0,623€",
+                    pricePerPost: "0.623€",
                 },
                 {
                     title: "Unlimited",
@@ -101,14 +104,22 @@ class Subscription extends React.Component {
         return (
             <Page>
                 <Zoom in={true}>
-                    <Paper className={classes.paper}>
-                        <Grid container direction="row" justify="center" alignItems="center" spacing={4}>
+                    <Card raised className={classes.cardContainer}>
+                        <Typography variant="h2" color="inherit" align="center">
+                            Choose Your Desired Tier
+                        </Typography>
+                        <br />
+                        <Grid container direction="row" justify="center" alignItems="stretch" spacing={2}>
                             {this.state.tiers.map((tier, idx) => (
-                                <Grid item xs={3} key={idx}>
+                                <Grid item xs={4} key={idx}>
                                     <Zoom in={true} transitionduration={500}>
-                                        <Card raised>
-                                            <CardHeader title={tier.title} titleTypographyProps={{align: "center"}} className={classes.cardHeader} />
-                                            <CardActionArea onClick={() => this.handleOpen(tier)}>
+                                        <CardActionArea onClick={() => this.handleOpen(tier)} className={classes.fullHeightCard}>
+                                            <Card raised className={classes.fullHeightCard}>
+                                                <CardHeader
+                                                    title={tier.title}
+                                                    titleTypographyProps={{align: "center"}}
+                                                    className={classes.cardHeader}
+                                                />
                                                 <CardContent>
                                                     <div className={classes.cardPricing}>
                                                         <Typography variant="h4" color="textPrimary">
@@ -128,8 +139,8 @@ class Subscription extends React.Component {
                                                         {tier.pricePerPost} per post
                                                     </Typography>
                                                 </CardContent>
-                                            </CardActionArea>
-                                        </Card>
+                                            </Card>
+                                        </CardActionArea>
                                     </Zoom>
                                 </Grid>
                             ))}
@@ -139,7 +150,7 @@ class Subscription extends React.Component {
                             tier={{name: this.state.activeTier.name, price: this.state.activeTier.price}}
                             onClose={this.handleClose}
                             onSubmit={this.handleSubmit}></Payment>
-                    </Paper>
+                    </Card>
                 </Zoom>
             </Page>
         );
