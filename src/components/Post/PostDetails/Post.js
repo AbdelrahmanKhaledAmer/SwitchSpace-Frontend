@@ -50,12 +50,15 @@ const styles = theme => ({
     },
     button: {
         // backgroundColor: "#659dbd", //TODO: theme.palette
-        color: "#fbeec1",
+        color: theme.palette.button.textColor(),
+        backgroundColor: theme.palette.button.backgroundColor(),
+
         marginTop: theme.spacing(1),
     },
     reportButton: {
         // backgroundColor: "#a70000", //TODO: theme.palette
-        // color: "#fbeec1",
+        backgroundColor: theme.palette.button.error,
+        color: theme.palette.button.textColor(),
         marginTop: theme.spacing(1),
     },
     bottom: {
@@ -217,7 +220,11 @@ class Post extends React.Component {
                                         {this.state.postLocation}
                                     </Grid>
                                     {this.isOwnPost() ? (
-                                        <Button className={classes.button} endIcon={<LocationOnIcon />} onClick={this.toggleLocationModal}>
+                                        <Button
+                                            variant="contained"
+                                            className={classes.button}
+                                            endIcon={<LocationOnIcon />}
+                                            onClick={this.toggleLocationModal}>
                                             Edit Location
                                         </Button>
                                     ) : (
@@ -246,7 +253,7 @@ class Post extends React.Component {
                                         <React.Fragment />
                                     )
                                 ) : (
-                                    <Button className={classes.reportButton} onClick={this.toggleReportModal}>
+                                    <Button color="error" variant="contained" className={classes.reportButton} onClick={this.toggleReportModal}>
                                         Report Post
                                     </Button>
                                 )}

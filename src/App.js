@@ -20,33 +20,38 @@ import UserProfileView from "./views/UserProfileView";
 let theme = createMuiTheme({
     palette: {
         type: window.localStorage["dark"] ? "dark" : "light",
+        // Headers
         primary: {
             // navbar and all tab/ toolbar related stuff
             light: "#15a4f7",
-            main: "#7F7F7F",
-            dark: "#000000",
-            // contrastText: "#fff",
+            main: "#FFFFFF",
+            dark: "#2b2b2b",
+            contrastText: "#ffffff",
         },
         secondary: {
+            light: "#FFFFFF",
             main: "#64B42D",
-            dark: "#008732",
-            contrastText: "#fff",
+            dark: "#212121",
+            contrastText: "#FFF",
         },
-        // error: {
-        //     main: "#BD0043",
-        //     contrastText: "#fff",
-        // },
-        divider: "#D7D6D5",
-        // background: {
-        //     paper: "#fff",
-        //     default: "#ff0000",
-        // },
+        // for all buttons except error buttons
+        button: {
+            backgroundColor: () => (theme.palette.type === "dark" ? "#aeaeae" : "#15a4f7"),
+            textColor: () => (theme.palette.type === "dark" ? "#2b2b2b" : "#FFFFFF"),
+            error: "#a70000",
+            // contrastThreshold: 10,
+        },
+        header: {
+            backgroundColor: () => (theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light),
+            textColor: () => (theme.palette.type === "dark" ? "#aeaeae" : "#FFFFFF"),
+        },
     },
 
     typography: {
         // Use the system font over Roboto.
         fontFamily: 'Avenir Next, Roboto,"Helvetica Neue",Arial,sans-serif',
         htmlFontSize: 16,
+        // color: () => (theme.palette.type === "dark" ? "#2b2b2b" : "#FFFFFF"),
     },
 });
 theme = responsiveFontSizes(theme);
