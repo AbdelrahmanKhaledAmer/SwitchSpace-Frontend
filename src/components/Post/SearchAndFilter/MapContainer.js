@@ -156,7 +156,7 @@ class GoogleMap extends React.Component {
                     // onClick={this.onMarkerClicked}
                     //TODO: ICONS
                     icon={{
-                        url: "https://switchspace-datastore.s3.eu-central-1.amazonaws.com/clipdealer_A51141491_preview.jpg",
+                        url: `${process.env.MEDIA_SERVER_URL}clipdealer_A51141491_preview.jpg`,
                         anchor: new this.props.google.maps.Point(32, 32),
                         scaledSize: new this.props.google.maps.Size(32, 32),
                     }}

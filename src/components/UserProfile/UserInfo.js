@@ -53,7 +53,11 @@ class UserInfo extends React.Component {
         const {classes, userInfo} = this.props;
         return (
             <div className={classes.mainContainer} color="inherit">
-                <Avatar className={classes.avatar} src={userInfo.profilePicture ? userInfo.profilePicture.url + "?versionId=null" : null} />
+                <Avatar
+                    variant="rounded"
+                    className={classes.avatar}
+                    src={userInfo.profilePicture ? userInfo.profilePicture.url + "?versionId=null" : null}
+                />
                 <div className={classes.ratingsContainer}>
                     <Typography className={classes.username} color="inherit">
                         <b>{userInfo.name}</b>

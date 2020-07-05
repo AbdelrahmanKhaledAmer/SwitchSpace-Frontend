@@ -17,7 +17,7 @@ const palette = {
     primary: {
         // navbar and all tab/ toolbar related stuff
         light: color.primaryLight,
-        main: color.secondaryLight,
+        main: color.primaryLight,
         dark: color.primaryDark,
         // contrastText: "#ffffff",
     },
