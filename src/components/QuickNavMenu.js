@@ -4,7 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {withRouter} from "react-router-dom";
 // Material UI Core
-import {fade, withStyles} from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -35,28 +35,18 @@ const styles = theme => ({
     },
     appBar: {
         // backgroundColor: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
-        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
+        backgroundColor: theme.palette.header.backgroundColor(),
         borderRadius: "0 0 5px 5px",
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
     },
     button: {
         marginRight: theme.spacing(2),
         // backgroundColor: "#",
         // color: "#659dbd",
     },
-    title: {
-        display: "none",
-        [theme.breakpoints.up("sm")]: {
-            display: "block",
-        },
-        // color: "#fbeec1",
-    },
     search: {
         // position: "relative",
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: theme.palette.type === "dark" ? fade(theme.palette.common.white, 0.8) : fade(theme.palette.common.white, 0.6),
+        backgroundColor: theme.palette.secondary.main,
         marginLeft: 0,
         width: "100%",
         // [theme.breakpoints.up("sm")]: {
@@ -72,6 +62,9 @@ const styles = theme => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+    },
+    headerText: {
+        color: theme.palette.header.textColor(),
     },
 });
 
@@ -136,18 +129,12 @@ class QuickNavMenu extends React.Component {
                 transformOrigin={{vertical: "top", horizontal: "right"}}
                 open={Boolean(this.state.anchorEl)}
                 onClose={this.handleMenuClose}>
-                <MenuItem
-                    elevation={5}
-                    // onClick={() => {
-                    //     this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`);
-                    //     this.handleMenuClose();
-                    // }}
-                >
+                <MenuItem elevation={5}>
                     <Grid container spacing={3} alignItems="center" justify="center" direction="column">
                         <Grid container item alignItems="center" justify="center">
                             {/* TODO: get user image */}
                             <Avatar
-                                alt="Remy Sharp"
+                                variant="rounded"
                                 src={`https://switchspace-datastore.s3.eu-central-1.amazonaws.com/profilePics/${
                                     UserAuthService.getCurrentUser().id
                                 }?versionId=null`}
@@ -234,10 +221,12 @@ class QuickNavMenu extends React.Component {
             <div>
                 <IconButton aria-label="show 4 new mails">
                     {this.props.unreadMessages == 0 ? (
-                        <Avatar alt="Remy Sharp" variant="square" src="/static/images/avatar/1.jpg" />
+                        <Avatar variant="rounded">
+                            <MessageOutlinedIcon />
+                        </Avatar>
                     ) : (
                         <Badge badgeContent={this.props.unreadMessages}>
-                            <Avatar>
+                            <Avatar variant="rounded">
                                 <MessageOutlinedIcon />
                             </Avatar>
                         </Badge>
@@ -251,6 +240,7 @@ class QuickNavMenu extends React.Component {
                     onClick={this.handleProfileMenuOpen}>
                     {/* TODO get user profile image */}
                     <Avatar
+                        variant="rounded"
                         alt="Remy Sharp"
                         src={`https://switchspace-datastore.s3.eu-central-1.amazonaws.com/profilePics/${
                             UserAuthService.getCurrentUser().id
@@ -264,7 +254,7 @@ class QuickNavMenu extends React.Component {
     renderLoggedOut() {
         const {classes} = this.props;
         return (
-            <React.Fragment>
+            <div>
                 {/* <Grid item xs={6}> */}
                 <ListItem alignItems="center">
                     <Button
@@ -285,7 +275,7 @@ class QuickNavMenu extends React.Component {
                         Login
                     </Button>
                 </ListItem>
-            </React.Fragment>
+            </div>
         );
     }
 
@@ -293,13 +283,26 @@ class QuickNavMenu extends React.Component {
         const {classes} = this.props;
         return (
             <div className={classes.grow}>
-                <AppBar className={classes.appBar}>
+                <AppBar className={classes.appBar} variant="elevation">
                     <Toolbar>
                         <Grid container spacing={1} direction="row" justify="space-between" alignItems="stretch">
-                            <Grid item xs={2}>
-                                <IconButton edge="start" onClick={this.props.sidebarToggle}>
-                                    <MenuIcon />
-                                </IconButton>
+                            <Grid container item xs={2} alignItems="center" justify="flex-start">
+                                <Grid item>
+                                    <IconButton className={classes.headerText} edge="start" onClick={this.props.sidebarToggle}>
+                                        <MenuIcon />
+                                    </IconButton>
+                                </Grid>
+                                <Grid item>
+                                    <Button
+                                        onClick={() => {
+                                            this.props.history.push("/");
+                                        }}>
+                                        {/* <Typography variant="h6" color="secondary"> */}
+                                        <Typography className={classes.headerText} variant="h6">
+                                            Switch Space
+                                        </Typography>
+                                    </Button>
+                                </Grid>
                             </Grid>
 
                             <Grid item xs={5}>
