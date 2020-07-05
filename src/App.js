@@ -18,7 +18,7 @@ import PostCreateView from "./views/PostCreateView";
 import UserProfileView from "./views/UserProfileView";
 import HomePageView from "./views/HomePageView";
 // Theme
-import settings from "./pallete";
+import settings from "./palette";
 
 // import theme from file
 let theme = createMuiTheme({

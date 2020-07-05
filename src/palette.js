@@ -11,7 +11,9 @@ const color = {
 };
 
 const preference = window.localStorage["dark"] ? "dark" : "light";
+
 // choices for different color variants
+//here define functions for light and dark
 const mainPrimaryColor = () => (preference === "dark" ? color.terDark : color.primaryLight);
 const mainSecondaryColor = () => (preference === "dark" ? color.terDark : color.primaryLight);
 
