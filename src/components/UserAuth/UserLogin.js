@@ -30,7 +30,7 @@ const styles = theme => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: "#659dbd",
+        backgroundColor: theme.palette.button.backgroundColor(),
     },
     form: {
         width: "100%", // Fix IE 11 issue.
@@ -38,14 +38,15 @@ const styles = theme => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
-        "&:hover": {
-            background: "#558dad",
-        },
+        color: theme.palette.button.textColor(),
+        backgroundColor: theme.palette.button.backgroundColor(),
     },
     centerFold: {
         textAlign: "center",
+        color: theme.palette.button.textColor(),
+    },
+    headerText: {
+        color: theme.palette.header.textColor(),
     },
 });
 
@@ -98,10 +99,10 @@ class UserLogin extends React.Component {
             <Page>
                 <Container component="main" maxWidth="sm">
                     <Card className={classes.paper} elevation={5}>
-                        <Avatar className={classes.avatar}>
+                        <Avatar className={classes.avatar} variant="rounded">
                             <LockOutlinedIcon />
                         </Avatar>
-                        <Typography component="h1" variant="h5">
+                        <Typography component="h1" variant="h5" className={classes.headerText}>
                             Sign in
                         </Typography>
                         <form className={classes.form} noValidate>
@@ -140,7 +141,11 @@ class UserLogin extends React.Component {
                             </Button>
                             {!this.props.isAdmin ? (
                                 <div className={classes.centerFold}>
-                                    <Link to={"/register"}>{"Not a member? Register"}</Link>
+                                    <Link to={"/register"}>
+                                        <Typography variant="body1" color="primary">
+                                            {"Not a member? Register"}
+                                        </Typography>
+                                    </Link>
                                 </div>
                             ) : (
                                 ""

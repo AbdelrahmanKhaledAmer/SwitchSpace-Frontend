@@ -14,6 +14,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import ImageIcon from "@material-ui/icons/Image";
 // MISC
 import EmailValidator from "email-validator";
+// import FileInput from "@brainhubeu/react-file-input";
 
 const styles = theme => ({
     paper: {
@@ -23,33 +24,21 @@ const styles = theme => ({
         alignItems: "center",
         padding: theme.spacing(2),
     },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: "#659dbd",
-    },
     form: {
         width: "100%", // Fix IE 11 issue.
         marginTop: theme.spacing(1),
     },
     submit: {
+        color: theme.palette.button.textColor(),
+        backgroundColor: theme.palette.button.backgroundColor(),
         margin: theme.spacing(3, 0, 2),
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
-        "&:hover": {
-            background: "#558dad",
-        },
     },
     centerFold: {
         textAlign: "center",
     },
-    formButton: {
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
-        marginTop: theme.spacing(1),
-    },
     formButtonError: {
-        backgroundColor: "#a70000",
-        color: "#fbeec1",
+        backgroundColor: theme.palette.button.error,
+        color: theme.palette.button.textColor(),
         marginTop: theme.spacing(1),
     },
     input: {
@@ -282,7 +271,7 @@ class UserProfileEdit extends React.Component {
                         <Button
                             fullWidth
                             className={!this.state.errorValidate.profilePicture ? classes.submit : classes.formButtonError}
-                            component="span"
+                            variant="contained"
                             endIcon={<CloudUploadIcon />}>
                             Upload Profile Picture
                         </Button>
