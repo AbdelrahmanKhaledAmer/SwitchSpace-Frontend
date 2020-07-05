@@ -14,7 +14,8 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import ImageIcon from "@material-ui/icons/Image";
 // MISC
 import EmailValidator from "email-validator";
-// import FileInput from "@brainhubeu/react-file-input";
+import FileInput from "@brainhubeu/react-file-input";
+import "@brainhubeu/react-file-input/dist/react-file-input.css";
 
 const styles = theme => ({
     paper: {
@@ -177,8 +178,10 @@ class UserProfileEdit extends React.Component {
         );
     }
     onImageUpload(e) {
-        // let photos = [];
-        this.setState({profilePicture: e.currentTarget.files[0]});
+        console.log(e.value);
+        // this.setState({profilePicture: e.currentTarget.files[0]});
+
+        this.setState({profilePicture: e.value});
     }
 
     submitHandler() {
@@ -266,7 +269,7 @@ class UserProfileEdit extends React.Component {
                     helperText={this.state.errorMsg.repeatPassword}
                 />
                 <FormControl fullWidth error={this.state.errorValidate.profilePicture}>
-                    <input accept="image/*" className={classes.input} id="contained-button-file" type="file" onChange={this.onImageUpload} />
+                    {/* <input accept="image/*" className={classes.input} id="contained-button-file" type="file" onChange={this.onImageUpload} />
                     <label htmlFor="contained-button-file">
                         <Button
                             fullWidth
@@ -275,7 +278,10 @@ class UserProfileEdit extends React.Component {
                             endIcon={<CloudUploadIcon />}>
                             Upload Profile Picture
                         </Button>
-                    </label>
+                    </label> */}
+                    <div>
+                        <FileInput label="Profile Picture:" onChangeCallback={this.onImageUpload} />
+                    </div>
                     <FormHelperText>{this.state.errorMsg.profilePicture}</FormHelperText>
                     {this.state.profilePicture ? (
                         <Typography align="center">
