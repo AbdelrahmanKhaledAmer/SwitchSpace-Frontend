@@ -76,7 +76,8 @@ const styles = theme => ({
     },
     appBar: {
         // backgroundColor: "#659dbd",
-        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
+        backgroundColor: theme.palette.header.backgroundColor(),
+        color: theme.palette.header.textColor(),
     },
     slider: {
         width: 472,

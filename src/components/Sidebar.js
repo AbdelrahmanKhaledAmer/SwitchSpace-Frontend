@@ -23,6 +23,7 @@ import AddBoxIcon from "@material-ui/icons/AddBox";
 import CategoryIcon from "@material-ui/icons/Category";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import Typography from "@material-ui/core/Typography";
 //Services
 import UserAuthService from "../services/UserAuthService";
 import CategoryService from "../services/CategoryService";
@@ -46,6 +47,9 @@ const styles = theme => ({
     nested: {
         paddingLeft: "10%",
         // color: "Blue",
+    },
+    headerText: {
+        color: theme.palette.header.textColor(),
     },
 });
 
@@ -195,10 +199,14 @@ class Sidebar extends React.Component {
                         <div className={classes.DrawerHeader}>
                             <List>
                                 <ListItem button onClick={() => this.props.history.push("/")}>
-                                    <ListItemIcon className={classes.DrawerHeader}>
+                                    <ListItemIcon className={classes.headerText}>
                                         <SwapHorizIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary="SwitchSpace" />
+                                    <ListItemText>
+                                        <Typography className={classes.headerText} variant="h6">
+                                            SWITCH SPACE
+                                        </Typography>
+                                    </ListItemText>
                                 </ListItem>
                             </List>
                         </div>

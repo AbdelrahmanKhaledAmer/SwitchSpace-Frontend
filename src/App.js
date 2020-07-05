@@ -17,38 +17,13 @@ import AdminView from "./views/AdminView";
 import PostCreateView from "./views/PostCreateView";
 import UserProfileView from "./views/UserProfileView";
 import HomePageView from "./views/HomePageView";
+// Theme
+import settings from "./pallete";
 
+// import theme from file
 let theme = createMuiTheme({
-    palette: {
-        type: window.localStorage["dark"] ? "dark" : "light",
-        primary: {
-            // navbar and all tab/ toolbar related stuff
-            light: "#15a4f7",
-            main: "#7F7F7F",
-            dark: "#000000",
-            // contrastText: "#fff",
-        },
-        secondary: {
-            main: "#64B42D",
-            dark: "#008732",
-            contrastText: "#fff",
-        },
-        // error: {
-        //     main: "#BD0043",
-        //     contrastText: "#fff",
-        // },
-        divider: "#D7D6D5",
-        // background: {
-        //     paper: "#fff",
-        //     default: "#ff0000",
-        // },
-    },
-
-    typography: {
-        // Use the system font over Roboto.
-        fontFamily: 'Avenir Next, Roboto,"Helvetica Neue",Arial,sans-serif',
-        htmlFontSize: 16,
-    },
+    palette: settings.colors,
+    typography: settings.font,
 });
 theme = responsiveFontSizes(theme);
 
