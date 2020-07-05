@@ -136,18 +136,12 @@ class QuickNavMenu extends React.Component {
                 transformOrigin={{vertical: "top", horizontal: "right"}}
                 open={Boolean(this.state.anchorEl)}
                 onClose={this.handleMenuClose}>
-                <MenuItem
-                    elevation={5}
-                    // onClick={() => {
-                    //     this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`);
-                    //     this.handleMenuClose();
-                    // }}
-                >
+                <MenuItem elevation={5}>
                     <Grid container spacing={3} alignItems="center" justify="center" direction="column">
                         <Grid container item alignItems="center" justify="center">
                             {/* TODO: get user image */}
                             <Avatar
-                                alt="Remy Sharp"
+                                variant="rounded"
                                 src={`https://switchspace-datastore.s3.eu-central-1.amazonaws.com/profilePics/${
                                     UserAuthService.getCurrentUser().id
                                 }?versionId=null`}
@@ -234,10 +228,12 @@ class QuickNavMenu extends React.Component {
             <div>
                 <IconButton aria-label="show 4 new mails">
                     {this.props.unreadMessages == 0 ? (
-                        <Avatar alt="Remy Sharp" variant="square" src="/static/images/avatar/1.jpg" />
+                        <Avatar variant="rounded">
+                            <MessageOutlinedIcon />
+                        </Avatar>
                     ) : (
                         <Badge badgeContent={this.props.unreadMessages}>
-                            <Avatar>
+                            <Avatar variant="rounded">
                                 <MessageOutlinedIcon />
                             </Avatar>
                         </Badge>
@@ -251,6 +247,7 @@ class QuickNavMenu extends React.Component {
                     onClick={this.handleProfileMenuOpen}>
                     {/* TODO get user profile image */}
                     <Avatar
+                        variant="rounded"
                         alt="Remy Sharp"
                         src={`https://switchspace-datastore.s3.eu-central-1.amazonaws.com/profilePics/${
                             UserAuthService.getCurrentUser().id
@@ -264,7 +261,7 @@ class QuickNavMenu extends React.Component {
     renderLoggedOut() {
         const {classes} = this.props;
         return (
-            <React.Fragment>
+            <div>
                 {/* <Grid item xs={6}> */}
                 <ListItem alignItems="center">
                     <Button
@@ -285,7 +282,7 @@ class QuickNavMenu extends React.Component {
                         Login
                     </Button>
                 </ListItem>
-            </React.Fragment>
+            </div>
         );
     }
 
@@ -296,10 +293,21 @@ class QuickNavMenu extends React.Component {
                 <AppBar className={classes.appBar}>
                     <Toolbar>
                         <Grid container spacing={1} direction="row" justify="space-between" alignItems="stretch">
-                            <Grid item xs={2}>
-                                <IconButton edge="start" onClick={this.props.sidebarToggle}>
-                                    <MenuIcon />
-                                </IconButton>
+                            <Grid container item xs={2} alignItems="center" justify="flex-start">
+                                <Grid item>
+                                    <IconButton edge="start" onClick={this.props.sidebarToggle}>
+                                        <MenuIcon />
+                                    </IconButton>
+                                </Grid>
+                                <Grid item>
+                                    <Button
+                                        onClick={() => {
+                                            this.props.history.push("/");
+                                        }}>
+                                        {/* <Typography variant="h6" color="secondary"> */}
+                                        <Typography variant="h6">Switch Space</Typography>
+                                    </Button>
+                                </Grid>
                             </Grid>
 
                             <Grid item xs={5}>

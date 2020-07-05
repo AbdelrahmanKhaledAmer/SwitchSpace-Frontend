@@ -23,6 +23,7 @@ import AddBoxIcon from "@material-ui/icons/AddBox";
 import CategoryIcon from "@material-ui/icons/Category";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import Typography from "@material-ui/core/Typography";
 //Services
 import UserAuthService from "../services/UserAuthService";
 import CategoryService from "../services/CategoryService";
@@ -198,7 +199,9 @@ class Sidebar extends React.Component {
                                     <ListItemIcon className={classes.DrawerHeader}>
                                         <SwapHorizIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary="SwitchSpace" />
+                                    <ListItemText>
+                                        <Typography variant="h6">SWITCH SPACE</Typography>
+                                    </ListItemText>
                                 </ListItem>
                             </List>
                         </div>
