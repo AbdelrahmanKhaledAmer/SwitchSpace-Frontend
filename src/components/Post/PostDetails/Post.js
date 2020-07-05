@@ -56,7 +56,6 @@ const styles = theme => ({
         marginTop: theme.spacing(1),
     },
     reportButton: {
-        // backgroundColor: "#a70000", //TODO: theme.palette
         backgroundColor: theme.palette.button.error,
         color: theme.palette.button.textColor(),
         marginTop: theme.spacing(1),
@@ -253,7 +252,7 @@ class Post extends React.Component {
                                         <React.Fragment />
                                     )
                                 ) : (
-                                    <Button color="error" variant="contained" className={classes.reportButton} onClick={this.toggleReportModal}>
+                                    <Button variant="contained" className={classes.reportButton} onClick={this.toggleReportModal}>
                                         Report Post
                                     </Button>
                                 )}
