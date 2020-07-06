@@ -3,10 +3,12 @@
 // colors choosen for the website
 const color = {
     primaryLight: "#15a4f7",
+    primaryLightHover: "#15c4ff",
     secondaryLight: "#FFFFFF",
     primaryDark: "#2b2b2b",
     secondaryDark: "#212121",
-    terDark: "#aeaeae",
+    terDark: "#7e7e7e",
+    terDarkHover: "#aeaeae",
     error: "#a70000",
 };
 
@@ -38,6 +40,9 @@ const palette = {
         backgroundColor: () => (preference === "dark" ? color.terDark : color.primaryLight),
         textColor: () => (preference === "dark" ? color.secondaryDark : color.secondaryLight),
         error: color.error,
+        hover: {
+            backgroundColor: () => (preference === "dark" ? color.terDarkHover : color.primaryLightHover),
+        },
         // contrastThreshold: 10,
     },
     // for all headers and titles
