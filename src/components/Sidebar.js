@@ -160,7 +160,7 @@ class Sidebar extends React.Component {
                         </ListItemIcon>
                         <ListItemText primary="Profile" />
                     </ListItem>
-                    <ListItem button onClick={() => this.props.history.push("/charge")}>
+                    <ListItem button onClick={() => this.props.history.push("/subscriptions")}>
                         <ListItemIcon className={classes.listIcon}>
                             <CreditCardIcon />
                         </ListItemIcon>
