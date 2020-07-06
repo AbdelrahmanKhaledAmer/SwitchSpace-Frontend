@@ -44,8 +44,8 @@ export default class AdminLoginView extends React.Component {
             this.notify("login successful", "success", cb);
         } catch (err) {
             this.notify(err, "error");
+            this.setState({loading: false});
         }
-        this.setState({loading: false});
     }
     // Notify the user on with a msg and severity => uses the state variables
     notify(msg, notificationSeverity, callback) {

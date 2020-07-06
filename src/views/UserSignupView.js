@@ -52,8 +52,8 @@ export default class UserSignupView extends React.Component {
             setTimeout(() => this.props.history.push("/"), 3000);
         } catch (err) {
             this.notify(err, "error");
+            this.setState({loading: false});
         }
-        this.setState({loading: false});
     }
 
     // Notify the user on with a msg and severity => uses the state variables
