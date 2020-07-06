@@ -155,8 +155,8 @@ export default class UserProfileView extends React.Component {
     }
 
     // Notify the user on with a msg and severity => uses the state variables
-    notify(msg, notificationSeverity, callback) {
-        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity}, callback);
+    notify(msg, notificationSeverity) {
+        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
     }
     handleModalClose() {
         this.setState({modalOpen: false});
