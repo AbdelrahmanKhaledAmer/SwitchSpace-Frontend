@@ -90,7 +90,6 @@ export default class UserProfileView extends React.Component {
             const userInfoResp = await UserService.getUserInfo(this.state.userId);
 
             this.setState({
-                loading: false,
                 userInfo: userInfoResp.data.data,
                 posts: postsResp.data.data,
                 isMyProfile: isMyProfile,
@@ -98,9 +97,11 @@ export default class UserProfileView extends React.Component {
                 tabs: tabs,
             });
         } catch (err) {
-            this.notify(err, "error");
-            console.log(err);
+            // reroute after timeout
+            const cb = () => setTimeout(() => this.props.history.push("/"), 3000);
+            this.notify(err, "error", cb);
         }
+        this.setState({loading: false});
     }
 
     async updateProfile(user) {
@@ -142,8 +143,8 @@ export default class UserProfileView extends React.Component {
     }
 
     // Notify the user on with a msg and severity => uses the state variables
-    notify(msg, notificationSeverity) {
-        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
+    notify(msg, notificationSeverity, callback) {
+        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity}, callback);
     }
     handleModalClose() {
         this.setState({modalOpen: false});

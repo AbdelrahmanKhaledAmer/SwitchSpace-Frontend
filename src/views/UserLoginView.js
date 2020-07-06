@@ -32,20 +32,25 @@ export default class UserLoginView extends React.Component {
     }
     async login(user) {
         this.setState({loading: true});
+        console.log("trying");
         try {
             await UserAuthService.login(user.email, user.password);
-            // no need notification the routing already happens
-            this.props.history.push("/");
+            const cb = () =>
+                setTimeout(() => {
+                    this.setState({loading: false});
+                    this.props.history.push("/");
+                }, 3000); //time must be higher than notification time
+            this.notify("login successful", "success", cb);
         } catch (err) {
             console.error(err);
             this.notify(err, "error");
+            this.setState({loading: false});
         }
-        this.setState({loading: false});
     }
 
     // Notify the user on with a msg and severity => uses the state variables
-    notify(msg, notificationSeverity) {
-        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
+    notify(msg, notificationSeverity, callback) {
+        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity}, callback);
     }
 
     // Reset notification state must bbe included in every view and passed to Notification Component

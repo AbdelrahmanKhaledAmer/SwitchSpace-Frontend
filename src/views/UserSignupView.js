@@ -43,7 +43,13 @@ export default class UserSignupView extends React.Component {
         try {
             await UserAuthService.register(data);
             //TODO: email verification
-            this.props.history.push("/");
+            const cb = () =>
+                setTimeout(() => {
+                    this.setState({loading: false});
+                    this.props.history.push("/admin/reports");
+                }, 3000); //time must be higher than notification time
+            this.notify("Registration successful", "success", cb);
+            setTimeout(() => this.props.history.push("/"), 3000);
         } catch (err) {
             this.notify(err, "error");
         }
@@ -51,8 +57,8 @@ export default class UserSignupView extends React.Component {
     }
 
     // Notify the user on with a msg and severity => uses the state variables
-    notify(msg, notificationSeverity) {
-        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
+    notify(msg, notificationSeverity, callback) {
+        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity}, callback);
     }
 
     // Reset notification state must bbe included in every view and passed to Notification Component

@@ -10,12 +10,12 @@ import {withStyles} from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
 // Material UI Icons
-// import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import ImageIcon from "@material-ui/icons/Image";
 // MISC
 import EmailValidator from "email-validator";
-import FileInput from "@brainhubeu/react-file-input";
-import "@brainhubeu/react-file-input/dist/react-file-input.css";
+// import FileInput from "@brainhubeu/react-file-input";
+// import "@brainhubeu/react-file-input/dist/react-file-input.css";
 
 const styles = theme => ({
     paper: {
@@ -178,10 +178,10 @@ class UserProfileEdit extends React.Component {
         );
     }
     onImageUpload(e) {
-        console.log(e.value);
-        // this.setState({profilePicture: e.currentTarget.files[0]});
+        // console.log(e.value);
+        this.setState({profilePicture: e.currentTarget.files[0]});
 
-        this.setState({profilePicture: e.value});
+        // this.setState({profilePicture: e.value});
     }
 
     submitHandler(ev) {
@@ -270,19 +270,17 @@ class UserProfileEdit extends React.Component {
                     helperText={this.state.errorMsg.repeatPassword}
                 />
                 <FormControl fullWidth error={this.state.errorValidate.profilePicture}>
-                    {/* <input accept="image/*" className={classes.input} id="contained-button-file" type="file" onChange={this.onImageUpload} />
+                    <input accept="image/*" className={classes.input} id="contained-button-file" type="file" onChange={this.onImageUpload} />
                     <label htmlFor="contained-button-file">
                         <Button
                             fullWidth
                             className={!this.state.errorValidate.profilePicture ? classes.submit : classes.formButtonError}
+                            component="span"
                             variant="contained"
                             endIcon={<CloudUploadIcon />}>
                             Upload Profile Picture
                         </Button>
-                    </label> */}
-                    <div>
-                        <FileInput label="Profile Picture:" onChangeCallback={this.onImageUpload} />
-                    </div>
+                    </label>
                     <FormHelperText>{this.state.errorMsg.profilePicture}</FormHelperText>
                     {this.state.profilePicture ? (
                         <Typography align="center">
