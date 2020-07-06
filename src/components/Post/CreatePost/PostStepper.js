@@ -183,7 +183,7 @@ class PostStepper extends React.Component {
                 description: "",
                 category: "",
                 subcategory: "",
-                modelYear: 0,
+                modelYear: "",
                 condition: "",
             },
             itemDesired: {
@@ -191,7 +191,7 @@ class PostStepper extends React.Component {
                 description: "",
                 category: "",
                 subcategory: "",
-                modelYear: 0,
+                modelYear: "",
                 condition: "",
             },
             photos: [],

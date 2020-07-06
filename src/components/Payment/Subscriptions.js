@@ -122,57 +122,59 @@ class Subscription extends React.Component {
         const {classes} = this.props;
         return (
             <Page>
-                <style>{this.cardStyle}</style>
-                <Zoom in={true}>
-                    <Card raised className={classes.cardContainer}>
-                        <Typography variant="h2" color="inherit" align="center">
-                            Choose Your Desired Tier
-                        </Typography>
-                        <br />
-                        <Grid container direction="row" justify="center" alignItems="stretch" spacing={2}>
-                            {this.state.tiers.map((tier, idx) => (
-                                <Grid item xs={4} key={idx}>
-                                    <Zoom in={true} transitionduration={500}>
-                                        <CardActionArea onClick={() => this.handleOpen(tier)} className={classes.fullHeightCard}>
-                                            <Card raised className={classes.fullHeightCard}>
-                                                <CardHeader
-                                                    title={tier.title}
-                                                    titleTypographyProps={{align: "center"}}
-                                                    className={classes.cardHeader}
-                                                />
-                                                <CardContent>
-                                                    <div className={classes.cardPricing}>
-                                                        <Typography variant="h4" color="textPrimary">
-                                                            {tier.price}
+                <React.Fragment>
+                    <style>{this.cardStyle}</style>
+                    <Zoom in={true}>
+                        <Card raised className={classes.cardContainer}>
+                            <Typography variant="h2" color="inherit" align="center">
+                                Choose Your Desired Tier
+                            </Typography>
+                            <br />
+                            <Grid container direction="row" justify="center" alignItems="stretch" spacing={2}>
+                                {this.state.tiers.map((tier, idx) => (
+                                    <Grid item xs={4} key={idx}>
+                                        <Zoom in={true} transitionduration={500}>
+                                            <CardActionArea onClick={() => this.handleOpen(tier)} className={classes.fullHeightCard}>
+                                                <Card raised className={classes.fullHeightCard}>
+                                                    <CardHeader
+                                                        title={tier.title}
+                                                        titleTypographyProps={{align: "center"}}
+                                                        className={classes.cardHeader}
+                                                    />
+                                                    <CardContent>
+                                                        <div className={classes.cardPricing}>
+                                                            <Typography variant="h4" color="textPrimary">
+                                                                {tier.price}
+                                                            </Typography>
+                                                        </div>
+                                                        <br />
+                                                        <Divider />
+                                                        <br />
+                                                        <Typography variant="subtitle1" align="left" color="inherit">
+                                                            {tier.description}
                                                         </Typography>
-                                                    </div>
-                                                    <br />
-                                                    <Divider />
-                                                    <br />
-                                                    <Typography variant="subtitle1" align="left" color="inherit">
-                                                        {tier.description}
-                                                    </Typography>
-                                                    <br />
-                                                    <Divider />
-                                                    <br />
-                                                    <Typography variant="subtitle1" align="center" color="inherit">
-                                                        {tier.pricePerPost} per post
-                                                    </Typography>
-                                                </CardContent>
-                                            </Card>
-                                        </CardActionArea>
-                                    </Zoom>
-                                </Grid>
-                            ))}
-                        </Grid>
-                        <Payment
-                            modalOpen={this.state.modalOpen}
-                            tier={{name: this.state.activeTier.name, price: this.state.activeTier.price}}
-                            onClose={this.handleClose}
-                            onSubmit={this.handleSubmit}
-                            notify={this.props.notify}></Payment>
-                    </Card>
-                </Zoom>
+                                                        <br />
+                                                        <Divider />
+                                                        <br />
+                                                        <Typography variant="subtitle1" align="center" color="inherit">
+                                                            {tier.pricePerPost} per post
+                                                        </Typography>
+                                                    </CardContent>
+                                                </Card>
+                                            </CardActionArea>
+                                        </Zoom>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                            <Payment
+                                modalOpen={this.state.modalOpen}
+                                tier={{name: this.state.activeTier.name, price: this.state.activeTier.price}}
+                                onClose={this.handleClose}
+                                onSubmit={this.handleSubmit}
+                                notify={this.props.notify}></Payment>
+                        </Card>
+                    </Zoom>
+                </React.Fragment>
             </Page>
         );
     }
