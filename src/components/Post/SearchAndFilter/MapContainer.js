@@ -5,37 +5,19 @@ import PropTypes from "prop-types";
 import {Map, Marker, GoogleApiWrapper, InfoWindow, Circle} from "google-maps-react";
 // Material UI Core
 import {withStyles} from "@material-ui/core/styles";
-import {Grid} from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from "@material-ui/core/Grid";
 // Material UI Icons
 import SwapHorizOutlinedIcon from "@material-ui/icons/SwapHorizOutlined";
 // Components
 import InfoCard from "./InfoCard";
 
-//TODO: loading styles
-const LoadingContainer = () => {
-    return <CircularProgress size={100} />;
-};
 // infowindow style
 const styles = () => ({
     infoWindowContainer: {
         // need min width to prevent collapsing
         minWidth: 300,
-        // minHeight: 240,
         // needed for wrapping text
         maxWidth: 420,
-        maxHeight: 420,
-    },
-    bullet: {
-        display: "inline-block",
-        margin: "0 2px",
-        transform: "scale(0.8)",
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
     },
 });
 
@@ -210,6 +192,5 @@ class GoogleMap extends React.Component {
 export default withStyles(styles)(
     GoogleApiWrapper({
         apiKey: process.env.GOOGLE_API_KEY,
-        LoadingContainer: LoadingContainer,
     })(GoogleMap)
 );

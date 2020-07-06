@@ -8,15 +8,6 @@ import Typography from "@material-ui/core/Typography";
 
 // infowindow style
 const styles = () => ({
-    root: {
-        minWidth: "50vw",
-        maxHeight: "50vh",
-    },
-    bullet: {
-        display: "inline-block",
-        margin: "0 2px",
-        transform: "scale(0.8)",
-    },
     title: {
         fontSize: 14,
     },
@@ -32,7 +23,6 @@ class InfoCard extends React.Component {
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
-            // post: PropTypes.object,
             header: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
             infoBig: PropTypes.string.isRequired,
@@ -43,7 +33,7 @@ class InfoCard extends React.Component {
     render() {
         const {classes} = this.props;
         return (
-            <div>
+            <React.Fragment>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                     {this.props.header}
                 </Typography>
@@ -56,7 +46,7 @@ class InfoCard extends React.Component {
                 <Typography variant="body1" component="p" noWrap>
                     {this.props.infoSmall}
                 </Typography>
-            </div>
+            </React.Fragment>
         );
     }
 }
