@@ -54,6 +54,7 @@ export default class UserProfileView extends React.Component {
         this.reviewUser = this.reviewUser.bind(this);
         this.handleModalClose = this.handleModalClose.bind(this);
         this.handleModalOpen = this.handleModalOpen.bind(this);
+        this.deactivateAccount = this.deactivateAccount.bind(this);
     }
 
     static get propTypes() {
@@ -136,6 +137,17 @@ export default class UserProfileView extends React.Component {
         }
     }
 
+    async deactivateAccount() {
+        try {
+            await UserService.deactivateAccount();
+            UserAuthService.logout();
+            this.props.history.push("/");
+        } catch (err) {
+            // TODO: add error feadback
+            console.log(err);
+        }
+    }
+
     handleTabChange(event, newValue) {
         this.setState({
             selectedTab: newValue,
@@ -173,6 +185,7 @@ export default class UserProfileView extends React.Component {
                     onUserReview={this.reviewUser}
                     onModalOpen={this.handleModalOpen}
                     onModalClose={this.handleModalClose}
+                    onAccountRemove={this.deactivateAccount}
                     modalOpen={this.state.modalOpen}
                     userInfo={this.state.userInfo}
                     posts={this.state.posts}
