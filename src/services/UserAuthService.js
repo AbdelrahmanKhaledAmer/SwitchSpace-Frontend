@@ -65,4 +65,9 @@ export default class UserAuthService {
     static isAuthenticated() {
         return !!window.localStorage["jwtToken"];
     }
+    static isNormalUser() {
+        const currentUser = UserAuthService.getCurrentUser();
+        const authenticated = UserAuthService.isAuthenticated();
+        return !currentUser.isAdmin && authenticated;
+    }
 }

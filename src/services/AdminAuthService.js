@@ -1,4 +1,5 @@
 "use strict";
+import userAuthService from "./UserAuthService";
 import HttpService from "./HttpService";
 export default class AdminAuthService {
     constructor() {}
@@ -20,6 +21,10 @@ export default class AdminAuthService {
                 }
             );
         });
+    }
+
+    static isAdminUser() {
+        return userAuthService.isAuthenticated() && !userAuthService.isNormalUser();
     }
 
     static logout() {
