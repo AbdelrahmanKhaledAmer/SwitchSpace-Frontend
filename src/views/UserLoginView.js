@@ -32,7 +32,6 @@ export default class UserLoginView extends React.Component {
     }
     async login(user) {
         this.setState({loading: true});
-        console.log("trying");
         try {
             await UserAuthService.login(user.email, user.password);
             const cb = () =>
