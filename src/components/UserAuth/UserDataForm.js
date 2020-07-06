@@ -10,7 +10,7 @@ import {withStyles} from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
 // Material UI Icons
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+// import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import ImageIcon from "@material-ui/icons/Image";
 // MISC
 import EmailValidator from "email-validator";
@@ -184,7 +184,8 @@ class UserProfileEdit extends React.Component {
         this.setState({profilePicture: e.value});
     }
 
-    submitHandler() {
+    submitHandler(ev) {
+        ev.preventDefault();
         if (this.state.formValid) {
             let user = {};
             if (this.props.userData) {
@@ -292,7 +293,7 @@ class UserProfileEdit extends React.Component {
                         ""
                     )}
                 </FormControl>
-                <Button fullWidth variant="contained" className={classes.submit} onClick={this.submitHandler}>
+                <Button fullWidth variant="contained" type="submit" className={classes.submit} onClick={this.submitHandler}>
                     {this.props.userData ? "Update Profile" : "Register"}
                 </Button>
             </form>

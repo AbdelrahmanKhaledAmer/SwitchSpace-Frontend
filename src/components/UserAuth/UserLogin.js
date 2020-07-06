@@ -78,7 +78,8 @@ class UserLogin extends React.Component {
         this.setState({password: value, passwordError: error});
     }
 
-    submitHandler() {
+    submitHandler(ev) {
+        ev.preventDefault();
         let user = {email: this.state.email, password: this.state.password};
         if (!this.state.emailError && this.state.password != "" && this.state.email != "") {
             this.props.onSubmit(user);
@@ -136,7 +137,7 @@ class UserLogin extends React.Component {
                             />
                             {/*TODO: CHECK IF REMEMBER ME IS A VIABLE OPTION*/}
                             <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
-                            <Button fullWidth variant="contained" className={classes.submit} onClick={this.submitHandler}>
+                            <Button fullWidth variant="contained" type="submit" className={classes.submit} onClick={this.submitHandler}>
                                 Sign In
                             </Button>
                             {!this.props.isAdmin ? (
