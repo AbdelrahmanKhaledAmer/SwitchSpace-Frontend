@@ -3,6 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 // Material UI Core
+import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Zoom from "@material-ui/core/Zoom";
@@ -11,12 +12,21 @@ import {withStyles} from "@material-ui/core/styles";
 import ReportList from "./ReportList";
 import Page from "../Page";
 
-const styles = {
+const styles = theme => ({
     consoleContainer: {
         // marginTop: theme.spacing(10),
         backgroud: "transparent",
     },
-};
+    cardContainer: {
+        width: "70%",
+        margin: "0 auto",
+        marginTop: theme.spacing(3),
+        textAlign: "center",
+    },
+    reportsContainer: {
+        margin: theme.spacing(0, 1),
+    },
+});
 
 class AdminConsole extends React.Component {
     constructor(props) {
@@ -36,16 +46,20 @@ class AdminConsole extends React.Component {
         const {classes} = this.props;
         return (
             <Page>
-                <Grid container direction="column" justify="space-between" alignItems="center" spacing={2} className={classes.consoleContainer}>
-                    <Grid item xs={5}>
-                        <Typography variant={"h4"}>{"Pending Users Reports"}</Typography>
-                    </Grid>
-                    <Grid item xs={10}>
-                        <Zoom in={true} transitionduration={500}>
-                            <ReportList reports={this.props.reports} deleteReport={this.props.deleteReport}></ReportList>
-                        </Zoom>
-                    </Grid>
-                </Grid>
+                <Card elevation={5} className={classes.cardContainer}>
+                    <Typography variant={"h3"} color="inherit">
+                        Pending Users Reports
+                    </Typography>
+                    <Zoom in={true} transitionduration={500}>
+                        <div className={classes.reportsContainer}>
+                            <ReportList
+                                reports={this.props.reports}
+                                deleteReport={this.props.deleteReport}
+                                msgForNoPosts="There are currently no reports"
+                            />
+                        </div>
+                    </Zoom>
+                </Card>
             </Page>
         );
     }
