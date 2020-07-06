@@ -36,20 +36,15 @@ export default class AdminLoginView extends React.Component {
         this.setState({loading: true});
         try {
             await AdminAuthService.login(admin);
-            const cb = () =>
-                setTimeout(() => {
-                    this.setState({loading: false});
-                    this.props.history.push("/admin/reports");
-                }, 3000); //time must be higher than notification time
-            this.notify("login successful", "success", cb);
+            this.props.history.push("/admin/reports");
         } catch (err) {
             this.notify(err, "error");
             this.setState({loading: false});
         }
     }
     // Notify the user on with a msg and severity => uses the state variables
-    notify(msg, notificationSeverity, callback) {
-        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity}, callback);
+    notify(msg, notificationSeverity) {
+        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
     }
 
     // Reset notification state must bbe included in every view and passed to Notification Component
