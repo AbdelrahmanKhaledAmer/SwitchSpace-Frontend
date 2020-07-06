@@ -133,10 +133,7 @@ class QuickNavMenu extends React.Component {
                     <Grid container spacing={3} alignItems="center" justify="center" direction="column">
                         <Grid container item alignItems="center" justify="center">
                             {/* TODO: get user image */}
-                            <Avatar
-                                variant="rounded"
-                                src={`${process.env.MEDIA_SERVER_URL}profilePics/${UserAuthService.getCurrentUser().id}?versionId=null`}
-                            />
+                            <Avatar variant="rounded" src={`${process.env.MEDIA_SERVER_URL}profilePics/${UserAuthService.getCurrentUser().id}?`} />
                         </Grid>
                         <Grid container item spacing={2} alignItems="center" justify="center" direction="column">
                             <Grid item>
@@ -240,7 +237,7 @@ class QuickNavMenu extends React.Component {
                     <Avatar
                         variant="rounded"
                         alt="Remy Sharp"
-                        src={`${process.env.MEDIA_SERVER_URL}profilePics/${UserAuthService.getCurrentUser().id}?versionId=null`}
+                        src={`${process.env.MEDIA_SERVER_URL}profilePics/${UserAuthService.getCurrentUser().id}`}
                     />
                 </IconButton>
             </div>
