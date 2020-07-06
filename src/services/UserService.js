@@ -54,4 +54,17 @@ export default class UserService {
             );
         });
     }
+    static deactivateAccount() {
+        return new Promise((resolve, reject) => {
+            HttpService.delete(
+                `${UserService.baseURL()}/user/`,
+                function (data) {
+                    resolve(data);
+                },
+                function (textStatus) {
+                    reject(textStatus);
+                }
+            );
+        });
+    }
 }

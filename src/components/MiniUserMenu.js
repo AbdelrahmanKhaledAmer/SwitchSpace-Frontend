@@ -116,10 +116,7 @@ class MiniUserMenu extends React.Component {
                 <MenuItem elevation={5}>
                     <Grid container spacing={3} alignItems="center" justify="center" direction="column">
                         <Grid container item alignItems="center" justify="center">
-                            <Avatar
-                                variant="rounded"
-                                src={`${process.env.MEDIA_SERVER_URL}profilePics/${UserAuthService.getCurrentUser().id}?versionId=null`}
-                            />
+                            <Avatar variant="rounded" src={`${process.env.MEDIA_SERVER_URL}profilePics/${UserAuthService.getCurrentUser().id}`} />
                         </Grid>
                         <Grid container item spacing={2} alignItems="center" justify="center" direction="column">
                             <Grid item>

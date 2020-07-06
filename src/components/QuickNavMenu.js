@@ -127,7 +127,7 @@ class QuickNavMenu extends React.Component {
                     <Avatar
                         variant="rounded"
                         alt="Remy Sharp"
-                        src={`${process.env.MEDIA_SERVER_URL}profilePics/${UserAuthService.getCurrentUser().id}?versionId=null`}
+                        src={`${process.env.MEDIA_SERVER_URL}profilePics/${UserAuthService.getCurrentUser().id}`}
                     />
                 </IconButton>
             </div>
