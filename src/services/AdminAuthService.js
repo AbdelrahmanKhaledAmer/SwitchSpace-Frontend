@@ -11,6 +11,7 @@ export default class AdminAuthService {
             HttpService.post(
                 `${AdminAuthService.baseURL()}/login`,
                 admin,
+                null,
                 function (data) {
                     resolve(data);
                 },

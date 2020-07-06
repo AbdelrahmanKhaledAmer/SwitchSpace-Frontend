@@ -26,10 +26,13 @@ const styles = theme => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: "#659dbd",
+        backgroundColor: theme.palette.button.backgroundColor(),
     },
     centerFold: {
         textAlign: "center",
+    },
+    headerText: {
+        color: theme.palette.header.textColor(),
     },
 });
 
@@ -54,15 +57,19 @@ class UserSignup extends React.Component {
                 <Container component="main" maxWidth="sm">
                     <CssBaseline />
                     <Card className={classes.paper} elevation={5}>
-                        <Avatar className={classes.avatar}>
+                        <Avatar className={classes.avatar} variant="rounded">
                             <LockOutlinedIcon />
                         </Avatar>
-                        <Typography component="h1" variant="h5">
+                        <Typography component="h1" variant="h5" className={classes.headerText}>
                             Register
                         </Typography>
                         <UserDataForm onSubmit={this.props.onSubmit}></UserDataForm>
                         <div className={classes.centerFold}>
-                            <Link to={"/login"}>{"Already a member? Login"}</Link>
+                            <Link to={"/login"}>
+                                <Typography variant="body1" color="primary">
+                                    {"Already a member? Login"}
+                                </Typography>
+                            </Link>
                         </div>
                     </Card>
                 </Container>

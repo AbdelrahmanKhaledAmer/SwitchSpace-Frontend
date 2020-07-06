@@ -29,7 +29,7 @@ export default class Notification extends React.Component {
                 anchorOrigin={{vertical: "bottom", horizontal: "right"}}
                 open={this.props.notify}
                 onClose={this.props.handleClose}
-                autoHideDuration={this.props.autoHideDuration ? this.props.autoHideDuration : 6000}>
+                autoHideDuration={this.props.autoHideDuration ? this.props.autoHideDuration : 2500}>
                 <Alert
                     onClose={this.props.handleClose}
                     severity={this.props.severity ? this.props.severity : "success"}
