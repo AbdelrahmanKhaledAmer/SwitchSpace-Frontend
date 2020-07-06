@@ -3,7 +3,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 // Material UI Core
-import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 // Components
 import ReportListItem from "./ReportListItem";

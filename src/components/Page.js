@@ -63,7 +63,6 @@ class Page extends React.Component {
         return (
             <section>
                 <QuickNavMenu
-                    title={this.state.title}
                     isAuthorized={this.state.isAuthorized}
                     sidebarToggle={this.sidebarToggle}
                     unreadMessages={3} //TODO: GET FROM SERVER AT LOGIN
