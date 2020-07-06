@@ -69,6 +69,18 @@ class CheckoutForm extends React.Component {
         this.submitHandler = this.submitHandler.bind(this);
         this.submitHandler = this.submitHandler.bind(this);
     }
+
+    static get propTypes() {
+        return {
+            classes: PropTypes.object.isRequired,
+            onSubmit: PropTypes.func.isRequired,
+            notify: PropTypes.func.isRequired,
+            stripe: PropTypes.object,
+            elements: PropTypes.object,
+            price: PropTypes.string,
+        };
+    }
+
     onFirstNameChange(e) {
         const value = e.currentTarget.value;
         this.setState({firstname: value});
@@ -78,6 +90,7 @@ class CheckoutForm extends React.Component {
             this.setState({fnameError: true});
         }
     }
+
     onLastNameChange(e) {
         const value = e.currentTarget.value;
         this.setState({lastname: value});
@@ -87,6 +100,7 @@ class CheckoutForm extends React.Component {
             this.setState({lnameError: true});
         }
     }
+
     async submitHandler() {
         // check fields are all valid
 
@@ -95,7 +109,7 @@ class CheckoutForm extends React.Component {
         if (!stripe || !elements) {
             // Stripe.js has not loaded yet. Make sure to disable
             // form submission until Stripe.js has loaded.
-            // TODO:notfiy here
+            this.props.notify("Payment error. Please try again later.", "error");
             return;
         }
         if (this.state.fnameError || this.state.lnameError || this.state.firstname === "" || this.state.lastnam === "") {
@@ -107,8 +121,7 @@ class CheckoutForm extends React.Component {
         // return;
         const result = await stripe.createToken(cardNumber);
         if (result.error) {
-            // TODO:notify here
-            console.log(result.error.message);
+            this.props.notify(result.error.message, "error");
             this.setState({paymentDisabled: false});
         } else {
             // pass the token to your backend API
@@ -117,15 +130,6 @@ class CheckoutForm extends React.Component {
             // call parent to make api call
             this.props.onSubmit({stripeToken: token, firstname: this.state.firstname, lastname: this.state.lastname});
         }
-    }
-    static get propTypes() {
-        return {
-            classes: PropTypes.object.isRequired,
-            onSubmit: PropTypes.func.isRequired,
-            stripe: PropTypes.object,
-            elements: PropTypes.object,
-            price: PropTypes.string,
-        };
     }
 
     render() {

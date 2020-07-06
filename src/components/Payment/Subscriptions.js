@@ -11,24 +11,26 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import Zoom from "@material-ui/core/Zoom";
-import Paper from "@material-ui/core/Paper";
 import CardActionArea from "@material-ui/core/CardActionArea";
 // Components
 import Payment from "./Payment";
 import Page from "../Page";
+// MISC
+// import "./CardSectionStyles.css";
 
 const styles = theme => ({
-    paper: {
+    cardContainer: {
+        width: "85%",
+        marginTop: theme.spacing(2),
+        margin: "auto",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: theme.spacing(2),
-    },
-    title: {
-        fontSize: 14,
+        padding: theme.spacing(1),
     },
     cardHeader: {
-        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
+        backgroundColor: theme.palette.header.backgroundColor(),
+        color: theme.palette.header.textColor(),
     },
     cardPricing: {
         textAlign: "center",
@@ -37,6 +39,9 @@ const styles = theme => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+    },
+    fullHeightCard: {
+        height: "100%",
     },
 });
 
@@ -62,7 +67,7 @@ class Subscription extends React.Component {
                     description:
                         "If you feel like you have a lot to exchange, you can join our monthly subscription tier for just 4.99 and get up to 8 posts for almost half the price!",
                     price: "4.99€/month",
-                    pricePerPost: "0,623€",
+                    pricePerPost: "0.623€",
                 },
                 {
                     title: "Unlimited",
@@ -74,41 +79,67 @@ class Subscription extends React.Component {
                 },
             ],
         };
+
+        this.cardStyle = "";
+        const cardStyleDark =
+            ".StripeElement {height: 40px;padding: 10px 0;width: 100%;color: white;border-bottom: 1px solid #aeaeae;}.StripeElement--focus {border-bottom: 2px solid #aeaeae;}.StripeElement:hover {border-bottom: 2px solid #eaeaea;}.StripeElement--invalid {border-color: #fa755a;}";
+        const cardStyleLight =
+            ".StripeElement {height: 40px;padding: 10px 0;width: 100%;color: white;border-bottom: 1px solid #9a9a9a;}.StripeElement--focus {border-bottom: 2px solid #9a9a9a;}.StripeElement:hover {border-bottom: 2px solid #9a9a9a;}.StripeElement--invalid {border-color: #fa755a;}";
+
+        if (window.localStorage["dark"]) {
+            this.cardStyle = cardStyleDark;
+        } else {
+            this.cardStyle = cardStyleLight;
+        }
+
         this.handleClose = this.handleClose.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleClose() {
-        this.setState({modalOpen: false});
-    }
-    handleOpen(tier) {
-        this.setState({modalOpen: true, activeTier: tier});
-    }
-    handleSubmit(request) {
-        this.setState({modalOpen: false, activeTier: {}});
-        this.props.onSubmit(request);
-    }
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
             onSubmit: PropTypes.func.isRequired,
+            notify: PropTypes.func.isRequired,
         };
+    }
+
+    handleClose() {
+        this.setState({modalOpen: false});
+    }
+
+    handleOpen(tier) {
+        this.setState({modalOpen: true, activeTier: tier});
+    }
+
+    handleSubmit(request) {
+        this.setState({modalOpen: false, activeTier: {}});
+        this.props.onSubmit(request);
     }
 
     render() {
         const {classes} = this.props;
         return (
             <Page>
+                <style>{this.cardStyle}</style>
                 <Zoom in={true}>
-                    <Paper className={classes.paper}>
-                        <Grid container direction="row" justify="center" alignItems="center" spacing={4}>
+                    <Card raised className={classes.cardContainer}>
+                        <Typography variant="h2" color="inherit" align="center">
+                            Choose Your Desired Tier
+                        </Typography>
+                        <br />
+                        <Grid container direction="row" justify="center" alignItems="stretch" spacing={2}>
                             {this.state.tiers.map((tier, idx) => (
-                                <Grid item xs={3} key={idx}>
+                                <Grid item xs={4} key={idx}>
                                     <Zoom in={true} transitionduration={500}>
-                                        <Card raised>
-                                            <CardHeader title={tier.title} titleTypographyProps={{align: "center"}} className={classes.cardHeader} />
-                                            <CardActionArea onClick={() => this.handleOpen(tier)}>
+                                        <CardActionArea onClick={() => this.handleOpen(tier)} className={classes.fullHeightCard}>
+                                            <Card raised className={classes.fullHeightCard}>
+                                                <CardHeader
+                                                    title={tier.title}
+                                                    titleTypographyProps={{align: "center"}}
+                                                    className={classes.cardHeader}
+                                                />
                                                 <CardContent>
                                                     <div className={classes.cardPricing}>
                                                         <Typography variant="h4" color="textPrimary">
@@ -128,8 +159,8 @@ class Subscription extends React.Component {
                                                         {tier.pricePerPost} per post
                                                     </Typography>
                                                 </CardContent>
-                                            </CardActionArea>
-                                        </Card>
+                                            </Card>
+                                        </CardActionArea>
                                     </Zoom>
                                 </Grid>
                             ))}
@@ -138,8 +169,9 @@ class Subscription extends React.Component {
                             modalOpen={this.state.modalOpen}
                             tier={{name: this.state.activeTier.name, price: this.state.activeTier.price}}
                             onClose={this.handleClose}
-                            onSubmit={this.handleSubmit}></Payment>
-                    </Paper>
+                            onSubmit={this.handleSubmit}
+                            notify={this.props.notify}></Payment>
+                    </Card>
                 </Zoom>
             </Page>
         );
