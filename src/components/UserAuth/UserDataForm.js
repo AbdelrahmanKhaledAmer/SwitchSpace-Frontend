@@ -29,11 +29,6 @@ const styles = theme => ({
         width: "100%", // Fix IE 11 issue.
         marginTop: theme.spacing(1),
     },
-    submit: {
-        color: theme.palette.button.textColor(),
-        backgroundColor: theme.palette.button.backgroundColor(),
-        margin: theme.spacing(3, 0, 2),
-    },
     centerFold: {
         textAlign: "center",
     },
@@ -44,6 +39,15 @@ const styles = theme => ({
     },
     input: {
         display: "none",
+    },
+    button: {
+        // search button
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
+        "&:hover": {
+            backgroundColor: theme.palette.button.hover.backgroundColor(),
+        },
+        margin: theme.spacing(3, 0, 2),
     },
 });
 
@@ -274,7 +278,7 @@ class UserProfileEdit extends React.Component {
                     <label htmlFor="contained-button-file">
                         <Button
                             fullWidth
-                            className={!this.state.errorValidate.profilePicture ? classes.submit : classes.formButtonError}
+                            className={!this.state.errorValidate.profilePicture ? classes.button : classes.formButtonError}
                             component="span"
                             variant="contained"
                             endIcon={<CloudUploadIcon />}>
@@ -291,7 +295,7 @@ class UserProfileEdit extends React.Component {
                         ""
                     )}
                 </FormControl>
-                <Button fullWidth variant="contained" type="submit" className={classes.submit} onClick={this.submitHandler}>
+                <Button fullWidth variant="contained" type="submit" className={classes.button} onClick={this.submitHandler}>
                     {this.props.userData ? "Update Profile" : "Register"}
                 </Button>
             </form>

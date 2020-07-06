@@ -256,7 +256,7 @@ class QuickNavMenu extends React.Component {
                     <Button
                         variant="contained"
                         onClick={() => {
-                            this.props.history.push("/register");
+                            this.props.history.push("/signup");
                         }}
                         className={classes.button}>
                         Register

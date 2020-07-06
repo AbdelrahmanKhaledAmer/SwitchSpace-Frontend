@@ -36,10 +36,13 @@ const styles = theme => ({
         width: "100%", // Fix IE 11 issue.
         marginTop: theme.spacing(2),
     },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        color: theme.palette.button.textColor(),
+    button: {
         backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
+        "&:hover": {
+            backgroundColor: theme.palette.button.hover.backgroundColor(),
+        },
+        margin: theme.spacing(3, 0, 2),
     },
     centerFold: {
         textAlign: "center",
@@ -137,12 +140,12 @@ class UserLogin extends React.Component {
                             />
                             {/*TODO: CHECK IF REMEMBER ME IS A VIABLE OPTION*/}
                             <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
-                            <Button fullWidth variant="contained" type="submit" className={classes.submit} onClick={this.submitHandler}>
+                            <Button fullWidth variant="contained" type="submit" className={classes.button} onClick={this.submitHandler}>
                                 Sign In
                             </Button>
                             {!this.props.isAdmin ? (
                                 <div className={classes.centerFold}>
-                                    <Link to={"/register"}>
+                                    <Link to={"/signup"}>
                                         <Typography variant="body1" color="primary">
                                             {"Not a member? Register"}
                                         </Typography>
