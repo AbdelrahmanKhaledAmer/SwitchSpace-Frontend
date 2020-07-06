@@ -262,8 +262,8 @@ class PostStepper extends React.Component {
                 itemDesired.modelYear = undefined;
             }
             let formData = new FormData();
-            formData.append("itemOwned", JSON.stringify(this.state.itemOwned));
-            formData.append("itemDesired", JSON.stringify(this.state.itemDesired));
+            formData.append("itemOwned", JSON.stringify(itemOwned));
+            formData.append("itemDesired", JSON.stringify(itemDesired));
             formData.append("exchangeLocation", JSON.stringify(this.state.exchangeLocation));
             this.state.photos.map((file, index) => {
                 formData.append(`postPicture[${index}]`, file);
@@ -468,7 +468,7 @@ class PostStepper extends React.Component {
             case 2:
                 return (
                     <div>
-                        <PostDetails post={this.makePost()}></PostDetails>
+                        <PostDetails post={this.makePost()} />
                     </div>
                 );
         }
