@@ -92,6 +92,7 @@ class Post extends React.Component {
         this.getItemOwned = this.getItemOwned.bind(this);
         this.getItemDesired = this.getItemDesired.bind(this);
         this.submitEdit = this.submitEdit.bind(this);
+        this.submitDelete = this.submitDelete.bind(this);
         this.setReceiverId = this.setReceiverId.bind(this);
     }
 
@@ -104,6 +105,7 @@ class Post extends React.Component {
             userId: PropTypes.string.isRequired,
             categories: PropTypes.array.isRequired,
             editPost: PropTypes.func.isRequired,
+            deletePost: PropTypes.func.isRequired,
         };
     }
 
@@ -197,6 +199,10 @@ class Post extends React.Component {
         this.props.editPost(formData);
     }
 
+    async submitDelete() {
+        this.props.deletePost();
+    }
+
     setReceiverId() {
         this.setState(
             {
@@ -264,10 +270,13 @@ class Post extends React.Component {
                                             Sumbit Edits
                                         </Button>
                                     ) : (
-                                        <React.Fragment />
+                                        <Button variant="contained" className={classes.reportButton} onClick={this.submitDelete}>
+                                            Delete Post
+                                        </Button>
+                                        // <React.Fragment />
                                     )
                                 ) : (
-                                    <Button variant="contained" className={classes.reportButton} onClick={this.toggleReportModal}>
+                                    <Button variant="contained" className={classes.reportButton} onClick={this.submitDelete}>
                                         Report Post
                                     </Button>
                                 )}

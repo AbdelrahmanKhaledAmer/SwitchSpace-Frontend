@@ -26,6 +26,7 @@ export default class PostView extends React.Component {
         this.getCategories = this.getCategories.bind(this);
         this.endLoading = this.endLoading.bind(this);
         this.editPost = this.editPost.bind(this);
+        this.deletePost = this.deletePost.bind(this);
     }
 
     static get propTypes() {
@@ -101,6 +102,16 @@ export default class PostView extends React.Component {
         }
     }
 
+    async deletePost() {
+        try {
+            await PostService.deletePost(this.state.postId);
+            this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`);
+        } catch (err) {
+            //TODO: TOAST ERROR
+            console.log(err);
+        }
+    }
+
     render() {
         return (
             <Post
@@ -110,6 +121,7 @@ export default class PostView extends React.Component {
                 submitReport={this.submitReport}
                 categories={this.state.categories}
                 editPost={this.editPost}
+                deletePost={this.deletePost}
             />
         );
     }
