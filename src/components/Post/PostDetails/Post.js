@@ -78,6 +78,7 @@ class Post extends React.Component {
             editedItemDesired: null,
             editedPhotos: null,
             editedLocation: null,
+            chatReceiverId: "",
         };
 
         this.toggleReportModal = this.toggleReportModal.bind(this);
@@ -91,6 +92,7 @@ class Post extends React.Component {
         this.getItemOwned = this.getItemOwned.bind(this);
         this.getItemDesired = this.getItemDesired.bind(this);
         this.submitEdit = this.submitEdit.bind(this);
+        this.setReceiverId = this.setReceiverId.bind(this);
     }
 
     static get propTypes() {
@@ -195,10 +197,23 @@ class Post extends React.Component {
         this.props.editPost(formData);
     }
 
+    setReceiverId() {
+        this.setState(
+            {
+                chatReceiverId: this.props.post.creatorId._id,
+            },
+            () => {
+                this.setState({
+                    chatReceiverId: "",
+                });
+            }
+        );
+    }
+
     render() {
         const {classes} = this.props;
         return (
-            <Page>
+            <Page chatReceiverId={this.state.chatReceiverId}>
                 {this.props.loading ? (
                     <Backdrop className={classes.backdrop} open={this.props.loading}>
                         <CircularProgress color="primary" />
@@ -227,7 +242,7 @@ class Post extends React.Component {
                                             Edit Location
                                         </Button>
                                     ) : (
-                                        <Button className={classes.button} onClick={this.toggleLocationModal}>
+                                        <Button className={classes.button} onClick={this.setReceiverId}>
                                             Contact for Exchange
                                         </Button>
                                         // TODO: START CHAT
