@@ -10,6 +10,7 @@ import ReportService from "../services/ReportService";
 import UserAuthService from "../services/UserAuthService";
 import CategoryService from "../services/CategoryService";
 import Notification from "../components/Notification";
+import AdminAuthService from "../services/AdminAuthService";
 
 export default class PostView extends React.Component {
     constructor(props) {
@@ -107,7 +108,11 @@ export default class PostView extends React.Component {
     async deletePost() {
         try {
             await PostService.deletePost(this.state.postId);
-            this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`);
+            if (AdminAuthService.isAdminUser(this.state.userId)) {
+                this.props.history.push(`/admin/reports`);
+            } else {
+                this.props.history.push(`/profile/${this.state.userId}`);
+            }
         } catch (err) {
             this.notify(err, "error");
         }
