@@ -45,6 +45,8 @@ class LocationModal extends React.Component {
 
         this.submitHandler = this.submitHandler.bind(this);
         this.onMapClicked = this.onMapClicked.bind(this);
+        this.getCoordinates = this.getCoordinates.bind(this);
+        this.mapLoaded = this.mapLoaded.bind(this);
     }
 
     static get propTypes() {
@@ -58,7 +60,24 @@ class LocationModal extends React.Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        let latitude = 0;
+        let longitude = 0;
+        try {
+            const position = await this.getCoordinates();
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            this.setState({
+                lat: latitude,
+                lng: longitude,
+                centerLat: latitude,
+                centerLng: longitude,
+            });
+        } catch (err) {
+            console.log(err.message);
+        }
+        // set map center as ur location for the first time
+
         if (this.props.oldMarker) {
             this.setState({
                 isMarkerPlaced: true,
@@ -69,9 +88,17 @@ class LocationModal extends React.Component {
             });
         }
     }
-
+    getCoordinates() {
+        return new Promise(function (resolve, reject) {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+    }
     submitHandler() {
         this.props.setLocation(this.state.lat, this.state.lng);
+    }
+    mapLoaded(mapProps, map) {
+        console.log(mapProps);
+        console.log(map);
     }
 
     onMapClicked(t, map, coord) {
@@ -104,7 +131,14 @@ class LocationModal extends React.Component {
                     {"Choose your desired exchange location"}
                 </DialogTitle>
                 <DialogContent className={classes.mapContainer}>
-                    <Map google={this.props.google} zoom={15} containerStyle={containerStyle} onClick={this.onMapClicked} className={classes.map}>
+                    <Map
+                        google={this.props.google}
+                        onReady={(mapProps, map) => this.mapLoaded(mapProps, map)}
+                        zoom={8}
+                        center={{lat: this.state.centerLat, lng: this.state.centerLng}}
+                        containerStyle={containerStyle}
+                        onClick={this.onMapClicked}
+                        className={classes.map}>
                         {this.state.isMarkerPlaced ? (
                             <Marker title={"location"} name={"Exchange Location"} position={{lat: this.state.lat, lng: this.state.lng}} />
                         ) : null}

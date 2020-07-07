@@ -110,7 +110,6 @@ class Sidebar extends React.Component {
     matchcategoryIcon() {
         let catIcons = this.state.categories.map((k, i) => [k, this.state.icons[i]]);
         this.setState({categoriesIcons: catIcons});
-        console.log(this.state.categoriesIcons);
     }
     renderCategories() {
         //         // TODO: GET <<N>> TRENDING CATEGORIES FROM BACKEND
