@@ -66,6 +66,7 @@ const styles = theme => ({
     },
     icons: {
         width: "20px",
+        backgroundColor: window.localStorage["dark"] ? "white" : "black",
     },
 });
 
