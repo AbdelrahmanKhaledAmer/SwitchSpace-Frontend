@@ -110,6 +110,7 @@ class SearchFilter extends React.Component {
         this.onLocationChange = this.onLocationChange.bind(this);
         this.onPostFocusChange = this.onPostFocusChange.bind(this);
         this.onLocationTextChange = this.onLocationTextChange.bind(this);
+        this.onCityChange = this.onCityChange.bind(this);
     }
 
     static get propTypes() {
@@ -245,10 +246,18 @@ class SearchFilter extends React.Component {
         }
         this.setState({myLocation: loc, city: city});
     }
-
-    async onLocationTextChange(e) {
+    // variable change
+    onCityChange(e) {
         const value = e.target.value;
         this.setState({city: value});
+    }
+    // key press on location
+    async onLocationTextChange(e) {
+        if (e.key !== "Enter") {
+            return;
+        }
+        const value = e.target.value;
+        // this.setState({city: value});
         try {
             let entered_loc = await Geocode.fromAddress(value);
             let loc = entered_loc.results[0].geometry.location;
@@ -277,6 +286,7 @@ class SearchFilter extends React.Component {
                                             className={classes.map}
                                             posts={this.props.posts}
                                             radius={parseInt(this.state.radius) * 1000}
+                                            myLocation={this.state.myLocation}
                                             onLocationChange={this.onLocationChange}
                                             onPostFocusChange={this.onPostFocusChange}
                                         />
@@ -293,7 +303,8 @@ class SearchFilter extends React.Component {
                                                     <TextField
                                                         id="location"
                                                         value={this.state.city}
-                                                        onChange={this.onLocationTextChange}
+                                                        onKeyPress={this.onLocationTextChange}
+                                                        onChange={this.onCityChange}
                                                         label="Location"
                                                     />
                                                 </Grid>
