@@ -78,7 +78,7 @@ export default class PostService {
 
     static deletePost(id) {
         return new Promise((resolve, reject) => {
-            HttpService.remove(
+            HttpService.delete(
                 `${PostService.baseURL()}/${id}`,
                 id,
                 function (data) {

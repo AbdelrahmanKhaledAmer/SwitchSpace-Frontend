@@ -40,7 +40,7 @@ class Item extends React.Component {
         }
 
         let chosenCategory = null;
-        if (this.props.item.category) {
+        if (this.props.item.category && this.props.categories) {
             chosenCategory = this.props.categories.filter(elem => elem.title == this.props.item.category)[0];
         }
 
@@ -66,7 +66,7 @@ class Item extends React.Component {
         return {
             classes: PropTypes.object.isRequired,
             item: PropTypes.object.isRequired,
-            categories: PropTypes.array.isRequired,
+            categories: PropTypes.array,
             isOwnPost: PropTypes.bool,
             onChange: PropTypes.func,
         };

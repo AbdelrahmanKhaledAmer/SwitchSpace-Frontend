@@ -54,6 +54,7 @@ export default class UserProfileView extends React.Component {
         this.reviewUser = this.reviewUser.bind(this);
         this.handleModalClose = this.handleModalClose.bind(this);
         this.handleModalOpen = this.handleModalOpen.bind(this);
+        this.deactivateAccount = this.deactivateAccount.bind(this);
     }
 
     static get propTypes() {
@@ -90,7 +91,6 @@ export default class UserProfileView extends React.Component {
             const userInfoResp = await UserService.getUserInfo(this.state.userId);
 
             this.setState({
-                loading: false,
                 userInfo: userInfoResp.data.data,
                 posts: postsResp.data.data,
                 isMyProfile: isMyProfile,
@@ -98,9 +98,11 @@ export default class UserProfileView extends React.Component {
                 tabs: tabs,
             });
         } catch (err) {
-            this.notify(err, "error");
-            console.log(err);
+            // reroute after timeout
+            const cb = () => setTimeout(() => this.props.history.push("/"), 3000);
+            this.notify(err, "error", cb);
         }
+        this.setState({loading: false});
     }
 
     async updateProfile(user) {
@@ -131,6 +133,17 @@ export default class UserProfileView extends React.Component {
             this.handleModalClose();
         } catch (err) {
             // TODO: add feedback for the error
+            console.log(err);
+        }
+    }
+
+    async deactivateAccount() {
+        try {
+            await UserService.deactivateAccount();
+            UserAuthService.logout();
+            this.props.history.push("/");
+        } catch (err) {
+            // TODO: add error feadback
             console.log(err);
         }
     }
@@ -172,6 +185,7 @@ export default class UserProfileView extends React.Component {
                     onUserReview={this.reviewUser}
                     onModalOpen={this.handleModalOpen}
                     onModalClose={this.handleModalClose}
+                    onAccountRemove={this.deactivateAccount}
                     modalOpen={this.state.modalOpen}
                     userInfo={this.state.userInfo}
                     posts={this.state.posts}

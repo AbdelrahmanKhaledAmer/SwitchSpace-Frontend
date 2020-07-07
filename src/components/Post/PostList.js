@@ -3,12 +3,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 // Material UI Core
-import {withStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 // Components
 import PostListItem from "./PostListItem";
-
-const styles = {};
 
 class PostList extends React.Component {
     constructor(props) {
@@ -25,7 +22,7 @@ class PostList extends React.Component {
     render() {
         if (this.props.posts.length == 0) {
             return (
-                <Typography variant="h5" align="center">
+                <Typography variant="h5" align="center" color="inherit">
                     {this.props.msgForNoPosts}
                 </Typography>
             );
@@ -34,4 +31,4 @@ class PostList extends React.Component {
         return this.props.posts.map((post, idx) => <PostListItem key={idx} post={post} />);
     }
 }
-export default withStyles(styles)(PostList);
+export default PostList;

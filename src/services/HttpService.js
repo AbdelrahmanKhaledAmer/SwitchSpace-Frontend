@@ -119,7 +119,7 @@ export default class HttpService {
         }
     }
     // Delete request
-    static async remove(url, onSuccess, onError) {
+    static async delete(url, onSuccess, onError) {
         let token = window.localStorage["jwtToken"];
         let header = {};
         header["Content-Type"] = "application/json";

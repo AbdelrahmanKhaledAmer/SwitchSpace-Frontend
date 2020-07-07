@@ -22,11 +22,11 @@ Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
 const styles = theme => ({
     postContainer: {
-        marginTop: theme.spacing(2),
+        marginTop: theme.spacing(1),
     },
     image: {
-        width: theme.spacing(18),
-        height: theme.spacing(18),
+        width: "100%",
+        height: "90%",
     },
     itemOwned: {
         fontWeight: "bold",
@@ -37,23 +37,13 @@ const styles = theme => ({
     },
     icon: {
         minWidth: "auto",
-        color: "#659dbd",
+        color: theme.palette.button.backgroundColor(),
     },
     miniMarginLeft: {
-        marginLeft: "0.5em",
+        marginLeft: theme.spacing(1),
     },
     locationListItem: {
-        margin: "0.4em 0 0 0",
         fontSize: "0.75em",
-    },
-    backdrop: {
-        minWidth: "100%",
-        // background: theme.palette.type === "dark" ? theme.palette.secondary.dark : theme.palette.warning.main,
-        padding: "0.5em",
-        borderRadius: "75px",
-        // color: "#000000",
-        textAlign: "center",
-        marginTop: theme.spacing(2),
     },
     categoryAndDate: {
         position: "relative",
@@ -63,20 +53,20 @@ const styles = theme => ({
     date: {
         position: "absolute",
         bottom: 0,
-        marginLeft: "auto",
-        marginRight: "auto",
+        margin: "0 auto",
         marginBottom: theme.spacing(3),
-        left: 0,
-        right: 0,
-        textAlign: "center",
+        width: "100%",
         fontSize: "0.85em",
-        // color: theme.palette.type === "dark" ? theme.palette.secondary.dark : theme.palette.warning.main,
     },
     itemPadding: {
         padding: theme.spacing(0, 3),
     },
     itemMargin: {
         margin: theme.spacing(2, 0),
+    },
+    chip: {
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
     },
 });
 
@@ -125,14 +115,16 @@ class PostListItem extends React.Component {
                 <CardActionArea onClick={this.goToPost} className={classes.itemPadding}>
                     <Grid container spacing={1} className={classes.postContainer}>
                         <Grid item xs={3}>
-                            <Avatar src={this.props.post.photos[0].url + "?versionId=null"} className={classes.image} />
+                            <Avatar variant="rounded" src={this.props.post.photos[0].url} className={classes.image} />
                         </Grid>
                         <Grid item xs={6}>
                             <List>
                                 <ListItem>
                                     <Grid container>
                                         <Grid item xs={6}>
-                                            <div className={classes.itemOwned}>{this.props.post.itemOwned.title}</div>
+                                            <Typography color="inherit" noWrap className={classes.itemOwned}>
+                                                {this.props.post.itemOwned.title}
+                                            </Typography>
                                         </Grid>
                                         <Grid item container xs={6}>
                                             <div className={classes.icon}>
@@ -160,8 +152,7 @@ class PostListItem extends React.Component {
                             </List>
                         </Grid>
                         <Grid item xs={3} className={classes.categoryAndDate}>
-                            {/* <div className={classes.backdrop}>{this.props.post.itemOwned.category}</div> */}
-                            <Chip size="small" label={this.props.post.itemOwned.category} />
+                            <Chip size="small" label={this.props.post.itemOwned.category} className={classes.chip} />
                             <div className={classes.date} color="inherit">
                                 {this.props.post.createdAt.substring(0, 10)}
                             </div>

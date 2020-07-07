@@ -13,13 +13,11 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+import CardHeader from "@material-ui/core/CardHeader";
 import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
 import Zoom from "@material-ui/core/Zoom";
 import Slider from "@material-ui/core/Slider";
-import Chip from "@material-ui/core/Chip";
 // Components
 import Page from "../../Page";
 import PostList from "../PostList";
@@ -31,10 +29,10 @@ Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
 const styles = theme => ({
     inputCard: {
+        padding: theme.spacing(1),
         width: "100%",
     },
     map: {
-        margin: theme.spacing(2),
         maxHeight: "20%",
         maxWidth: "20%",
     },
@@ -43,49 +41,40 @@ const styles = theme => ({
         height: "50vh",
         position: "relative",
     },
-    textBox: {
-        "& > *": {
-            margin: theme.spacing(1),
-            width: "25ch",
-        },
-    },
     root: {
         // main grid
         flexGrow: 1,
-        // marginTop: theme.spacing(4.5), // for navbar
-        padding: theme.spacing(3), // outside margin
+        padding: theme.spacing(2), // outside margin
     },
     child: {
         flexGrow: 1,
     },
     button: {
         // search button
-        alignItems: "center",
-    },
-    formAlignment: {
-        width: "100%",
-        textAlign: "center",
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
+        "&:hover": {
+            backgroundColor: theme.palette.button.hover.backgroundColor(),
+        },
     },
     postList: {
+        padding: theme.spacing(0, 1),
         overflowY: "scroll",
-        // border: "1px solid ",
-        width: "100%",
-        float: "left",
-        height: "700px",
-        position: "relative",
+        height: "94vh",
     },
     appBar: {
-        // backgroundColor: "#659dbd",
         backgroundColor: theme.palette.header.backgroundColor(),
         color: theme.palette.header.textColor(),
     },
     slider: {
-        width: 472,
-        marginTop: theme.spacing(5),
+        marginTop: theme.spacing(1),
     },
-    chip: {
-        width: 50,
-        marginTop: "-45px",
+    formControl: {
+        width: "100%",
+    },
+    cardHeader: {
+        backgroundColor: theme.palette.header.backgroundColor(),
+        color: theme.palette.header.textColor(),
     },
 });
 
@@ -190,6 +179,7 @@ class SearchFilter extends React.Component {
         };
         this.props.onSubmit(searchQueryBody);
     }
+
     onItemWantedChange(e) {
         const value = e.currentTarget.value;
         this.setState({itemWanted: value});
@@ -276,9 +266,9 @@ class SearchFilter extends React.Component {
         const {classes} = this.props;
         return (
             <Page>
-                <Grid container spacing={3} className={classes.root}>
+                <Grid container spacing={3} className={classes.root} alignItems="stretch">
                     <Grid item sm={5}>
-                        <Grid container spacing={3} className={classes.child}>
+                        <Grid container spacing={1} className={classes.child}>
                             {/* map */}
                             <Grid item sm={12}>
                                 <Zoom in={true} transitionduration={500}>
@@ -297,131 +287,161 @@ class SearchFilter extends React.Component {
                             <Grid item sm={12}>
                                 <Zoom in={true} transitionduration={500}>
                                     <Card elevation={3} className={classes.inputCard}>
-                                        <div className={classes.formAlignment}>
-                                            <form className={classes.textBox} noValidate autoComplete="off">
-                                                <TextField
-                                                    id="location"
-                                                    value={this.state.city}
-                                                    onChange={this.onLocationTextChange}
-                                                    label="Location"
-                                                />
-                                                <Slider
-                                                    className={classes.slider}
-                                                    defaultValue={this.state.radius}
-                                                    value={this.state.radius}
-                                                    max={400}
-                                                    step={1}
-                                                    valueLabelDisplay="on"
-                                                    onChange={this.onRadiusChange}
-                                                />
-                                                <Chip size="small" label="KM" className={classes.chip} />
-                                                <TextField
-                                                    id="itemDesired"
-                                                    label="Item Desired"
-                                                    value={this.state.itemWanted}
-                                                    onChange={this.onItemWantedChange}
-                                                />
-
-                                                <FormControl className={classes.formControl}>
-                                                    <InputLabel id="wantedCondition">Item Desired Condition</InputLabel>
-                                                    <Select
-                                                        labelId="wantedConditionLabel"
-                                                        id="wantedCondition"
-                                                        value={this.state.wantedCondition}
-                                                        defaultValue={this.state.wantedCondition}
-                                                        onChange={this.onWantedConditionChange}>
-                                                        <MenuItem value={"Any"}>Any</MenuItem>
-                                                        <MenuItem value={"new"}>New</MenuItem>
-                                                        <MenuItem value={"used"}>Used</MenuItem>
-                                                    </Select>
-                                                </FormControl>
-                                                <FormControl className={classes.formControl}>
-                                                    <InputLabel id="desiredCategoryInput">Item Desired Category</InputLabel>
-                                                    <Select
-                                                        labelId="desiredCategoryLabel"
-                                                        id="desiredCategory"
-                                                        defaultValue={this.state.wantedCategory}
-                                                        value={this.state.wantedCategory}
-                                                        onChange={this.onWantedCategoryChange}>
-                                                        {this.props.categories.map((category, idx) => (
-                                                            <MenuItem key={idx} value={category.title}>
-                                                                {category.title}
-                                                            </MenuItem>
-                                                        ))}
-                                                    </Select>
-                                                </FormControl>
-                                                <FormControl className={classes.formControl}>
-                                                    <InputLabel id="desiredSubcategoryInput">Item Desired Subcategory</InputLabel>
-                                                    <Select
-                                                        labelId="desiredSubccategoryLabel"
-                                                        id="desiredSubcategory"
-                                                        defaultValue={this.state.wantedSubcategory}
-                                                        value={this.state.wantedSubcategory}
-                                                        onChange={this.onWantedSubcategoryChange}>
-                                                        {this.state.validWantedSubcategories.map((subcategory, idx) => (
-                                                            <MenuItem key={idx} value={subcategory == undefined ? "Any" : subcategory.title}>
-                                                                {subcategory == undefined ? "Any" : subcategory.title}
-                                                            </MenuItem>
-                                                        ))}
-                                                    </Select>
-                                                </FormControl>
-                                                <TextField
-                                                    id="itemOwned"
-                                                    label="Item Owned"
-                                                    value={this.state.itemOwned}
-                                                    onChange={this.onItemOwnedChange}
-                                                />
-                                                <FormControl className={classes.formControl}>
-                                                    <InputLabel id="ownedConditionInput">Item Owned Condition</InputLabel>
-                                                    <Select
-                                                        labelId="ownedConditionLabel"
-                                                        id="ownedCondition"
-                                                        value={this.state.ownedCondition}
-                                                        defaultValue={this.state.ownedCondition}
-                                                        onChange={this.onOwnedConditionChange}>
-                                                        <MenuItem value={"Any"}>Any</MenuItem>
-                                                        <MenuItem value={"new"}>New</MenuItem>
-                                                        <MenuItem value={"used"}>Used</MenuItem>
-                                                    </Select>
-                                                </FormControl>
-                                                <FormControl className={classes.formControl}>
-                                                    <InputLabel id="ownedCategoryInput">Item Owned Category</InputLabel>
-                                                    <Select
-                                                        labelId="ownedCategoryLabel"
-                                                        id="ownedCategory"
-                                                        value={this.state.ownedCategory}
-                                                        defaultValue={this.state.ownedCategory}
-                                                        onChange={this.onOwnedCategoryChange}>
-                                                        <MenuItem value={"Any"}>Any</MenuItem>
-                                                        {this.props.categories.map((category, idx) => (
-                                                            <MenuItem key={idx} value={category == undefined ? "" : category.title}>
-                                                                {category == undefined ? "" : category.title}
-                                                            </MenuItem>
-                                                        ))}
-                                                    </Select>
-                                                </FormControl>
-                                                <FormControl className={classes.formControl}>
-                                                    <InputLabel id="ownedSubcategoryInput">Item Owned Subcategory</InputLabel>
-                                                    <Select
-                                                        labelId="ownedSubccategoryLabel"
-                                                        id="ownedSubcategory"
-                                                        defaultValue={this.state.ownedSubcategory}
-                                                        value={this.state.ownedSubcategory}
-                                                        onChange={this.onOwnedSubcategoryChange}>
-                                                        <MenuItem value={"Any"}>Any</MenuItem>
-                                                        {this.state.validOwnedSubcategories.map((subcategory, idx) => (
-                                                            <MenuItem key={idx} value={subcategory == undefined ? "Any" : subcategory.title}>
-                                                                {subcategory == undefined ? "Any" : subcategory.title}
-                                                            </MenuItem>
-                                                        ))}
-                                                    </Select>
-                                                </FormControl>
-
-                                                <Button variant="contained" color="primary" onClick={this.handleSubmit}>
-                                                    Search
-                                                </Button>
-                                            </form>
-                                        </div>
+                                        <form noValidate autoComplete="off">
+                                            <Grid container spacing={1}>
+                                                <Grid item xs={4}>
+                                                    <TextField
+                                                        id="location"
+                                                        value={this.state.city}
+                                                        onChange={this.onLocationTextChange}
+                                                        label="Location"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={8} className={classes.slider}>
+                                                    <Typography id="radius-slider" color="inherit">
+                                                        Radius in kilometers
+                                                    </Typography>
+                                                    <Slider
+                                                        defaultValue={this.state.radius}
+                                                        aria-labelledby="radius-slider"
+                                                        value={this.state.radius}
+                                                        min={5}
+                                                        max={400}
+                                                        step={5}
+                                                        valueLabelDisplay="auto"
+                                                        onChange={this.onRadiusChange}
+                                                    />
+                                                </Grid>
+                                            </Grid>
+                                            <Grid container spacing={1} justify="space-between">
+                                                <Grid item xs={5}>
+                                                    <TextField
+                                                        id="itemDesired"
+                                                        label="Item Desired"
+                                                        value={this.state.itemWanted}
+                                                        onChange={this.onItemWantedChange}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={5}>
+                                                    <TextField
+                                                        id="itemOwned"
+                                                        label="Item Owned"
+                                                        value={this.state.itemOwned}
+                                                        onChange={this.onItemOwnedChange}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={5}>
+                                                    <FormControl className={classes.formControl}>
+                                                        <InputLabel id="wantedCondition">Item Desired Condition</InputLabel>
+                                                        <Select
+                                                            labelId="wantedConditionLabel"
+                                                            id="wantedCondition"
+                                                            value={this.state.wantedCondition}
+                                                            defaultValue={this.state.wantedCondition}
+                                                            onChange={this.onWantedConditionChange}>
+                                                            <MenuItem value={"Any"}>Any</MenuItem>
+                                                            <MenuItem value={"new"}>New</MenuItem>
+                                                            <MenuItem value={"used"}>Used</MenuItem>
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
+                                                <Grid item xs={5}>
+                                                    <FormControl className={classes.formControl}>
+                                                        <InputLabel id="ownedConditionInput">Item Owned Condition</InputLabel>
+                                                        <Select
+                                                            labelId="ownedConditionLabel"
+                                                            id="ownedCondition"
+                                                            value={this.state.ownedCondition}
+                                                            defaultValue={this.state.ownedCondition}
+                                                            onChange={this.onOwnedConditionChange}>
+                                                            <MenuItem value={"Any"}>Any</MenuItem>
+                                                            <MenuItem value={"new"}>New</MenuItem>
+                                                            <MenuItem value={"used"}>Used</MenuItem>
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
+                                                <Grid item xs={5}>
+                                                    <FormControl className={classes.formControl}>
+                                                        <InputLabel id="desiredCategoryInput">Item Desired Category</InputLabel>
+                                                        <Select
+                                                            labelId="desiredCategoryLabel"
+                                                            id="desiredCategory"
+                                                            defaultValue={this.state.wantedCategory}
+                                                            value={this.state.wantedCategory}
+                                                            onChange={this.onWantedCategoryChange}>
+                                                            {this.props.categories.map((category, idx) => (
+                                                                <MenuItem key={idx} value={category.title}>
+                                                                    {category.title}
+                                                                </MenuItem>
+                                                            ))}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
+                                                <Grid item xs={5}>
+                                                    <FormControl className={classes.formControl}>
+                                                        <InputLabel id="ownedCategoryInput">Item Owned Category</InputLabel>
+                                                        <Select
+                                                            labelId="ownedCategoryLabel"
+                                                            id="ownedCategory"
+                                                            value={this.state.ownedCategory}
+                                                            defaultValue={this.state.ownedCategory}
+                                                            onChange={this.onOwnedCategoryChange}>
+                                                            <MenuItem value={"Any"}>Any</MenuItem>
+                                                            {this.props.categories.map((category, idx) => (
+                                                                <MenuItem key={idx} value={category == undefined ? "" : category.title}>
+                                                                    {category == undefined ? "" : category.title}
+                                                                </MenuItem>
+                                                            ))}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
+                                                <Grid item xs={5}>
+                                                    <FormControl className={classes.formControl}>
+                                                        <InputLabel id="desiredSubcategoryInput">Item Desired Subcategory</InputLabel>
+                                                        <Select
+                                                            labelId="desiredSubccategoryLabel"
+                                                            id="desiredSubcategory"
+                                                            defaultValue={this.state.wantedSubcategory}
+                                                            value={this.state.wantedSubcategory}
+                                                            onChange={this.onWantedSubcategoryChange}>
+                                                            {this.state.validWantedSubcategories.map((subcategory, idx) => (
+                                                                <MenuItem key={idx} value={subcategory == undefined ? "Any" : subcategory.title}>
+                                                                    {subcategory == undefined ? "Any" : subcategory.title}
+                                                                </MenuItem>
+                                                            ))}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
+                                                <Grid item xs={5}>
+                                                    <FormControl className={classes.formControl}>
+                                                        <InputLabel id="ownedSubcategoryInput">Item Owned Subcategory</InputLabel>
+                                                        <Select
+                                                            labelId="ownedSubccategoryLabel"
+                                                            id="ownedSubcategory"
+                                                            defaultValue={this.state.ownedSubcategory}
+                                                            value={this.state.ownedSubcategory}
+                                                            onChange={this.onOwnedSubcategoryChange}>
+                                                            <MenuItem value={"Any"}>Any</MenuItem>
+                                                            {this.state.validOwnedSubcategories.map((subcategory, idx) => (
+                                                                <MenuItem key={idx} value={subcategory == undefined ? "Any" : subcategory.title}>
+                                                                    {subcategory == undefined ? "Any" : subcategory.title}
+                                                                </MenuItem>
+                                                            ))}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                    <Button
+                                                        fullWidth
+                                                        variant="contained"
+                                                        color="primary"
+                                                        onClick={this.handleSubmit}
+                                                        className={classes.button}>
+                                                        Search
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </form>
                                     </Card>
                                 </Zoom>
                             </Grid>
@@ -429,17 +449,11 @@ class SearchFilter extends React.Component {
                     </Grid>
 
                     <Grid item sm={7}>
-                        <AppBar position="static" className={classes.appBar}>
-                            <Toolbar variant="dense">
-                                <Typography variant="h6" color="inherit">
-                                    Search Results
-                                </Typography>
-                            </Toolbar>
-                        </AppBar>
                         <Card>
+                            <CardHeader title="Search Results" className={classes.cardHeader} />
                             <div className={classes.postList}>
                                 <Zoom in={true} transitionduration={5000}>
-                                    <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"}></PostList>
+                                    <PostList posts={this.props.posts} msgForNoPosts={"Could not find any posts"} />
                                 </Zoom>
                             </div>
                         </Card>

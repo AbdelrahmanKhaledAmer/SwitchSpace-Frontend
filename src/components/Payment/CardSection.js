@@ -11,7 +11,7 @@ import {CardCvcElement, CardExpiryElement, CardNumberElement} from "@stripe/reac
 const CARD_ELEMENT_OPTIONS = {
     style: {
         base: {
-            color: "black",
+            color: window.localStorage["dark"] ? "white" : "black",
             fontWeight: 500,
             fontFamily: "Source Code Pro, Consolas, Menlo, monospace",
             fontSize: "16px",

@@ -1,7 +1,7 @@
 "use strict";
 // React
 import React from "react";
-import {HashRouter as Router, Route, Switch} from "react-router-dom";
+import {HashRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 // Material UI Core
 import {responsiveFontSizes, createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -17,6 +17,9 @@ import AdminView from "./views/AdminView";
 import PostCreateView from "./views/PostCreateView";
 import UserProfileView from "./views/UserProfileView";
 import HomePageView from "./views/HomePageView";
+// Services
+import userAuthService from "./services/UserAuthService";
+import AdminAuthService from "./services/AdminAuthService";
 // Theme
 import settings from "./palette";
 
@@ -35,21 +38,80 @@ export default class App extends React.Component {
             title: "Switch Space",
             theme: null,
             routes: [
-                {component: AdminLoginView, path: "/admin/auth"},
-                // TODO: check loggedin Admin
-                {component: AdminView, path: "/admin/reports"},
-                // TODO: check not loggedin
-                {component: UserLoginView, path: "/login"},
-                // TODO: check not loggedin
-                {component: UserSignupView, path: "/register"},
+                {
+                    // not loggedin
+                    render: props => {
+                        if (!userAuthService.isAuthenticated()) {
+                            // iff not logged in as admin
+                            return <AdminLoginView {...props} />;
+                        } else {
+                            // admin or logged in user
+                            if (AdminAuthService.isAdminUser()) return <Redirect to={"/admin/reports"} />;
+                            else return <Redirect to={"/"} />;
+                        }
+                    },
+                    path: "/admin/auth",
+                },
+                {
+                    // admin only
+                    render: props => {
+                        if (AdminAuthService.isAdminUser()) {
+                            return <AdminView {...props} />;
+                        } else {
+                            return <Redirect to={"/admin/auth"} />;
+                        }
+                    },
+                    path: "/admin/reports",
+                },
+                {
+                    // not loggedin
+                    render: props => {
+                        if (!userAuthService.isAuthenticated()) {
+                            return <UserLoginView {...props} />;
+                        } else {
+                            return <Redirect to="/" />;
+                        }
+                    },
+                    path: "/login",
+                },
+
+                {
+                    // not loggedin
+                    render: props => {
+                        if (!userAuthService.isAuthenticated()) {
+                            return <UserSignupView {...props} />;
+                        } else {
+                            return <Redirect to="/" />;
+                        }
+                    },
+                    path: "/signup",
+                },
                 {component: SearchFilterView, path: "/search"},
                 {component: TrendingView, path: "/trending"},
                 {component: PostView, path: "/post/:id"},
                 {component: UserProfileView, path: "/profile/:id"},
-                // TODO: check loggedin
-                {component: SubscriptionsView, path: "/charge"},
-                // TODO: check loggedin
-                {component: PostCreateView, path: "/create"},
+                {
+                    // normal user only
+                    render: props => {
+                        if (userAuthService.isNormalUser()) {
+                            return <SubscriptionsView {...props} />;
+                        } else {
+                            return <Redirect to="/" />;
+                        }
+                    },
+                    path: "/subscriptions",
+                },
+                {
+                    // normal user only
+                    render: props => {
+                        if (userAuthService.isNormalUser()) {
+                            return <PostCreateView {...props} />;
+                        } else {
+                            return <Redirect to="/" />;
+                        }
+                    },
+                    path: "/create",
+                },
                 {component: HomePageView, path: "/"},
             ],
         };
