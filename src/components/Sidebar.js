@@ -50,6 +50,7 @@ const styles = theme => ({
     },
     listIcon: {
         // color: "#659dbd",
+        color: window.localStorage["dark"] ? "white" : "",
     },
     DrawerHeader: {
         // color: "#fbeec1",
@@ -62,11 +63,12 @@ const styles = theme => ({
         // color: "Blue",
     },
     headerText: {
-        color: theme.palette.header.textColor(),
+        //color: theme.palette.header.textColor(),
+        color: window.localStorage["dark"] ? "white" : "",
     },
     icons: {
         width: "20px",
-        backgroundColor: window.localStorage["dark"] ? "white" : "black",
+        backgroundColor: window.localStorage["dark"] ? "white" : "",
     },
 });
 
