@@ -20,6 +20,8 @@ import Page from "../../Page";
 import ReportModal from "./ReportModal";
 import LocationModal from "../CreatePost/LocationModal";
 
+// Services
+import AdminAuthService from "../../../services/AdminAuthService";
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
 const styles = theme => ({
@@ -116,6 +118,9 @@ class Post extends React.Component {
     isOwnPost() {
         // return false;
         return this.props.userId == this.props.post.creatorId._id;
+    }
+    isAdmin() {
+        return AdminAuthService.isAdminUser(this.props.userId);
     }
 
     isEdited() {
@@ -264,19 +269,16 @@ class Post extends React.Component {
                                 editItemDesired={this.getItemDesired}
                             />
                             <div className={classes.bottom}>
-                                {this.isOwnPost() ? (
-                                    this.isEdited() ? (
-                                        <Button className={classes.button} onClick={this.submitEdit}>
-                                            Sumbit Edits
-                                        </Button>
-                                    ) : (
-                                        <Button variant="contained" className={classes.reportButton} onClick={this.submitDelete}>
-                                            Delete Post
-                                        </Button>
-                                        // <React.Fragment />
-                                    )
-                                ) : (
+                                {this.isOwnPost() || this.isAdmin() ? (
                                     <Button variant="contained" className={classes.reportButton} onClick={this.submitDelete}>
+                                        Delete Post
+                                    </Button>
+                                ) : this.isEdited() ? (
+                                    <Button className={classes.button} onClick={this.submitEdit}>
+                                        Sumbit Edits
+                                    </Button>
+                                ) : (
+                                    <Button variant="contained" className={classes.reportButton} onClick={this.submitReport}>
                                         Report Post
                                     </Button>
                                 )}
