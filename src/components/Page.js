@@ -7,7 +7,7 @@ import {withStyles} from "@material-ui/core/styles";
 // Components
 import QuickNavMenu from "./QuickNavMenu";
 import Sidebar from "./Sidebar";
-import ChatBox from "./Chat/ChatBox";
+import ChatBoxView from "../views/ChatBoxView";
 // import Footer from "./Footer"; // TODO: ADD FOOTER
 // MISC
 const styles = theme => ({
@@ -37,6 +37,8 @@ class Page extends React.Component {
         return {
             classes: PropTypes.object.isRequired,
             children: PropTypes.object.isRequired,
+            // chatReceiverId is not a required prop
+            chatReceiverId: PropTypes.string,
         };
     }
 
@@ -68,7 +70,7 @@ class Page extends React.Component {
                     sidebarToggle={this.sidebarToggle}
                     unreadMessages={3} //TODO: GET FROM SERVER AT LOGIN
                 />
-                <ChatBox></ChatBox>
+                <ChatBoxView chatReceiverId={this.props.chatReceiverId}></ChatBoxView>
                 <Sidebar
                     isOpen={this.state.drawerIsOpen}
                     sidebarToggle={this.sidebarToggle}
