@@ -13,13 +13,13 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 // Icons
-import AccountBoxIcon from "@material-ui/icons/AccountBox";
+//import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import TrendingUpIcon from "@material-ui/icons/TrendingUp";
-import CreditCardIcon from "@material-ui/icons/CreditCard";
-import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
-import AddBoxIcon from "@material-ui/icons/AddBox";
+//import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+//import CreditCardIcon from "@material-ui/icons/CreditCard";
+//import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
+//import AddBoxIcon from "@material-ui/icons/AddBox";
 //import CategoryIcon from "@material-ui/icons/Category";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
@@ -32,7 +32,11 @@ import sports from "../../public/assets/categories/sports.svg";
 import vehichel from "../../public/assets/categories/vehichel.svg";
 import other from "../../public/assets/categories/other.svg";
 import categories from "../../public/assets/categories/categories.svg";
-
+import profile from "../../public/assets/general/profile.svg";
+import upgrade from "../../public/assets/general/upgrade.svg";
+import createPost from "../../public/assets/general/newPost.svg";
+import logout from "../../public/assets/general/logout.svg";
+import trending from "../../public/assets/general/trend.svg";
 //Services
 import UserAuthService from "../services/UserAuthService";
 import CategoryService from "../services/CategoryService";
@@ -177,20 +181,20 @@ class Sidebar extends React.Component {
                 <List>
                     <ListItem button onClick={() => this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`)}>
                         <ListItemIcon className={classes.listIcon}>
-                            <AccountBoxIcon />
+                            <img className={classes.icons} src={profile} />
                         </ListItemIcon>
                         <ListItemText primary="Profile" />
                     </ListItem>
                     <ListItem button onClick={() => this.props.history.push("/subscriptions")}>
                         <ListItemIcon className={classes.listIcon}>
-                            <CreditCardIcon />
+                            <img className={classes.icons} src={upgrade} />
                         </ListItemIcon>
                         <ListItemText primary="Upgrade" />
                     </ListItem>
 
                     <ListItem button onClick={() => this.props.history.push("/create")}>
                         <ListItemIcon className={classes.listIcon}>
-                            <AddBoxIcon />
+                            <img className={classes.icons} src={createPost} />
                         </ListItemIcon>
                         <ListItemText primary="New Post" />
                     </ListItem>
@@ -201,7 +205,7 @@ class Sidebar extends React.Component {
                             this.props.history.push("/");
                         }}>
                         <ListItemIcon className={classes.listIcon}>
-                            <MeetingRoomIcon />
+                            <img className={classes.icons} src={logout} />
                         </ListItemIcon>
                         <ListItemText primary="Logout" />
                     </ListItem>
@@ -234,7 +238,7 @@ class Sidebar extends React.Component {
                         {UserAuthService.isAuthenticated() ? this.loggedInList() : this.loggedOutList()}
                         <ListItem button onClick={() => this.props.history.push("/trending")}>
                             <ListItemIcon className={classes.listIcon}>
-                                <TrendingUpIcon />
+                                <img className={classes.icons} src={trending} />
                             </ListItemIcon>
                             <ListItemText primary="Trending" />
                         </ListItem>
