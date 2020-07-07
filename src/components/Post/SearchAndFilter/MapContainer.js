@@ -30,7 +30,7 @@ class GoogleMap extends React.Component {
             activePost: undefined, // which marker shows info window
             mapCenterLong: 0,
             mapCenterLat: 0,
-            myMarker: {title: "My Search Location", name: "My Search Location", position: {lat: 0, lng: 0}},
+            myMarker: {title: "My Search Location", name: "My Search Location"},
         };
         this.onMapClicked = this.onMapClicked.bind(this);
         this.onMarkerClicked = this.onMarkerClicked.bind(this);
@@ -44,6 +44,7 @@ class GoogleMap extends React.Component {
             google: PropTypes.object.isRequired,
             posts: PropTypes.array.isRequired,
             radius: PropTypes.number,
+            myLocation: PropTypes.object.isRequired,
             onLocationChange: PropTypes.func.isRequired,
             onPostFocusChange: PropTypes.func.isRequired,
         };
@@ -54,23 +55,22 @@ class GoogleMap extends React.Component {
         let longitude = 0;
         // will be props latter
         // const allMarkers = this.state.markers;
-        let myLocation = {lat: latitude, lng: longitude};
+        let myLocation = this.props.myLocation;
         try {
             const position = await this.getCoordinates();
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
             myLocation = {lat: latitude, lng: longitude};
+            // notify the search component
             this.props.onLocationChange(myLocation);
         } catch (err) {
             console.log(err.message);
         }
-
+        // set map center as ur location for the first time
         this.setState({
             mapCenterLat: latitude,
             mapCenterLong: longitude,
-            myMarker: {title: this.state.myMarker.title, name: this.state.myMarker.name, position: myLocation},
         });
-        // this.props.onLocationChange({lat: latitude, lng: longitude});
     }
 
     // get my coordinates // throws an error if the user denied location
@@ -88,8 +88,9 @@ class GoogleMap extends React.Component {
         this.setState({
             showInfo: false,
             activePost: undefined,
-            myMarker: {title: this.state.myMarker.title, name: this.state.myMarker.name, position: position},
+            // myMarker: {title: this.state.myMarker.title, name: this.state.myMarker.name, position: position},
         });
+        // notify the parent with the new location
         this.props.onLocationChange(position);
     }
     // open infowindow when marker is clicked
@@ -113,7 +114,7 @@ class GoogleMap extends React.Component {
                 google={this.props.google}
                 onReady={(mapProps, map) => this.mapLoaded(mapProps, map)}
                 onClick={this.onMapClicked}
-                zoom={11}
+                zoom={8}
                 center={{lat: this.state.mapCenterLat, lng: this.state.mapCenterLong}}>
                 {this.props.posts.map((post, idx) => (
                     //TODO: ICONS
@@ -134,7 +135,7 @@ class GoogleMap extends React.Component {
                     key={"myLoc"}
                     title={this.state.myMarker.title}
                     name={this.state.myMarker.name}
-                    position={this.state.myMarker.position}
+                    position={this.props.myLocation}
                     // onClick={this.onMarkerClicked}
                     //TODO: ICONS
                     icon={{
@@ -174,7 +175,7 @@ class GoogleMap extends React.Component {
 
                 <Circle
                     radius={this.props.radius ? this.props.radius : 10000}
-                    center={this.state.myMarker.position}
+                    center={this.props.myLocation}
                     // onMouseover={() => console.log("mouseover")}
                     onClick={this.onMapClicked}
                     // onMouseout={() => console.log("mouseout")}

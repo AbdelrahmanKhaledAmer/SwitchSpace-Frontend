@@ -134,11 +134,11 @@ class Sidebar extends React.Component {
                         </ListItemIcon>
                         <ListItemText primary="Login" />
                     </ListItem>
-                    <ListItem button onClick={() => this.props.history.push("/register")}>
+                    <ListItem button onClick={() => this.props.history.push("/signup")}>
                         <ListItemIcon className={classes.listIcon}>
                             <SwapHorizIcon /> {/* TODO: GET BETTER ICON */}
                         </ListItemIcon>
-                        <ListItemText primary="Register" />
+                        <ListItemText primary="Signup" />
                     </ListItem>
                 </List>
             </div>
