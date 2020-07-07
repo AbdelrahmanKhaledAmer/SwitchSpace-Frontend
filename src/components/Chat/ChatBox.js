@@ -29,7 +29,7 @@ const styles = theme => ({
         zIndex: 10,
     },
     header: {
-        background: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
+        background: theme.palette.header.backgroundColor(),
         height: "50px",
     },
     headerAvatar: {
