@@ -9,6 +9,7 @@ import PostService from "../services/PostService";
 import ReportService from "../services/ReportService";
 import UserAuthService from "../services/UserAuthService";
 import CategoryService from "../services/CategoryService";
+import Notification from "../components/Notification";
 
 export default class PostView extends React.Component {
     constructor(props) {
@@ -18,6 +19,9 @@ export default class PostView extends React.Component {
             post: {},
             categories: [],
             loading: true,
+            notify: false, // when true notification appears
+            notificationMsg: undefined, // must have value when notification appears
+            notificationSeverity: undefined, // values in "success", "error", "info", "warning"
             userId: "",
         };
 
@@ -27,6 +31,8 @@ export default class PostView extends React.Component {
         this.endLoading = this.endLoading.bind(this);
         this.editPost = this.editPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
+        this.notify = this.notify.bind(this);
+        this.handleNotificationClose = this.handleNotificationClose.bind(this);
     }
 
     static get propTypes() {
@@ -52,8 +58,7 @@ export default class PostView extends React.Component {
                 post: response.data.data,
             });
         } catch (err) {
-            // TODO: TOAST ERROR
-            console.error(err);
+            this.notify(err, "error");
         }
         this.endLoading();
     }
@@ -65,8 +70,7 @@ export default class PostView extends React.Component {
                 categories: response.data.data,
             });
         } catch (err) {
-            // TODO: TOAST ERROR
-            console.error(err);
+            this.notify(err, "error");
         }
         this.endLoading();
     }
@@ -87,8 +91,7 @@ export default class PostView extends React.Component {
             };
             await ReportService.createReport(body);
         } catch (err) {
-            // TODO: TOAST ERROR
-            console.error(err);
+            this.notify(err, "error");
         }
     }
 
@@ -97,8 +100,7 @@ export default class PostView extends React.Component {
             await PostService.editPost(post, this.state.postId);
             window.location.reload(false);
         } catch (err) {
-            // TODO: TOAST ERROR
-            console.error(err);
+            this.notify(err, "error");
         }
     }
 
@@ -107,22 +109,37 @@ export default class PostView extends React.Component {
             await PostService.deletePost(this.state.postId);
             this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`);
         } catch (err) {
-            //TODO: TOAST ERROR
-            console.log(err);
+            this.notify(err, "error");
         }
+    }
+    notify(msg, notificationSeverity) {
+        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
+    }
+
+    // Reset notification state must bbe included in every view and passed to Notification Component
+    handleNotificationClose() {
+        this.setState({notify: false, notificationMsg: undefined});
     }
 
     render() {
         return (
-            <Post
-                post={this.state.post}
-                userId={this.state.userId}
-                loading={this.state.loading}
-                submitReport={this.submitReport}
-                categories={this.state.categories}
-                editPost={this.editPost}
-                deletePost={this.deletePost}
-            />
+            <React.Fragment>
+                <Post
+                    post={this.state.post}
+                    userId={this.state.userId}
+                    loading={this.state.loading}
+                    submitReport={this.submitReport}
+                    categories={this.state.categories}
+                    editPost={this.editPost}
+                    deletePost={this.deletePost}
+                />
+                <Notification
+                    notify={this.state.notify}
+                    notificationMsg={this.state.notificationMsg}
+                    severity={this.state.notificationSeverity}
+                    handleClose={this.handleNotificationClose}
+                />
+            </React.Fragment>
         );
     }
 }
