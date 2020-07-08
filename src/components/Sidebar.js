@@ -13,14 +13,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 // Icons
-//import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-//import TrendingUpIcon from "@material-ui/icons/TrendingUp";
-//import CreditCardIcon from "@material-ui/icons/CreditCard";
-//import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
-//import AddBoxIcon from "@material-ui/icons/AddBox";
-//import CategoryIcon from "@material-ui/icons/Category";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
