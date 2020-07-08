@@ -150,19 +150,19 @@ const styles = theme => ({
         borderRadius: "10px",
     },
     button: {
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
         margin: theme.spacing(0, 1),
         marginTop: theme.spacing(1),
     },
     formButton: {
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
         marginTop: theme.spacing(1),
     },
     formButtonError: {
-        backgroundColor: "#a70000",
-        color: "#fbeec1",
+        backgroundColor: theme.palette.button.error,
+        color: theme.palette.button.textColor(),
         marginTop: theme.spacing(1),
     },
     bottom: {
