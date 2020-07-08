@@ -71,27 +71,23 @@ QontoStepIcon.propTypes = {
     completed: PropTypes.bool,
 };
 
-const ColorlibConnector = withStyles({
+const ColorlibConnector = withStyles(theme => ({
     alternativeLabel: {
         top: 22,
     },
     active: {
-        "& $line": {
-            backgroundImage: "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
-        },
+        backgroundColor: theme.palette.button.backgroundColor(),
     },
     completed: {
-        "& $line": {
-            backgroundImage: "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
-        },
+        backgroundColor: theme.palette.button.backgroundColor(),
     },
     line: {
         height: 3,
         border: 0,
-        backgroundColor: "#eaeaf0",
+        backgroundColor: theme.palette.button.textColor(),
         borderRadius: 1,
     },
-})(StepConnector);
+}))(StepConnector);
 
 const useColorlibStepIconStyles = makeStyles(theme => ({
     root: {
@@ -106,11 +102,11 @@ const useColorlibStepIconStyles = makeStyles(theme => ({
         alignItems: "center",
     },
     active: {
-        backgroundImage: theme.palette.button.backgroundColor(),
+        backgroundColor: theme.palette.primary.light,
         boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
     },
     completed: {
-        backgroundImage: "linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)",
+        backgroundColor: theme.palette.button.backgroundColor(),
     },
 }));
 
