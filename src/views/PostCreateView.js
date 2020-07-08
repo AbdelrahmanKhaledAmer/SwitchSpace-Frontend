@@ -10,7 +10,7 @@ import PostService from "../services/PostService";
 
 import Loading from "../components/Loading";
 
-export default class UserLoginView extends React.Component {
+export default class PostCreateView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
