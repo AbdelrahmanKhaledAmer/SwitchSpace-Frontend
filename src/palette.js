@@ -50,6 +50,10 @@ const palette = {
         backgroundColor: () => (preference === "dark" ? color.primaryDark : color.primaryLight),
         textColor: () => (preference === "dark" ? color.terDark : color.secondaryLight),
     },
+
+    contrastObject: {
+        backgroundColor: color.terDarkHover,
+    },
 };
 
 const typography = {

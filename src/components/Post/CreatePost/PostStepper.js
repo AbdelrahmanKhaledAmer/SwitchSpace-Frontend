@@ -76,15 +76,19 @@ const ColorlibConnector = withStyles(theme => ({
         top: 22,
     },
     active: {
-        backgroundColor: theme.palette.button.backgroundColor(),
+        "& $line": {
+            backgroundColor: theme.palette.button.backgroundColor(),
+        },
     },
     completed: {
-        backgroundColor: theme.palette.button.backgroundColor(),
+        "& $line": {
+            backgroundColor: theme.palette.button.backgroundColor(),
+        },
     },
     line: {
         height: 3,
         border: 0,
-        backgroundColor: theme.palette.button.textColor(),
+        backgroundColor: theme.palette.contrastObject.backgroundColor,
         borderRadius: 1,
     },
 }))(StepConnector);
@@ -102,7 +106,7 @@ const useColorlibStepIconStyles = makeStyles(theme => ({
         alignItems: "center",
     },
     active: {
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: theme.palette.button.backgroundColor(),
         boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
     },
     completed: {
