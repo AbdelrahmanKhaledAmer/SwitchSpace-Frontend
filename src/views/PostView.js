@@ -11,6 +11,8 @@ import UserAuthService from "../services/UserAuthService";
 import CategoryService from "../services/CategoryService";
 import Notification from "../components/Notification";
 import AdminAuthService from "../services/AdminAuthService";
+// Loading component
+import Loading from "../components/Loading";
 
 export default class PostView extends React.Component {
     constructor(props) {
@@ -29,7 +31,6 @@ export default class PostView extends React.Component {
         this.getPost = this.getPost.bind(this);
         this.submitReport = this.submitReport.bind(this);
         this.getCategories = this.getCategories.bind(this);
-        this.endLoading = this.endLoading.bind(this);
         this.editPost = this.editPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
         this.notify = this.notify.bind(this);
@@ -43,11 +44,12 @@ export default class PostView extends React.Component {
         };
     }
 
-    componentDidMount() {
-        this.getPost();
-        this.getCategories();
+    async componentDidMount() {
+        await this.getPost();
+        await this.getCategories();
         let user = UserAuthService.getCurrentUser();
         this.setState({
+            loading: false,
             userId: user.id,
         });
     }
@@ -71,15 +73,6 @@ export default class PostView extends React.Component {
             });
         } catch (err) {
             this.notify(err, "error");
-        }
-        this.endLoading();
-    }
-
-    endLoading() {
-        if (this.state.post._id && this.state.categories.length > 0) {
-            this.setState({
-                loading: false,
-            });
         }
     }
 
@@ -128,10 +121,10 @@ export default class PostView extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Loading loading={this.state.loading} />
                 <Post
                     post={this.state.post}
                     userId={this.state.userId}
-                    loading={this.state.loading}
                     submitReport={this.submitReport}
                     categories={this.state.categories}
                     editPost={this.editPost}
