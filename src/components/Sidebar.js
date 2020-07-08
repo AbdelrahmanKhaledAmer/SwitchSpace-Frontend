@@ -44,23 +44,19 @@ const styles = theme => ({
         width: "auto",
     },
     listIcon: {
-        // color: "#659dbd",
         color: window.localStorage["dark"] ? "white" : "",
     },
     DrawerHeader: {
-        // color: "#fbeec1",
         backgroundColor: theme.palette.header.backgroundColor(),
         textAlign: "center",
         borderRadius: "0 0 5px 0",
     },
     nested: {
         paddingLeft: "10%",
-        // color: "Blue",
     },
     headerText: {
         color: theme.palette.header.textColor(),
     },
-
     icons: {
         width: "20px",
         color: theme.palette.primary.main,
@@ -94,6 +90,7 @@ class Sidebar extends React.Component {
         await this.getCategories();
         this.matchcategoryIcon();
     }
+
     async getCategories() {
         try {
             const categories = await CategoryService.getCategories();
@@ -102,12 +99,13 @@ class Sidebar extends React.Component {
             console.log(err);
         }
     }
+
     matchcategoryIcon() {
         let catIcons = this.state.categories.map((k, i) => [k, this.state.icons[i]]);
         this.setState({categoriesIcons: catIcons});
     }
+
     renderCategories() {
-        //         // TODO: GET <<N>> TRENDING CATEGORIES FROM BACKEND
         const {classes} = this.props;
         return (
             <List>
@@ -146,11 +144,7 @@ class Sidebar extends React.Component {
     loggedOutList() {
         const {classes} = this.props;
         return (
-            <div
-                className={classes.list}
-                role="presentation"
-                // onClick={sidebarToggle} // TODO:
-                onKeyDown={this.props.sidebarToggle}>
+            <div className={classes.list} role="presentation" onKeyDown={this.props.sidebarToggle}>
                 <List>
                     <ListItem button onClick={() => this.props.history.push("/login")}>
                         <ListItemIcon className={classes.listIcon}>
@@ -168,15 +162,12 @@ class Sidebar extends React.Component {
             </div>
         );
     }
+
     loggedInList() {
         const {classes} = this.props;
 
         return (
-            <div
-                className={classes.list}
-                role="presentation"
-                // onClick={sidebarToggle} //TODO: UNCOMMENT WHEN FUNCTIONALITY IS COMPLETE
-                onKeyDown={this.props.sidebarToggle}>
+            <div className={classes.list} role="presentation" onKeyDown={this.props.sidebarToggle}>
                 <List>
                     <ListItem button onClick={() => this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`)}>
                         <ListItemIcon className={classes.listIcon}>
