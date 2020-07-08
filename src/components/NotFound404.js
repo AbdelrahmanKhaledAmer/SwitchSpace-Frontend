@@ -35,7 +35,6 @@ class NotFound404 extends React.Component {
                 <div className={classes.center}>
                     <img src={pageNotFound} />
                 </div>
-                ;
             </Page>
         );
     }
