@@ -113,8 +113,8 @@ export default class App extends React.Component {
                     },
                     path: "/create",
                 },
-                {component: HomePageView, path: "/"},
                 {component: NotFoundView, path: "/404"},
+                {component: HomePageView, path: "/"},
             ],
         };
     }
