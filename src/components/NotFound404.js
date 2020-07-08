@@ -3,10 +3,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
-
 // Components
 import Page from "./Page";
-
 //source image
 import pageNotFound from "../../public/assets/general/404.png";
 
@@ -23,11 +21,13 @@ class NotFound404 extends React.Component {
     constructor(props) {
         super(props);
     }
+
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
         };
     }
+
     render() {
         const {classes} = this.props;
         return (
