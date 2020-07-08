@@ -17,6 +17,7 @@ import AdminView from "./views/AdminView";
 import PostCreateView from "./views/PostCreateView";
 import UserProfileView from "./views/UserProfileView";
 import HomePageView from "./views/HomePageView";
+import NotFoundView from "./views/NotFoundView";
 // Services
 import userAuthService from "./services/UserAuthService";
 import AdminAuthService from "./services/AdminAuthService";
@@ -112,6 +113,7 @@ export default class App extends React.Component {
                     },
                     path: "/create",
                 },
+                {component: NotFoundView, path: "/404"},
                 {component: HomePageView, path: "/"},
             ],
         };

@@ -71,29 +71,29 @@ QontoStepIcon.propTypes = {
     completed: PropTypes.bool,
 };
 
-const ColorlibConnector = withStyles({
+const ColorlibConnector = withStyles(theme => ({
     alternativeLabel: {
         top: 22,
     },
     active: {
         "& $line": {
-            backgroundImage: "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
+            backgroundColor: theme.palette.button.backgroundColor(),
         },
     },
     completed: {
         "& $line": {
-            backgroundImage: "linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)",
+            backgroundColor: theme.palette.button.backgroundColor(),
         },
     },
     line: {
         height: 3,
         border: 0,
-        backgroundColor: "#eaeaf0",
+        backgroundColor: theme.palette.contrastObject.backgroundColor,
         borderRadius: 1,
     },
-})(StepConnector);
+}))(StepConnector);
 
-const useColorlibStepIconStyles = makeStyles({
+const useColorlibStepIconStyles = makeStyles(theme => ({
     root: {
         backgroundColor: "#ccc",
         zIndex: 1,
@@ -106,13 +106,13 @@ const useColorlibStepIconStyles = makeStyles({
         alignItems: "center",
     },
     active: {
-        backgroundImage: "linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)",
+        backgroundColor: theme.palette.button.backgroundColor(),
         boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
     },
     completed: {
-        backgroundImage: "linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)",
+        backgroundColor: theme.palette.button.backgroundColor(),
     },
-});
+}));
 
 function ColorlibStepIcon(props) {
     const classes = useColorlibStepIconStyles();
@@ -150,19 +150,19 @@ const styles = theme => ({
         borderRadius: "10px",
     },
     button: {
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
         margin: theme.spacing(0, 1),
         marginTop: theme.spacing(1),
     },
     formButton: {
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
         marginTop: theme.spacing(1),
     },
     formButtonError: {
-        backgroundColor: "#a70000",
-        color: "#fbeec1",
+        backgroundColor: theme.palette.button.error,
+        color: theme.palette.button.textColor(),
         marginTop: theme.spacing(1),
     },
     bottom: {
