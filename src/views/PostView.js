@@ -59,9 +59,8 @@ export default class PostView extends React.Component {
                 post: response.data.data,
             });
         } catch (err) {
-            this.notify(err, "error");
+            this.props.history.push(`/404`);
         }
-        this.endLoading();
     }
 
     async getCategories() {
