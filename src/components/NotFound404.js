@@ -1,8 +1,9 @@
 "use strict";
+// React
 import React from "react";
 
 // Components
-import Page from "./page";
+import Page from "./Page";
 
 //source image
 import pageNotFound from "../../public/assets/general/404.png";
