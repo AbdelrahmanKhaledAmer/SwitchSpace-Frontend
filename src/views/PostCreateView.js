@@ -55,10 +55,11 @@ export default class PostCreateView extends React.Component {
     }
 
     render() {
-        return this.state.loading == true ? (
-            <Loading loading={this.state.loading} />
-        ) : (
-            <PostStepper categories={this.state.categories} submit={this.createPost} />
+        return (
+            <React.Fragment>
+                <Loading loading={this.state.loading} />
+                <PostStepper categories={this.state.categories} submit={this.createPost} />
+            </React.Fragment>
         );
     }
 }
