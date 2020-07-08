@@ -35,7 +35,7 @@ const styles = theme => ({
     headerAvatar: {
         marginLeft: theme.spacing(1),
     },
-    messageList: {
+    messageListContainer: {
         flex: 1,
         overflow: "auto",
         marginTop: theme.spacing(2),
@@ -48,6 +48,10 @@ const styles = theme => ({
 class ChatBox extends React.Component {
     constructor(props) {
         super(props);
+
+        this.scrollToBottom = this.scrollToBottom.bind(this);
+        this.messageListRef = React.createRef();
+        this.onKeyDown = this.onKeyDown.bind(this);
     }
 
     static get propTypes() {
@@ -61,6 +65,26 @@ class ChatBox extends React.Component {
             onMessageInputChange: PropTypes.func.isRequired,
             messageInput: PropTypes.string.isRequired,
         };
+    }
+
+    componentDidMount() {
+        this.scrollToBottom();
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
+    scrollToBottom() {
+        // scrollTop sets the number of pixels that an element's content is scrolled vertically
+        // scrollHeight is the height of an element's content, including content not visible on the screen due to overflow
+        this.messageListRef.current.scrollTop = this.messageListRef.current.scrollHeight;
+    }
+
+    onKeyDown(event) {
+        if (event.key === "Enter") {
+            this.props.sendMessage();
+        }
     }
 
     render() {
@@ -84,7 +108,9 @@ class ChatBox extends React.Component {
                         </Grid>
                     </Grid>
                 </Paper>
-                <MessageList className={classes.messageList} toBottomHeight={"100%"} dataSource={this.props.messages} />
+                <div className={classes.messageListContainer} ref={this.messageListRef}>
+                    <MessageList dataSource={this.props.messages} />
+                </div>
                 <Grid container>
                     <Grid item xs={10}>
                         <TextField
@@ -92,8 +118,9 @@ class ChatBox extends React.Component {
                             fullWidth
                             multiline={true}
                             value={this.props.messageInput}
-                            placeholder="Type your message here..."
+                            placeholder="Type your message here ..."
                             onChange={this.props.onMessageInputChange}
+                            onKeyDown={this.onKeyDown}
                         />
                     </Grid>
                     <Grid item xs={2}>
