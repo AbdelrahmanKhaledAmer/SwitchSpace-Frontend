@@ -12,15 +12,14 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
+import Typography from "@material-ui/core/Typography";
 // Icons
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import Typography from "@material-ui/core/Typography";
 import accessories from "../../public/assets/categories/accessories.svg";
 import {ReactComponent as Acc} from "../../public/assets/categories/accessories.svg";
-
 import clothing from "../../public/assets/categories/clothes.svg";
 import electronics from "../../public/assets/categories/electronics.svg";
 import media from "../../public/assets/categories/media.svg";
