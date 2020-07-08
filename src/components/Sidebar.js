@@ -25,6 +25,8 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
 import accessories from "../../public/assets/categories/accessories.svg";
+import {ReactComponent as Acc} from "../../public/assets/categories/accessories.svg";
+
 import clothing from "../../public/assets/categories/clothes.svg";
 import electronics from "../../public/assets/categories/electronics.svg";
 import media from "../../public/assets/categories/media.svg";
@@ -54,7 +56,7 @@ const styles = theme => ({
     },
     DrawerHeader: {
         // color: "#fbeec1",
-        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
+        backgroundColor: theme.palette.header.backgroundColor(),
         textAlign: "center",
         borderRadius: "0 0 5px 0",
     },
@@ -63,12 +65,12 @@ const styles = theme => ({
         // color: "Blue",
     },
     headerText: {
-        //color: theme.palette.header.textColor(),
-        color: window.localStorage["dark"] ? "white" : "",
+        color: theme.palette.header.textColor(),
     },
+
     icons: {
         width: "20px",
-        backgroundColor: window.localStorage["dark"] ? "white" : "",
+        color: theme.palette.primary.main,
     },
 });
 
@@ -135,7 +137,9 @@ class Sidebar extends React.Component {
                                     window.location.reload(false);
                                 }}>
                                 <ListItemIcon className={classes.listIcon}>
-                                    <img className={classes.icons} src={categoryIcon[1]} />
+                                    <Acc></Acc>
+                                    {/* <SvgIcon className={classes.icons} component={Acc} viewBox="0 0 600 476.6" /> */}
+                                    {/* <img className={classes.icons} src={categoryIcon[1]} /> */}
                                 </ListItemIcon>
                                 <ListItemText primary={categoryIcon[0].title} />
                             </ListItem>
