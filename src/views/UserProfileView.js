@@ -154,7 +154,7 @@ export default class UserProfileView extends React.Component {
         });
     }
 
-    // Notify the user on with a msg and severity => uses the state variables
+    // Notify the user with a msg and severity => uses the state variables
     notify(msg, notificationSeverity) {
         this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
     }
@@ -166,7 +166,7 @@ export default class UserProfileView extends React.Component {
         this.setState({modalOpen: true});
     }
 
-    // Reset notification state must bbe included in every view and passed to Notification Component
+    // Reset notification state must be included in every view and passed to Notification Component
     handleNotificationClose() {
         this.setState({notify: false, notificationMsg: undefined});
     }
