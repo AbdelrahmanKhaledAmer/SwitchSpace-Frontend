@@ -4,6 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 // Components
 import ChatBox from "../components/Chat/ChatBox";
+import Notification from "../components/Notification";
 // Services
 import ChatService from "../services/ChatService";
 import UserAuthService from "../services/UserAuthService";
@@ -26,6 +27,12 @@ export default class ChatBoxView extends React.Component {
             // messageInput state is stored here instead of ChatBox component to be able to clear its value after sending a message
             messageInput: "",
             messageInputValid: false,
+            // when true notification appears
+            notify: false,
+            // must have value when notification appears
+            notificationMsg: undefined,
+            // values in "success", "error", "info", "warning"
+            notificationSeverity: undefined,
         };
 
         this.closeChat = this.closeChat.bind(this);
@@ -35,6 +42,8 @@ export default class ChatBoxView extends React.Component {
         this.getChatHistory = this.getChatHistory.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this.onMessageInputChange = this.onMessageInputChange.bind(this);
+        this.notify = this.notify.bind(this);
+        this.handleNotificationClose = this.handleNotificationClose.bind(this);
     }
 
     static get propTypes() {
@@ -95,8 +104,7 @@ export default class ChatBoxView extends React.Component {
                     messageInput: "",
                 });
             } else {
-                // TODO: add user feedback
-                console.log(ack.message);
+                this.notify(ack.message, "error");
             }
         });
     }
@@ -130,8 +138,7 @@ export default class ChatBoxView extends React.Component {
                 messages: messagesFormatted,
             });
         } catch (err) {
-            // TODO: add user feedback
-            console.log(err);
+            this.notify(err, "error");
         }
     }
 
@@ -167,20 +174,38 @@ export default class ChatBoxView extends React.Component {
         });
     }
 
+    // Notify the user on with a msg and severity => uses the state variables
+    notify(msg, notificationSeverity) {
+        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
+    }
+
+    // Reset notification state must be included in every view and passed to Notification Component
+    handleNotificationClose() {
+        this.setState({notify: false, notificationMsg: undefined});
+    }
+
     render() {
         if (!this.state.otherUserId) {
             return null;
         }
         return (
-            <ChatBox
-                otherUserPicture={this.state.otherUserPicture}
-                otherUserName={this.state.otherUserName}
-                messages={this.state.messages}
-                closeChat={this.closeChat}
-                sendMessage={this.sendMessage}
-                messageInput={this.state.messageInput}
-                onMessageInputChange={this.onMessageInputChange}
-            />
+            <React.Fragment>
+                <ChatBox
+                    otherUserPicture={this.state.otherUserPicture}
+                    otherUserName={this.state.otherUserName}
+                    messages={this.state.messages}
+                    closeChat={this.closeChat}
+                    sendMessage={this.sendMessage}
+                    messageInput={this.state.messageInput}
+                    onMessageInputChange={this.onMessageInputChange}
+                />
+                <Notification
+                    notify={this.state.notify}
+                    notificationMsg={this.state.notificationMsg}
+                    severity={this.state.notificationSeverity}
+                    handleClose={this.handleNotificationClose}
+                />
+            </React.Fragment>
         );
     }
 }

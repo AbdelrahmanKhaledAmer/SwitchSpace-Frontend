@@ -35,7 +35,10 @@ const styles = theme => ({
     headerAvatar: {
         marginLeft: theme.spacing(1),
     },
-    messageList: {
+    headerUserName: {
+        color: theme.palette.header.textColor(),
+    },
+    messageListContainer: {
         flex: 1,
         overflow: "auto",
         marginTop: theme.spacing(2),
@@ -48,6 +51,15 @@ const styles = theme => ({
 class ChatBox extends React.Component {
     constructor(props) {
         super(props);
+
+        this.scrollToBottom = this.scrollToBottom.bind(this);
+        this.messageListRef = React.createRef();
+        this.onKeyDown = this.onKeyDown.bind(this);
+
+        // Unfortunately, react-chat-elements package doesn't offer a prop for styling its components, so we had here to overwrite some CSS classes
+        const primaryDark = "#2b2b2b";
+        const msgBubbleDarkStyle = `.rce-mbox {background: ${primaryDark};} .rce-mbox-right-notch {fill: ${primaryDark}} .rce-mbox-left-notch {fill: ${primaryDark}} .rce-mbox-time.non-copiable:before {color: white}`;
+        this.msgBubbleStyle = window.localStorage["dark"] ? msgBubbleDarkStyle : "";
     }
 
     static get propTypes() {
@@ -63,46 +75,75 @@ class ChatBox extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.scrollToBottom();
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
+    scrollToBottom() {
+        // scrollTop sets the number of pixels that an element's content is scrolled vertically
+        // scrollHeight is the height of an element's content, including content not visible on the screen due to overflow
+        this.messageListRef.current.scrollTop = this.messageListRef.current.scrollHeight;
+    }
+
+    onKeyDown(event) {
+        if (event.key === "Enter") {
+            this.props.sendMessage();
+        }
+    }
+
     render() {
         const {classes} = this.props;
         return (
-            <Paper className={classes.container} elevation={5}>
-                <Paper className={classes.header} elevation={5}>
-                    <Grid container>
-                        <Grid item container xs spacing={1} alignItems="center">
-                            <Grid item>
-                                <Avatar className={classes.headerAvatar} src={this.props.otherUserPicture ? this.props.otherUserPicture.url : null} />
+            <React.Fragment>
+                <style>{this.msgBubbleStyle}</style>
+                <Paper className={classes.container} elevation={5}>
+                    <Paper className={classes.header} elevation={5}>
+                        <Grid container>
+                            <Grid item container xs spacing={1} alignItems="center">
+                                <Grid item>
+                                    <Avatar
+                                        className={classes.headerAvatar}
+                                        src={this.props.otherUserPicture ? this.props.otherUserPicture.url : null}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <Typography className={classes.headerUserName}>{this.props.otherUserName}</Typography>
+                                </Grid>
                             </Grid>
                             <Grid item>
-                                <Typography color="inherit"> {this.props.otherUserName}</Typography>
+                                <IconButton onClick={this.props.closeChat}>
+                                    <CloseIcon />
+                                </IconButton>
                             </Grid>
                         </Grid>
-                        <Grid item>
-                            <IconButton onClick={this.props.closeChat}>
-                                <CloseIcon />
+                    </Paper>
+                    <div className={classes.messageListContainer} ref={this.messageListRef}>
+                        <MessageList dataSource={this.props.messages} />
+                    </div>
+                    <Grid container>
+                        <Grid item xs={10}>
+                            <TextField
+                                className={classes.messageInput}
+                                fullWidth
+                                multiline={true}
+                                value={this.props.messageInput}
+                                placeholder="Type your message here ..."
+                                onChange={this.props.onMessageInputChange}
+                                onKeyDown={this.onKeyDown}
+                            />
+                        </Grid>
+                        <Grid item xs={2}>
+                            <IconButton onClick={this.props.sendMessage}>
+                                <SendIcon />
                             </IconButton>
                         </Grid>
                     </Grid>
                 </Paper>
-                <MessageList className={classes.messageList} toBottomHeight={"100%"} dataSource={this.props.messages} />
-                <Grid container>
-                    <Grid item xs={10}>
-                        <TextField
-                            className={classes.messageInput}
-                            fullWidth
-                            multiline={true}
-                            value={this.props.messageInput}
-                            placeholder="Type your message here..."
-                            onChange={this.props.onMessageInputChange}
-                        />
-                    </Grid>
-                    <Grid item xs={2}>
-                        <IconButton onClick={this.props.sendMessage}>
-                            <SendIcon />
-                        </IconButton>
-                    </Grid>
-                </Grid>
-            </Paper>
+            </React.Fragment>
         );
     }
 }
