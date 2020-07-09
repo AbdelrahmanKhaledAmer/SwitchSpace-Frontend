@@ -11,6 +11,8 @@ import PostService from "../services/PostService";
 import UserService from "../services/UserService";
 import UserAuthService from "../services/UserAuthService";
 import ReviewService from "../services/ReviewService";
+// MISC
+import queryString from "query-string";
 
 export default class UserProfileView extends React.Component {
     constructor(props) {
@@ -52,10 +54,14 @@ export default class UserProfileView extends React.Component {
         this.reviewUser = this.reviewUser.bind(this);
         this.handleModalClose = this.handleModalClose.bind(this);
         this.handleModalOpen = this.handleModalOpen.bind(this);
+        this.deactivateAccount = this.deactivateAccount.bind(this);
     }
 
     static get propTypes() {
         return {
+            //router props
+            history: PropTypes.object.isRequired,
+            location: PropTypes.object.isRequired,
             match: PropTypes.object.isRequired,
         };
     }
@@ -72,13 +78,19 @@ export default class UserProfileView extends React.Component {
                 label: "Settings",
                 value: "settings",
             });
+
+            //check whether the user is routed to settings iff my profile and loggedin
+            const searchParams = queryString.parse(this.props.location.search);
+            if (searchParams.tab === "settings") {
+                this.setState({selectedTab: "settings"});
+            }
+            console.log(searchParams);
         }
         try {
             const postsResp = await PostService.getUserPosts(this.state.userId);
             const userInfoResp = await UserService.getUserInfo(this.state.userId);
 
             this.setState({
-                loading: false,
                 userInfo: userInfoResp.data.data,
                 posts: postsResp.data.data,
                 isMyProfile: isMyProfile,
@@ -86,9 +98,11 @@ export default class UserProfileView extends React.Component {
                 tabs: tabs,
             });
         } catch (err) {
-            this.notify(err, "error");
-            console.log(err);
+            // reroute after timeout
+            const cb = () => setTimeout(() => this.props.history.push("/"), 3000);
+            this.notify(err, "error", cb);
         }
+        this.setState({loading: false});
     }
 
     async updateProfile(user) {
@@ -123,13 +137,24 @@ export default class UserProfileView extends React.Component {
         }
     }
 
+    async deactivateAccount() {
+        try {
+            await UserService.deactivateAccount();
+            UserAuthService.logout();
+            this.props.history.push("/");
+        } catch (err) {
+            // TODO: add error feadback
+            console.log(err);
+        }
+    }
+
     handleTabChange(event, newValue) {
         this.setState({
             selectedTab: newValue,
         });
     }
 
-    // Notify the user on with a msg and severity => uses the state variables
+    // Notify the user with a msg and severity => uses the state variables
     notify(msg, notificationSeverity) {
         this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
     }
@@ -141,7 +166,7 @@ export default class UserProfileView extends React.Component {
         this.setState({modalOpen: true});
     }
 
-    // Reset notification state must bbe included in every view and passed to Notification Component
+    // Reset notification state must be included in every view and passed to Notification Component
     handleNotificationClose() {
         this.setState({notify: false, notificationMsg: undefined});
     }
@@ -160,6 +185,7 @@ export default class UserProfileView extends React.Component {
                     onUserReview={this.reviewUser}
                     onModalOpen={this.handleModalOpen}
                     onModalClose={this.handleModalClose}
+                    onAccountRemove={this.deactivateAccount}
                     modalOpen={this.state.modalOpen}
                     userInfo={this.state.userInfo}
                     posts={this.state.posts}

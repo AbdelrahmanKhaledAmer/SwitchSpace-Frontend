@@ -1,7 +1,7 @@
 "use strict";
 // React
 import React from "react";
-import {HashRouter as Router, Route, Switch} from "react-router-dom";
+import {HashRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 // Material UI Core
 import {responsiveFontSizes, createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -16,38 +16,18 @@ import AdminLoginView from "./views/AdminLoginView";
 import AdminView from "./views/AdminView";
 import PostCreateView from "./views/PostCreateView";
 import UserProfileView from "./views/UserProfileView";
+import HomePageView from "./views/HomePageView";
+import NotFoundView from "./views/NotFoundView";
+// Services
+import userAuthService from "./services/UserAuthService";
+import AdminAuthService from "./services/AdminAuthService";
+// Theme
+import settings from "./palette";
 
+// import theme from file
 let theme = createMuiTheme({
-    palette: {
-        type: window.localStorage["dark"] ? "dark" : "light",
-        primary: {
-            // navbar and all tab/ toolbar related stuff
-            light: "#15a4f7",
-            main: "#7F7F7F",
-            dark: "#000000",
-            contrastText: "#fff",
-        },
-        secondary: {
-            main: "#64B42D",
-            dark: "#008732",
-            contrastText: "#fff",
-        },
-        // error: {
-        //     main: "#BD0043",
-        //     contrastText: "#fff",
-        // },
-        divider: "#D7D6D5",
-        // background: {
-        //     paper: "#fff",
-        //     default: "#ff0000",
-        // },
-    },
-
-    typography: {
-        // Use the system font over Roboto.
-        fontFamily: 'Avenir Next, Roboto,"Helvetica Neue",Arial,sans-serif',
-        htmlFontSize: 16,
-    },
+    palette: settings.colors,
+    typography: settings.font,
 });
 theme = responsiveFontSizes(theme);
 
@@ -59,21 +39,82 @@ export default class App extends React.Component {
             title: "Switch Space",
             theme: null,
             routes: [
-                {component: AdminLoginView, path: "/admin/auth"},
-                // TODO: check loggedin Admin
-                {component: AdminView, path: "/admin/reports"},
-                // TODO: check not loggedin
-                {component: UserLoginView, path: "/login"},
-                // TODO: check not loggedin
-                {component: UserSignupView, path: "/register"},
-                {component: SearchFilterView, path: "/search/"},
+                {
+                    // not loggedin
+                    render: props => {
+                        if (!userAuthService.isAuthenticated()) {
+                            // iff not logged in as admin
+                            return <AdminLoginView {...props} />;
+                        } else {
+                            // admin or logged in user
+                            if (AdminAuthService.isAdminUser()) return <Redirect to={"/admin/reports"} />;
+                            else return <Redirect to={"/"} />;
+                        }
+                    },
+                    path: "/admin/auth",
+                },
+                {
+                    // admin only
+                    render: props => {
+                        if (AdminAuthService.isAdminUser()) {
+                            return <AdminView {...props} />;
+                        } else {
+                            return <Redirect to={"/admin/auth"} />;
+                        }
+                    },
+                    path: "/admin/reports",
+                },
+                {
+                    // not loggedin
+                    render: props => {
+                        if (!userAuthService.isAuthenticated()) {
+                            return <UserLoginView {...props} />;
+                        } else {
+                            return <Redirect to="/" />;
+                        }
+                    },
+                    path: "/login",
+                },
+
+                {
+                    // not loggedin
+                    render: props => {
+                        if (!userAuthService.isAuthenticated()) {
+                            return <UserSignupView {...props} />;
+                        } else {
+                            return <Redirect to="/" />;
+                        }
+                    },
+                    path: "/signup",
+                },
+                {component: SearchFilterView, path: "/search"},
                 {component: TrendingView, path: "/trending"},
                 {component: PostView, path: "/post/:id"},
                 {component: UserProfileView, path: "/profile/:id"},
-                // TODO: check loggedin
-                {component: SubscriptionsView, path: "/charge"},
-                // TODO: check loggedin
-                {component: PostCreateView, path: "/create"},
+                {
+                    // normal user only
+                    render: props => {
+                        if (userAuthService.isNormalUser()) {
+                            return <SubscriptionsView {...props} />;
+                        } else {
+                            return <Redirect to="/" />;
+                        }
+                    },
+                    path: "/subscriptions",
+                },
+                {
+                    // normal user only
+                    render: props => {
+                        if (userAuthService.isNormalUser()) {
+                            return <PostCreateView {...props} />;
+                        } else {
+                            return <Redirect to="/" />;
+                        }
+                    },
+                    path: "/create",
+                },
+                {component: NotFoundView, path: "/404"},
+                {component: HomePageView, path: "/"},
             ],
         };
     }

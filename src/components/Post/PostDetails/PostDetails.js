@@ -25,7 +25,8 @@ import Item from "./Item";
 
 const styles = theme => ({
     cardHeader: {
-        backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
+        backgroundColor: theme.palette.header.backgroundColor(),
+        color: theme.palette.header.textColor(),
     },
     gridContainer: {
         width: "100%",

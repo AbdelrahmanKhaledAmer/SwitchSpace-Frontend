@@ -1,4 +1,5 @@
 "use strict";
+import userAuthService from "./UserAuthService";
 import HttpService from "./HttpService";
 export default class AdminAuthService {
     constructor() {}
@@ -11,6 +12,7 @@ export default class AdminAuthService {
             HttpService.post(
                 `${AdminAuthService.baseURL()}/login`,
                 admin,
+                null,
                 function (data) {
                     resolve(data);
                 },
@@ -19,6 +21,10 @@ export default class AdminAuthService {
                 }
             );
         });
+    }
+
+    static isAdminUser() {
+        return userAuthService.isAuthenticated() && !userAuthService.isNormalUser();
     }
 
     static logout() {

@@ -3,7 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 //Material UI Core
-import {withStyles} from "@material-ui/core";
+import {withStyles, Divider, Typography} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import Grid from "@material-ui/core/Grid";
@@ -30,18 +30,19 @@ const styles = theme => ({
         marginRight: "auto",
     },
     appBar: {
-        // backgroundColor: "#659dbd",
+        color: theme.palette.header.textColor(),
         backgroundColor: theme.palette.type === "dark" ? theme.palette.primary.dark : theme.palette.primary.light,
-    },
-    createReviewButton: {
-        // backgroundColor: "#659dbd",
-        // color: "#FFFFFF",
     },
     tabsCard: {
         width: "70%",
         marginTop: theme.spacing(3),
         marginLeft: "auto",
         marginRight: "auto",
+    },
+    formButtonError: {
+        backgroundColor: theme.palette.button.error,
+        color: theme.palette.button.textColor(),
+        marginTop: theme.spacing(1),
     },
 });
 class UserProfile extends React.Component {
@@ -56,6 +57,7 @@ class UserProfile extends React.Component {
             onTabChange: PropTypes.func.isRequired,
             onProfileUpdate: PropTypes.func.isRequired,
             onUserReview: PropTypes.func.isRequired,
+            onAccountRemove: PropTypes.func.isRequired,
             onModalClose: PropTypes.func.isRequired,
             onModalOpen: PropTypes.func.isRequired,
             userInfo: PropTypes.object.isRequired,
@@ -80,11 +82,7 @@ class UserProfile extends React.Component {
                             </Grid>
                             <Grid item>
                                 {!this.props.isMyProfile ? (
-                                    <Button
-                                        className={classes.createReviewButton}
-                                        variant="contained"
-                                        startIcon={<Icon>add_circle</Icon>}
-                                        onClick={this.props.onModalOpen}>
+                                    <Button variant="contained" startIcon={<Icon>add_circle</Icon>} onClick={this.props.onModalOpen}>
                                         Create Review
                                     </Button>
                                 ) : (
@@ -116,9 +114,20 @@ class UserProfile extends React.Component {
                             {/* render this pannel iff my profile */}
 
                             <TabPanel value="settings">
+                                <Typography color="inherit" variant="h4" noWrap>
+                                    {"General"}
+                                </Typography>
                                 <UserDataForm
                                     userData={{email: this.props.myEmail, name: this.props.userInfo.name}}
-                                    onSubmit={this.props.onProfileUpdate}></UserDataForm>
+                                    onSubmit={this.props.onProfileUpdate}
+                                />
+                                <Divider></Divider>
+                                <Typography color="inherit" variant="h4" noWrap>
+                                    {"Advanced Settings"}
+                                </Typography>
+                                <Button variant="contained" fullWidth className={classes.formButtonError} onClick={this.props.onAccountRemove}>
+                                    {"deactivate Account"}
+                                </Button>
                             </TabPanel>
                         </TabContext>
                     </Card>

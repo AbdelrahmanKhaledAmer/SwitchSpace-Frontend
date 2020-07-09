@@ -14,6 +14,8 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import ImageIcon from "@material-ui/icons/Image";
 // MISC
 import EmailValidator from "email-validator";
+// import FileInput from "@brainhubeu/react-file-input";
+// import "@brainhubeu/react-file-input/dist/react-file-input.css";
 
 const styles = theme => ({
     paper: {
@@ -23,37 +25,29 @@ const styles = theme => ({
         alignItems: "center",
         padding: theme.spacing(2),
     },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: "#659dbd",
-    },
     form: {
         width: "100%", // Fix IE 11 issue.
         marginTop: theme.spacing(1),
     },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
-        "&:hover": {
-            background: "#558dad",
-        },
-    },
     centerFold: {
         textAlign: "center",
     },
-    formButton: {
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
-        marginTop: theme.spacing(1),
-    },
     formButtonError: {
-        backgroundColor: "#a70000",
-        color: "#fbeec1",
+        backgroundColor: theme.palette.button.error,
+        color: theme.palette.button.textColor(),
         marginTop: theme.spacing(1),
     },
     input: {
         display: "none",
+    },
+    button: {
+        // search button
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
+        "&:hover": {
+            backgroundColor: theme.palette.button.hover.backgroundColor(),
+        },
+        margin: theme.spacing(3, 0, 2),
     },
 });
 
@@ -188,11 +182,14 @@ class UserProfileEdit extends React.Component {
         );
     }
     onImageUpload(e) {
-        // let photos = [];
+        // console.log(e.value);
         this.setState({profilePicture: e.currentTarget.files[0]});
+
+        // this.setState({profilePicture: e.value});
     }
 
-    submitHandler() {
+    submitHandler(ev) {
+        ev.preventDefault();
         if (this.state.formValid) {
             let user = {};
             if (this.props.userData) {
@@ -281,8 +278,9 @@ class UserProfileEdit extends React.Component {
                     <label htmlFor="contained-button-file">
                         <Button
                             fullWidth
-                            className={!this.state.errorValidate.profilePicture ? classes.submit : classes.formButtonError}
+                            className={!this.state.errorValidate.profilePicture ? classes.button : classes.formButtonError}
                             component="span"
+                            variant="contained"
                             endIcon={<CloudUploadIcon />}>
                             Upload Profile Picture
                         </Button>
@@ -297,7 +295,7 @@ class UserProfileEdit extends React.Component {
                         ""
                     )}
                 </FormControl>
-                <Button fullWidth variant="contained" className={classes.submit} onClick={this.submitHandler}>
+                <Button fullWidth variant="contained" type="submit" className={classes.button} onClick={this.submitHandler}>
                     {this.props.userData ? "Update Profile" : "Register"}
                 </Button>
             </form>

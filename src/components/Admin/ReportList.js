@@ -3,19 +3,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 // Material UI Core
-import {withStyles} from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
+import Typography from "@material-ui/core/Typography";
 // Components
 import ReportListItem from "./ReportListItem";
-
-const styles = {
-    scrollableCard: {
-        // marginTop: theme.spacing(10),
-        // maxHeight: "90vh",
-        // overflowY: "scroll",
-        backgroundColor: "transparent",
-    },
-};
 
 class ReportList extends React.Component {
     constructor(props) {
@@ -25,20 +15,23 @@ class ReportList extends React.Component {
     static get propTypes() {
         return {
             reports: PropTypes.array.isRequired,
-            classes: PropTypes.object.isRequired,
             deleteReport: PropTypes.func.isRequired,
+            msgForNoPosts: PropTypes.string.isRequired,
         };
     }
 
     render() {
-        const {classes} = this.props;
-        return (
-            <List className={classes.scrollableCard}>
-                {this.props.reports.map(report => (
-                    <ReportListItem key={report._id} report={report} deleteReport={this.props.deleteReport} />
-                ))}
-            </List>
-        );
+        if (this.props.reports.length == 0) {
+            return (
+                <Typography variant="h5" align="center" color="inherit">
+                    {this.props.msgForNoPosts}
+                </Typography>
+            );
+        }
+
+        return this.props.reports.map(report => <ReportListItem key={report._id} report={report} deleteReport={this.props.deleteReport} />);
+        // return this.props.reports.map(report => <ReportListItem key={report._id} report={report} deleteReport={this.props.deleteReport} />);
     }
 }
-export default withStyles(styles)(ReportList);
+
+export default ReportList;

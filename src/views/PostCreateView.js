@@ -8,10 +8,14 @@ import PostStepper from "../components/Post/CreatePost/PostStepper";
 import CategoryService from "../services/CategoryService";
 import PostService from "../services/PostService";
 
-export default class UserLoginView extends React.Component {
+import Loading from "../components/Loading";
+
+export default class PostCreateView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            // Loading state
+            loading: true, // when true => loading state
             categories: [],
         };
 
@@ -27,6 +31,7 @@ export default class UserLoginView extends React.Component {
 
     componentDidMount() {
         this.populateCategories();
+        this.setState({loading: false});
     }
 
     async populateCategories() {
@@ -50,6 +55,11 @@ export default class UserLoginView extends React.Component {
     }
 
     render() {
-        return <PostStepper categories={this.state.categories} submit={this.createPost} />;
+        return (
+            <React.Fragment>
+                <Loading loading={this.state.loading} />
+                <PostStepper categories={this.state.categories} submit={this.createPost} />
+            </React.Fragment>
+        );
     }
 }

@@ -50,6 +50,7 @@ class Payment extends React.Component {
             tier: PropTypes.object.isRequired,
             modalOpen: PropTypes.bool.isRequired,
             onClose: PropTypes.func.isRequired,
+            notify: PropTypes.func.isRequired,
         };
     }
 
@@ -71,7 +72,13 @@ class Payment extends React.Component {
                     <Elements stripe={stripePromise}>
                         <ElementsConsumer>
                             {({stripe, elements}) => (
-                                <CheckoutForm price={this.props.tier.price} onSubmit={this.submitHandler} stripe={stripe} elements={elements} />
+                                <CheckoutForm
+                                    price={this.props.tier.price}
+                                    onSubmit={this.submitHandler}
+                                    stripe={stripe}
+                                    elements={elements}
+                                    notify={this.props.notify}
+                                />
                             )}
                         </ElementsConsumer>
                     </Elements>

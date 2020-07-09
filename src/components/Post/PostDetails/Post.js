@@ -6,8 +6,6 @@ import Geocode from "react-geocode";
 // Material UI Core
 import {withStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Backdrop from "@material-ui/core/Backdrop";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 // Material UI Icons
@@ -20,6 +18,8 @@ import Page from "../../Page";
 import ReportModal from "./ReportModal";
 import LocationModal from "../CreatePost/LocationModal";
 
+// Services
+import AdminAuthService from "../../../services/AdminAuthService";
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
 const styles = theme => ({
@@ -50,12 +50,14 @@ const styles = theme => ({
     },
     button: {
         // backgroundColor: "#659dbd", //TODO: theme.palette
-        color: "#fbeec1",
+        color: theme.palette.button.textColor(),
+        backgroundColor: theme.palette.button.backgroundColor(),
+
         marginTop: theme.spacing(1),
     },
     reportButton: {
-        // backgroundColor: "#a70000", //TODO: theme.palette
-        // color: "#fbeec1",
+        backgroundColor: theme.palette.button.error,
+        color: theme.palette.button.textColor(),
         marginTop: theme.spacing(1),
     },
     bottom: {
@@ -76,6 +78,7 @@ class Post extends React.Component {
             editedItemDesired: null,
             editedPhotos: null,
             editedLocation: null,
+            chatReceiverId: "",
         };
 
         this.toggleReportModal = this.toggleReportModal.bind(this);
@@ -89,17 +92,19 @@ class Post extends React.Component {
         this.getItemOwned = this.getItemOwned.bind(this);
         this.getItemDesired = this.getItemDesired.bind(this);
         this.submitEdit = this.submitEdit.bind(this);
+        this.submitDelete = this.submitDelete.bind(this);
+        this.setReceiverId = this.setReceiverId.bind(this);
     }
 
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
             post: PropTypes.object.isRequired,
-            loading: PropTypes.bool.isRequired,
             submitReport: PropTypes.func.isRequired,
             userId: PropTypes.string.isRequired,
             categories: PropTypes.array.isRequired,
             editPost: PropTypes.func.isRequired,
+            deletePost: PropTypes.func.isRequired,
         };
     }
 
@@ -110,6 +115,9 @@ class Post extends React.Component {
     isOwnPost() {
         // return false;
         return this.props.userId == this.props.post.creatorId._id;
+    }
+    isAdmin() {
+        return AdminAuthService.isAdminUser(this.props.userId);
     }
 
     isEdited() {
@@ -133,7 +141,7 @@ class Post extends React.Component {
     }
 
     async getLocation() {
-        if (this.props.loading || !this.post.exchangeLocation) {
+        if (!this.post.exchangeLocation) {
             return;
         }
         const coord = this.props.post.exchangeLocation.coordinates;
@@ -193,74 +201,94 @@ class Post extends React.Component {
         this.props.editPost(formData);
     }
 
+    async submitDelete() {
+        this.props.deletePost();
+    }
+
+    setReceiverId() {
+        this.setState(
+            {
+                chatReceiverId: this.props.post.creatorId._id,
+            },
+            () => {
+                this.setState({
+                    chatReceiverId: "",
+                });
+            }
+        );
+    }
+
     render() {
         const {classes} = this.props;
+        // to avoid undefined post
+        if (!this.props.post._id) {
+            return <React.Fragment />;
+        }
         return (
-            <Page>
-                {this.props.loading ? (
-                    <Backdrop className={classes.backdrop} open={this.props.loading}>
-                        <CircularProgress color="primary" />
-                    </Backdrop>
-                ) : (
-                    <div>
-                        <Container className={classes.conatiner}>
-                            <Grid container justify="space-between" alignItems="center" className={classes.topContainer}>
-                                <Grid item xs={6}>
-                                    <UserInfo userInfo={this.props.post.creatorId} />
-                                </Grid>
-                                <Grid item xs={6} className={classes.rightGridItem}>
-                                    <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
-                                    <Grid container justify="flex-end">
-                                        <div className={classes.icon}>
-                                            <LocationOnOutlinedIcon />
-                                        </div>
-                                        {this.state.postLocation}
-                                    </Grid>
-                                    {this.isOwnPost() ? (
-                                        <Button className={classes.button} endIcon={<LocationOnIcon />} onClick={this.toggleLocationModal}>
-                                            Edit Location
-                                        </Button>
-                                    ) : (
-                                        <Button className={classes.button} onClick={this.toggleLocationModal}>
-                                            Contact for Exchange
-                                        </Button>
-                                        // TODO: START CHAT
-                                    )}
-                                </Grid>
+            <Page chatReceiverId={this.state.chatReceiverId}>
+                <div>
+                    <Container className={classes.conatiner}>
+                        <Grid container justify="space-between" alignItems="center" className={classes.topContainer}>
+                            <Grid item xs={6}>
+                                <UserInfo userInfo={this.props.post.creatorId} />
                             </Grid>
-                            <PostDetails
-                                post={this.props.post}
-                                isOwnPost={this.isOwnPost()}
-                                editPhotos={this.getPhotos}
-                                categories={this.props.categories}
-                                editItemOwned={this.getItemOwned}
-                                editItemDesired={this.getItemDesired}
-                            />
-                            <div className={classes.bottom}>
+                            <Grid item xs={6} className={classes.rightGridItem}>
+                                <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
+                                <Grid container justify="flex-end">
+                                    <div className={classes.icon}>
+                                        <LocationOnOutlinedIcon />
+                                    </div>
+                                    {this.state.postLocation}
+                                </Grid>
                                 {this.isOwnPost() ? (
-                                    this.isEdited() ? (
-                                        <Button className={classes.button} onClick={this.submitEdit}>
-                                            Sumbit Edits
-                                        </Button>
-                                    ) : (
-                                        <React.Fragment />
-                                    )
-                                ) : (
-                                    <Button className={classes.reportButton} onClick={this.toggleReportModal}>
-                                        Report Post
+                                    <Button
+                                        variant="contained"
+                                        className={classes.button}
+                                        endIcon={<LocationOnIcon />}
+                                        onClick={this.toggleLocationModal}>
+                                        Edit Location
                                     </Button>
+                                ) : (
+                                    <Button className={classes.button} onClick={this.setReceiverId}>
+                                        Contact for Exchange
+                                    </Button>
+                                    // TODO: START CHAT
                                 )}
-                            </div>
-                        </Container>
-                        <ReportModal modalOpen={this.state.ReportModalOpen} onClose={this.toggleReportModal} submitReport={this.submitReport} />
-                        <LocationModal
-                            modalOpen={this.state.locationModalOpen}
-                            onClose={this.toggleLocationModal}
-                            setLocation={this.setLocation}
-                            oldMarker={this.props.post.exchangeLocation}
+                            </Grid>
+                        </Grid>
+                        <PostDetails
+                            post={this.props.post}
+                            isOwnPost={this.isOwnPost()}
+                            editPhotos={this.getPhotos}
+                            categories={this.props.categories}
+                            editItemOwned={this.getItemOwned}
+                            editItemDesired={this.getItemDesired}
                         />
-                    </div>
-                )}
+                        <div className={classes.bottom}>
+                            {this.isOwnPost() || this.isAdmin() ? (
+                                <Button variant="contained" className={classes.reportButton} onClick={this.submitDelete}>
+                                    Delete Post
+                                </Button>
+                            ) : this.isEdited() ? (
+                                <Button className={classes.button} onClick={this.submitEdit}>
+                                    Sumbit Edits
+                                </Button>
+                            ) : (
+                                <Button variant="contained" className={classes.reportButton} onClick={this.submitReport}>
+                                    Report Post
+                                </Button>
+                            )}
+                        </div>
+                    </Container>
+                    <ReportModal modalOpen={this.state.ReportModalOpen} onClose={this.toggleReportModal} submitReport={this.submitReport} />
+                    <LocationModal
+                        modalOpen={this.state.locationModalOpen}
+                        onClose={this.toggleLocationModal}
+                        setLocation={this.setLocation}
+                        oldMarker={this.props.post.exchangeLocation}
+                    />
+                </div>
+                )
             </Page>
         );
     }

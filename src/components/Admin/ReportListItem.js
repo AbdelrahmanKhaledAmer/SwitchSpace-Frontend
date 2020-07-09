@@ -2,17 +2,16 @@
 // React
 import React from "react";
 import PropTypes from "prop-types";
+import {withRouter} from "react-router-dom";
 // Material UI Core
-import ListItem from "@material-ui/core/ListItem";
-import Typography from "@material-ui/core/Typography";
-import Avatar from "@material-ui/core/Avatar";
 import {withStyles} from "@material-ui/core/styles";
+import ListItem from "@material-ui/core/ListItem";
+import List from "@material-ui/core/List";
+import Avatar from "@material-ui/core/Avatar";
 import Card from "@material-ui/core/Card";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 // Material UI Icons
 import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import ViewHeadlineIcon from "@material-ui/icons/ViewHeadline";
@@ -20,15 +19,18 @@ import ReportIcon from "@material-ui/icons/Report";
 
 const styles = theme => ({
     itemMargin: {
-        marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(2),
-        maxWidth: "70vw",
+        margin: theme.spacing(2, 0),
     },
-
     itemText: {
         maxWidth: "80%",
         display: "list-item",
-        // wordWrap: "inherit",
+    },
+    image: {
+        width: "100%",
+        height: "100%",
+    },
+    boldText: {
+        fontWeight: "bold",
     },
 });
 
@@ -39,6 +41,8 @@ class ReportListItem extends React.Component {
         this.state = {
             postLocation: "Unknown Location",
         };
+
+        this.goToPost = this.goToPost.bind(this);
     }
 
     static get propTypes() {
@@ -46,36 +50,35 @@ class ReportListItem extends React.Component {
             classes: PropTypes.object.isRequired,
             report: PropTypes.object.isRequired,
             deleteReport: PropTypes.func.isRequired,
+            history: PropTypes.object.isRequired,
         };
+    }
+
+    goToPost() {
+        this.props.history.push(`/post/${this.props.report.postId}`);
     }
 
     render() {
         const {classes} = this.props;
         return (
-            <Card raised className={classes.itemMargin} elevation={5}>
-                <ListItem alignItems="flex-start" button>
-                    <ListItemAvatar>
-                        <Avatar>
+            <Card elevation={5} className={classes.itemMargin}>
+                <Grid container spacing={1} className={classes.postContainer}>
+                    <Grid item xs={1}>
+                        <Avatar variant="rounded" className={classes.image}>
                             <ReportIcon />
                         </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary={
-                            <Typography align={"left"} variant="h6" color="textPrimary">
-                                {this.props.report.reporterName}
-                            </Typography>
-                        }
-                        secondary={
-                            // {/* <React.Fragment> */}
-                            <Typography variant="subtitle1" className={classes.itemText}>
-                                {this.props.report.complaint}
-                            </Typography>
-                            // {/* </React.Fragment> */}
-                        }
-                    />
-                    <ListItemSecondaryAction>
+                    </Grid>
+                    <Grid item xs={9}>
+                        <List>
+                            <ListItem>
+                                <div className={classes.boldText}>{this.props.report.reporterName}</div>
+                            </ListItem>
+                            <ListItem>{this.props.report.complaint}</ListItem>
+                        </List>
+                    </Grid>
+                    <Grid item xs={2}>
                         <Tooltip title="View Post" aria-label="go to post">
-                            <IconButton edge="end" aria-label="go to post">
+                            <IconButton edge="end" aria-label="go to post" onClick={this.goToPost}>
                                 <ViewHeadlineIcon />
                             </IconButton>
                         </Tooltip>
@@ -89,11 +92,11 @@ class ReportListItem extends React.Component {
                                 <DeleteIcon />
                             </IconButton>
                         </Tooltip>
-                    </ListItemSecondaryAction>
-                </ListItem>
+                    </Grid>
+                </Grid>
             </Card>
         );
     }
 }
 
-export default withStyles(styles)(ReportListItem);
+export default withRouter(withStyles(styles)(ReportListItem));

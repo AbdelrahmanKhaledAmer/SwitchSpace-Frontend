@@ -5,37 +5,19 @@ import PropTypes from "prop-types";
 import {Map, Marker, GoogleApiWrapper, InfoWindow, Circle} from "google-maps-react";
 // Material UI Core
 import {withStyles} from "@material-ui/core/styles";
-import {Grid} from "@material-ui/core";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from "@material-ui/core/Grid";
 // Material UI Icons
 import SwapHorizOutlinedIcon from "@material-ui/icons/SwapHorizOutlined";
 // Components
 import InfoCard from "./InfoCard";
 
-//TODO: loading styles
-const LoadingContainer = () => {
-    return <CircularProgress size={100} />;
-};
 // infowindow style
 const styles = () => ({
     infoWindowContainer: {
         // need min width to prevent collapsing
         minWidth: 300,
-        // minHeight: 240,
         // needed for wrapping text
         maxWidth: 420,
-        maxHeight: 420,
-    },
-    bullet: {
-        display: "inline-block",
-        margin: "0 2px",
-        transform: "scale(0.8)",
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
     },
 });
 
@@ -48,12 +30,24 @@ class GoogleMap extends React.Component {
             activePost: undefined, // which marker shows info window
             mapCenterLong: 0,
             mapCenterLat: 0,
-            myMarker: {title: "My Search Location", name: "My Search Location", position: {lat: 0, lng: 0}},
+            myMarker: {title: "My Search Location", name: "My Search Location"},
         };
         this.onMapClicked = this.onMapClicked.bind(this);
         this.onMarkerClicked = this.onMarkerClicked.bind(this);
         this.mapLoaded = this.mapLoaded.bind(this);
         this.getCoordinates = this.getCoordinates.bind(this);
+    }
+
+    static get propTypes() {
+        return {
+            classes: PropTypes.object.isRequired,
+            google: PropTypes.object.isRequired,
+            posts: PropTypes.array.isRequired,
+            radius: PropTypes.number,
+            myLocation: PropTypes.object.isRequired,
+            onLocationChange: PropTypes.func.isRequired,
+            onPostFocusChange: PropTypes.func.isRequired,
+        };
     }
     // called directly after mounting component
     async componentDidMount() {
@@ -61,23 +55,22 @@ class GoogleMap extends React.Component {
         let longitude = 0;
         // will be props latter
         // const allMarkers = this.state.markers;
-        let myLocation = {lat: latitude, lng: longitude};
+        let myLocation = this.props.myLocation;
         try {
             const position = await this.getCoordinates();
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
             myLocation = {lat: latitude, lng: longitude};
+            // notify the search component
             this.props.onLocationChange(myLocation);
         } catch (err) {
             console.log(err.message);
         }
-
+        // set map center as ur location for the first time
         this.setState({
             mapCenterLat: latitude,
             mapCenterLong: longitude,
-            myMarker: {title: this.state.myMarker.title, name: this.state.myMarker.name, position: myLocation},
         });
-        // this.props.onLocationChange({lat: latitude, lng: longitude});
     }
 
     // get my coordinates // throws an error if the user denied location
@@ -95,8 +88,9 @@ class GoogleMap extends React.Component {
         this.setState({
             showInfo: false,
             activePost: undefined,
-            myMarker: {title: this.state.myMarker.title, name: this.state.myMarker.name, position: position},
+            // myMarker: {title: this.state.myMarker.title, name: this.state.myMarker.name, position: position},
         });
+        // notify the parent with the new location
         this.props.onLocationChange(position);
     }
     // open infowindow when marker is clicked
@@ -109,19 +103,8 @@ class GoogleMap extends React.Component {
 
     // triggered when the map finishes loading
     mapLoaded(mapProps, map) {
-        console.log("map loaded");
         console.log(mapProps);
         console.log(map);
-    }
-    static get propTypes() {
-        return {
-            classes: PropTypes.object.isRequired,
-            google: PropTypes.object.isRequired,
-            posts: PropTypes.array.isRequired,
-            radius: PropTypes.number,
-            onLocationChange: PropTypes.func.isRequired,
-            onPostFocusChange: PropTypes.func.isRequired,
-        };
     }
 
     render() {
@@ -131,7 +114,7 @@ class GoogleMap extends React.Component {
                 google={this.props.google}
                 onReady={(mapProps, map) => this.mapLoaded(mapProps, map)}
                 onClick={this.onMapClicked}
-                zoom={11}
+                zoom={8}
                 center={{lat: this.state.mapCenterLat, lng: this.state.mapCenterLong}}>
                 {this.props.posts.map((post, idx) => (
                     //TODO: ICONS
@@ -152,11 +135,11 @@ class GoogleMap extends React.Component {
                     key={"myLoc"}
                     title={this.state.myMarker.title}
                     name={this.state.myMarker.name}
-                    position={this.state.myMarker.position}
+                    position={this.props.myLocation}
                     // onClick={this.onMarkerClicked}
                     //TODO: ICONS
                     icon={{
-                        url: "https://switchspace-datastore.s3.eu-central-1.amazonaws.com/clipdealer_A51141491_preview.jpg",
+                        url: `${process.env.MEDIA_SERVER_URL}clipdealer_A51141491_preview.jpg`,
                         anchor: new this.props.google.maps.Point(32, 32),
                         scaledSize: new this.props.google.maps.Size(32, 32),
                     }}
@@ -192,7 +175,7 @@ class GoogleMap extends React.Component {
 
                 <Circle
                     radius={this.props.radius ? this.props.radius : 10000}
-                    center={this.state.myMarker.position}
+                    center={this.props.myLocation}
                     // onMouseover={() => console.log("mouseover")}
                     onClick={this.onMapClicked}
                     // onMouseout={() => console.log("mouseout")}
@@ -210,6 +193,5 @@ class GoogleMap extends React.Component {
 export default withStyles(styles)(
     GoogleApiWrapper({
         apiKey: process.env.GOOGLE_API_KEY,
-        LoadingContainer: LoadingContainer,
     })(GoogleMap)
 );

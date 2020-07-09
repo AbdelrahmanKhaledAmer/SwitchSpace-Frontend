@@ -33,9 +33,6 @@ const styles = theme => ({
         width: "70%",
         margin: "0 auto",
         marginTop: theme.spacing(3),
-        // maxHeight: "90vh",
-        // TODO: remove from trending add to search
-        // overflowY: "scroll",
     },
 });
 
