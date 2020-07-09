@@ -266,13 +266,15 @@ class Post extends React.Component {
                         />
                         <div className={classes.bottom}>
                             {this.isOwnPost() || this.isAdmin() ? (
-                                <Button variant="contained" className={classes.reportButton} onClick={this.submitDelete}>
-                                    Delete Post
-                                </Button>
-                            ) : this.isEdited() ? (
-                                <Button className={classes.button} onClick={this.submitEdit}>
-                                    Sumbit Edits
-                                </Button>
+                                this.isEdited() ? (
+                                    <Button className={classes.button} onClick={this.submitEdit}>
+                                        Submit Edits
+                                    </Button>
+                                ) : (
+                                    <Button variant="contained" className={classes.reportButton} onClick={this.submitDelete}>
+                                        Delete Post
+                                    </Button>
+                                )
                             ) : (
                                 <Button variant="contained" className={classes.reportButton} onClick={this.submitReport}>
                                     Report Post
@@ -288,7 +290,6 @@ class Post extends React.Component {
                         oldMarker={this.props.post.exchangeLocation}
                     />
                 </div>
-                )
             </Page>
         );
     }
