@@ -186,7 +186,16 @@ export default class ChatBoxView extends React.Component {
 
     render() {
         if (!this.state.otherUserId) {
-            return null;
+            // if otherUserId is not set, then ChatBox should not appear
+            // only return notification component to allow showing error notifications while chatbox is closed
+            return (
+                <Notification
+                    notify={this.state.notify}
+                    notificationMsg={this.state.notificationMsg}
+                    severity={this.state.notificationSeverity}
+                    handleClose={this.handleNotificationClose}
+                />
+            );
         }
         return (
             <React.Fragment>
