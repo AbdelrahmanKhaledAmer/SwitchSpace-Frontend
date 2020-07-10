@@ -51,6 +51,7 @@ export default class App extends React.Component {
                             else return <Redirect to={"/"} />;
                         }
                     },
+                    exact: true,
                     path: "/admin/auth",
                 },
                 {
@@ -62,6 +63,7 @@ export default class App extends React.Component {
                             return <Redirect to={"/admin/auth"} />;
                         }
                     },
+                    exact: true,
                     path: "/admin/reports",
                 },
                 {
@@ -73,6 +75,7 @@ export default class App extends React.Component {
                             return <Redirect to="/" />;
                         }
                     },
+                    exact: true,
                     path: "/login",
                 },
 
@@ -85,12 +88,13 @@ export default class App extends React.Component {
                             return <Redirect to="/" />;
                         }
                     },
+                    exact: true,
                     path: "/signup",
                 },
-                {component: SearchFilterView, path: "/search"},
-                {component: TrendingView, path: "/trending"},
-                {component: PostView, path: "/post/:id"},
-                {component: UserProfileView, path: "/profile/:id"},
+                {component: SearchFilterView, exact: true, path: "/search"},
+                {component: TrendingView, exact: true, path: "/trending"},
+                {component: PostView, exact: true, path: "/post/:id"},
+                {component: UserProfileView, exact: true, path: "/profile/:id"},
                 {
                     // normal user only
                     render: props => {
@@ -100,6 +104,7 @@ export default class App extends React.Component {
                             return <Redirect to="/" />;
                         }
                     },
+                    exact: true,
                     path: "/subscriptions",
                 },
                 {
@@ -111,10 +116,11 @@ export default class App extends React.Component {
                             return <Redirect to="/" />;
                         }
                     },
+                    exact: true,
                     path: "/create",
                 },
-                {component: NotFoundView, path: "/404"},
-                {component: HomePageView, path: "/"},
+                {component: HomePageView, exact: true, path: "/"},
+                {component: NotFoundView},
             ],
         };
     }
