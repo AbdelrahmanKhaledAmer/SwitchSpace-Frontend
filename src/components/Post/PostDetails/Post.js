@@ -225,7 +225,7 @@ class Post extends React.Component {
             return <React.Fragment />;
         }
         return (
-            <Page chatReceiverId={this.state.chatReceiverId}>
+            <Page chatReceiverIdFromPost={this.state.chatReceiverId}>
                 <div>
                     <Container className={classes.conatiner}>
                         <Grid container justify="space-between" alignItems="center" className={classes.topContainer}>

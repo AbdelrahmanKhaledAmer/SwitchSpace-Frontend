@@ -23,6 +23,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 // Components
 import MiniUserMenu from "./MiniUserMenu";
+import ChatMenuView from "../views/ChatMenuView";
 // Service
 import UserAuthService from "../services/UserAuthService";
 
@@ -66,7 +67,7 @@ class QuickNavMenu extends React.Component {
         super(props);
 
         this.state = {
-            anchorEl: null,
+            userMenuAnchorEl: null,
             darkMode: Boolean(window.localStorage["dark"]),
             searchQuery: "",
         };
@@ -85,16 +86,20 @@ class QuickNavMenu extends React.Component {
             history: PropTypes.object.isRequired,
             authorizationToggle: PropTypes.func,
             classes: PropTypes.object.isRequired,
+            chatMenuAnchorEl: PropTypes.object,
+            onChatMenuOpen: PropTypes.func.isRequired,
+            onChatMenuClose: PropTypes.func.isRequired,
+            onChatSelect: PropTypes.func.isRequired,
         };
     }
 
     handleProfileMenuOpen(event) {
-        this.setState({anchorEl: event.currentTarget});
+        this.setState({userMenuAnchorEl: event.currentTarget});
     }
 
     // close menu item
     handleMenuClose() {
-        this.setState({anchorEl: null});
+        this.setState({userMenuAnchorEl: null});
     }
 
     onSearchQueryChange(e) {
@@ -105,19 +110,24 @@ class QuickNavMenu extends React.Component {
     renderLoggedIn() {
         return (
             <div>
-                <IconButton aria-label="show 4 new mails">
-                    {this.props.unreadMessages == 0 ? (
-                        <Avatar variant="rounded">
-                            <MessageOutlinedIcon />
-                        </Avatar>
-                    ) : (
-                        <Badge badgeContent={this.props.unreadMessages}>
-                            <Avatar variant="rounded">
-                                <MessageOutlinedIcon />
-                            </Avatar>
-                        </Badge>
-                    )}
-                </IconButton>
+                {
+                    // show chat menu button only for normal users and not admins
+                    UserAuthService.isNormalUser() && (
+                        <IconButton onClick={this.props.onChatMenuOpen}>
+                            {this.props.unreadMessages == 0 ? (
+                                <Avatar variant="rounded">
+                                    <MessageOutlinedIcon />
+                                </Avatar>
+                            ) : (
+                                <Badge badgeContent={this.props.unreadMessages}>
+                                    <Avatar variant="rounded">
+                                        <MessageOutlinedIcon />
+                                    </Avatar>
+                                </Badge>
+                            )}
+                        </IconButton>
+                    )
+                }
                 <IconButton
                     edge="end"
                     aria-label="account of current user"
@@ -217,7 +227,17 @@ class QuickNavMenu extends React.Component {
                         </Grid>
                     </Toolbar>
                 </AppBar>
-                <MiniUserMenu anchorEl={this.state.anchorEl} handleMenuClose={this.handleMenuClose} />
+                <MiniUserMenu anchorEl={this.state.userMenuAnchorEl} handleMenuClose={this.handleMenuClose} />
+                {
+                    // mount chat menu only for normal users and not admins
+                    UserAuthService.isNormalUser() && (
+                        <ChatMenuView
+                            anchorEl={this.props.chatMenuAnchorEl}
+                            onChatMenuClose={this.props.onChatMenuClose}
+                            onChatSelect={this.props.onChatSelect}
+                        />
+                    )
+                }
             </div>
         );
     }
