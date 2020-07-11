@@ -21,4 +21,32 @@ export default class ChatService {
             );
         });
     }
+
+    static getChatList() {
+        return new Promise((resolve, reject) => {
+            HttpService.get(
+                `${ChatService.baseURL()}/`,
+                function (data) {
+                    resolve(data);
+                },
+                function (data) {
+                    reject(data);
+                }
+            );
+        });
+    }
+
+    static getUnreadMessages() {
+        return new Promise((resolve, reject) => {
+            HttpService.get(
+                `${ChatService.baseURL()}/unreadMessages`,
+                function (data) {
+                    resolve(data);
+                },
+                function (data) {
+                    reject(data);
+                }
+            );
+        });
+    }
 }
