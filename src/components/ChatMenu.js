@@ -16,9 +16,10 @@ const styles = {
     },
 };
 // Unfortunately, react-chat-elements package doesn't offer props for styling its components, so we had here to overwrite some CSS classes
-const msgItemLightStyle = ".rce-citem:hover {background: rgba(0, 0, 0, 0.04)} .rce-citem-body--bottom-title {font-size: 14px}";
+const msgItemLightStyle =
+    ".rce-citem:hover {background: rgba(0, 0, 0, 0.04)} .rce-citem-body--bottom-title {font-size: 14px} .rce-citem-body--bottom-status span {background: #f44336; font-weight: normal}";
 const msgItemDarkStyle =
-    ".rce-citem:hover {background: rgba(255, 255, 255, 0.08)} .rce-citem {background: #424242} .rce-citem-body--bottom-title {color: white; font-size: 14px} .rce-citem-body--top-time {color: white}";
+    ".rce-citem:hover {background: rgba(255, 255, 255, 0.08)} .rce-citem {background: #424242} .rce-citem-body--bottom-title {color: white; font-size: 14px} .rce-citem-body--top-time {color: white} .rce-citem-body--bottom-status span {background: #f44336; font-weight: normal}";
 
 class ChatMenu extends React.Component {
     constructor(props) {
