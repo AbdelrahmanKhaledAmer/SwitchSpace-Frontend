@@ -59,6 +59,8 @@ export default class App extends React.Component {
                     render: props => {
                         if (AdminAuthService.isAdminUser()) {
                             return <AdminView {...props} />;
+                        } else if (userAuthService.isNormalUser()) {
+                            return <Redirect to={"/"} />;
                         } else {
                             return <Redirect to={"/admin/auth"} />;
                         }
@@ -75,6 +77,7 @@ export default class App extends React.Component {
                             return <Redirect to="/" />;
                         }
                     },
+                    // component: UserLoginView,
                     exact: true,
                     path: "/login",
                 },
@@ -100,8 +103,10 @@ export default class App extends React.Component {
                     render: props => {
                         if (userAuthService.isNormalUser()) {
                             return <SubscriptionsView {...props} />;
+                        } else if (AdminAuthService.isAdminUser()) {
+                            return <AdminView {...props} />;
                         } else {
-                            return <Redirect to="/" />;
+                            return <Redirect to="/login" />;
                         }
                     },
                     exact: true,
@@ -112,8 +117,10 @@ export default class App extends React.Component {
                     render: props => {
                         if (userAuthService.isNormalUser()) {
                             return <PostCreateView {...props} />;
+                        } else if (AdminAuthService.isAdminUser()) {
+                            return <AdminView {...props} />;
                         } else {
-                            return <Redirect to="/" />;
+                            return <Redirect to="/login" />;
                         }
                     },
                     exact: true,
