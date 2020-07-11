@@ -48,8 +48,10 @@ export default class ChatBoxView extends React.Component {
 
     static get propTypes() {
         return {
-            // chatReceiverId is not a required prop
-            chatReceiverId: PropTypes.string,
+            // receiverIdFromPost is not a required prop
+            receiverIdFromPost: PropTypes.string,
+            receiverIdFromMenu: PropTypes.string.isRequired,
+            setUnreadMessages: PropTypes.func.isRequired,
         };
     }
 
@@ -68,8 +70,12 @@ export default class ChatBoxView extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.chatReceiverId && this.props.chatReceiverId !== prevProps.chatReceiverId) {
-            this.getChatHistory(this.props.chatReceiverId);
+        if (this.props.receiverIdFromPost && this.props.receiverIdFromPost !== prevProps.receiverIdFromPost) {
+            this.getChatHistory(this.props.receiverIdFromPost);
+        }
+
+        if (this.props.receiverIdFromMenu && this.props.receiverIdFromMenu !== prevProps.receiverIdFromMenu) {
+            this.getChatHistory(this.props.receiverIdFromMenu);
         }
     }
 
@@ -137,6 +143,7 @@ export default class ChatBoxView extends React.Component {
                 otherUserPicture: chatHistory.otherUserPicture,
                 messages: messagesFormatted,
             });
+            this.props.setUnreadMessages();
         } catch (err) {
             this.notify(err, "error");
         }
@@ -186,7 +193,16 @@ export default class ChatBoxView extends React.Component {
 
     render() {
         if (!this.state.otherUserId) {
-            return null;
+            // if otherUserId is not set, then ChatBox should not appear
+            // only return notification component to allow showing error notifications while chatbox is closed
+            return (
+                <Notification
+                    notify={this.state.notify}
+                    notificationMsg={this.state.notificationMsg}
+                    severity={this.state.notificationSeverity}
+                    handleClose={this.handleNotificationClose}
+                />
+            );
         }
         return (
             <React.Fragment>
