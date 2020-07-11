@@ -111,7 +111,6 @@ class Page extends React.Component {
         try {
             const unreadMessagesResp = await ChatService.getUnreadMessages();
             const unreadMessages = unreadMessagesResp.data.data;
-            console.log("new unreadMessages:", unreadMessages);
             this.setState({unreadMessages: unreadMessages.unreadMessages});
         } catch (err) {
             this.notify(err, "error");
