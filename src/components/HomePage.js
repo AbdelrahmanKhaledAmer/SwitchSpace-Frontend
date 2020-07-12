@@ -15,6 +15,10 @@ import CardContent from "@material-ui/core/CardContent";
 import Page from "./Page";
 // MISC
 import Carousel from "react-material-ui-carousel";
+// Assets
+import slide1 from "../../public/assets/sliders/Find_close_people_16_9.jpeg";
+import slide2 from "../../public/assets/sliders/Save_Money_16_9.jpg";
+import slide3 from "../../public/assets/sliders/Communication_16_9.jpeg";
 
 const styles = theme => ({
     gridContainer: {
@@ -56,17 +60,17 @@ class HomePage extends React.Component {
             {
                 header: "Find people who are close",
                 subtitle: "No need to travel long distances",
-                url: this.categoriesUrl + "Find_close_people_16_9.jpeg",
+                url: slide1,
             },
             {
                 header: "Save money",
                 subtitle: "Get the items you want for a much lower cost",
-                url: this.categoriesUrl + "Save_Money_16_9.jpg",
+                url: slide2,
             },
             {
                 header: "Fast and easy communication",
                 subtitle: "Chat with other users and discuss deals",
-                url: this.categoriesUrl + "Communication_16_9.jpeg",
+                url: slide3,
             },
         ];
     }
