@@ -117,18 +117,18 @@ class GoogleMap extends React.Component {
                 zoom={8}
                 center={{lat: this.state.mapCenterLat, lng: this.state.mapCenterLong}}>
                 {this.props.posts.map((post, idx) => (
-                    //TODO: ICONS
                     <Marker
                         key={idx}
                         title={post._id}
                         name={idx}
                         position={{lat: post.exchangeLocation.coordinates[1], lng: post.exchangeLocation.coordinates[0]}}
                         onClick={this.onMarkerClicked}
-                        // icon={{
-                        //     url: "https://switchspace-datastore.s3.eu-central-1.amazonaws.com/clipdealer_A51141491_preview.jpg",
-                        //     anchor: new this.props.google.maps.Point(32, 32),
-                        //     scaledSize: new this.props.google.maps.Size(32, 32),
-                        // }}
+                        // TODO: media server URL
+                        icon={{
+                            url: "https://switchspace-datastore.s3.eu-central-1.amazonaws.com/mapIcons/post.png",
+                            anchor: new this.props.google.maps.Point(32, 32),
+                            scaledSize: new this.props.google.maps.Size(32, 32),
+                        }}
                     />
                 ))}
                 <Marker
@@ -137,11 +137,11 @@ class GoogleMap extends React.Component {
                     name={this.state.myMarker.name}
                     position={this.props.myLocation}
                     // onClick={this.onMarkerClicked}
-                    //TODO: ICONS
+                    // TODO: media server URL
                     icon={{
-                        url: `${process.env.MEDIA_SERVER_URL}clipdealer_A51141491_preview.jpg`,
-                        anchor: new this.props.google.maps.Point(32, 32),
-                        scaledSize: new this.props.google.maps.Size(32, 32),
+                        url: "https://switchspace-datastore.s3.eu-central-1.amazonaws.com/mapIcons/me.png",
+                        anchor: new this.props.google.maps.Point(55, 55),
+                        scaledSize: new this.props.google.maps.Size(56, 56),
                     }}
                 />
                 <InfoWindow

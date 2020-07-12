@@ -6,12 +6,11 @@ import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
 import Backdrop from "@material-ui/core/Backdrop";
 //Assets
-import logo from "../../public/assets/loading/loading.svg";
+import logo from "../../public/assets/loading/l2.gif";
 
 const styles = theme => ({
     backdrop: {
         zIndex: theme.zIndex.drawer + 2,
-        color: "#fff",
     },
 });
 
@@ -33,7 +32,9 @@ class loading extends React.Component {
         return (
             <Backdrop className={classes.backdrop} open={this.props.loading}>
                 {/* <CircularProgress color="primary" /> */}
-                <img src={logo} alt="loading..." />
+                <div>
+                    <img src={logo} alt="loading..." />
+                </div>
             </Backdrop>
         );
     }
