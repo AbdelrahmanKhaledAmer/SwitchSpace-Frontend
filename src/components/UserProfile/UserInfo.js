@@ -8,6 +8,8 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 //Material UI Lab
 import Rating from "@material-ui/lab/Rating";
+// Images
+import defaultAvatar from "../../../public/assets/general/avatar.jpg";
 
 const styles = theme => ({
     mainContainer: {
@@ -53,7 +55,7 @@ class UserInfo extends React.Component {
         const {classes, userInfo} = this.props;
         return (
             <div className={classes.mainContainer} color="inherit">
-                <Avatar variant="rounded" className={classes.avatar} src={userInfo.profilePicture ? userInfo.profilePicture.url : null} />
+                <Avatar variant="rounded" className={classes.avatar} src={userInfo.profilePicture ? userInfo.profilePicture.url : defaultAvatar} />
                 <div className={classes.ratingsContainer}>
                     <Typography className={classes.username} color="inherit">
                         <b>{userInfo.name}</b>

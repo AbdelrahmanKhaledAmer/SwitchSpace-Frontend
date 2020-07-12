@@ -10,6 +10,8 @@ import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 // Material UI Lab
 import Rating from "@material-ui/lab/Rating";
+// Images
+import defaultAvatar from "../../../public/assets/general/avatar.jpg";
 
 const styles = theme => ({
     avatar: {
@@ -46,7 +48,10 @@ class ReviewListItem extends React.Component {
             <div>
                 <Grid container className={classes.itemPadding}>
                     <Grid item xs={3}>
-                        <Avatar className={classes.avatar} src={review.reviewerId.profilePicture ? review.reviewerId.profilePicture.url : null} />
+                        <Avatar
+                            className={classes.avatar}
+                            src={review.reviewerId.profilePicture ? review.reviewerId.profilePicture.url : defaultAvatar}
+                        />
                     </Grid>
                     <Grid item container xs={9} spacing={2} direction="column" justify="space-between">
                         <Grid item container justify="space-between">

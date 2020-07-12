@@ -7,6 +7,8 @@ import ChatMenu from "../components/ChatMenu";
 import Notification from "../components/Notification";
 // Services
 import ChatService from "../services/ChatService";
+// Images
+import defaultAvatar from "../../public/assets/general/avatar.jpg";
 
 class ChatMenuView extends React.Component {
     constructor(props) {
@@ -43,7 +45,7 @@ class ChatMenuView extends React.Component {
                 for (const chatListItem of chatList) {
                     chatListFormatted.push({
                         otherUserId: chatListItem.otherUserId,
-                        avatar: chatListItem.otherUserPicture ? chatListItem.otherUserPicture.url : null,
+                        avatar: chatListItem.otherUserPicture.url ? chatListItem.otherUserPicture.url : defaultAvatar,
                         title: chatListItem.otherUserName,
                         subtitle: chatListItem.lastMessage.content,
                         date: new Date(chatListItem.lastMessage.createdAt),
