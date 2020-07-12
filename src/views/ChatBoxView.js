@@ -173,7 +173,9 @@ export default class ChatBoxView extends React.Component {
     onMessageInputChange(event) {
         const value = event.target.value;
         let messageInputValid = false;
-        if (value.length > 0) {
+        // check if the length of the message is greater than 0 after removing trailing white spaces
+        // NOTE: \s matches whitespaces
+        if (value.replace(/\s+$/, "").length > 0) {
             messageInputValid = true;
         }
         this.setState({
