@@ -16,6 +16,10 @@ import SendIcon from "@material-ui/icons/Send";
 // chat-react-elements
 import {MessageList} from "react-chat-elements";
 import "react-chat-elements/dist/main.css";
+// Theme
+import settings from "../../palette";
+// Images
+import defaultAvatar from "../../../public/assets/general/avatar.jpg";
 
 const styles = theme => ({
     container: {
@@ -47,6 +51,9 @@ const styles = theme => ({
         marginLeft: theme.spacing(1),
     },
 });
+// Unfortunately, react-chat-elements package doesn't offer props for styling its components, so we had here to overwrite some CSS classes
+const primaryDark = settings.colors.primary.dark;
+const msgBubbleDarkStyle = `.rce-mbox {background: ${primaryDark}} .rce-mbox-right-notch {fill: ${primaryDark}} .rce-mbox-left-notch {fill: ${primaryDark}} .rce-mbox-time.non-copiable:before {color: white}`;
 
 class ChatBox extends React.Component {
     constructor(props) {
@@ -56,9 +63,6 @@ class ChatBox extends React.Component {
         this.messageListRef = React.createRef();
         this.onKeyDown = this.onKeyDown.bind(this);
 
-        // Unfortunately, react-chat-elements package doesn't offer a prop for styling its components, so we had here to overwrite some CSS classes
-        const primaryDark = "#2b2b2b";
-        const msgBubbleDarkStyle = `.rce-mbox {background: ${primaryDark};} .rce-mbox-right-notch {fill: ${primaryDark}} .rce-mbox-left-notch {fill: ${primaryDark}} .rce-mbox-time.non-copiable:before {color: white}`;
         this.msgBubbleStyle = window.localStorage["dark"] ? msgBubbleDarkStyle : "";
     }
 
@@ -107,7 +111,7 @@ class ChatBox extends React.Component {
                                 <Grid item>
                                     <Avatar
                                         className={classes.headerAvatar}
-                                        src={this.props.otherUserPicture ? this.props.otherUserPicture.url : null}
+                                        src={this.props.otherUserPicture.url ? this.props.otherUserPicture.url : defaultAvatar}
                                     />
                                 </Grid>
                                 <Grid item>
