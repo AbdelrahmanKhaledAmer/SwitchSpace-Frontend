@@ -108,6 +108,7 @@ export default class ChatBoxView extends React.Component {
                 this.setState({
                     messages: messages,
                     messageInput: "",
+                    messageInputValid: false,
                 });
             } else {
                 this.notify(ack.message, "error");
