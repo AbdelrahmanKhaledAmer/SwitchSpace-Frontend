@@ -18,6 +18,8 @@ import {MessageList} from "react-chat-elements";
 import "react-chat-elements/dist/main.css";
 // Theme
 import settings from "../../palette";
+// Images
+import defaultAvatar from "../../../public/assets/general/avatar.jpg";
 
 const styles = theme => ({
     container: {
@@ -109,7 +111,7 @@ class ChatBox extends React.Component {
                                 <Grid item>
                                     <Avatar
                                         className={classes.headerAvatar}
-                                        src={this.props.otherUserPicture ? this.props.otherUserPicture.url : null}
+                                        src={this.props.otherUserPicture.url ? this.props.otherUserPicture.url : defaultAvatar}
                                     />
                                 </Grid>
                                 <Grid item>
