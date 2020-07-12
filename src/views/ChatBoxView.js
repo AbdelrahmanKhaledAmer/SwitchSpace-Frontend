@@ -51,7 +51,7 @@ export default class ChatBoxView extends React.Component {
             // receiverIdFromPost is not a required prop
             receiverIdFromPost: PropTypes.string,
             receiverIdFromMenu: PropTypes.string.isRequired,
-            setUnreadMessages: PropTypes.func.isRequired,
+            setUnreadChats: PropTypes.func.isRequired,
         };
     }
 
@@ -108,6 +108,7 @@ export default class ChatBoxView extends React.Component {
                 this.setState({
                     messages: messages,
                     messageInput: "",
+                    messageInputValid: false,
                 });
             } else {
                 this.notify(ack.message, "error");
@@ -143,7 +144,7 @@ export default class ChatBoxView extends React.Component {
                 otherUserPicture: chatHistory.otherUserPicture,
                 messages: messagesFormatted,
             });
-            this.props.setUnreadMessages();
+            this.props.setUnreadChats();
         } catch (err) {
             this.notify(err, "error");
         }
@@ -172,7 +173,9 @@ export default class ChatBoxView extends React.Component {
     onMessageInputChange(event) {
         const value = event.target.value;
         let messageInputValid = false;
-        if (value.length > 0) {
+        // check if the length of the message is greater than 0 after removing trailing white spaces
+        // NOTE: \s matches whitespaces
+        if (value.replace(/\s+$/, "").length > 0) {
             messageInputValid = true;
         }
         this.setState({
