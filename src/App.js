@@ -51,6 +51,7 @@ export default class App extends React.Component {
                             else return <Redirect to={"/"} />;
                         }
                     },
+                    exact: true,
                     path: "/admin/auth",
                 },
                 {
@@ -58,10 +59,13 @@ export default class App extends React.Component {
                     render: props => {
                         if (AdminAuthService.isAdminUser()) {
                             return <AdminView {...props} />;
+                        } else if (userAuthService.isNormalUser()) {
+                            return <Redirect to={"/"} />;
                         } else {
                             return <Redirect to={"/admin/auth"} />;
                         }
                     },
+                    exact: true,
                     path: "/admin/reports",
                 },
                 {
@@ -73,6 +77,8 @@ export default class App extends React.Component {
                             return <Redirect to="/" />;
                         }
                     },
+                    // component: UserLoginView,
+                    exact: true,
                     path: "/login",
                 },
 
@@ -85,21 +91,25 @@ export default class App extends React.Component {
                             return <Redirect to="/" />;
                         }
                     },
+                    exact: true,
                     path: "/signup",
                 },
-                {component: SearchFilterView, path: "/search"},
-                {component: TrendingView, path: "/trending"},
-                {component: PostView, path: "/post/:id"},
-                {component: UserProfileView, path: "/profile/:id"},
+                {component: SearchFilterView, exact: true, path: "/search"},
+                {component: TrendingView, exact: true, path: "/trending"},
+                {component: PostView, exact: true, path: "/post/:id"},
+                {component: UserProfileView, exact: true, path: "/profile/:id"},
                 {
                     // normal user only
                     render: props => {
                         if (userAuthService.isNormalUser()) {
                             return <SubscriptionsView {...props} />;
+                        } else if (AdminAuthService.isAdminUser()) {
+                            return <AdminView {...props} />;
                         } else {
-                            return <Redirect to="/" />;
+                            return <Redirect to="/login" />;
                         }
                     },
+                    exact: true,
                     path: "/subscriptions",
                 },
                 {
@@ -107,14 +117,17 @@ export default class App extends React.Component {
                     render: props => {
                         if (userAuthService.isNormalUser()) {
                             return <PostCreateView {...props} />;
+                        } else if (AdminAuthService.isAdminUser()) {
+                            return <AdminView {...props} />;
                         } else {
-                            return <Redirect to="/" />;
+                            return <Redirect to="/login" />;
                         }
                     },
+                    exact: true,
                     path: "/create",
                 },
-                {component: NotFoundView, path: "/404"},
-                {component: HomePageView, path: "/"},
+                {component: HomePageView, exact: true, path: "/"},
+                {component: NotFoundView},
             ],
         };
     }

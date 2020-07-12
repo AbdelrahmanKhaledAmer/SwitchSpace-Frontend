@@ -12,7 +12,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
-import Typography from "@material-ui/core/Typography";
 // Icons
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -34,6 +33,10 @@ import trending from "../../public/assets/general/trend.svg";
 //Services
 import UserAuthService from "../services/UserAuthService";
 import CategoryService from "../services/CategoryService";
+// Assets
+// Assets
+import logoLight from "../../public/assets/logo/02_2_light.png";
+import logoDark from "../../public/assets/logo/02_2_dark.png";
 
 const styles = theme => ({
     list: {
@@ -212,14 +215,7 @@ class Sidebar extends React.Component {
                         <div className={classes.DrawerHeader}>
                             <List>
                                 <ListItem button onClick={() => this.props.history.push("/")}>
-                                    <ListItemIcon className={classes.headerText}>
-                                        <SwapHorizIcon />
-                                    </ListItemIcon>
-                                    <ListItemText>
-                                        <Typography className={classes.headerText} variant="h6">
-                                            SWITCH SPACE
-                                        </Typography>
-                                    </ListItemText>
+                                    <img src={window.localStorage["dark"] ? logoDark : logoLight} width="150px"></img>
                                 </ListItem>
                             </List>
                         </div>

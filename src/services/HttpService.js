@@ -4,7 +4,7 @@ export default class HttpService {
     constructor() {}
 
     static apiURL() {
-        return "http://localhost:3000";
+        return process.env.REACT_APP_Server_URL;
     }
     static handleError(err) {
         let errorMsg = err.message;
@@ -46,7 +46,8 @@ export default class HttpService {
         } catch (err) {
             // parse error msg from server if present else use the err message
             if (this.checkIfUnauthorized(err)) {
-                window.location = "/#login";
+                window.localStorage.removeItem("jwtToken");
+                // window.location = "/#login";
             }
             const errorMsg = HttpService.handleError(err);
             onError(errorMsg);
@@ -78,7 +79,8 @@ export default class HttpService {
             onSuccess(resp);
         } catch (err) {
             if (this.checkIfUnauthorized(err)) {
-                window.location = "/#login";
+                window.localStorage.removeItem("jwtToken");
+                // window.location = "/#login";
             }
             // parse error msg from server if present else use the err message
             const errorMsg = HttpService.handleError(err);
@@ -111,7 +113,8 @@ export default class HttpService {
             onSuccess(resp);
         } catch (err) {
             if (this.checkIfUnauthorized(err)) {
-                window.location = "/#login";
+                window.localStorage.removeItem("jwtToken");
+                // window.location = "/#login";
             }
             // parse error msg from server if present else use the err message
             const errorMsg = HttpService.handleError(err);
@@ -136,7 +139,8 @@ export default class HttpService {
             onSuccess(resp);
         } catch (err) {
             if (this.checkIfUnauthorized(err)) {
-                window.location = "/#login";
+                window.localStorage.removeItem("jwtToken");
+                // window.location = "/#login";
             }
             // parse error msg from server if present else use the err message
             const errorMsg = HttpService.handleError(err);

@@ -15,7 +15,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Badge from "@material-ui/core/Badge";
 import MessageOutlinedIcon from "@material-ui/icons/MessageOutlined";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import FormControl from "@material-ui/core/FormControl";
 import Avatar from "@material-ui/core/Avatar";
 // Material UI Icons
@@ -26,7 +25,9 @@ import MiniUserMenu from "./MiniUserMenu";
 import ChatMenuView from "../views/ChatMenuView";
 // Service
 import UserAuthService from "../services/UserAuthService";
-
+// Assets
+import logoLight from "../../public/assets/logo/02_2_light.png";
+import logoDark from "../../public/assets/logo/02_2_dark.png";
 const styles = theme => ({
     grow: {
         flexGrow: 1,
@@ -184,10 +185,7 @@ class QuickNavMenu extends React.Component {
                                         onClick={() => {
                                             this.props.history.push("/");
                                         }}>
-                                        {/* <Typography variant="h6" color="secondary"> */}
-                                        <Typography className={classes.headerText} variant="h6">
-                                            Switch Space
-                                        </Typography>
+                                        <img src={this.state.darkMode ? logoDark : logoLight} width="150px"></img>
                                     </Button>
                                 </Grid>
                             </Grid>
