@@ -32,7 +32,8 @@ class Page extends React.Component {
             expanded: false,
             chatReceiverIdFromMenu: "",
             chatMenuAnchorEl: null,
-            unreadMessages: 0,
+            // number of chats which have unread messages
+            unreadChats: 0,
             // when true notification appears
             notify: false,
             // must have value when notification appears
@@ -48,7 +49,7 @@ class Page extends React.Component {
         this.handleChatSelect = this.handleChatSelect.bind(this);
         this.notify = this.notify.bind(this);
         this.handleNotificationClose = this.handleNotificationClose.bind(this);
-        this.setUnreadMessages = this.setUnreadMessages.bind(this);
+        this.setUnreadChats = this.setUnreadChats.bind(this);
     }
 
     // need to defince prop type for every function
@@ -67,7 +68,7 @@ class Page extends React.Component {
         });
 
         if (UserAuthService.isNormalUser()) {
-            this.setUnreadMessages();
+            this.setUnreadChats();
         }
     }
 
@@ -107,11 +108,11 @@ class Page extends React.Component {
         );
     }
 
-    async setUnreadMessages() {
+    async setUnreadChats() {
         try {
-            const unreadMessagesResp = await ChatService.getUnreadMessages();
-            const unreadMessages = unreadMessagesResp.data.data;
-            this.setState({unreadMessages: unreadMessages.unreadMessages});
+            const unreadChatsResp = await ChatService.getUnreadChats();
+            const unreadChatsData = unreadChatsResp.data.data;
+            this.setState({unreadChats: unreadChatsData.unreadChats});
         } catch (err) {
             this.notify(err, "error");
         }
@@ -135,7 +136,7 @@ class Page extends React.Component {
                 <QuickNavMenu
                     isAuthorized={this.state.isAuthorized}
                     sidebarToggle={this.sidebarToggle}
-                    unreadMessages={this.state.unreadMessages}
+                    unreadChats={this.state.unreadChats}
                     chatMenuAnchorEl={this.state.chatMenuAnchorEl}
                     onChatMenuOpen={this.handleChatMenuOpen}
                     onChatMenuClose={this.handleChatMenuClose}
@@ -144,7 +145,7 @@ class Page extends React.Component {
                 <ChatBoxView
                     receiverIdFromPost={this.props.chatReceiverIdFromPost}
                     receiverIdFromMenu={this.state.chatReceiverIdFromMenu}
-                    setUnreadMessages={this.setUnreadMessages}
+                    setUnreadChats={this.setUnreadChats}
                 />
                 <Sidebar
                     isOpen={this.state.drawerIsOpen}

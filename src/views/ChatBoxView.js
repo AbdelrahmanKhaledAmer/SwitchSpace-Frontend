@@ -51,7 +51,7 @@ export default class ChatBoxView extends React.Component {
             // receiverIdFromPost is not a required prop
             receiverIdFromPost: PropTypes.string,
             receiverIdFromMenu: PropTypes.string.isRequired,
-            setUnreadMessages: PropTypes.func.isRequired,
+            setUnreadChats: PropTypes.func.isRequired,
         };
     }
 
@@ -143,7 +143,7 @@ export default class ChatBoxView extends React.Component {
                 otherUserPicture: chatHistory.otherUserPicture,
                 messages: messagesFormatted,
             });
-            this.props.setUnreadMessages();
+            this.props.setUnreadChats();
         } catch (err) {
             this.notify(err, "error");
         }
