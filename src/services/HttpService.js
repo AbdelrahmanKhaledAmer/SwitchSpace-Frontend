@@ -4,7 +4,7 @@ export default class HttpService {
     constructor() {}
 
     static apiURL() {
-        return "http://localhost:3000";
+        return process.env.REACT_APP_Server_URL;
     }
     static handleError(err) {
         let errorMsg = err.message;
