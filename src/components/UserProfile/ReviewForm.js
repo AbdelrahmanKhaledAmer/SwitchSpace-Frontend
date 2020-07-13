@@ -178,8 +178,8 @@ class ReviewForm extends React.Component {
                                     fullWidth
                                     id="description"
                                     label="Description (optional)"
-                                    name="desc"
-                                    autoComplete="desc"
+                                    name="description"
+                                    autoComplete="description"
                                     onChange={this.onDescriptionChange}
                                     error={!this.state.descriptionValid}
                                     helperText={this.state.descriptionValid ? "" : "Must not exceed 500 characters"}
