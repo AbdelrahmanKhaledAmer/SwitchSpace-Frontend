@@ -73,6 +73,7 @@ class UserProfile extends React.Component {
             myEmail: PropTypes.string, // not required
             tabs: PropTypes.array.isRequired,
             modalOpen: PropTypes.bool.isRequired,
+            onNotify: PropTypes.func.isRequired,
         };
     }
 
@@ -147,6 +148,7 @@ class UserProfile extends React.Component {
                         onClose={this.props.onModalClose}
                         onUserReview={this.props.onUserReview}
                         revieweeId={this.props.userInfo._id}
+                        onNotify={this.props.onNotify}
                     />
                 </React.Fragment>
             </Page>

@@ -59,6 +59,7 @@ class ReviewForm extends React.Component {
             onClose: PropTypes.func.isRequired,
             onUserReview: PropTypes.func.isRequired,
             revieweeId: PropTypes.string.isRequired,
+            onNotify: PropTypes.func.isRequired,
         };
     }
 
@@ -120,8 +121,7 @@ class ReviewForm extends React.Component {
                 description: description,
             });
         } else {
-            // TODO: add feedback to the user
-            console.log("Please fill the fields correctly");
+            this.props.onNotify("Please fill the fields correctly", "error");
         }
     }
 
@@ -177,7 +177,7 @@ class ReviewForm extends React.Component {
                                     margin="normal"
                                     fullWidth
                                     id="description"
-                                    label="Description"
+                                    label="Description (optional)"
                                     name="desc"
                                     autoComplete="desc"
                                     onChange={this.onDescriptionChange}

@@ -84,7 +84,6 @@ export default class UserProfileView extends React.Component {
             if (searchParams.tab === "settings") {
                 this.setState({selectedTab: "settings"});
             }
-            console.log(searchParams);
         }
         try {
             const postsResp = await PostService.getUserPosts(this.state.userId);
@@ -117,7 +116,6 @@ export default class UserProfileView extends React.Component {
             this.notify("Your information was updated successfully", "success");
         } catch (err) {
             this.notify(err, "error");
-            console.log(err);
         }
         this.setState({loading: false});
     }
@@ -131,9 +129,9 @@ export default class UserProfileView extends React.Component {
                 userInfo: userInfoResp.data.data,
             });
             this.handleModalClose();
+            this.notify("Review submitted successfully", "success");
         } catch (err) {
-            // TODO: add feedback for the error
-            console.log(err);
+            this.notify(err, "error");
         }
     }
 
@@ -143,8 +141,7 @@ export default class UserProfileView extends React.Component {
             UserAuthService.logout();
             this.props.history.push("/");
         } catch (err) {
-            // TODO: add error feadback
-            console.log(err);
+            this.notify(err, "error");
         }
     }
 
@@ -189,6 +186,7 @@ export default class UserProfileView extends React.Component {
                     modalOpen={this.state.modalOpen}
                     userInfo={this.state.userInfo}
                     posts={this.state.posts}
+                    onNotify={this.notify}
                 />
                 <Notification
                     notify={this.state.notify}
