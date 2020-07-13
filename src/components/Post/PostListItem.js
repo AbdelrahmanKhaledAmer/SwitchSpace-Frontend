@@ -25,8 +25,8 @@ const styles = theme => ({
         marginTop: theme.spacing(1),
     },
     image: {
-        width: "100%",
-        height: "90%",
+        width: theme.spacing(18),
+        height: theme.spacing(18),
     },
     itemOwned: {
         fontWeight: "bold",
