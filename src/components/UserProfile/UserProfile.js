@@ -44,6 +44,13 @@ const styles = theme => ({
         color: theme.palette.button.textColor(),
         marginTop: theme.spacing(1),
     },
+    createReviewButton: {
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
+        "&:hover": {
+            background: theme.palette.button.hover.backgroundColor(),
+        },
+    },
 });
 class UserProfile extends React.Component {
     constructor(props) {
@@ -82,7 +89,11 @@ class UserProfile extends React.Component {
                             </Grid>
                             <Grid item>
                                 {!this.props.isMyProfile ? (
-                                    <Button variant="contained" startIcon={<Icon>add_circle</Icon>} onClick={this.props.onModalOpen}>
+                                    <Button
+                                        className={classes.createReviewButton}
+                                        variant="contained"
+                                        startIcon={<Icon>add_circle</Icon>}
+                                        onClick={this.props.onModalOpen}>
                                         Create Review
                                     </Button>
                                 ) : (
