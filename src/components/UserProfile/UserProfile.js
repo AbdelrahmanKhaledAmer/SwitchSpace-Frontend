@@ -25,7 +25,6 @@ import ReviewForm from "./ReviewForm";
 const styles = theme => ({
     topContainer: {
         width: "70%",
-        // marginTop: theme.spacing(10),
         marginLeft: "auto",
         marginRight: "auto",
     },
@@ -86,7 +85,7 @@ class UserProfile extends React.Component {
                     <div className={classes.topContainer}>
                         <Grid container justify="space-between">
                             <Grid item>
-                                <UserInfo userInfo={this.props.userInfo} />
+                                <UserInfo userInfo={this.props.userInfo} provideLinkToProfile={false} />
                             </Grid>
                             <Grid item>
                                 {!this.props.isMyProfile ? (
@@ -110,10 +109,6 @@ class UserProfile extends React.Component {
                                     {this.props.tabs.map((tab, idx) => (
                                         <Tab key={idx} label={tab.label} value={tab.value} />
                                     ))}
-
-                                    {/* <Tab label="Reviews" value="reviews" />
-                                <Tab label="Posts" value="posts" />
-                            {this.props.isMyProfile ? <Tab label="Settings" value="settings" /> : <Tab></Tab>} */}
                                 </TabList>
                             </AppBar>
                             <TabPanel value="posts">
@@ -124,7 +119,6 @@ class UserProfile extends React.Component {
                                 <ReviewList reviews={this.props.userInfo.reviews}></ReviewList>
                             </TabPanel>
                             {/* render this pannel iff my profile */}
-
                             <TabPanel value="settings">
                                 <Typography color="inherit" variant="h4" noWrap>
                                     {"General"}
