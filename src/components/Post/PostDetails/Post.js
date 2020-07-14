@@ -250,7 +250,7 @@ class Post extends React.Component {
                                         Edit Location
                                     </Button>
                                 ) : (
-                                    // show contact for exchange button only for normal users and not admins
+                                    // show "Contact for Exchange" button only for normal users and not admins
                                     UserAuthService.isNormalUser() && (
                                         <Button className={classes.button} onClick={this.setReceiverId}>
                                             Contact for Exchange
