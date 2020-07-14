@@ -41,7 +41,7 @@ export default class UserProfileView extends React.Component {
             posts: [],
             isMyProfile: false,
             myEmail: "",
-            userInfo: {name: "", commRate: 0, descriptionRate: 0, conditionRate: 0, profilePicture: {}, reviews: []},
+            userInfo: {_id: "", name: "", commRate: 0, descriptionRate: 0, conditionRate: 0, profilePicture: {}, reviews: []},
             modalOpen: false,
         };
 
