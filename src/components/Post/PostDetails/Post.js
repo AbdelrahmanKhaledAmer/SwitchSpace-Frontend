@@ -20,6 +20,7 @@ import LocationModal from "../CreatePost/LocationModal";
 
 // Services
 import AdminAuthService from "../../../services/AdminAuthService";
+import UserAuthService from "../../../services/UserAuthService";
 Geocode.setApiKey(process.env.GOOGLE_API_KEY);
 
 const styles = theme => ({
@@ -230,7 +231,7 @@ class Post extends React.Component {
                     <Container className={classes.conatiner}>
                         <Grid container justify="space-between" alignItems="center" className={classes.topContainer}>
                             <Grid item xs={6}>
-                                <UserInfo userInfo={this.props.post.creatorId} />
+                                <UserInfo userInfo={this.props.post.creatorId} provideLinkToProfile={true} />
                             </Grid>
                             <Grid item xs={6} className={classes.rightGridItem}>
                                 <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
@@ -249,10 +250,12 @@ class Post extends React.Component {
                                         Edit Location
                                     </Button>
                                 ) : (
-                                    <Button className={classes.button} onClick={this.setReceiverId}>
-                                        Contact for Exchange
-                                    </Button>
-                                    // TODO: START CHAT
+                                    // show "Contact for Exchange" button only for normal users and not admins
+                                    UserAuthService.isNormalUser() && (
+                                        <Button className={classes.button} onClick={this.setReceiverId}>
+                                            Contact for Exchange
+                                        </Button>
+                                    )
                                 )}
                             </Grid>
                         </Grid>

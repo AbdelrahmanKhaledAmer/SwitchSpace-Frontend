@@ -2,6 +2,7 @@
 // React
 import React from "react";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
 // Material UI Core
 import {withStyles} from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
@@ -37,6 +38,10 @@ const styles = theme => ({
     username: {
         fontSize: "18px",
     },
+    profileLink: {
+        textDecoration: "none",
+        color: window.localStorage["dark"] ? "white" : "black",
+    },
 });
 
 class UserInfo extends React.Component {
@@ -48,6 +53,8 @@ class UserInfo extends React.Component {
         return {
             classes: PropTypes.object.isRequired,
             userInfo: PropTypes.object.isRequired,
+            // user name should link to user profile only in post details page, but not when you are already in user profile page
+            provideLinkToProfile: PropTypes.bool.isRequired,
         };
     }
 
@@ -57,9 +64,17 @@ class UserInfo extends React.Component {
             <div className={classes.mainContainer} color="inherit">
                 <Avatar variant="rounded" className={classes.avatar} src={userInfo.profilePicture ? userInfo.profilePicture.url : defaultAvatar} />
                 <div className={classes.ratingsContainer}>
-                    <Typography className={classes.username} color="inherit">
-                        <b>{userInfo.name}</b>
-                    </Typography>
+                    {this.props.provideLinkToProfile ? (
+                        <Link className={classes.profileLink} to={`/profile/${userInfo._id}`}>
+                            <Typography className={classes.username} color="inherit">
+                                <b>{userInfo.name}</b>
+                            </Typography>
+                        </Link>
+                    ) : (
+                        <Typography className={classes.username} color="inherit">
+                            <b>{userInfo.name}</b>
+                        </Typography>
+                    )}
                     <div className={classes.ratingItemContainer}>
                         <Rating value={userInfo.commRate} precision={0.5} size="large" readOnly color="inherit" />
                         <Typography className={classes.ratingText} color="inherit">

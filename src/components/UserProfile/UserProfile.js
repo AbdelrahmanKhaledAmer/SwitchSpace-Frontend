@@ -21,11 +21,12 @@ import PostList from "../Post/PostList";
 import ReviewList from "./ReviewList";
 import UserDataForm from "../UserAuth/UserDataForm";
 import ReviewForm from "./ReviewForm";
+// Services
+import UserAuthService from "../../services/UserAuthService";
 
 const styles = theme => ({
     topContainer: {
         width: "70%",
-        // marginTop: theme.spacing(10),
         marginLeft: "auto",
         marginRight: "auto",
     },
@@ -43,6 +44,13 @@ const styles = theme => ({
         backgroundColor: theme.palette.button.error,
         color: theme.palette.button.textColor(),
         marginTop: theme.spacing(1),
+    },
+    createReviewButton: {
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
+        "&:hover": {
+            background: theme.palette.button.hover.backgroundColor(),
+        },
     },
 });
 class UserProfile extends React.Component {
@@ -66,6 +74,7 @@ class UserProfile extends React.Component {
             myEmail: PropTypes.string, // not required
             tabs: PropTypes.array.isRequired,
             modalOpen: PropTypes.bool.isRequired,
+            onNotify: PropTypes.func.isRequired,
         };
     }
 
@@ -78,16 +87,21 @@ class UserProfile extends React.Component {
                     <div className={classes.topContainer}>
                         <Grid container justify="space-between">
                             <Grid item>
-                                <UserInfo userInfo={this.props.userInfo} />
+                                <UserInfo userInfo={this.props.userInfo} provideLinkToProfile={false} />
                             </Grid>
                             <Grid item>
-                                {!this.props.isMyProfile ? (
-                                    <Button variant="contained" startIcon={<Icon>add_circle</Icon>} onClick={this.props.onModalOpen}>
-                                        Create Review
-                                    </Button>
-                                ) : (
-                                    ""
-                                )}
+                                {
+                                    // show "Create Review" button if it not my profile and I am a normal user, not an admin
+                                    !this.props.isMyProfile && UserAuthService.isNormalUser() && (
+                                        <Button
+                                            className={classes.createReviewButton}
+                                            variant="contained"
+                                            startIcon={<Icon>add_circle</Icon>}
+                                            onClick={this.props.onModalOpen}>
+                                            Create Review
+                                        </Button>
+                                    )
+                                }
                             </Grid>
                         </Grid>
                     </div>
@@ -98,10 +112,6 @@ class UserProfile extends React.Component {
                                     {this.props.tabs.map((tab, idx) => (
                                         <Tab key={idx} label={tab.label} value={tab.value} />
                                     ))}
-
-                                    {/* <Tab label="Reviews" value="reviews" />
-                                <Tab label="Posts" value="posts" />
-                            {this.props.isMyProfile ? <Tab label="Settings" value="settings" /> : <Tab></Tab>} */}
                                 </TabList>
                             </AppBar>
                             <TabPanel value="posts">
@@ -112,7 +122,6 @@ class UserProfile extends React.Component {
                                 <ReviewList reviews={this.props.userInfo.reviews}></ReviewList>
                             </TabPanel>
                             {/* render this pannel iff my profile */}
-
                             <TabPanel value="settings">
                                 <Typography color="inherit" variant="h4" noWrap>
                                     {"General"}
@@ -136,6 +145,7 @@ class UserProfile extends React.Component {
                         onClose={this.props.onModalClose}
                         onUserReview={this.props.onUserReview}
                         revieweeId={this.props.userInfo._id}
+                        onNotify={this.props.onNotify}
                     />
                 </React.Fragment>
             </Page>

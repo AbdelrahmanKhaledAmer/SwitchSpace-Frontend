@@ -97,7 +97,18 @@ export default class App extends React.Component {
                 {component: SearchFilterView, exact: true, path: "/search"},
                 {component: TrendingView, exact: true, path: "/trending"},
                 {component: PostView, exact: true, path: "/post/:id"},
-                {component: UserProfileView, exact: true, path: "/profile/:id"},
+                {
+                    render: props => {
+                        // both normal user and admin can view a user profile
+                        if (userAuthService.isAuthenticated()) {
+                            return <UserProfileView {...props} />;
+                        } else {
+                            return <Redirect to="/login" />;
+                        }
+                    },
+                    exact: true,
+                    path: "/profile/:id",
+                },
                 {
                     // normal user only
                     render: props => {

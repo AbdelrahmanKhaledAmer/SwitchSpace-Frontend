@@ -36,10 +36,10 @@ export default class ChatService {
         });
     }
 
-    static getUnreadMessages() {
+    static getUnreadChats() {
         return new Promise((resolve, reject) => {
             HttpService.get(
-                `${ChatService.baseURL()}/unreadMessages`,
+                `${ChatService.baseURL()}/unreadChats`,
                 function (data) {
                     resolve(data);
                 },

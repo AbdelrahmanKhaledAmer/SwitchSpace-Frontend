@@ -83,7 +83,7 @@ class QuickNavMenu extends React.Component {
         return {
             isAuthorized: PropTypes.bool.isRequired,
             sidebarToggle: PropTypes.func.isRequired,
-            unreadMessages: PropTypes.number.isRequired,
+            unreadChats: PropTypes.number.isRequired,
             history: PropTypes.object.isRequired,
             authorizationToggle: PropTypes.func,
             classes: PropTypes.object.isRequired,
@@ -115,7 +115,7 @@ class QuickNavMenu extends React.Component {
                     // show chat menu button only for normal users and not admins
                     UserAuthService.isNormalUser() && (
                         <IconButton onClick={this.props.onChatMenuOpen}>
-                            <Badge badgeContent={this.props.unreadMessages} color="error">
+                            <Badge badgeContent={this.props.unreadChats} color="error">
                                 <Avatar variant="rounded">
                                     <MessageOutlinedIcon />
                                 </Avatar>
