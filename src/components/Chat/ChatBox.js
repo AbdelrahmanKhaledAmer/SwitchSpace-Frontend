@@ -2,6 +2,7 @@
 // React
 import React from "react";
 import PropTypes from "prop-types";
+import {Link} from "react-router-dom";
 //Material UI Core
 import {withStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -50,6 +51,9 @@ const styles = theme => ({
     messageInput: {
         marginLeft: theme.spacing(1),
     },
+    profileLink: {
+        textDecoration: "none",
+    },
 });
 // Unfortunately, react-chat-elements package doesn't offer props for styling its components, so we had here to overwrite some CSS classes
 const primaryDark = settings.colors.primary.dark;
@@ -69,6 +73,7 @@ class ChatBox extends React.Component {
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
+            otherUserId: PropTypes.string.isRequired,
             otherUserPicture: PropTypes.object.isRequired,
             otherUserName: PropTypes.string.isRequired,
             messages: PropTypes.array.isRequired,
@@ -114,9 +119,11 @@ class ChatBox extends React.Component {
                                         src={this.props.otherUserPicture.url ? this.props.otherUserPicture.url : defaultAvatar}
                                     />
                                 </Grid>
-                                <Grid item>
-                                    <Typography className={classes.headerUserName}>{this.props.otherUserName}</Typography>
-                                </Grid>
+                                <Link className={classes.profileLink} to={`/profile/${this.props.otherUserId}`}>
+                                    <Grid item>
+                                        <Typography className={classes.headerUserName}>{this.props.otherUserName}</Typography>
+                                    </Grid>
+                                </Link>
                             </Grid>
                             <Grid item>
                                 <IconButton onClick={this.props.closeChat}>

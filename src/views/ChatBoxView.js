@@ -210,6 +210,7 @@ export default class ChatBoxView extends React.Component {
         return (
             <React.Fragment>
                 <ChatBox
+                    otherUserId={this.state.otherUserId}
                     otherUserPicture={this.state.otherUserPicture}
                     otherUserName={this.state.otherUserName}
                     messages={this.state.messages}

@@ -22,10 +22,10 @@ const styles = theme => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
         "&:hover": {
-            background: "#558dad",
+            background: theme.palette.button.hover.backgroundColor(),
         },
     },
 });
@@ -59,6 +59,7 @@ class ReviewForm extends React.Component {
             onClose: PropTypes.func.isRequired,
             onUserReview: PropTypes.func.isRequired,
             revieweeId: PropTypes.string.isRequired,
+            onNotify: PropTypes.func.isRequired,
         };
     }
 
@@ -120,8 +121,7 @@ class ReviewForm extends React.Component {
                 description: description,
             });
         } else {
-            // TODO: add feedback to the user
-            console.log("Please fill the fields correctly");
+            this.props.onNotify("Please fill the fields correctly", "error");
         }
     }
 
@@ -140,13 +140,17 @@ class ReviewForm extends React.Component {
                         <Grid container spacing={2}>
                             <Grid item container xs={12} direction="column" alignItems="center">
                                 <Grid item>
-                                    <Typography align="center"> Communication * </Typography>
+                                    <Typography align="center" color="inherit">
+                                        Communication *
+                                    </Typography>
                                     <Rating size="large" name="commRate" value={this.state.commRate} onChange={this.onCommRateChange} />
                                 </Grid>
                             </Grid>
                             <Grid item container xs={12} direction="column" alignItems="center">
                                 <Grid item>
-                                    <Typography align="center"> Item as described * </Typography>
+                                    <Typography align="center" color="inherit">
+                                        Item as described *
+                                    </Typography>
                                     <Rating
                                         size="large"
                                         name="descriptionRate"
@@ -157,7 +161,9 @@ class ReviewForm extends React.Component {
                             </Grid>
                             <Grid item container xs={12} direction="column" alignItems="center">
                                 <Grid item>
-                                    <Typography align="center"> Item condition * </Typography>
+                                    <Typography align="center" color="inherit">
+                                        Item condition *
+                                    </Typography>
                                     <Rating
                                         size="large"
                                         name="conditionRate"
@@ -171,9 +177,9 @@ class ReviewForm extends React.Component {
                                     margin="normal"
                                     fullWidth
                                     id="description"
-                                    label="Description"
-                                    name="desc"
-                                    autoComplete="desc"
+                                    label="Description (optional)"
+                                    name="description"
+                                    autoComplete="description"
                                     onChange={this.onDescriptionChange}
                                     error={!this.state.descriptionValid}
                                     helperText={this.state.descriptionValid ? "" : "Must not exceed 500 characters"}
