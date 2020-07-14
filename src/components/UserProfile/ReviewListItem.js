@@ -47,6 +47,13 @@ class ReviewListItem extends React.Component {
 
     render() {
         const {classes, review} = this.props;
+        // handle the case when the reviewer has been deleted from the platform
+        if (!review.reviewerId) {
+            review.reviewerId = {
+                profilePicture: null,
+                name: "Deleted User",
+            };
+        }
         return (
             <Card elevation={5} className={classes.itemMargin}>
                 <Grid container className={classes.itemPadding}>
