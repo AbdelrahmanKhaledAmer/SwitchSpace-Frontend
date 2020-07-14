@@ -21,6 +21,8 @@ import PostList from "../Post/PostList";
 import ReviewList from "./ReviewList";
 import UserDataForm from "../UserAuth/UserDataForm";
 import ReviewForm from "./ReviewForm";
+// Services
+import UserAuthService from "../../services/UserAuthService";
 
 const styles = theme => ({
     topContainer: {
@@ -88,17 +90,18 @@ class UserProfile extends React.Component {
                                 <UserInfo userInfo={this.props.userInfo} provideLinkToProfile={false} />
                             </Grid>
                             <Grid item>
-                                {!this.props.isMyProfile ? (
-                                    <Button
-                                        className={classes.createReviewButton}
-                                        variant="contained"
-                                        startIcon={<Icon>add_circle</Icon>}
-                                        onClick={this.props.onModalOpen}>
-                                        Create Review
-                                    </Button>
-                                ) : (
-                                    ""
-                                )}
+                                {
+                                    // show "Create Review" button if it not my profile and I am a normal user, not an admin
+                                    !this.props.isMyProfile && UserAuthService.isNormalUser() && (
+                                        <Button
+                                            className={classes.createReviewButton}
+                                            variant="contained"
+                                            startIcon={<Icon>add_circle</Icon>}
+                                            onClick={this.props.onModalOpen}>
+                                            Create Review
+                                        </Button>
+                                    )
+                                }
                             </Grid>
                         </Grid>
                     </div>
