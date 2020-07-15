@@ -37,6 +37,7 @@ const styles = theme => ({
     },
     username: {
         fontSize: "18px",
+        textAlign: "left",
     },
     profileLink: {
         textDecoration: "none",
