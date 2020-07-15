@@ -60,7 +60,7 @@ const styles = theme => ({
     },
     icons: {
         width: "20px",
-        fill: theme.palette.header.backgroundColor(),
+        filter: localStorage["dark"] ? "invert(1)" : "none",
     },
 });
 
@@ -128,7 +128,6 @@ class Sidebar extends React.Component {
                                     window.location.reload(false);
                                 }}>
                                 <ListItemIcon className={classes.listIcon}>
-                                    {/* <SvgIcon className={classes.icons} component={Acc} viewBox="0 0 600 476.6" /> */}
                                     <img className={classes.icons} src={categoryIcon[1]} />
                                 </ListItemIcon>
                                 <ListItemText primary={categoryIcon[0].title} />
