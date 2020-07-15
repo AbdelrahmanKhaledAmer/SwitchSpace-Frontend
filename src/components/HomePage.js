@@ -53,7 +53,6 @@ class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.categoriesUrl = process.env.MEDIA_SERVER_URL + "Categories/";
         this.subcategoriesUrl = process.env.MEDIA_SERVER_URL + "subcategories/";
         // TODO: CONSIDER ADDING THIS TO A JSON FILE
         this.sliderData = [
