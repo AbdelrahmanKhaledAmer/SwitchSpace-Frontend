@@ -61,7 +61,7 @@ class Trending extends React.Component {
         if (window.localStorage["dark"]) {
             this.colors = darkColors;
         } else {
-            this.cardStyle = lightColors;
+            this.colors = lightColors;
         }
 
         this.handlePvBarClick = this.handlePvBarClick.bind(this);
