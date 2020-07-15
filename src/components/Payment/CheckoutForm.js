@@ -46,10 +46,10 @@ const styles = theme => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
         "&:hover": {
-            background: "#558dad",
+            background: theme.palette.button.hover.backgroundColor(),
         },
     },
 });

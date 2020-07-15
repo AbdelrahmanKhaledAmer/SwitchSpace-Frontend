@@ -17,17 +17,18 @@ export default class SearchFilterView extends React.Component {
             loading: true, // when true => loading state
             posts: [],
             categories: [],
-            // subcategories: [],
         };
         this.getSearchPosts = this.getSearchPosts.bind(this);
         this.getCategories = this.getCategories.bind(this);
     }
+
     // need to defince prop type for every function
     static get propTypes() {
         return {
             history: PropTypes.object,
         };
     }
+
     async componentDidMount() {
         await this.getCategories();
         this.setState({loading: false});
@@ -35,14 +36,13 @@ export default class SearchFilterView extends React.Component {
 
     async getSearchPosts(body) {
         try {
-            console.log(body);
             let response = await PostService.getSearchPosts(body);
-            console.log(response.data.data);
             this.setState({posts: response.data.data});
         } catch (err) {
             console.log(err);
         }
     }
+
     // get all categories and sub categories with there mapping in search
     async getCategories() {
         try {
@@ -83,7 +83,7 @@ export default class SearchFilterView extends React.Component {
         return this.state.loading == true ? (
             <Loading loading={this.state.loading} />
         ) : (
-            <SearchFilter posts={this.state.posts} onSubmit={this.getSearchPosts} categories={this.state.categories}></SearchFilter>
+            <SearchFilter posts={this.state.posts} onSubmit={this.getSearchPosts} categories={this.state.categories} />
         );
     }
 }

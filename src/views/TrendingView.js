@@ -18,10 +18,15 @@ export default class TrendingView extends React.Component {
             loading: true, // when true => loading state
             subcategories: [],
             posts: [],
+            notify: false, // when true notification appears
+            notificationMsg: undefined, // must have value when notification appears
+            notificationSeverity: undefined, // values in "success", "error", "info", "warning"};
         };
 
         this.getPostsBySubcategory = this.getPostsBySubcategory.bind(this);
         this.populateGraph = this.populateGraph.bind(this);
+        this.notify = this.notify.bind(this);
+        this.handleNotificationClose = this.handleNotificationClose.bind(this);
     }
 
     static get propTypes() {
@@ -53,6 +58,7 @@ export default class TrendingView extends React.Component {
             this.notify(err, "error");
         }
     }
+
     // Notify the user on with a msg and severity => uses the state variables
     notify(msg, notificationSeverity) {
         this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
@@ -62,6 +68,7 @@ export default class TrendingView extends React.Component {
     handleNotificationClose() {
         this.setState({notify: false, notificationMsg: undefined});
     }
+
     render() {
         return (
             <React.Fragment>

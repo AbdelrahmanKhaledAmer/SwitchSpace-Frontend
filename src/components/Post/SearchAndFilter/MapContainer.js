@@ -180,9 +180,7 @@ class GoogleMap extends React.Component {
                 <Circle
                     radius={this.props.radius ? this.props.radius : 10000}
                     center={this.props.myLocation}
-                    // onMouseover={() => console.log("mouseover")}
                     onClick={this.onMapClicked}
-                    // onMouseout={() => console.log("mouseout")}
                     strokeColor="transparent"
                     strokeOpacity={0}
                     strokeWeight={5}
