@@ -68,7 +68,7 @@ class UserProfileEdit extends React.Component {
                 email: true,
                 name: true,
                 password: true,
-                repeatPassword: false,
+                repeatPassword: true,
                 profilePicture: false,
             },
         };
@@ -205,6 +205,13 @@ class UserProfileEdit extends React.Component {
             if (this.state.profilePicture) user["profilePicture"] = this.state.profilePicture;
 
             this.props.onSubmit(user);
+        } else {
+            let errorMsg = {};
+            if (this.state.errorValidate.email) errorMsg.email = "Email is required";
+            if (this.state.errorValidate.password) errorMsg.password = "Password is required";
+            if (this.state.errorValidate.name) errorMsg.name = "Name is required";
+            if (this.state.errorValidate.repeatPassword) errorMsg.repeatPassword = "Repeat Password is required";
+            this.setState({errorMsg: errorMsg});
         }
     }
 
@@ -219,7 +226,7 @@ class UserProfileEdit extends React.Component {
     render() {
         const {classes} = this.props;
         return (
-            <form className={classes.form} noValidate>
+            <form className={classes.form} noValidate onSubmit={this.submitHandler}>
                 <TextField
                     variant="outlined"
                     margin="normal"
