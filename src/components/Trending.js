@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
+import Zoom from "@material-ui/core/Zoom";
 
 // Components
 import Page from "./Page";
@@ -105,10 +106,12 @@ class Trending extends React.Component {
                     <Card className={classes.postsCard}>
                         <CardHeader title="Trending Posts" className={classes.cardHeader} />
                         <div className={classes.postsContainer}>
-                            <PostList
-                                className={classes.postsContainer}
-                                posts={this.props.posts}
-                                msgForNoPosts="Click on a category to see posts"></PostList>
+                            <Zoom in={true} transitionduration={5000}>
+                                <PostList
+                                    className={classes.postsContainer}
+                                    posts={this.props.posts}
+                                    msgForNoPosts="Click on a category to see posts"></PostList>
+                            </Zoom>
                         </div>
                     </Card>
                 </React.Fragment>
