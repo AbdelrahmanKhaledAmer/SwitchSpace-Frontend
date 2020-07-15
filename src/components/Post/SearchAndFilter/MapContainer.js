@@ -10,6 +10,9 @@ import Grid from "@material-ui/core/Grid";
 import SwapHorizOutlinedIcon from "@material-ui/icons/SwapHorizOutlined";
 // Components
 import InfoCard from "./InfoCard";
+// Assets
+import UserMapIcon from "../../../../public/assets/map/me.png";
+import PostMapIcon from "../../../../public/assets/map/post.png";
 
 // infowindow style
 const styles = () => ({
@@ -125,7 +128,8 @@ class GoogleMap extends React.Component {
                         onClick={this.onMarkerClicked}
                         // TODO: media server URL
                         icon={{
-                            url: "https://switchspace-datastore.s3.eu-central-1.amazonaws.com/mapIcons/post.png",
+                            url: PostMapIcon,
+
                             anchor: new this.props.google.maps.Point(32, 32),
                             scaledSize: new this.props.google.maps.Size(32, 32),
                         }}
@@ -139,7 +143,7 @@ class GoogleMap extends React.Component {
                     // onClick={this.onMarkerClicked}
                     // TODO: media server URL
                     icon={{
-                        url: "https://switchspace-datastore.s3.eu-central-1.amazonaws.com/mapIcons/me.png",
+                        url: UserMapIcon,
                         anchor: new this.props.google.maps.Point(55, 55),
                         scaledSize: new this.props.google.maps.Size(56, 56),
                     }}
