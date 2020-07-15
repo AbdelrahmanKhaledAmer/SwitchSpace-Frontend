@@ -13,8 +13,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 // Icons
-import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import RegisterIcon from "../../public/assets/general/register.svg";
+import LoginIcon from "../../public/assets/general/login.svg";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import AccessoriesIcon from "../../public/assets/categories/accessories.svg";
@@ -146,13 +146,13 @@ class Sidebar extends React.Component {
                 <List>
                     <ListItem button onClick={() => this.props.history.push("/login")}>
                         <ListItemIcon className={classes.listIcon}>
-                            <ExitToAppIcon />
+                            <img className={classes.icons} src={LoginIcon} />
                         </ListItemIcon>
                         <ListItemText primary="Login" />
                     </ListItem>
                     <ListItem button onClick={() => this.props.history.push("/signup")}>
                         <ListItemIcon className={classes.listIcon}>
-                            <SwapHorizIcon />
+                            <img className={classes.icons} src={RegisterIcon} />
                         </ListItemIcon>
                         <ListItemText primary="Signup" />
                     </ListItem>
