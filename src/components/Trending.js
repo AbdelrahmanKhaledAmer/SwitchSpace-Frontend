@@ -5,6 +5,9 @@ import PropTypes from "prop-types";
 // Material UI Core
 import {withStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import Zoom from "@material-ui/core/Zoom";
+
 // Components
 import Page from "./Page";
 import PostList from "./Post/PostList";
@@ -15,7 +18,7 @@ const styles = theme => ({
     graphContainer: {
         textAlign: "center",
         width: "90%",
-        height: "90%",
+        height: "60%",
         margin: "0 auto",
         marginTop: theme.spacing(3),
     },
@@ -25,14 +28,26 @@ const styles = theme => ({
     graphCard: {
         textAlign: "center",
         width: "70%",
-        height: "60vh",
+        height: "50vh",
         margin: "0 auto",
         // marginTop: theme.spacing(7),
     },
-    postsContainer: {
+    postsCard: {
         width: "70%",
         margin: "0 auto",
         marginTop: theme.spacing(3),
+    },
+    postsContainer: {
+        padding: theme.spacing(0, 1),
+        width: "100%",
+        margin: "0 auto",
+        marginTop: theme.spacing(3),
+    },
+    cardHeader: {
+        width: "100%",
+        textAlign: "center",
+        backgroundColor: theme.palette.header.backgroundColor(),
+        color: theme.palette.header.textColor(),
     },
 });
 
@@ -40,7 +55,14 @@ class Trending extends React.Component {
     constructor(props) {
         super(props);
 
-        this.colors = ["#659dbd", "#457dbd"];
+        this.colors = ["#15a4f7", "#15c4ff"];
+        const lightColors = ["#15a4f7", "#15c4ff"];
+        const darkColors = ["#7e7e7e", "#aeaeae"];
+        if (window.localStorage["dark"]) {
+            this.colors = darkColors;
+        } else {
+            this.colors = lightColors;
+        }
 
         this.handlePvBarClick = this.handlePvBarClick.bind(this);
     }
@@ -60,15 +82,15 @@ class Trending extends React.Component {
 
     render() {
         const {classes} = this.props;
-        // TODO: TITLE BEFORE AND AFTER GRAPH
         return (
             <Page>
                 <React.Fragment>
                     <Card elevation={5} className={classes.graphCard}>
+                        <CardHeader title="Trending Categories" className={classes.cardHeader} />
                         <div className={classes.graphContainer}>
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={this.props.data} onClick={this.handlePvBarClick}>
-                                    <XAxis dataKey="title" /> {/*change axis color axisLine={{ stroke: "purple" }}*/}
+                                    <XAxis dataKey="title" />
                                     <YAxis width={35} />
                                     <Tooltip />
                                     <Bar dataKey="trendingScore">
@@ -80,9 +102,18 @@ class Trending extends React.Component {
                             </ResponsiveContainer>
                         </div>
                     </Card>
-                    <div className={classes.postsContainer}>
-                        <PostList posts={this.props.posts} msgForNoPosts="Click on a category to see posts"></PostList>
-                    </div>
+
+                    <Card className={classes.postsCard}>
+                        <CardHeader title="Trending Posts" className={classes.cardHeader} />
+                        <div className={classes.postsContainer}>
+                            <Zoom in={true} transitionduration={5000}>
+                                <PostList
+                                    className={classes.postsContainer}
+                                    posts={this.props.posts}
+                                    msgForNoPosts="Click on a category to see posts"></PostList>
+                            </Zoom>
+                        </div>
+                    </Card>
                 </React.Fragment>
             </Page>
         );
