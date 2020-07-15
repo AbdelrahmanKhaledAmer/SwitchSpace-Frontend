@@ -31,12 +31,20 @@ const styles = theme => ({
         margin: "0 auto",
         // marginTop: theme.spacing(7),
     },
-    postsContainer: {
+    postsCard: {
         width: "70%",
         margin: "0 auto",
         marginTop: theme.spacing(3),
     },
+    postsContainer: {
+        padding: theme.spacing(0, 1),
+        width: "100%",
+        margin: "0 auto",
+        marginTop: theme.spacing(3),
+    },
     cardHeader: {
+        width: "100%",
+        textAlign: "center",
         backgroundColor: theme.palette.header.backgroundColor(),
         color: theme.palette.header.textColor(),
     },
@@ -93,10 +101,16 @@ class Trending extends React.Component {
                             </ResponsiveContainer>
                         </div>
                     </Card>
-                    <div className={classes.postsContainer}>
+
+                    <Card className={classes.postsCard}>
                         <CardHeader title="Trending Posts" className={classes.cardHeader} />
-                        <PostList posts={this.props.posts} msgForNoPosts="Click on a category to see posts"></PostList>
-                    </div>
+                        <div className={classes.postsContainer}>
+                            <PostList
+                                className={classes.postsContainer}
+                                posts={this.props.posts}
+                                msgForNoPosts="Click on a category to see posts"></PostList>
+                        </div>
+                    </Card>
                 </React.Fragment>
             </Page>
         );
