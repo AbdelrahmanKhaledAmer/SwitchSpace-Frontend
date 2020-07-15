@@ -18,9 +18,9 @@ const styles = theme => ({
     graphContainer: {
         textAlign: "center",
         width: "90%",
-        height: "60%",
+        height: "75%",
         margin: "0 auto",
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(1),
     },
     line: {
         backgroudColor: "purple",
@@ -28,9 +28,8 @@ const styles = theme => ({
     graphCard: {
         textAlign: "center",
         width: "70%",
-        height: "50vh",
+        height: "40vh",
         margin: "0 auto",
-        // marginTop: theme.spacing(7),
     },
     postsCard: {
         width: "70%",
@@ -55,7 +54,7 @@ class Trending extends React.Component {
     constructor(props) {
         super(props);
 
-        this.colors = ["#15a4f7", "#15c4ff"];
+        this.colors = undefined;
         const lightColors = ["#15a4f7", "#15c4ff"];
         const darkColors = ["#7e7e7e", "#aeaeae"];
         if (window.localStorage["dark"]) {
@@ -110,7 +109,8 @@ class Trending extends React.Component {
                                 <PostList
                                     className={classes.postsContainer}
                                     posts={this.props.posts}
-                                    msgForNoPosts="Click on a category to see posts"></PostList>
+                                    msgForNoPosts="This category does not contain any posts at the moment."
+                                />
                             </Zoom>
                         </div>
                     </Card>
