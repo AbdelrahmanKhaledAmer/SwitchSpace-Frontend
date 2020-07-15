@@ -171,7 +171,6 @@ class Post extends React.Component {
     }
 
     submitReport(report) {
-        console.log("post");
         this.props.submitReport(report);
         this.toggleReportModal();
     }

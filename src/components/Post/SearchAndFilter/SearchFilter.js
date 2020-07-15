@@ -246,11 +246,13 @@ class SearchFilter extends React.Component {
         }
         this.setState({myLocation: loc, city: city});
     }
+
     // variable change
     onCityChange(e) {
         const value = e.target.value;
         this.setState({city: value});
     }
+
     // key press on location
     async onLocationTextChange(e) {
         if (e.key !== "Enter") {
@@ -266,6 +268,7 @@ class SearchFilter extends React.Component {
             console.log(err);
         }
     }
+
     // send post in focus
     onPostFocusChange(idx) {
         console.log(idx);
