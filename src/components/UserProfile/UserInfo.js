@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 //Material UI Lab
 import Rating from "@material-ui/lab/Rating";
 // Images
-import defaultAvatar from "../../../public/assets/general/avatar.jpg";
+import defaultAvatar from "../../../public/assets/general/avatar.png";
 
 const styles = theme => ({
     mainContainer: {

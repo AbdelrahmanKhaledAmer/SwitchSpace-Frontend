@@ -20,7 +20,7 @@ import "react-chat-elements/dist/main.css";
 // Theme
 import settings from "../../palette";
 // Images
-import defaultAvatar from "../../../public/assets/general/avatar.jpg";
+import defaultAvatar from "../../../public/assets/general/avatar.png";
 
 const styles = theme => ({
     container: {
