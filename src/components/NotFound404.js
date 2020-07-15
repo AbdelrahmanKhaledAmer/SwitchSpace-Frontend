@@ -6,7 +6,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {withRouter} from "react-router-dom";
 
 // React components
-import CardHeader from "@material-ui/core/CardHeader";
+import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
 // Components
@@ -34,8 +34,9 @@ const styles = theme => ({
         bottom: 0,
         left: 0,
         right: 0,
-        margin: "auto",
+        marginTop: 1,
     },
+
     cardHeader: {
         backgroundColor: theme.palette.button.error,
         color: theme.palette.button.textColor,
@@ -67,8 +68,11 @@ class NotFound404 extends React.Component {
         return (
             <Page>
                 <div className={classes.center}>
-                    <CardHeader title="404 We Could't find what you are looking for" className={classes.cardHeader} />
+                    <Typography variant="h2" gutterBottom color="inherit">
+                        We could not find what you are looking for
+                    </Typography>
                 </div>
+
                 <div className={classes.center1}>
                     <Button
                         variant="contained"
