@@ -83,6 +83,7 @@ export default class PostView extends React.Component {
                 postId: this.state.postId,
             };
             await ReportService.createReport(body);
+            this.notify("Report created successfully. It will be reviewed by our admins as soon as possible.", "success");
         } catch (err) {
             this.notify(err, "error");
         }

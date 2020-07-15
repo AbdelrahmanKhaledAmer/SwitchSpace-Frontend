@@ -29,18 +29,12 @@ const styles = theme => ({
         width: "85%",
         margin: "0 auto",
     },
-    backdrop: {
-        zIndex: theme.zIndex.drawer + 2,
-        color: "#fff",
-    },
     icon: {
         minWidth: "auto",
-        // color: "#659dbd",
     },
     date: {
         textAlign: "right",
         fontSize: "0.85em",
-        // color: "#3b3b3b",
         marginBottom: theme.spacing(1),
     },
     rightGridItem: {
@@ -50,10 +44,8 @@ const styles = theme => ({
         marginBottom: theme.spacing(1),
     },
     button: {
-        // backgroundColor: "#659dbd", //TODO: theme.palette
         color: theme.palette.button.textColor(),
         backgroundColor: theme.palette.button.backgroundColor(),
-
         marginTop: theme.spacing(1),
     },
     reportButton: {
@@ -179,6 +171,7 @@ class Post extends React.Component {
     }
 
     submitReport(report) {
+        console.log("post");
         this.props.submitReport(report);
         this.toggleReportModal();
     }
@@ -279,7 +272,7 @@ class Post extends React.Component {
                                     </Button>
                                 )
                             ) : (
-                                <Button variant="contained" className={classes.reportButton} onClick={this.submitReport}>
+                                <Button variant="contained" className={classes.reportButton} onClick={this.toggleReportModal}>
                                     Report Post
                                 </Button>
                             )}

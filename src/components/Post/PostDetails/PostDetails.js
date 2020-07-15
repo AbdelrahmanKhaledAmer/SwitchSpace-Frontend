@@ -59,8 +59,11 @@ const styles = theme => ({
         display: "none",
     },
     formButton: {
-        // backgroundColor: "#659dbd", // TODO: color.palette
-        // color: "#fbeec1",
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
+        "&:hover": {
+            backgroundColor: theme.palette.button.hover.backgroundColor(),
+        },
         marginTop: theme.spacing(1),
     },
 });
