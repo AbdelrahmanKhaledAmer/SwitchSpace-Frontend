@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 // Material UI Core
 import {withStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
 
 // Components
 import Page from "./Page";
