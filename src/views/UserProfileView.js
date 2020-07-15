@@ -97,9 +97,7 @@ export default class UserProfileView extends React.Component {
                 tabs: tabs,
             });
         } catch (err) {
-            // reroute after timeout
-            const cb = () => setTimeout(() => this.props.history.push("/"), 3000);
-            this.notify(err, "error", cb);
+            this.props.history.push(`/404`);
         }
         this.setState({loading: false});
     }
