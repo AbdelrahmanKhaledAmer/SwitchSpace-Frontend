@@ -25,14 +25,15 @@ export default class TrendingView extends React.Component {
         };
     }
 
-    componentDidMount() {
-        this.populateGraph();
+    async componentDidMount() {
+        await this.populateGraph();
+        await this.getPostsBySubcategory(this.state.subcategories[0].title);
     }
 
     async populateGraph() {
         try {
             let response = await TrendingService.getTrendingSubcategories();
-            this.setState({subcategories: response.data.data});
+            await this.setState({subcategories: response.data.data});
         } catch (err) {
             // TODO: TOAST ERROR
             console.error(err);
