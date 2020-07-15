@@ -86,6 +86,12 @@ class UserLogin extends React.Component {
         let user = {email: this.state.email, password: this.state.password};
         if (!this.state.emailError && this.state.password != "" && this.state.email != "") {
             this.props.onSubmit(user);
+        } else {
+            let emailError = this.state.emailError;
+            let passwordError = this.state.passwordError;
+            if (this.state.email === "") emailError = true;
+            if (this.state.password === "") passwordError = true;
+            this.setState({emailError: emailError, passwordError: passwordError});
         }
     }
 
@@ -109,7 +115,7 @@ class UserLogin extends React.Component {
                         <Typography component="h1" variant="h5" className={classes.headerText}>
                             Sign in
                         </Typography>
-                        <form className={classes.form} noValidate>
+                        <form className={classes.form} noValidate onSubmit={this.submitHandler}>
                             <TextField
                                 variant="outlined"
                                 margin="normal"
