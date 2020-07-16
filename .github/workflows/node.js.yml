@@ -55,4 +55,4 @@ jobs:
       - run: npm run build
       # Deploy app
       - name: Deploy React-app to S3 bucket
-      - run: npm run deploy
+        run: npm run deploy
