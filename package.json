@@ -78,6 +78,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "webpack --config webpack.prod.js --mode production",
         "start": "webpack-dev-server --open --config ./webpack.dev.js --mode development",
-        "lint": "eslint '**/*.js' --ignore-pattern node_modules/"
+        "lint": "eslint '**/*.js' --ignore-pattern node_modules/",
+        "deploy": "aws s3 sync dist/ s3://switchspace --acl public-read"
     }
 }
