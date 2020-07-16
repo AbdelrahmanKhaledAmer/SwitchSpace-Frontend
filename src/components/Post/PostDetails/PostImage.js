@@ -10,6 +10,18 @@ const styles = theme => ({
     backdrop: {
         zIndex: theme.zIndex.drawer + 2,
     },
+    imageContainer: {
+        width: "80vw",
+        height: "80vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    image: {
+        maxWidth: "100%",
+        height: "auto",
+        maxHeight: "100%",
+    },
 });
 
 class PostImage extends React.Component {
@@ -30,8 +42,8 @@ class PostImage extends React.Component {
         const {classes} = this.props;
         return (
             <Backdrop className={classes.backdrop} open={this.props.open} onClick={this.props.onImageClose}>
-                <div>
-                    <img src={this.props.image} />
+                <div className={classes.imageContainer}>
+                    <img className={classes.image} src={this.props.image} />
                 </div>
             </Backdrop>
         );
