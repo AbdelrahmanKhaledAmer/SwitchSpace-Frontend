@@ -135,7 +135,7 @@ class PostListItem extends React.Component {
                                     </Grid>
                                 </ListItem>
                                 <ListItem>
-                                    <div className={classes.boldText}>Exchanged with: </div>
+                                    <div className={classes.boldText}>Exchange with: </div>
                                     <div className={classes.miniMarginLeft}>{this.props.post.itemDesired.title}</div>
                                 </ListItem>
                                 <ListItem>
