@@ -56,8 +56,8 @@ export default class ChatBoxView extends React.Component {
     }
 
     componentDidMount() {
-        // if user is logged-in, then create a socket connection
-        if (UserAuthService.isAuthenticated()) {
+        // if a normal user is logged-in, then create a socket connection
+        if (UserAuthService.isNormalUser()) {
             const token = window.localStorage["jwtToken"];
             this.socket = io(`${HttpService.apiURL()}?token=${token}`);
             this.socket.on("chat message", this.onChatMsgHandler);
@@ -80,7 +80,7 @@ export default class ChatBoxView extends React.Component {
     }
 
     componentWillUnmount() {
-        // close socket connection if existed (which means that user was logged-in)
+        // close socket connection if existed (which means that a normal user was logged-in)
         if (this.socket) {
             this.socket.close();
         }
