@@ -43,6 +43,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run build
       # Setup and configure aws
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -52,5 +54,4 @@ jobs:
           aws-region: eu-central-1
       # Deploy app
       - name: Deploy React-app to S3 bucket
-      - run: npm run build
       - run: npm run deploy
