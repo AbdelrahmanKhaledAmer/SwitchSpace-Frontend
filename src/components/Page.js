@@ -152,6 +152,7 @@ class Page extends React.Component {
                     sidebarToggle={this.sidebarToggle}
                     expanded={this.state.expanded}
                     expandToggle={this.expandToggle}
+                    onNotify={this.notify}
                 />
                 <section className={classes.body}>{this.props.children}</section>
                 <Notification
