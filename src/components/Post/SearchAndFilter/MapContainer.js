@@ -139,8 +139,6 @@ class GoogleMap extends React.Component {
                     visible={this.state.showInfo}
                     styles={{textAlign: "center"}}
                     marker={this.state.activePost ? this.state.activePost.marker : undefined}>
-                    {/* <CardContent> */}
-
                     <Grid container justify="space-between" alignItems="center" className={classes.infoWindowContainer}>
                         <Grid item>
                             <InfoCard

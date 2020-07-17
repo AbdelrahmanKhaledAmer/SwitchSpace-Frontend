@@ -47,7 +47,7 @@ const styles = theme => ({
     },
     search: {
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.type === "dark" ? theme.palette.secondary.main : "white",
         marginLeft: 0,
         width: "100%",
     },
@@ -150,7 +150,6 @@ class QuickNavMenu extends React.Component {
         const {classes} = this.props;
         return (
             <div>
-                {/* <Grid item xs={6}> */}
                 <ListItem alignItems="center">
                     <Button
                         variant="contained"
