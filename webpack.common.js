@@ -50,6 +50,7 @@ module.exports = {
             template: "./src/index.html",
             filename: "index.html",
             inject: "body",
+            favicon: "./public/assets/logo/circular.png",
         }),
         new webpack.HotModuleReplacementPlugin(),
         new MiniCssExtractPlugin(),
