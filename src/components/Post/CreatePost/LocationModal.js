@@ -46,7 +46,6 @@ class LocationModal extends React.Component {
         this.submitHandler = this.submitHandler.bind(this);
         this.onMapClicked = this.onMapClicked.bind(this);
         this.getCoordinates = this.getCoordinates.bind(this);
-        this.mapLoaded = this.mapLoaded.bind(this);
     }
 
     static get propTypes() {
@@ -74,7 +73,8 @@ class LocationModal extends React.Component {
                 centerLng: longitude,
             });
         } catch (err) {
-            console.log(err.message);
+            // user refused to give location
+            console.error(err);
         }
         // set map center as ur location for the first time
 
@@ -95,10 +95,6 @@ class LocationModal extends React.Component {
     }
     submitHandler() {
         this.props.setLocation(this.state.lat, this.state.lng);
-    }
-    mapLoaded(mapProps, map) {
-        console.log(mapProps);
-        console.log(map);
     }
 
     onMapClicked(t, map, coord) {
@@ -133,7 +129,6 @@ class LocationModal extends React.Component {
                 <DialogContent className={classes.mapContainer}>
                     <Map
                         google={this.props.google}
-                        onReady={(mapProps, map) => this.mapLoaded(mapProps, map)}
                         zoom={8}
                         center={{lat: this.state.centerLat, lng: this.state.centerLng}}
                         containerStyle={containerStyle}
