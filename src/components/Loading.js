@@ -31,7 +31,6 @@ class loading extends React.Component {
         const {classes} = this.props;
         return (
             <Backdrop className={classes.backdrop} open={this.props.loading}>
-                {/* <CircularProgress color="primary" /> */}
                 <div>{window.localStorage["dark"] ? <img src={logoDark} alt="loading..." /> : <img src={logoLight} alt="loading..." />}</div>
             </Backdrop>
         );

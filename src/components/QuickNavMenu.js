@@ -150,7 +150,6 @@ class QuickNavMenu extends React.Component {
         const {classes} = this.props;
         return (
             <div>
-                {/* <Grid item xs={6}> */}
                 <ListItem alignItems="center">
                     <Button
                         variant="contained"
