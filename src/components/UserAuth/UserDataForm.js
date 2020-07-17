@@ -181,11 +181,9 @@ class UserProfileEdit extends React.Component {
             this.validateForm //callback
         );
     }
-    onImageUpload(e) {
-        // console.log(e.value);
-        this.setState({profilePicture: e.currentTarget.files[0]});
 
-        // this.setState({profilePicture: e.value});
+    onImageUpload(e) {
+        this.setState({profilePicture: e.currentTarget.files[0]});
     }
 
     submitHandler(ev) {

@@ -144,8 +144,7 @@ class UserLogin extends React.Component {
                                 error={this.state.passwordError}
                                 helperText={this.state.passwordError ? "Password is Required" : ""}
                             />
-                            {/*TODO: CHECK IF REMEMBER ME IS A VIABLE OPTION*/}
-                            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+
                             <Button fullWidth variant="contained" type="submit" className={classes.button} onClick={this.submitHandler}>
                                 Sign In
                             </Button>
