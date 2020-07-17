@@ -105,7 +105,6 @@ export default class UserProfileView extends React.Component {
     }
 
     async updateProfile(user) {
-        // TODO: reload and try get another token with the new username
         this.setState({loading: true});
         const data = new FormData();
         for (let key in user) {

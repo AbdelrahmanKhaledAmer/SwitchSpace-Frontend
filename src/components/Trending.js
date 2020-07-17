@@ -60,7 +60,6 @@ class Trending extends React.Component {
 
     render() {
         const {classes} = this.props;
-        // TODO: TITLE BEFORE AND AFTER GRAPH
         return (
             <Page>
                 <React.Fragment>

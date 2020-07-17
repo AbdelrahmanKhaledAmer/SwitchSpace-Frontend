@@ -29,7 +29,7 @@ const styles = theme => ({
         backgroundColor: "#659dbd",
     },
     form: {
-        width: "100%", //TODO: Fix IE 11 issue.
+        width: "100%",
         marginTop: "1",
     },
     submit: {

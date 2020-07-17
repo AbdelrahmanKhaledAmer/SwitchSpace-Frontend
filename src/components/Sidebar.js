@@ -128,7 +128,6 @@ class Sidebar extends React.Component {
                                 key={categoryIcon[0]._id}
                                 onClick={() => {
                                     this.props.history.replace(`/search?wantedCategory=${categoryIcon[0].title}`);
-                                    // TODO: ask
                                     window.location.reload(false);
                                 }}>
                                 <ListItemIcon className={classes.listIcon}>

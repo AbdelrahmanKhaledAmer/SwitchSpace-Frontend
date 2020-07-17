@@ -59,8 +59,6 @@ const styles = theme => ({
         display: "none",
     },
     formButton: {
-        // backgroundColor: "#659dbd", // TODO: color.palette
-        // color: "#fbeec1",
         marginTop: theme.spacing(1),
     },
 });

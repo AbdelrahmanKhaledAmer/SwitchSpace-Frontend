@@ -35,12 +35,10 @@ const styles = theme => ({
     },
     icon: {
         minWidth: "auto",
-        // color: "#659dbd",
     },
     date: {
         textAlign: "right",
         fontSize: "0.85em",
-        // color: "#3b3b3b",
         marginBottom: theme.spacing(1),
     },
     rightGridItem: {
@@ -50,7 +48,6 @@ const styles = theme => ({
         marginBottom: theme.spacing(1),
     },
     button: {
-        // backgroundColor: "#659dbd", //TODO: theme.palette
         color: theme.palette.button.textColor(),
         backgroundColor: theme.palette.button.backgroundColor(),
 
