@@ -46,7 +46,6 @@ class MiniUserMenu extends React.Component {
             window.localStorage["dark"] = true;
         }
         this.setState({darkMode: Boolean(window.localStorage["dark"])}, window.location.reload(false));
-        window.location.reload(false);
     }
 
     render() {

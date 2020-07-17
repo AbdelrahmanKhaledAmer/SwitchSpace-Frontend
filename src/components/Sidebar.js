@@ -84,6 +84,7 @@ class Sidebar extends React.Component {
             expandToggle: propTypes.func.isRequired,
             classes: propTypes.object.isRequired,
             history: propTypes.object.isRequired,
+            onNotify: propTypes.func.isRequired,
         };
     }
 
@@ -97,7 +98,7 @@ class Sidebar extends React.Component {
             const categories = await CategoryService.getCategories();
             this.setState({categories: categories.data.data});
         } catch (err) {
-            console.log(err);
+            this.props.onNotify(err, "error");
         }
     }
 

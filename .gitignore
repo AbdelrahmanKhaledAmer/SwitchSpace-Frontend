@@ -66,3 +66,6 @@ typings/
 
 # Distribution files
 dist/
+
+# vscode settings
+.vscode/

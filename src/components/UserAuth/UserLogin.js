@@ -7,8 +7,6 @@ import {Link} from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Typography from "@material-ui/core/Typography";
 import {withStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -144,8 +142,7 @@ class UserLogin extends React.Component {
                                 error={this.state.passwordError}
                                 helperText={this.state.passwordError ? "Password is Required" : ""}
                             />
-                            {/*TODO: CHECK IF REMEMBER ME IS A VIABLE OPTION*/}
-                            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+
                             <Button fullWidth variant="contained" type="submit" className={classes.button} onClick={this.submitHandler}>
                                 Sign In
                             </Button>

@@ -81,7 +81,6 @@ class UserProfile extends React.Component {
     render() {
         const {classes} = this.props;
         return (
-            // TODO: add pagination for reviews and posts
             <Page>
                 <React.Fragment>
                     <div className={classes.topContainer}>
@@ -115,13 +114,12 @@ class UserProfile extends React.Component {
                                 </TabList>
                             </AppBar>
                             <TabPanel value="posts">
-                                {/* TODO: change name of the message */}
                                 <PostList posts={this.props.posts} msgForNoPosts="No posts available"></PostList>
                             </TabPanel>
                             <TabPanel value="reviews">
                                 <ReviewList reviews={this.props.userInfo.reviews}></ReviewList>
                             </TabPanel>
-                            {/* render this pannel iff my profile */}
+                            {/* render this panel if my profile */}
                             <TabPanel value="settings">
                                 <Typography color="inherit" variant="h4" noWrap>
                                     {"General"}

@@ -36,7 +36,6 @@ export default class UserLoginView extends React.Component {
             await UserAuthService.login(user.email, user.password);
             this.props.history.push("/");
         } catch (err) {
-            console.error(err);
             this.notify(err, "error");
             this.setState({loading: false});
         }

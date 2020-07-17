@@ -9,7 +9,6 @@ import QuickNavMenu from "./QuickNavMenu";
 import Sidebar from "./Sidebar";
 import ChatBoxView from "../views/ChatBoxView";
 import Notification from "../components/Notification";
-// import Footer from "./Footer"; // TODO: ADD FOOTER
 // Services
 import ChatService from "../services/ChatService";
 import UserAuthService from "../services/UserAuthService";
@@ -17,7 +16,6 @@ import UserAuthService from "../services/UserAuthService";
 const styles = theme => ({
     body: {
         paddingTop: theme.spacing(10), // navbar padding
-        paddingBottom: theme.spacing(2), // footer padding
     },
 });
 
@@ -27,7 +25,6 @@ class Page extends React.Component {
 
         this.state = {
             title: "",
-            isAuthorized: false, // TODO: Get token
             drawerIsOpen: false,
             expanded: false,
             chatReceiverIdFromMenu: "",
@@ -134,7 +131,6 @@ class Page extends React.Component {
         return (
             <section>
                 <QuickNavMenu
-                    isAuthorized={this.state.isAuthorized}
                     sidebarToggle={this.sidebarToggle}
                     unreadChats={this.state.unreadChats}
                     chatMenuAnchorEl={this.state.chatMenuAnchorEl}
@@ -152,6 +148,7 @@ class Page extends React.Component {
                     sidebarToggle={this.sidebarToggle}
                     expanded={this.state.expanded}
                     expandToggle={this.expandToggle}
+                    onNotify={this.notify}
                 />
                 <section className={classes.body}>{this.props.children}</section>
                 <Notification
@@ -160,7 +157,6 @@ class Page extends React.Component {
                     severity={this.state.notificationSeverity}
                     handleClose={this.handleNotificationClose}
                 />
-                {/* <Footer /> */}
             </section>
         );
     }

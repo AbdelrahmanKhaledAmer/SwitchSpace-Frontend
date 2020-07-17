@@ -4,6 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 // Components
 import SearchFilter from "../components/Post/SearchAndFilter/SearchFilter";
+import Notification from "../components/Notification";
 import Loading from "../components/Loading";
 
 // Services
@@ -17,7 +18,14 @@ export default class SearchFilterView extends React.Component {
             loading: true, // when true => loading state
             posts: [],
             categories: [],
+            notify: false, // when true notification appears
+            notificationMsg: undefined, // must have value when notification appears
+            notificationSeverity: undefined, // values in "success", "error", "info", "warning"};
         };
+        // Bind notification functions
+        this.notify = this.notify.bind(this);
+        this.handleNotificationClose = this.handleNotificationClose.bind(this);
+
         this.getSearchPosts = this.getSearchPosts.bind(this);
         this.getCategories = this.getCategories.bind(this);
     }
@@ -33,13 +41,22 @@ export default class SearchFilterView extends React.Component {
         await this.getCategories();
         this.setState({loading: false});
     }
+    // Notify the user on with a msg and severity => uses the state variables
+    notify(msg, notificationSeverity) {
+        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
+    }
 
+    // Reset notification state must bbe included in every view and passed to Notification Component
+    handleNotificationClose() {
+        this.setState({notify: false, notificationMsg: undefined});
+    }
+    // execute search query
     async getSearchPosts(body) {
         try {
             let response = await PostService.getSearchPosts(body);
             this.setState({posts: response.data.data});
         } catch (err) {
-            console.log(err);
+            this.notify(err, "error");
         }
     }
 
@@ -75,15 +92,25 @@ export default class SearchFilterView extends React.Component {
             categories.push({title: "Any", value: "", subcategories: subcategories});
             this.setState({categories: categories});
         } catch (err) {
-            console.log(err);
+            this.notify(err, "error");
         }
     }
 
     render() {
-        return this.state.loading == true ? (
-            <Loading loading={this.state.loading} />
-        ) : (
-            <SearchFilter posts={this.state.posts} onSubmit={this.getSearchPosts} categories={this.state.categories} />
+        return (
+            <React.Fragment>
+                <Notification
+                    notify={this.state.notify}
+                    notificationMsg={this.state.notificationMsg}
+                    severity={this.state.notificationSeverity}
+                    handleClose={this.handleNotificationClose}
+                />
+                {this.state.loading == true ? (
+                    <Loading loading={this.state.loading} />
+                ) : (
+                    <SearchFilter posts={this.state.posts} onSubmit={this.getSearchPosts} categories={this.state.categories}></SearchFilter>
+                )}
+            </React.Fragment>
         );
     }
 }

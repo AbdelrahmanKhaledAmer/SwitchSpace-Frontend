@@ -42,7 +42,6 @@ export default class UserSignupView extends React.Component {
         }
         try {
             await UserAuthService.register(data);
-            //TODO: email verification
             this.props.history.push("/");
         } catch (err) {
             this.notify(err, "error");

@@ -21,6 +21,7 @@ export default class HomePageView extends React.Component {
         };
 
         this.handleNotificationClose = this.handleNotificationClose.bind(this);
+        this.notify = this.notify.bind(this);
     }
 
     static get propTypes() {
@@ -37,14 +38,15 @@ export default class HomePageView extends React.Component {
                 categories: response.data.data,
             });
         } catch (err) {
-            this.setState({
-                notify: true,
-                notificationMsg: err,
-                notificationSeverity: "error",
-            });
+            this.notify(err, "error");
         }
     }
+    // Notify the user on with a msg and severity => uses the state variables
+    notify(msg, notificationSeverity) {
+        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
+    }
 
+    // Reset notification state must bbe included in every view and passed to Notification Component
     handleNotificationClose() {
         this.setState({notify: false, notificationMsg: undefined});
     }
