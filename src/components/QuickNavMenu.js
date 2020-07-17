@@ -81,7 +81,6 @@ class QuickNavMenu extends React.Component {
 
     static get propTypes() {
         return {
-            isAuthorized: PropTypes.bool.isRequired,
             sidebarToggle: PropTypes.func.isRequired,
             unreadChats: PropTypes.number.isRequired,
             history: PropTypes.object.isRequired,
@@ -203,7 +202,6 @@ class QuickNavMenu extends React.Component {
                                                     position="end"
                                                     onClick={() => {
                                                         this.props.history.push(`/search?itemWanted=${this.state.searchQuery}`);
-                                                        //TODO ask
                                                         window.location.reload(false);
                                                     }}>
                                                     <SearchIcon />

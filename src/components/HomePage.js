@@ -54,7 +54,6 @@ class HomePage extends React.Component {
         super(props);
         this.state = {};
         this.subcategoriesUrl = process.env.MEDIA_SERVER_URL + "subcategories/";
-        // TODO: CONSIDER ADDING THIS TO A JSON FILE
         this.sliderData = [
             {
                 header: "Find people who are close",
@@ -113,7 +112,6 @@ class HomePage extends React.Component {
                             <Grid item xs={3} key={idx}>
                                 <CardActionArea onClick={() => this.goToSearch(category.title, subacategory.title)}>
                                     <Card key={idx} elevation={5} className={classes.card}>
-                                        {/*TODO: ASSIGN CORRECT IMAGE*/}
                                         <CardMedia
                                             className={classes.cardMedia}
                                             image={this.subcategoriesUrl + subacategory.title.replace(/ /g, "+") + ".jpeg"}
