@@ -260,6 +260,7 @@ class SearchFilter extends React.Component {
             let loc = entered_loc.results[0].geometry.location;
             this.setState({myLocation: loc});
         } catch (err) {
+            // avoid spamming user with many notifications
             console.error(err);
         }
     }
