@@ -101,8 +101,10 @@ class Post extends React.Component {
         };
     }
 
-    componentDidMount() {
-        // this.getLocation(); // TODO: FIND BEST TIME TO CALL THIS HERE AND IN POSTLISTITEM
+    componentDidUpdate(prevProps) {
+        if (prevProps.post.exchangeLocation !== this.props.post.exchangeLocation) {
+            this.getLocation();
+        }
     }
 
     isOwnPost() {
@@ -134,9 +136,6 @@ class Post extends React.Component {
     }
 
     async getLocation() {
-        if (!this.post.exchangeLocation) {
-            return;
-        }
         const coord = this.props.post.exchangeLocation.coordinates;
         let loc = await Geocode.fromLatLng(coord[1], coord[0]);
         let components = loc.results[0].address_components;

@@ -4,11 +4,11 @@ import React from "react";
 import PropTypes from "prop-types";
 // Components
 import PostStepper from "../components/Post/CreatePost/PostStepper";
+import Notification from "../components/Notification";
+import Loading from "../components/Loading";
 // Services
 import CategoryService from "../services/CategoryService";
 import PostService from "../services/PostService";
-
-import Loading from "../components/Loading";
 
 export default class PostCreateView extends React.Component {
     constructor(props) {
@@ -17,10 +17,15 @@ export default class PostCreateView extends React.Component {
             // Loading state
             loading: true, // when true => loading state
             categories: [],
+            notify: false,
+            notificationMsg: undefined,
+            notificationSeverity: undefined,
         };
 
         this.populateCategories = this.populateCategories.bind(this);
         this.createPost = this.createPost.bind(this);
+        this.handleNotificationClose = this.handleNotificationClose.bind(this);
+        this.notify = this.notify.bind(this);
     }
 
     static get propTypes() {
@@ -29,8 +34,8 @@ export default class PostCreateView extends React.Component {
         };
     }
 
-    componentDidMount() {
-        this.populateCategories();
+    async componentDidMount() {
+        await this.populateCategories();
         this.setState({loading: false});
     }
 
@@ -39,8 +44,7 @@ export default class PostCreateView extends React.Component {
             let response = await CategoryService.getCategories();
             this.setState({categories: response.data.data});
         } catch (err) {
-            // TODO: TOAST NETWORK ERROR
-            console.error(err);
+            this.notify(err, "error");
         }
     }
 
@@ -49,9 +53,18 @@ export default class PostCreateView extends React.Component {
             await PostService.createPost(postData);
             this.props.history.push("/");
         } catch (err) {
-            // TODO: TOAST ERROR
-            console.error(err);
+            this.notify(err, "error");
         }
+    }
+
+    // Notify the user on with a msg and severity => uses the state variables
+    notify(msg, notificationSeverity) {
+        this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
+    }
+
+    // Reset notification state must bbe included in every view and passed to Notification Component
+    handleNotificationClose() {
+        this.setState({notify: false, notificationMsg: undefined});
     }
 
     render() {
@@ -59,6 +72,12 @@ export default class PostCreateView extends React.Component {
             <React.Fragment>
                 <Loading loading={this.state.loading} />
                 <PostStepper categories={this.state.categories} submit={this.createPost} />
+                <Notification
+                    notify={this.state.notify}
+                    notificationMsg={this.state.notificationMsg}
+                    severity={this.state.notificationSeverity}
+                    handleClose={this.handleNotificationClose}
+                />
             </React.Fragment>
         );
     }

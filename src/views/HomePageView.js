@@ -31,16 +31,19 @@ export default class HomePageView extends React.Component {
     }
 
     async componentDidMount() {
+        let categories = this.state.categories;
         try {
             let response = await CategoryService.getCategories();
-            this.setState({
-                loading: false,
-                categories: response.data.data,
-            });
+            categories = response.data.data;
         } catch (err) {
             this.notify(err, "error");
         }
+        this.setState({
+            loading: false,
+            categories: categories,
+        });
     }
+
     // Notify the user on with a msg and severity => uses the state variables
     notify(msg, notificationSeverity) {
         this.setState({notify: true, notificationMsg: msg, notificationSeverity: notificationSeverity});
