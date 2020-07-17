@@ -71,20 +71,6 @@ export default class UserProfileView extends React.Component {
         const currentUser = UserAuthService.getCurrentUser();
         const tabs = this.state.tabs;
         let isMyProfile = false;
-        // my profile, not admin
-        if (!currentUser.isAdmin && currentUser.id == this.state.userId) {
-            isMyProfile = true;
-            tabs.push({
-                label: "Settings",
-                value: "settings",
-            });
-
-            //check whether the user is routed to settings iff my profile and loggedin
-            const searchParams = queryString.parse(this.props.location.search);
-            if (searchParams.tab === "settings") {
-                this.setState({selectedTab: "settings"});
-            }
-        }
         try {
             const postsResp = await PostService.getUserPosts(this.state.userId);
             const userInfoResp = await UserService.getUserInfo(this.state.userId);
@@ -98,6 +84,20 @@ export default class UserProfileView extends React.Component {
             });
         } catch (err) {
             this.props.history.push(`/404`);
+        }
+        // my profile, not admin
+        if (!currentUser.isAdmin && currentUser.id == this.state.userId) {
+            isMyProfile = true;
+            tabs.push({
+                label: "Settings",
+                value: "settings",
+            });
+
+            //check whether the user is routed to settings iff my profile and loggedin
+            const searchParams = queryString.parse(this.props.location.search);
+            if (searchParams.tab === "settings") {
+                this.setState({selectedTab: "settings"});
+            }
         }
         this.setState({loading: false});
     }
