@@ -50,6 +50,7 @@ class ReviewForm extends React.Component {
         this.onConditionRateChange = this.onConditionRateChange.bind(this);
         this.onDescriptionChange = this.onDescriptionChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
     }
 
     static get propTypes() {
@@ -120,8 +121,26 @@ class ReviewForm extends React.Component {
                 conditionRate: conditionRate,
                 description: description,
             });
+            this.setState({
+                commRate: 0,
+                descriptionRate: 0,
+                conditionRate: 0,
+                description: "",
+                commRateValid: false,
+                descriptionRateValid: false,
+                conditionRateValid: false,
+                // description is optional, so its initial empty state is valid
+                descriptionValid: true,
+            });
         } else {
             this.props.onNotify("Please fill the fields correctly", "error");
+        }
+    }
+
+    onKeyDown(event) {
+        if (event.key === "Enter") {
+            this.onSubmit();
+            event.preventDefault();
         }
     }
 
@@ -181,6 +200,7 @@ class ReviewForm extends React.Component {
                                     name="description"
                                     autoComplete="description"
                                     onChange={this.onDescriptionChange}
+                                    onKeyDown={this.onKeyDown}
                                     error={!this.state.descriptionValid}
                                     helperText={this.state.descriptionValid ? "" : "Must not exceed 500 characters"}
                                 />

@@ -13,7 +13,6 @@ import {withStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
 import Zoom from "@material-ui/core/Zoom";
 // Material UI Icons
 import ReportIcon from "@material-ui/icons/Report";
@@ -26,7 +25,8 @@ const styles = theme => ({
     },
     avatar: {
         margin: "1",
-        backgroundColor: "#659dbd",
+        backgroundColor: theme.palette.header.backgroundColor(),
+        color: theme.palette.header.textColor(),
     },
     form: {
         width: "100%",
@@ -34,10 +34,10 @@ const styles = theme => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
-        backgroundColor: "#659dbd",
-        color: "#fbeec1",
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
         "&:hover": {
-            background: "#558dad",
+            background: theme.palette.button.hover.backgroundColor(),
         },
     },
     centerFold: {
@@ -55,6 +55,7 @@ class ReportModal extends React.Component {
         this.onReportChange = this.onReportChange.bind(this);
         this.submitHandler = this.submitHandler.bind(this);
     }
+
     static get propTypes() {
         return {
             classes: PropTypes.object.isRequired,
@@ -63,6 +64,7 @@ class ReportModal extends React.Component {
             submitReport: PropTypes.func.isRequired,
         };
     }
+
     onReportChange(e) {
         const value = e.currentTarget.value;
         this.setState({report: value});
@@ -72,13 +74,13 @@ class ReportModal extends React.Component {
             this.setState({reportEmpty: false});
         }
     }
+
     submitHandler() {
         this.props.submitReport(this.state.report);
     }
 
     render() {
         const {classes} = this.props;
-
         return (
             <Dialog
                 aria-labelledby="form-dialog-title"
@@ -117,13 +119,16 @@ class ReportModal extends React.Component {
                                 />
                             </form>
                         </div>
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            disabled={this.state.reportEmpty}
+                            onClick={this.submitHandler}
+                            className={classes.submit}>
+                            Submit report
+                        </Button>
                     </Container>
                 </DialogContent>
-                <DialogActions className={classes.centerFold}>
-                    <Button variant="contained" disabled={this.state.reportEmpty} onClick={this.submitHandler} color="primary">
-                        Submit report
-                    </Button>
-                </DialogActions>
             </Dialog>
         );
     }

@@ -29,12 +29,14 @@ export default class SearchFilterView extends React.Component {
         this.getSearchPosts = this.getSearchPosts.bind(this);
         this.getCategories = this.getCategories.bind(this);
     }
+
     // need to defince prop type for every function
     static get propTypes() {
         return {
             history: PropTypes.object,
         };
     }
+
     async componentDidMount() {
         await this.getCategories();
         this.setState({loading: false});
@@ -57,6 +59,7 @@ export default class SearchFilterView extends React.Component {
             this.notify(err, "error");
         }
     }
+
     // get all categories and sub categories with there mapping in search
     async getCategories() {
         try {

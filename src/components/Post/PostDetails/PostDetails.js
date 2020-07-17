@@ -22,6 +22,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import SwapHorizOutlinedIcon from "@material-ui/icons/SwapHorizOutlined";
 // Components
 import Item from "./Item";
+import PostImage from "./PostImage";
 
 const styles = theme => ({
     cardHeader: {
@@ -59,6 +60,11 @@ const styles = theme => ({
         display: "none",
     },
     formButton: {
+        backgroundColor: theme.palette.button.backgroundColor(),
+        color: theme.palette.button.textColor(),
+        "&:hover": {
+            backgroundColor: theme.palette.button.hover.backgroundColor(),
+        },
         marginTop: theme.spacing(1),
     },
 });
@@ -69,9 +75,12 @@ class PostDetails extends React.Component {
 
         this.state = {
             photos: [],
+            openedImageUrl: "",
         };
 
         this.onImageUpload = this.onImageUpload.bind(this);
+        this.handleImageSelection = this.handleImageSelection.bind(this);
+        this.handleImageClose = this.handleImageClose.bind(this);
     }
 
     static get propTypes() {
@@ -97,83 +106,98 @@ class PostDetails extends React.Component {
         }
     }
 
+    handleImageSelection(photoUrl) {
+        this.setState({
+            openedImageUrl: photoUrl,
+        });
+    }
+
+    handleImageClose() {
+        this.setState({
+            openedImageUrl: "",
+        });
+    }
+
     render() {
         const {classes} = this.props;
         return (
-            <Grid container className={classes.gridContainer} spacing={1}>
-                <Grid item xs={5}>
-                    <Card elevation={5} className={classes.fullHeightCard}>
-                        <CardHeader className={classes.cardHeader} title="Offered Item" />
-                        <CardContent>
-                            <List>
-                                <ListItem dense>
-                                    <AwesomeSlider bullets={false} organicArrows={true}>
-                                        {this.props.post.photos.map((photo, idx) => (
-                                            <div key={idx}>
-                                                <img className={classes.slidingImage} src={photo.url} />
-                                            </div>
-                                        ))}
-                                    </AwesomeSlider>
-                                </ListItem>
-                                <ListItem>
-                                    {this.props.isOwnPost ? (
-                                        <FormControl fullWidth>
-                                            <input
-                                                accept="image/*"
-                                                className={classes.input}
-                                                id="post-details-upload"
-                                                multiple
-                                                type="file"
-                                                onChange={this.onImageUpload}
-                                            />
-                                            <label htmlFor="post-details-upload">
-                                                <Button fullWidth className={classes.formButton} component="span" endIcon={<CloudUploadIcon />}>
-                                                    Upload *
-                                                </Button>
-                                            </label>
-                                            <FormHelperText>
-                                                {"You can replace the photos here with up to 3 new photos and at least 1"}
-                                            </FormHelperText>
-                                            {this.state.photos.map((photo, idx) => (
-                                                <Typography key={idx} align="center">
-                                                    <ImageIcon />
-                                                    {photo.name}
-                                                </Typography>
+            <React.Fragment>
+                <Grid container className={classes.gridContainer} spacing={1}>
+                    <Grid item xs={5}>
+                        <Card elevation={5} className={classes.fullHeightCard}>
+                            <CardHeader className={classes.cardHeader} title="Offered Item" />
+                            <CardContent>
+                                <List>
+                                    <ListItem dense>
+                                        <AwesomeSlider bullets={false} organicArrows={true}>
+                                            {this.props.post.photos.map((photo, idx) => (
+                                                <div key={idx} onClick={this.handleImageSelection.bind(this, photo.url)}>
+                                                    <img className={classes.slidingImage} src={photo.url} />
+                                                </div>
                                             ))}
-                                        </FormControl>
-                                    ) : (
-                                        <React.Fragment />
-                                    )}
-                                </ListItem>
-                                <Item
-                                    item={this.props.post.itemOwned}
-                                    isOwnPost={this.props.isOwnPost}
-                                    categories={this.props.categories}
-                                    onChange={this.props.editItemOwned}
-                                />
-                            </List>
-                        </CardContent>
-                    </Card>
+                                        </AwesomeSlider>
+                                    </ListItem>
+                                    <ListItem>
+                                        {this.props.isOwnPost ? (
+                                            <FormControl fullWidth>
+                                                <input
+                                                    accept="image/*"
+                                                    className={classes.input}
+                                                    id="post-details-upload"
+                                                    multiple
+                                                    type="file"
+                                                    onChange={this.onImageUpload}
+                                                />
+                                                <label htmlFor="post-details-upload">
+                                                    <Button fullWidth className={classes.formButton} component="span" endIcon={<CloudUploadIcon />}>
+                                                        Upload *
+                                                    </Button>
+                                                </label>
+                                                <FormHelperText>
+                                                    {"You can replace the photos here with up to 3 new photos and at least 1"}
+                                                </FormHelperText>
+                                                {this.state.photos.map((photo, idx) => (
+                                                    <Typography key={idx} align="center">
+                                                        <ImageIcon />
+                                                        {photo.name}
+                                                    </Typography>
+                                                ))}
+                                            </FormControl>
+                                        ) : (
+                                            <React.Fragment />
+                                        )}
+                                    </ListItem>
+                                    <Item
+                                        item={this.props.post.itemOwned}
+                                        isOwnPost={this.props.isOwnPost}
+                                        categories={this.props.categories}
+                                        onChange={this.props.editItemOwned}
+                                    />
+                                </List>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={2} className={classes.arrow}>
+                        <SwapHorizOutlinedIcon fontSize="inherit" />
+                    </Grid>
+                    <Grid item xs={5}>
+                        <Card elevation={5} className={classes.fullHeightCard}>
+                            <CardHeader className={classes.cardHeader} title="Desired Item" />
+                            <CardContent>
+                                <List>
+                                    <Item
+                                        item={this.props.post.itemDesired}
+                                        isOwnPost={this.props.isOwnPost}
+                                        categories={this.props.categories}
+                                        onChange={this.props.editItemDesired}
+                                    />
+                                </List>
+                            </CardContent>
+                        </Card>
+                    </Grid>
                 </Grid>
-                <Grid item xs={2} className={classes.arrow}>
-                    <SwapHorizOutlinedIcon fontSize="inherit" />
-                </Grid>
-                <Grid item xs={5}>
-                    <Card elevation={5} className={classes.fullHeightCard}>
-                        <CardHeader className={classes.cardHeader} title="Desired Item" />
-                        <CardContent>
-                            <List>
-                                <Item
-                                    item={this.props.post.itemDesired}
-                                    isOwnPost={this.props.isOwnPost}
-                                    categories={this.props.categories}
-                                    onChange={this.props.editItemDesired}
-                                />
-                            </List>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </Grid>
+                <PostImage open={Boolean(this.state.openedImageUrl)} image={this.state.openedImageUrl} onImageClose={this.handleImageClose} />
+            </React.Fragment>
         );
     }
 }

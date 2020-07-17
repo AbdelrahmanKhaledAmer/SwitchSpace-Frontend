@@ -84,7 +84,7 @@ class Subscription extends React.Component {
         const cardStyleDark =
             ".StripeElement {height: 40px;padding: 10px 0;width: 100%;color: white;border-bottom: 1px solid #aeaeae;}.StripeElement--focus {border-bottom: 2px solid #aeaeae;}.StripeElement:hover {border-bottom: 2px solid #eaeaea;}.StripeElement--invalid {border-color: #fa755a;}";
         const cardStyleLight =
-            ".StripeElement {height: 40px;padding: 10px 0;width: 100%;color: white;border-bottom: 1px solid #9a9a9a;}.StripeElement--focus {border-bottom: 2px solid #9a9a9a;}.StripeElement:hover {border-bottom: 2px solid #9a9a9a;}.StripeElement--invalid {border-color: #fa755a;}";
+            ".StripeElement {height: 40px;padding: 10px 0;width: 100%;color: white;border-bottom: 1px solid #9a9a9a;}.StripeElement--focus {border-bottom: 2px solid #15a4f7;}.StripeElement:hover {border-bottom: 2px solid #000000;}.StripeElement--invalid {border-color: #fa755a;}";
 
         if (window.localStorage["dark"]) {
             this.cardStyle = cardStyleDark;

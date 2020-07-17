@@ -11,7 +11,7 @@ import Card from "@material-ui/core/Card";
 // Material UI Lab
 import Rating from "@material-ui/lab/Rating";
 // Images
-import defaultAvatar from "../../../public/assets/general/avatar.jpg";
+import defaultAvatar from "../../../public/assets/general/avatar.png";
 
 const styles = theme => ({
     avatar: {

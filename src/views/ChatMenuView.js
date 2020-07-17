@@ -8,7 +8,7 @@ import Notification from "../components/Notification";
 // Services
 import ChatService from "../services/ChatService";
 // Images
-import defaultAvatar from "../../public/assets/general/avatar.jpg";
+import defaultAvatar from "../../public/assets/general/avatar.png";
 
 class ChatMenuView extends React.Component {
     constructor(props) {

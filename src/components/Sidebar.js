@@ -13,27 +13,26 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 // Icons
-import SwapHorizIcon from "@material-ui/icons/SwapHoriz";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import accessories from "../../public/assets/categories/accessories.svg";
-import clothing from "../../public/assets/categories/clothes.svg";
-import electronics from "../../public/assets/categories/electronics.svg";
-import media from "../../public/assets/categories/media.svg";
-import sports from "../../public/assets/categories/sports.svg";
-import vehicles from "../../public/assets/categories/vehicles.svg";
-import other from "../../public/assets/categories/other.svg";
-import categories from "../../public/assets/categories/categories.svg";
-import profile from "../../public/assets/general/profile.svg";
-import upgrade from "../../public/assets/general/upgrade.svg";
-import createPost from "../../public/assets/general/newPost.svg";
-import logout from "../../public/assets/general/logout.svg";
-import trending from "../../public/assets/general/trend.svg";
+import RegisterIcon from "../../public/assets/general/register.svg";
+import LoginIcon from "../../public/assets/general/login.svg";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import AccessoriesIcon from "../../public/assets/categories/accessories.svg";
+import ClothingIcon from "../../public/assets/categories/clothes.svg";
+import ElectronicsIcon from "../../public/assets/categories/electronics.svg";
+import MediaIcon from "../../public/assets/categories/media.svg";
+import SportsIcon from "../../public/assets/categories/sports.svg";
+import VehiclesIcon from "../../public/assets/categories/vehicles.svg";
+import OtherIcon from "../../public/assets/categories/other.svg";
+import CategoriesIcon from "../../public/assets/categories/categories.svg";
+import ProfileIcon from "../../public/assets/general/profile.svg";
+import UpgradeIcon from "../../public/assets/general/upgrade.svg";
+import CreatePostIcon from "../../public/assets/general/newPost.svg";
+import LogoutIcon from "../../public/assets/general/logout.svg";
+import TrendingIcon from "../../public/assets/general/trend.svg";
 //Services
 import UserAuthService from "../services/UserAuthService";
 import CategoryService from "../services/CategoryService";
-// Assets
 // Assets
 import logoLight from "../../public/assets/logo/02_2_light.png";
 import logoDark from "../../public/assets/logo/02_2_dark.png";
@@ -61,7 +60,7 @@ const styles = theme => ({
     },
     icons: {
         width: "20px",
-        color: theme.palette.primary.main,
+        filter: localStorage["dark"] ? "invert(1)" : "none",
     },
 });
 
@@ -70,8 +69,7 @@ class Sidebar extends React.Component {
         super(props);
         this.state = {
             categories: [],
-            // hardcoded category icons
-            icons: [accessories, clothing, electronics, media, sports, vehicles, other],
+            icons: [AccessoriesIcon, ClothingIcon, ElectronicsIcon, MediaIcon, SportsIcon, VehiclesIcon, OtherIcon],
             categoriesIcons: [],
         };
         this.getCategories = this.getCategories.bind(this);
@@ -115,10 +113,10 @@ class Sidebar extends React.Component {
             <List>
                 <ListItem button onClick={this.props.expandToggle}>
                     <ListItemIcon className={classes.listIcon}>
-                        <img className={classes.icons} src={categories} />
+                        <img className={classes.icons} src={CategoriesIcon} />
                     </ListItemIcon>
                     <ListItemText primary="Categories" />
-                    <ListItemIcon className={classes.listIcon}>{this.props.expanded ? <ExpandLess /> : <ExpandMore />}</ListItemIcon>
+                    <ListItemIcon className={classes.listIcon}>{this.props.expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}</ListItemIcon>
                 </ListItem>
                 <Collapse in={this.props.expanded} timeout="auto" unmountOnExit>
                     <List className={classes.nested}>
@@ -131,7 +129,6 @@ class Sidebar extends React.Component {
                                     window.location.reload(false);
                                 }}>
                                 <ListItemIcon className={classes.listIcon}>
-                                    {/* <SvgIcon className={classes.icons} component={Acc} viewBox="0 0 600 476.6" /> */}
                                     <img className={classes.icons} src={categoryIcon[1]} />
                                 </ListItemIcon>
                                 <ListItemText primary={categoryIcon[0].title} />
@@ -150,13 +147,13 @@ class Sidebar extends React.Component {
                 <List>
                     <ListItem button onClick={() => this.props.history.push("/login")}>
                         <ListItemIcon className={classes.listIcon}>
-                            <ExitToAppIcon />
+                            <img className={classes.icons} src={LoginIcon} />
                         </ListItemIcon>
                         <ListItemText primary="Login" />
                     </ListItem>
                     <ListItem button onClick={() => this.props.history.push("/signup")}>
                         <ListItemIcon className={classes.listIcon}>
-                            <SwapHorizIcon /> {/* TODO: GET BETTER ICON */}
+                            <img className={classes.icons} src={RegisterIcon} />
                         </ListItemIcon>
                         <ListItemText primary="Signup" />
                     </ListItem>
@@ -173,20 +170,20 @@ class Sidebar extends React.Component {
                 <List>
                     <ListItem button onClick={() => this.props.history.push(`/profile/${UserAuthService.getCurrentUser().id}`)}>
                         <ListItemIcon className={classes.listIcon}>
-                            <img className={classes.icons} src={profile} />
+                            <img className={classes.icons} src={ProfileIcon} />
                         </ListItemIcon>
                         <ListItemText primary="Profile" />
                     </ListItem>
                     <ListItem button onClick={() => this.props.history.push("/subscriptions")}>
                         <ListItemIcon className={classes.listIcon}>
-                            <img className={classes.icons} src={upgrade} />
+                            <img className={classes.icons} src={UpgradeIcon} />
                         </ListItemIcon>
                         <ListItemText primary="Upgrade" />
                     </ListItem>
 
                     <ListItem button onClick={() => this.props.history.push("/create")}>
                         <ListItemIcon className={classes.listIcon}>
-                            <img className={classes.icons} src={createPost} />
+                            <img className={classes.icons} src={CreatePostIcon} />
                         </ListItemIcon>
                         <ListItemText primary="New Post" />
                     </ListItem>
@@ -197,7 +194,7 @@ class Sidebar extends React.Component {
                             this.props.history.push("/");
                         }}>
                         <ListItemIcon className={classes.listIcon}>
-                            <img className={classes.icons} src={logout} />
+                            <img className={classes.icons} src={LogoutIcon} />
                         </ListItemIcon>
                         <ListItemText primary="Logout" />
                     </ListItem>
@@ -223,7 +220,7 @@ class Sidebar extends React.Component {
                         {UserAuthService.isAuthenticated() ? this.loggedInList() : this.loggedOutList()}
                         <ListItem button onClick={() => this.props.history.push("/trending")}>
                             <ListItemIcon className={classes.listIcon}>
-                                <img className={classes.icons} src={trending} />
+                                <img className={classes.icons} src={TrendingIcon} />
                             </ListItemIcon>
                             <ListItemText primary="Trending" />
                         </ListItem>

@@ -176,6 +176,7 @@ class MiniUserMenu extends React.Component {
                         this.props.handleMenuClose();
                         UserAuthService.logout();
                         this.props.history.push("/");
+                        window.location.reload();
                     }}>
                     <Grid container item spacing={2} justify="flex-start">
                         <Grid item>

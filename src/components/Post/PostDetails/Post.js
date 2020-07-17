@@ -29,10 +29,6 @@ const styles = theme => ({
         width: "85%",
         margin: "0 auto",
     },
-    backdrop: {
-        zIndex: theme.zIndex.drawer + 2,
-        color: "#fff",
-    },
     icon: {
         minWidth: "auto",
     },
@@ -50,7 +46,6 @@ const styles = theme => ({
     button: {
         color: theme.palette.button.textColor(),
         backgroundColor: theme.palette.button.backgroundColor(),
-
         marginTop: theme.spacing(1),
     },
     reportButton: {
@@ -226,11 +221,11 @@ class Post extends React.Component {
             <Page chatReceiverIdFromPost={this.state.chatReceiverId}>
                 <div>
                     <Container className={classes.conatiner}>
-                        <Grid container justify="space-between" alignItems="center" className={classes.topContainer}>
-                            <Grid item xs={6}>
+                        <Grid container justify="space-between" className={classes.topContainer}>
+                            <Grid item>
                                 <UserInfo userInfo={this.props.post.creatorId} provideLinkToProfile={true} />
                             </Grid>
-                            <Grid item xs={6} className={classes.rightGridItem}>
+                            <Grid item className={classes.rightGridItem}>
                                 <div className={classes.date}>{this.props.post.createdAt.substring(0, 10)}</div>
                                 <Grid container justify="flex-end">
                                     <div className={classes.icon}>
@@ -276,7 +271,7 @@ class Post extends React.Component {
                                     </Button>
                                 )
                             ) : (
-                                <Button variant="contained" className={classes.reportButton} onClick={this.submitReport}>
+                                <Button variant="contained" className={classes.reportButton} onClick={this.toggleReportModal}>
                                     Report Post
                                 </Button>
                             )}
