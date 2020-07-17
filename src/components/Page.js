@@ -16,7 +16,6 @@ import UserAuthService from "../services/UserAuthService";
 const styles = theme => ({
     body: {
         paddingTop: theme.spacing(10), // navbar padding
-        paddingBottom: theme.spacing(2), // footer padding
     },
 });
 
@@ -158,7 +157,6 @@ class Page extends React.Component {
                     severity={this.state.notificationSeverity}
                     handleClose={this.handleNotificationClose}
                 />
-                {/* <Footer /> */}
             </section>
         );
     }
