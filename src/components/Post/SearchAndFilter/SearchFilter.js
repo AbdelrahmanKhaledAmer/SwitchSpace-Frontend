@@ -237,6 +237,7 @@ class SearchFilter extends React.Component {
                 city = "unknown";
             }
         } catch (err) {
+            city = "unknown";
             console.error(err);
         }
         this.setState({myLocation: loc, city: city});
