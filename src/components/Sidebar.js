@@ -22,7 +22,7 @@ import clothing from "../../public/assets/categories/clothes.svg";
 import electronics from "../../public/assets/categories/electronics.svg";
 import media from "../../public/assets/categories/media.svg";
 import sports from "../../public/assets/categories/sports.svg";
-import vehichel from "../../public/assets/categories/vehichel.svg";
+import vehicles from "../../public/assets/categories/vehicles.svg";
 import other from "../../public/assets/categories/other.svg";
 import categories from "../../public/assets/categories/categories.svg";
 import profile from "../../public/assets/general/profile.svg";
@@ -70,7 +70,8 @@ class Sidebar extends React.Component {
         super(props);
         this.state = {
             categories: [],
-            icons: [accessories, clothing, electronics, media, sports, vehichel, other],
+            // hardcoded category icons
+            icons: [accessories, clothing, electronics, media, sports, vehicles, other],
             categoriesIcons: [],
         };
         this.getCategories = this.getCategories.bind(this);
@@ -98,7 +99,7 @@ class Sidebar extends React.Component {
             const categories = await CategoryService.getCategories();
             this.setState({categories: categories.data.data});
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
