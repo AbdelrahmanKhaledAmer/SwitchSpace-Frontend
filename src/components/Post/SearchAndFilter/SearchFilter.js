@@ -108,7 +108,6 @@ class SearchFilter extends React.Component {
         this.onWantedConditionChange = this.onWantedConditionChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onLocationChange = this.onLocationChange.bind(this);
-        this.onPostFocusChange = this.onPostFocusChange.bind(this);
         this.onLocationTextChange = this.onLocationTextChange.bind(this);
         this.onCityChange = this.onCityChange.bind(this);
     }
@@ -135,8 +134,6 @@ class SearchFilter extends React.Component {
         const itemWanted = searchParams.itemWanted ? searchParams.itemWanted : this.state.itemWanted;
         const wantedCategory = searchParams.wantedCategory ? searchParams.wantedCategory : this.state.wantedCategory;
         const wantedSubcategory = searchParams.wantedSubcategory ? searchParams.wantedSubcategory : this.state.wantedSubcategory;
-        // const ownedCategory = searchParams.ownedCategory ? searchParams.ownedCategory : this.state.ownedCategory;
-        // const ownedSubcategory = searchParams.ownedSubcategory ? searchParams.ownedSubcategory : this.state.ownedSubcategory;
         const radius = searchParams.radius ? searchParams.radius : this.state.radius;
 
         let idx = this.props.categories.findIndex(x => x.title === wantedCategory);
@@ -156,8 +153,6 @@ class SearchFilter extends React.Component {
                 wantedCategory: wantedCategory,
                 wantedSubcategory: wantedSubcategory,
                 validWantedSubcategories: selectedCat.subcategories, // only this is allowed to be in the param field
-                // ownedCategory: ownedCategory,
-                // wonedSubcategory: ownedSubcategory,
                 radius: radius,
             },
             this.handleSubmit
@@ -242,7 +237,7 @@ class SearchFilter extends React.Component {
                 city = "unknown";
             }
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
         this.setState({myLocation: loc, city: city});
     }
@@ -263,12 +258,8 @@ class SearchFilter extends React.Component {
             let loc = entered_loc.results[0].geometry.location;
             this.setState({myLocation: loc});
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
-    }
-    // send post in focus
-    onPostFocusChange(idx) {
-        console.log(idx);
     }
 
     render() {
@@ -288,7 +279,6 @@ class SearchFilter extends React.Component {
                                             radius={parseInt(this.state.radius) * 1000}
                                             myLocation={this.state.myLocation}
                                             onLocationChange={this.onLocationChange}
-                                            onPostFocusChange={this.onPostFocusChange}
                                         />
                                     </Card>
                                 </Zoom>

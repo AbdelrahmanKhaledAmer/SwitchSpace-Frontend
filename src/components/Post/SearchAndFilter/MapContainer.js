@@ -37,7 +37,6 @@ class GoogleMap extends React.Component {
         };
         this.onMapClicked = this.onMapClicked.bind(this);
         this.onMarkerClicked = this.onMarkerClicked.bind(this);
-        this.mapLoaded = this.mapLoaded.bind(this);
         this.getCoordinates = this.getCoordinates.bind(this);
     }
 
@@ -49,7 +48,6 @@ class GoogleMap extends React.Component {
             radius: PropTypes.number,
             myLocation: PropTypes.object.isRequired,
             onLocationChange: PropTypes.func.isRequired,
-            onPostFocusChange: PropTypes.func.isRequired,
         };
     }
     // called directly after mounting component
@@ -67,7 +65,7 @@ class GoogleMap extends React.Component {
             // notify the search component
             this.props.onLocationChange(myLocation);
         } catch (err) {
-            console.log(err.message);
+            console.error(err);
         }
         // set map center as ur location for the first time
         this.setState({
@@ -101,13 +99,6 @@ class GoogleMap extends React.Component {
         const idx = marker.name;
         // post is stored in activePost because it is needed for the map
         this.setState({showInfo: true, activePost: {idx: idx, post: this.props.posts[idx], marker: marker}});
-        this.props.onPostFocusChange(marker.name);
-    }
-
-    // triggered when the map finishes loading
-    mapLoaded(mapProps, map) {
-        console.log(mapProps);
-        console.log(map);
     }
 
     render() {
@@ -115,7 +106,6 @@ class GoogleMap extends React.Component {
         return (
             <Map
                 google={this.props.google}
-                onReady={(mapProps, map) => this.mapLoaded(mapProps, map)}
                 onClick={this.onMapClicked}
                 zoom={8}
                 center={{lat: this.state.mapCenterLat, lng: this.state.mapCenterLong}}>
@@ -126,7 +116,6 @@ class GoogleMap extends React.Component {
                         name={idx}
                         position={{lat: post.exchangeLocation.coordinates[1], lng: post.exchangeLocation.coordinates[0]}}
                         onClick={this.onMarkerClicked}
-                        // TODO: media server URL
                         icon={{
                             url: PostMapIcon,
 
@@ -140,8 +129,6 @@ class GoogleMap extends React.Component {
                     title={this.state.myMarker.title}
                     name={this.state.myMarker.name}
                     position={this.props.myLocation}
-                    // onClick={this.onMarkerClicked}
-                    // TODO: media server URL
                     icon={{
                         url: UserMapIcon,
                         anchor: new this.props.google.maps.Point(55, 55),
@@ -180,9 +167,7 @@ class GoogleMap extends React.Component {
                 <Circle
                     radius={this.props.radius ? this.props.radius : 10000}
                     center={this.props.myLocation}
-                    // onMouseover={() => console.log("mouseover")}
                     onClick={this.onMapClicked}
-                    // onMouseout={() => console.log("mouseout")}
                     strokeColor="transparent"
                     strokeOpacity={0}
                     strokeWeight={5}
