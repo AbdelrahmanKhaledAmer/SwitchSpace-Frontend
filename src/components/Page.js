@@ -143,6 +143,7 @@ class Page extends React.Component {
                     receiverIdFromPost={this.props.chatReceiverIdFromPost}
                     receiverIdFromMenu={this.state.chatReceiverIdFromMenu}
                     setUnreadChats={this.setUnreadChats}
+                    onNotify={this.notify}
                 />
                 <Sidebar
                     isOpen={this.state.drawerIsOpen}
