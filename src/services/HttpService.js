@@ -4,7 +4,7 @@ export default class HttpService {
     constructor() {}
 
     static apiURL() {
-        return process.env.REACT_APP_Server_URL;
+        return process.env.REACT_APP_SERVER_URL;
     }
     static handleError(err) {
         let errorMsg = err.message;
