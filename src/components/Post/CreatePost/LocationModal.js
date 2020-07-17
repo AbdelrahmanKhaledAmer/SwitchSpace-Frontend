@@ -151,6 +151,6 @@ class LocationModal extends React.Component {
 
 export default withStyles(styles)(
     GoogleApiWrapper({
-        // apiKey: "API key here",
+        apiKey: process.env.GOOGLE_API_KEY,
     })(LocationModal)
 );
