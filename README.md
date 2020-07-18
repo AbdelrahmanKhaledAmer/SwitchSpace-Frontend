@@ -1,4 +1,4 @@
-# SwitchSpace-frontend application
+# SwitchSpace-frontend application ![Node.js CI](https://github.com/AbdelrahmanKhaledAmer/SwitchSpace-Frontend/workflows/Node.js%20CI/badge.svg)
 Items Exchange  Service implemented with React. Backend can be found [here](https://github.com/AbdelrahmanKhaledAmer/SwitchSpace-Backend) This template is based on [sebamaster-movie-frontend](https://github.com/sebischair/sebamaster-movie-frontend/)
 
 ## Prerequisites
