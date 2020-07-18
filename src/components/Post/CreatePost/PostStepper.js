@@ -151,12 +151,18 @@ const styles = theme => ({
     },
     button: {
         backgroundColor: theme.palette.button.backgroundColor(),
+        "&:hover": {
+            background: theme.palette.button.hover.backgroundColor(),
+        },
         color: theme.palette.button.textColor(),
         margin: theme.spacing(0, 1),
         marginTop: theme.spacing(1),
     },
     formButton: {
         backgroundColor: theme.palette.button.backgroundColor(),
+        "&:hover": {
+            background: theme.palette.button.hover.backgroundColor(),
+        },
         color: theme.palette.button.textColor(),
         marginTop: theme.spacing(1),
     },

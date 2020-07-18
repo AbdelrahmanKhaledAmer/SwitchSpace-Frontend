@@ -46,6 +46,9 @@ const styles = theme => ({
     button: {
         color: theme.palette.button.textColor(),
         backgroundColor: theme.palette.button.backgroundColor(),
+        "&:hover": {
+            background: theme.palette.button.hover.backgroundColor(),
+        },
         marginTop: theme.spacing(1),
     },
     reportButton: {
