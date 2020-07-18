@@ -108,14 +108,14 @@ class HomePage extends React.Component {
                         </Carousel>
                     </Grid>
                     {this.props.categories.map(category =>
-                        category.subcategories.map((subacategory, idx) => (
+                        category.subcategories.map((subcategory, idx) => (
                             <Grid item xs={3} key={idx}>
-                                <CardActionArea onClick={() => this.goToSearch(category.title, subacategory.title)}>
+                                <CardActionArea onClick={() => this.goToSearch(category.title, subcategory.title)}>
                                     <Card key={idx} elevation={5} className={classes.card}>
-                                        <CardMedia className={classes.cardMedia} image={subcategories[subacategory.title]} />
+                                        <CardMedia className={classes.cardMedia} image={subcategories[subcategory.title]} />
                                         <CardContent>
                                             <Typography variant="h5" color="inherit">
-                                                {subacategory.title}
+                                                {subcategory.title}
                                             </Typography>
                                         </CardContent>
                                     </Card>
