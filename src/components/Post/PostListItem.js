@@ -6,7 +6,6 @@ import Geocode from "react-geocode";
 import {withRouter} from "react-router-dom";
 // Material UI Core
 import Grid from "@material-ui/core/Grid";
-import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
