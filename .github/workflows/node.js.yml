@@ -51,6 +51,9 @@ jobs:
         run: |
           touch .env
           echo REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }} >> .env
+          echo GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }} >> .env
+          echo MEDIA_SERVER_URL=${{ secrets.MEDIA_SERVER_URL }} >> .env
+          echo REACT_APP_STRIPE_KEY=${{ secrets.REACT_APP_STRIPE_KEY }} >> .env
       # Setup node env
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
