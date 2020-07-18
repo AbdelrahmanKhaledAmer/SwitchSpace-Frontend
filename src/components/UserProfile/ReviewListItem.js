@@ -31,6 +31,10 @@ const styles = theme => ({
     description: {
         width: "750px",
     },
+    extendedContainer: {
+        flexGrow: 1,
+        maxWidth: "100%",
+    },
 });
 
 class ReviewListItem extends React.Component {
@@ -56,15 +60,15 @@ class ReviewListItem extends React.Component {
         }
         return (
             <Card elevation={5} className={classes.itemMargin}>
-                <Grid container className={classes.itemPadding}>
-                    <Grid item xs={3}>
+                <Grid container className={classes.itemPadding} justify="start-end">
+                    <Grid item xs={2}>
                         <Avatar
                             variant="rounded"
                             className={classes.avatar}
                             src={review.reviewerId.profilePicture ? review.reviewerId.profilePicture.url : defaultAvatar}
                         />
                     </Grid>
-                    <Grid item container xs={9} spacing={2} direction="column" justify="space-between">
+                    <Grid item container xs={9} spacing={2} direction="column" justify="space-between" className={classes.extendedContainer}>
                         <Grid item container justify="space-between">
                             <Grid item>
                                 <Typography className={classes.reviewerName} color="inherit">
