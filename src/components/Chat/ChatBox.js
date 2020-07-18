@@ -54,10 +54,17 @@ const styles = theme => ({
     profileLink: {
         textDecoration: "none",
     },
+    closeIcon: {
+        color: "white",
+    },
 });
+
 // Unfortunately, react-chat-elements package doesn't offer props for styling its components, so we had here to overwrite some CSS classes
 const primaryDark = settings.colors.primary.dark;
-const msgBubbleDarkStyle = `.rce-mbox {background: ${primaryDark}} .rce-mbox-right-notch {fill: ${primaryDark}} .rce-mbox-left-notch {fill: ${primaryDark}} .rce-mbox-time.non-copiable:before {color: white}`;
+const secondaryDark = settings.colors.secondary.dark;
+const primaryLight = settings.colors.primary.light;
+const msgBubbleDarkStyle = `.rce-mbox {background: ${secondaryDark}} .rce-mbox-left-notch {fill: ${secondaryDark}} .rce-mbox-right {background: ${primaryDark}} .rce-mbox-right-notch {fill: ${primaryDark}} .rce-mbox-time.non-copiable:before {color: white}`;
+const msgBubbleLightStyle = `.rce-mbox-right {background: ${primaryLight}} .rce-mbox-right-notch {fill: ${primaryLight}} .rce-mbox-right > .rce-mbox-body > .rce-mbox-time.non-copiable:before {color: white} .rce-mbox-right > .rce-mbox-body > .rce-mbox-text {color: white}`;
 
 class ChatBox extends React.Component {
     constructor(props) {
@@ -67,7 +74,7 @@ class ChatBox extends React.Component {
         this.messageListRef = React.createRef();
         this.onKeyDown = this.onKeyDown.bind(this);
 
-        this.msgBubbleStyle = window.localStorage["dark"] ? msgBubbleDarkStyle : "";
+        this.msgBubbleStyle = window.localStorage["dark"] ? msgBubbleDarkStyle : msgBubbleLightStyle;
     }
 
     static get propTypes() {
@@ -127,7 +134,7 @@ class ChatBox extends React.Component {
                             </Grid>
                             <Grid item>
                                 <IconButton onClick={this.props.closeChat}>
-                                    <CloseIcon />
+                                    <CloseIcon className={classes.closeIcon} />
                                 </IconButton>
                             </Grid>
                         </Grid>
