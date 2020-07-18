@@ -65,6 +65,7 @@ const secondaryDark = settings.colors.secondary.dark;
 const primaryLight = settings.colors.primary.light;
 const msgBubbleDarkStyle = `.rce-mbox {background: ${secondaryDark}} .rce-mbox-left-notch {fill: ${secondaryDark}} .rce-mbox-right {background: ${primaryDark}} .rce-mbox-right-notch {fill: ${primaryDark}} .rce-mbox-time.non-copiable:before {color: white}`;
 const msgBubbleLightStyle = `.rce-mbox-right {background: ${primaryLight}} .rce-mbox-right-notch {fill: ${primaryLight}} .rce-mbox-right > .rce-mbox-body > .rce-mbox-time.non-copiable:before {color: white} .rce-mbox-right > .rce-mbox-body > .rce-mbox-text {color: white}`;
+
 class ChatBox extends React.Component {
     constructor(props) {
         super(props);
