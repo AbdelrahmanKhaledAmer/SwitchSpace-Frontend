@@ -71,20 +71,7 @@ export default class UserProfileView extends React.Component {
         const currentUser = UserAuthService.getCurrentUser();
         const tabs = this.state.tabs;
         let isMyProfile = false;
-        try {
-            const postsResp = await PostService.getUserPosts(this.state.userId);
-            const userInfoResp = await UserService.getUserInfo(this.state.userId);
-
-            this.setState({
-                userInfo: userInfoResp.data.data,
-                posts: postsResp.data.data,
-                isMyProfile: isMyProfile,
-                myEmail: currentUser.email,
-                tabs: tabs,
-            });
-        } catch (err) {
-            this.props.history.push(`/404`);
-        }
+        let selectedTab = this.state.selectedTab;
         // my profile, not admin
         if (!currentUser.isAdmin && currentUser.id == this.state.userId) {
             isMyProfile = true;
@@ -96,8 +83,23 @@ export default class UserProfileView extends React.Component {
             //check whether the user is routed to settings iff my profile and loggedin
             const searchParams = queryString.parse(this.props.location.search);
             if (searchParams.tab === "settings") {
-                this.setState({selectedTab: "settings"});
+                selectedTab = "settings";
             }
+        }
+        try {
+            const postsResp = await PostService.getUserPosts(this.state.userId);
+            const userInfoResp = await UserService.getUserInfo(this.state.userId);
+
+            this.setState({
+                userInfo: userInfoResp.data.data,
+                posts: postsResp.data.data,
+                isMyProfile: isMyProfile,
+                myEmail: currentUser.email,
+                tabs: tabs,
+                selectedTab: selectedTab,
+            });
+        } catch (err) {
+            this.props.history.push(`/404`);
         }
         this.setState({loading: false});
     }
