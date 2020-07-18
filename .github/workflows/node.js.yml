@@ -46,6 +46,11 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
+      # Create env
+      - name: Creating env file
+        run: |
+          touch .env
+          echo REACT_APP_SERVER_URL=${{ secrets.REACT_APP_SERVER_URL }} >> .env
       # Setup node env
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -56,3 +61,5 @@ jobs:
       # Deploy app
       - name: Deploy React-app to S3 bucket
         run: npm run deploy
+        env: 
+          REACT_APP_SERVER_URL: ${{ secrets.REACT_APP_SERVER_URL }}
