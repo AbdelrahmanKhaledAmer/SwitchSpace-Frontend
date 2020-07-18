@@ -6,7 +6,6 @@ import Geocode from "react-geocode";
 import {withRouter} from "react-router-dom";
 // Material UI Core
 import Grid from "@material-ui/core/Grid";
-import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
@@ -114,44 +113,42 @@ class PostListItem extends React.Component {
             <Card elevation={5} className={classes.itemMargin}>
                 <CardActionArea onClick={this.goToPost} className={classes.itemPadding}>
                     <Grid container spacing={1} className={classes.postContainer}>
-                        <Grid item xs={3}>
+                        <Grid item xs={2}>
                             <Avatar variant="rounded" src={this.props.post.photos[0].url} className={classes.image} />
                         </Grid>
-                        <Grid item xs={6}>
-                            <List>
-                                <ListItem>
-                                    <Grid container>
-                                        <Grid item xs={6}>
-                                            <Typography color="inherit" noWrap className={classes.itemOwned}>
-                                                {this.props.post.itemOwned.title}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item container xs={6}>
-                                            <div className={classes.icon}>
-                                                <PersonOutlineIcon />
-                                            </div>
-                                            <div>{this.props.post.creatorName}</div>
-                                        </Grid>
+                        <Grid item xs={9}>
+                            <ListItem>
+                                <Grid container>
+                                    <Grid item xs={3}>
+                                        <Typography color="inherit" noWrap className={classes.itemOwned}>
+                                            {this.props.post.itemOwned.title}
+                                        </Typography>
                                     </Grid>
-                                </ListItem>
-                                <ListItem>
-                                    <div className={classes.boldText}>Exchange with: </div>
-                                    <div className={classes.miniMarginLeft}>{this.props.post.itemDesired.title}</div>
-                                </ListItem>
-                                <ListItem>
-                                    <Typography color="inherit" noWrap>
-                                        {this.props.post.itemOwned.description}
-                                    </Typography>
-                                </ListItem>
-                                <ListItem className={classes.locationListItem}>
-                                    <div className={classes.icon}>
-                                        <LocationOnOutlinedIcon />
-                                    </div>
-                                    {this.state.postLocation}
-                                </ListItem>
-                            </List>
+                                    <Grid item container xs={3} justify="flex-start">
+                                        <div className={classes.icon}>
+                                            <PersonOutlineIcon />
+                                        </div>
+                                        <div>{this.props.post.creatorName}</div>
+                                    </Grid>
+                                </Grid>
+                            </ListItem>
+                            <ListItem>
+                                <div className={classes.boldText}>Exchange with: </div>
+                                <div className={classes.miniMarginLeft}>{this.props.post.itemDesired.title}</div>
+                            </ListItem>
+                            <ListItem>
+                                <Typography color="inherit" noWrap>
+                                    {this.props.post.itemOwned.description}
+                                </Typography>
+                            </ListItem>
+                            <ListItem className={classes.locationListItem}>
+                                <div className={classes.icon}>
+                                    <LocationOnOutlinedIcon />
+                                </div>
+                                {this.state.postLocation}
+                            </ListItem>
                         </Grid>
-                        <Grid item xs={3} className={classes.categoryAndDate}>
+                        <Grid item xs={1} className={classes.categoryAndDate}>
                             <Chip size="small" label={this.props.post.itemOwned.category} className={classes.chip} />
                             <div className={classes.date} color="inherit">
                                 {this.props.post.createdAt.substring(0, 10)}
