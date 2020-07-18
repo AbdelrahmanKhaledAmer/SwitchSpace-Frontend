@@ -142,7 +142,8 @@ class UserProfileEdit extends React.Component {
 
         let passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
         if (!passwordRegex.test(value)) {
-            errorMsg.password = "Password must be at least 6 characters long and contain special character";
+            errorMsg.password =
+                "Password must be at least 8 characters and contain a special character, a number, an uppercase letter and a lowercase letter";
             errorValidate.password = true;
         } else {
             errorMsg.password = undefined;
