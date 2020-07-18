@@ -37,6 +37,7 @@ class LocationModal extends React.Component {
 
         this.state = {
             isMarkerPlaced: false,
+            mapLoading: true,
             lat: 0,
             lng: 0,
             centerLat: 0,
@@ -71,6 +72,7 @@ class LocationModal extends React.Component {
                 lng: longitude,
                 centerLat: latitude,
                 centerLng: longitude,
+                mapLoading: false,
             });
         } catch (err) {
             // user refused to give location
@@ -85,6 +87,7 @@ class LocationModal extends React.Component {
                 lng: this.props.oldMarker.coordinates[0],
                 centerLat: this.props.oldMarker.coordinates[1],
                 centerLng: this.props.oldMarker.coordinates[0],
+                mapLoading: false,
             });
         }
     }
@@ -127,17 +130,21 @@ class LocationModal extends React.Component {
                     {"Choose your desired exchange location"}
                 </DialogTitle>
                 <DialogContent className={classes.mapContainer}>
-                    <Map
-                        google={this.props.google}
-                        zoom={8}
-                        center={{lat: this.state.centerLat, lng: this.state.centerLng}}
-                        containerStyle={containerStyle}
-                        onClick={this.onMapClicked}
-                        className={classes.map}>
-                        {this.state.isMarkerPlaced ? (
-                            <Marker title={"location"} name={"Exchange Location"} position={{lat: this.state.lat, lng: this.state.lng}} />
-                        ) : null}
-                    </Map>
+                    {!this.state.mapLoading ? (
+                        <Map
+                            google={this.props.google}
+                            zoom={8}
+                            initialCenter={{lat: this.state.centerLat, lng: this.state.centerLng}}
+                            containerStyle={containerStyle}
+                            onClick={this.onMapClicked}
+                            className={classes.map}>
+                            {this.state.isMarkerPlaced ? (
+                                <Marker title={"location"} name={"Exchange Location"} position={{lat: this.state.lat, lng: this.state.lng}} />
+                            ) : null}
+                        </Map>
+                    ) : (
+                        ""
+                    )}
                 </DialogContent>
                 <DialogActions className={classes.centerFold}>
                     <Button disabled={!this.state.isMarkerPlaced} onClick={this.submitHandler} color="primary">

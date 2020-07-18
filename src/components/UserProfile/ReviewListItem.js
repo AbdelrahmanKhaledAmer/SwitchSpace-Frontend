@@ -60,7 +60,7 @@ class ReviewListItem extends React.Component {
         }
         return (
             <Card elevation={5} className={classes.itemMargin}>
-                <Grid container className={classes.itemPadding} justify="start-end">
+                <Grid container className={classes.itemPadding}>
                     <Grid item xs={2}>
                         <Avatar
                             variant="rounded"
