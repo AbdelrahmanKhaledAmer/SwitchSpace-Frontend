@@ -19,6 +19,7 @@ import Carousel from "react-material-ui-carousel";
 import slide1 from "../../public/assets/sliders/Find_close_people_16_9.jpeg";
 import slide2 from "../../public/assets/sliders/Save_Money_16_9.jpg";
 import slide3 from "../../public/assets/sliders/Communication_16_9.jpeg";
+import subcategories from "./utils/Subcategories";
 
 const styles = theme => ({
     gridContainer: {
@@ -53,7 +54,6 @@ class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.subcategoriesUrl = process.env.MEDIA_SERVER_URL + "subcategories/";
         this.sliderData = [
             {
                 header: "Find people who are close",
@@ -112,10 +112,7 @@ class HomePage extends React.Component {
                             <Grid item xs={3} key={idx}>
                                 <CardActionArea onClick={() => this.goToSearch(category.title, subacategory.title)}>
                                     <Card key={idx} elevation={5} className={classes.card}>
-                                        <CardMedia
-                                            className={classes.cardMedia}
-                                            image={this.subcategoriesUrl + subacategory.title.replace(/ /g, "+") + ".jpeg"}
-                                        />
+                                        <CardMedia className={classes.cardMedia} image={subcategories[subacategory.title]} />
                                         <CardContent>
                                             <Typography variant="h5" color="inherit">
                                                 {subacategory.title}
