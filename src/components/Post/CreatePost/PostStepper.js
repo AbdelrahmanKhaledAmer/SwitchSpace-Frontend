@@ -454,10 +454,11 @@ class PostStepper extends React.Component {
                                 ))}
                             </FormControl>
                         </Container>
-                        <LocationModal
-                            modalOpen={this.state.locationModalOpen}
-                            onClose={this.toggleLocationModal}
-                            setLocation={this.setLocation}></LocationModal>
+                        {this.state.locationModalOpen ? (
+                            <LocationModal modalOpen={true} onClose={this.toggleLocationModal} setLocation={this.setLocation}></LocationModal>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 );
             case 1:
