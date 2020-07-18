@@ -54,7 +54,6 @@ class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
-        this.subcategoriesUrl = process.env.MEDIA_SERVER_URL + "subcategories/";
         this.sliderData = [
             {
                 header: "Find people who are close",
