@@ -149,7 +149,6 @@ class SearchFilter extends React.Component {
             const position = await this.getCoordinates();
             myLocation.lat = position.coords.latitude;
             myLocation.lng = position.coords.longitude;
-            // notify the search component
         } catch (err) {
             console.error(err);
         }
