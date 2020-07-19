@@ -91,6 +91,7 @@ class SearchFilter extends React.Component {
             ownedCategory: "Any", //any
             ownedSubcategory: "Any",
             myLocation: {lng: 0, lat: 0},
+            locationAvailable: false,
             radius: 50, // radius in KM
             city: "",
             validWantedSubcategories: props.categories[props.categories.length - 1].subcategories,
@@ -110,6 +111,7 @@ class SearchFilter extends React.Component {
         this.onLocationChange = this.onLocationChange.bind(this);
         this.onLocationTextChange = this.onLocationTextChange.bind(this);
         this.onCityChange = this.onCityChange.bind(this);
+        this.getCoordinates = this.getCoordinates.bind(this);
     }
 
     static get propTypes() {
@@ -125,7 +127,7 @@ class SearchFilter extends React.Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const searchParams = queryString.parse(this.props.location.search);
         // get query params
         const wantedCondition = searchParams.wantedCondition ? searchParams.wantedCondition : this.state.wantedCondition;
@@ -142,6 +144,15 @@ class SearchFilter extends React.Component {
             idx = this.props.categories.length - 1;
         }
         const selectedCat = this.props.categories[idx];
+        // ask user for location
+        let myLocation = this.state.myLocation;
+        try {
+            const position = await this.getCoordinates();
+            myLocation.lat = position.coords.latitude;
+            myLocation.lng = position.coords.longitude;
+        } catch (err) {
+            console.error(err);
+        }
 
         // set query params
         this.setState(
@@ -154,6 +165,8 @@ class SearchFilter extends React.Component {
                 wantedSubcategory: wantedSubcategory,
                 validWantedSubcategories: selectedCat.subcategories, // only this is allowed to be in the param field
                 radius: radius,
+                myLocation: myLocation,
+                locationAvailable: true, // you can now render map container component after settling on user location
             },
             this.handleSubmit
         );
@@ -174,6 +187,13 @@ class SearchFilter extends React.Component {
             radius: this.state.radius,
         };
         this.props.onSubmit(searchQueryBody);
+    }
+
+    // get my coordinates // throws an error if the user denied location
+    getCoordinates() {
+        return new Promise(function (resolve, reject) {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
     }
 
     onItemWantedChange(e) {
@@ -277,13 +297,17 @@ class SearchFilter extends React.Component {
                             <Grid item sm={12}>
                                 <Zoom in={true} transitionduration={500}>
                                     <Card elevation={3} className={classes.mapCard}>
-                                        <MapContainer
-                                            className={classes.map}
-                                            posts={this.props.posts}
-                                            radius={parseInt(this.state.radius) * 1000}
-                                            myLocation={this.state.myLocation}
-                                            onLocationChange={this.onLocationChange}
-                                        />
+                                        {this.state.locationAvailable ? (
+                                            <MapContainer
+                                                className={classes.map}
+                                                posts={this.props.posts}
+                                                radius={parseInt(this.state.radius) * 1000}
+                                                myLocation={this.state.myLocation}
+                                                onLocationChange={this.onLocationChange}
+                                            />
+                                        ) : (
+                                            " "
+                                        )}
                                     </Card>
                                 </Zoom>
                             </Grid>
