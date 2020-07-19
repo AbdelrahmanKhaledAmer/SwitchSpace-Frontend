@@ -38,7 +38,6 @@ class GoogleMap extends React.Component {
         };
         this.onMapClicked = this.onMapClicked.bind(this);
         this.onMarkerClicked = this.onMarkerClicked.bind(this);
-        this.getCoordinates = this.getCoordinates.bind(this);
     }
 
     static get propTypes() {
@@ -52,34 +51,11 @@ class GoogleMap extends React.Component {
         };
     }
     // called directly after mounting component
-    async componentDidMount() {
-        let latitude = 0;
-        let longitude = 0;
-        // will be props latter
-        // const allMarkers = this.state.markers;
-        let myLocation = this.props.myLocation;
-        try {
-            const position = await this.getCoordinates();
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-            myLocation = {lat: latitude, lng: longitude};
-            // notify the search component
-            this.props.onLocationChange(myLocation);
-        } catch (err) {
-            console.error(err);
-        }
-        // set map center as ur location for the first time
+    componentDidMount() {
         this.setState({
-            mapCenterLat: latitude,
-            mapCenterLong: longitude,
+            mapCenterLat: this.props.myLocation.lat,
+            mapCenterLong: this.props.myLocation.lng,
             mapLoading: false,
-        });
-    }
-
-    // get my coordinates // throws an error if the user denied location
-    getCoordinates() {
-        return new Promise(function (resolve, reject) {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
         });
     }
 

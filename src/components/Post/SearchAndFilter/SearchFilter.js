@@ -110,6 +110,7 @@ class SearchFilter extends React.Component {
         this.onLocationChange = this.onLocationChange.bind(this);
         this.onLocationTextChange = this.onLocationTextChange.bind(this);
         this.onCityChange = this.onCityChange.bind(this);
+        this.getCoordinates = this.getCoordinates.bind(this);
     }
 
     static get propTypes() {
@@ -125,7 +126,7 @@ class SearchFilter extends React.Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const searchParams = queryString.parse(this.props.location.search);
         // get query params
         const wantedCondition = searchParams.wantedCondition ? searchParams.wantedCondition : this.state.wantedCondition;
@@ -143,6 +144,16 @@ class SearchFilter extends React.Component {
         }
         const selectedCat = this.props.categories[idx];
 
+        let myLocation = this.state.myLocation;
+        try {
+            const position = await this.getCoordinates();
+            myLocation.lat = position.coords.latitude;
+            myLocation.lng = position.coords.longitude;
+            // notify the search component
+        } catch (err) {
+            console.error(err);
+        }
+
         // set query params
         this.setState(
             {
@@ -154,6 +165,7 @@ class SearchFilter extends React.Component {
                 wantedSubcategory: wantedSubcategory,
                 validWantedSubcategories: selectedCat.subcategories, // only this is allowed to be in the param field
                 radius: radius,
+                myLocation: myLocation,
             },
             this.handleSubmit
         );
@@ -174,6 +186,13 @@ class SearchFilter extends React.Component {
             radius: this.state.radius,
         };
         this.props.onSubmit(searchQueryBody);
+    }
+
+    // get my coordinates // throws an error if the user denied location
+    getCoordinates() {
+        return new Promise(function (resolve, reject) {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
     }
 
     onItemWantedChange(e) {
