@@ -35,7 +35,10 @@ Behind the scenes this will call `webpack --config webpack.config.js `.  After, 
 ```
 REACT_APP_STRIPE_KEY
 REACT_APP_SERVER_URL
+GOOGLE_API_KEY
+MEDIA_SERVER_URL
 ```
+*Note that the website needs to be either locally deployed or run through HTTPS for the user location permission to work
 ### Run the Application
 
 We have preconfigured the project with a simple development web server.  The simplest way to start
