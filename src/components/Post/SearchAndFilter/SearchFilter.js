@@ -271,7 +271,7 @@ class SearchFilter extends React.Component {
         return (
             <Page>
                 <Grid container spacing={3} className={classes.root} alignItems="stretch">
-                    <Grid item sm={5}>
+                    <Grid item sm={4}>
                         <Grid container spacing={1} className={classes.child}>
                             {/* map */}
                             <Grid item sm={12}>
@@ -453,7 +453,7 @@ class SearchFilter extends React.Component {
                         </Grid>
                     </Grid>
 
-                    <Grid item sm={7}>
+                    <Grid item sm={8}>
                         <Card>
                             <CardHeader title="Search Results" className={classes.cardHeader} />
                             <div className={classes.postList}>

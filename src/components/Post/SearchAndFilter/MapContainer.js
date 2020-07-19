@@ -34,6 +34,7 @@ class GoogleMap extends React.Component {
             mapCenterLong: 0,
             mapCenterLat: 0,
             myMarker: {title: "My Search Location", name: "My Search Location"},
+            mapLoading: true,
         };
         this.onMapClicked = this.onMapClicked.bind(this);
         this.onMarkerClicked = this.onMarkerClicked.bind(this);
@@ -71,6 +72,7 @@ class GoogleMap extends React.Component {
         this.setState({
             mapCenterLat: latitude,
             mapCenterLong: longitude,
+            mapLoading: false,
         });
     }
 
@@ -103,12 +105,12 @@ class GoogleMap extends React.Component {
 
     render() {
         const {classes} = this.props;
-        return (
+        const map = (
             <Map
                 google={this.props.google}
                 onClick={this.onMapClicked}
                 zoom={8}
-                center={{lat: this.state.mapCenterLat, lng: this.state.mapCenterLong}}>
+                initialCenter={{lat: this.state.mapCenterLat, lng: this.state.mapCenterLong}}>
                 {this.props.posts.map((post, idx) => (
                     <Marker
                         key={idx}
@@ -174,6 +176,7 @@ class GoogleMap extends React.Component {
                 />
             </Map>
         );
+        return !this.state.mapLoading ? map : "";
     }
 }
 
