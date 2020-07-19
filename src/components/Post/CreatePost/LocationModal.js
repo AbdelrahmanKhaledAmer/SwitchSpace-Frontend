@@ -61,35 +61,31 @@ class LocationModal extends React.Component {
     }
 
     async componentDidMount() {
-        let latitude = 0;
-        let longitude = 0;
-        try {
-            const position = await this.getCoordinates();
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-            this.setState({
-                lat: latitude,
-                lng: longitude,
-                centerLat: latitude,
-                centerLng: longitude,
-                mapLoading: false,
-            });
-        } catch (err) {
-            // user refused to give location
-            console.error(err);
-        }
-        // set map center as ur location for the first time
-
+        let latitude = this.state.lat;
+        let longitude = this.state.lng;
+        let isMarkerPlaced = this.state.isMarkerPlaced;
         if (this.props.oldMarker) {
-            this.setState({
-                isMarkerPlaced: true,
-                lat: this.props.oldMarker.coordinates[1],
-                lng: this.props.oldMarker.coordinates[0],
-                centerLat: this.props.oldMarker.coordinates[1],
-                centerLng: this.props.oldMarker.coordinates[0],
-                mapLoading: false,
-            });
+            latitude = this.props.oldMarker.coordinates[1];
+            longitude = this.props.oldMarker.coordinates[0];
+            isMarkerPlaced = true;
+        } else {
+            try {
+                const position = await this.getCoordinates();
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+            } catch (err) {
+                // user refused to give location
+                console.error(err);
+            }
         }
+        this.setState({
+            lat: latitude,
+            lng: longitude,
+            centerLat: latitude,
+            centerLng: longitude,
+            mapLoading: false,
+            isMarkerPlaced: isMarkerPlaced,
+        });
     }
     getCoordinates() {
         return new Promise(function (resolve, reject) {
