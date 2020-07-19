@@ -38,9 +38,6 @@ REACT_APP_SERVER_URL
 ```
 ### Run the Application
 
-```
-REACT_APP_STRIPE_KEY
-```
 We have preconfigured the project with a simple development web server.  The simplest way to start
 this server is:
 
