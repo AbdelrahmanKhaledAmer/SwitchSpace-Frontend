@@ -73,7 +73,9 @@ class LocationModal extends React.Component {
                 const position = await this.getCoordinates();
                 latitude = position.coords.latitude;
                 longitude = position.coords.longitude;
+                isMarkerPlaced = true;
             } catch (err) {
+                isMarkerPlaced = false;
                 // user refused to give location
                 console.error(err);
             }
